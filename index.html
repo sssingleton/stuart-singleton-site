@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stuart Singleton — Choose Your World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Bebas+Neue&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --mono: 'Share Tech Mono', monospace;
+    --serif: 'Cormorant Garamond', serif;
+    --display: 'Bebas Neue', sans-serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #000;
+    cursor: none;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  #cursor {
+    position: fixed; pointer-events: none; z-index: 9999;
+    width: 8px; height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, background 0.4s, width 0.3s, height 0.3s;
+    mix-blend-mode: difference;
+  }
+  #cursor.hover { width: 32px; height: 32px; }
+
+  /* ── SCANLINE OVERLAY ── */
+  #scanlines {
+    position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent, transparent 2px,
+      rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+    );
+    opacity: 0.4;
+  }
+
+  /* ── SCREENS ── */
+  .screen {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    z-index: 1;
+  }
+  .screen.hidden { opacity: 0; pointer-events: none; transform: scale(1.04); z-index: 0; }
+  .screen.gone { display: none; }
+
+  /* nav always on top inside scrollable pages */
+  #photos-page .page-nav,
+  #lab-page .page-nav,
+  #music-page .page-nav {
+    position: sticky; top: 0;
+    z-index: 10;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  #music-page .page-nav { background: #f8f7f5; }
+  #photos-page .page-nav { background: #080808; }
+  #lab-page .page-nav { background: #010f05; }
+
+  /* ══════════════════════════════════════
+     LANDING — BLACK & WHITE CODE TERMINAL
+  ══════════════════════════════════════ */
+  #landing {
+    background: #050505;
+    flex-direction: column;
+    font-family: var(--mono);
+  }
+
+  /* animated noise grain */
+  #landing::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .terminal-wrap {
+    position: relative; z-index: 1;
+    width: min(680px, 90vw);
+    display: flex; flex-direction: column; gap: 0;
+  }
+
+  .term-line {
+    font-size: clamp(11px, 1.4vw, 13px);
+    color: #555;
+    letter-spacing: 0.04em;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+  }
+  .term-line.bright { color: #aaa; }
+  .term-line.prompt { color: #333; }
+  .term-line.accent { color: #e0e0e0; font-size: clamp(11px, 1.5vw, 14px); }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  /* The big headline */
+  .term-name {
+    font-family: var(--display);
+    font-size: clamp(48px, 9vw, 110px);
+    color: #fff;
+    letter-spacing: 0.01em;
+    line-height: 0.88;
+    margin: 24px 0 32px;
+    opacity: 0;
+    animation: revealName 1s 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  @keyframes revealName {
+    from { opacity: 0; clip-path: inset(0 100% 0 0); }
+    to   { opacity: 1; clip-path: inset(0 0% 0 0); }
+  }
+
+  .choose-label {
+    font-family: var(--mono);
+    font-size: clamp(9px, 1.2vw, 11px);
+    color: #444;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeIn 0.4s 1.6s forwards;
+  }
+
+  /* CHOICE BUTTONS */
+  .choices {
+    display: flex; gap: 0;
+    opacity: 0;
+    animation: fadeIn 0.6s 1.8s forwards;
+  }
+
+  .choice-btn {
+    position: relative;
+    font-family: var(--mono);
+    font-size: clamp(10px, 1.4vw, 12px);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    background: transparent;
+    border: 1px solid #222;
+    color: #555;
+    cursor: none;
+    transition: all 0.3s;
+    overflow: hidden;
+  }
+  .choice-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: #fff;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    z-index: 0;
+  }
+  .choice-btn span { position: relative; z-index: 1; transition: color 0.35s; }
+  .choice-btn:hover::before { transform: scaleX(1); }
+  .choice-btn:hover span { color: #000; }
+  .choice-btn:hover { border-color: #fff; }
+
+  .choice-btn .prefix {
+    color: #333;
+    margin-right: 6px;
+    transition: color 0.35s;
+  }
+  .choice-btn:hover .prefix { color: #000; }
+
+  /* blinking cursor */
+  .blink {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: #fff;
+    vertical-align: middle;
+    margin-left: 4px;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ══════════════════════════════════════
+     MUSIC PAGE — MINIMAL WHITE / SILVER
+  ══════════════════════════════════════ */
+  #music-page {
+    background: #f8f7f5;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(40px,8vw,80px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  #music-page .page-nav {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: #aaa;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .back-btn {
+    background: none; border: none;
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.15em; color: #888;
+    cursor: none; text-transform: uppercase;
+    transition: color 0.2s;
+    text-decoration: none;
+  }
+  .back-btn:hover { color: #000; }
+
+  #music-page .hero-text {
+    font-family: var(--serif);
+    font-size: clamp(48px, 9vw, 100px);
+    font-weight: 300;
+    color: #111;
+    line-height: 0.95;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+  #music-page .hero-text em {
+    font-style: italic; color: #bbb;
+  }
+
+  #music-page .sub {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 300;
+    color: #999;
+    letter-spacing: 0.06em;
+    margin-bottom: 60px;
+  }
+
+  .track-list {
+    width: 100%;
+    max-width: 620px;
+    border-top: 1px solid #e8e8e8;
+  }
+  .track-row {
+    display: flex; align-items: center; gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid #e8e8e8;
+    font-family: var(--sans);
+    transition: background 0.2s;
+    cursor: none;
+  }
+  .track-row:hover { background: #f2f0ee; margin: 0 -20px; padding: 18px 20px; }
+  .track-num {
+    font-family: var(--mono);
+    font-size: 11px; color: #ccc; width: 20px;
+  }
+  .track-info { flex: 1; }
+  .track-title { font-size: 14px; font-weight: 400; color: #111; }
+  .track-meta { font-size: 11px; color: #bbb; margin-top: 2px; letter-spacing: 0.04em; }
+  .track-dur { font-family: var(--mono); font-size: 11px; color: #ccc; }
+  .play-btn {
+    width: 32px; height: 32px;
+    border: 1px solid #ddd; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .track-row:hover .play-btn { border-color: #111; background: #111; }
+  .play-btn svg { transition: fill 0.2s; }
+  .track-row:hover .play-btn svg path { fill: #fff; }
+
+  .music-tag {
+    display: inline-block;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.12em; color: #bbb;
+    border: 1px solid #e0e0e0;
+    padding: 4px 10px; margin-right: 6px; margin-top: 40px;
+    text-transform: uppercase;
+  }
+
+  /* ══════════════════════════════════════
+     PHOTOS PAGE — SLEEK BLACK
+  ══════════════════════════════════════ */
+  #photos-page {
+    background: #080808;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(40px,8vw,80px);
+    overflow-y: auto;
+  }
+
+  #photos-page .page-nav {
+    font-family: var(--mono);
+    font-size: 11px; letter-spacing: 0.18em;
+    color: #444; text-transform: uppercase;
+    margin-bottom: 60px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  #photos-page .back-btn { color: #555; }
+  #photos-page .back-btn:hover { color: #fff; }
+
+  #photos-page .hero-text {
+    font-family: var(--display);
+    font-size: clamp(52px, 10vw, 110px);
+    color: #fff; line-height: 0.9;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+  #photos-page .hero-sub {
+    font-family: var(--sans);
+    font-size: 12px; font-weight: 300;
+    color: #444; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    width: 100%; max-width: 700px;
+  }
+  .photo-cell {
+    aspect-ratio: 1;
+    background: #111;
+    position: relative; overflow: hidden;
+    cursor: none;
+  }
+  .photo-cell::after {
+    content: attr(data-label);
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex; align-items: flex-end;
+    padding: 12px;
+    font-family: var(--mono); font-size: 10px;
+    color: #555; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .photo-cell:hover::after { opacity: 1; color: #ccc; }
+
+  /* Fake image placeholders with varying dark tones */
+  .photo-cell:nth-child(1) { background: linear-gradient(135deg,#111 0%,#1a1a1a 100%); }
+  .photo-cell:nth-child(2) { background: linear-gradient(135deg,#161616 0%,#0d0d0d 100%); }
+  .photo-cell:nth-child(3) { background: linear-gradient(135deg,#131313 0%,#1c1c1c 100%); }
+  .photo-cell:nth-child(4) { background: linear-gradient(135deg,#0f0f0f 0%,#181818 100%); }
+  .photo-cell:nth-child(5) { background: linear-gradient(135deg,#1a1a1a 0%,#111 100%); }
+  .photo-cell:nth-child(6) { background: linear-gradient(135deg,#141414 0%,#0e0e0e 100%); }
+  .photo-cell:nth-child(7) { background: linear-gradient(135deg,#181818 0%,#121212 100%); }
+  .photo-cell:nth-child(8) { background: linear-gradient(135deg,#0d0d0d 0%,#161616 100%); }
+  .photo-cell:nth-child(9) { background: linear-gradient(135deg,#121212 0%,#1a1a1a 100%); }
+
+  /* inner faint lines to suggest image texture */
+  .photo-cell::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 12px,
+      rgba(255,255,255,0.012) 12px, rgba(255,255,255,0.012) 13px
+    );
+  }
+
+  /* ══════════════════════════════════════
+     LAB PAGE — GREEN TERMINAL BOLD
+  ══════════════════════════════════════ */
+  #lab-page {
+    background: #010f05;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(40px,8vw,80px);
+    overflow-y: auto;
+  }
+
+  /* matrix rain canvas behind content */
+  #matrix-canvas {
+    position: fixed; inset: 0;
+    opacity: 0.07; pointer-events: none; z-index: 0;
+  }
+
+  #lab-page .page-nav {
+    position: relative; z-index: 1;
+    font-family: var(--mono);
+    font-size: 11px; letter-spacing: 0.18em;
+    color: #1a4d2a; text-transform: uppercase;
+    margin-bottom: 60px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  #lab-page .back-btn { color: #2a6b3a; }
+  #lab-page .back-btn:hover { color: #4cff6a; }
+
+  #lab-page .hero-text {
+    position: relative; z-index: 1;
+    font-family: var(--display);
+    font-size: clamp(60px, 12vw, 130px);
+    color: #4cff6a;
+    line-height: 0.9;
+    letter-spacing: 0.03em;
+    text-shadow: 0 0 40px rgba(76,255,106,0.3);
+    margin-bottom: 6px;
+  }
+  #lab-page .hero-sub {
+    position: relative; z-index: 1;
+    font-family: var(--mono);
+    font-size: 11px; color: #2a6b3a;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 52px;
+  }
+
+  .lab-grid {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1px;
+    width: 100%; max-width: 740px;
+    border: 1px solid #0a2e12;
+  }
+  .lab-card {
+    background: #010f05;
+    border: none;
+    padding: 28px 24px;
+    cursor: none;
+    transition: background 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .lab-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px; background: #0a2e12;
+  }
+  .lab-card:hover { background: #021408; }
+  .lab-card:hover .lab-card-title { color: #4cff6a; }
+
+  .lab-card-num {
+    font-family: var(--mono); font-size: 10px;
+    color: #1a4d2a; letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+  .lab-card-title {
+    font-family: var(--display);
+    font-size: 28px; color: #2a8040;
+    letter-spacing: 0.04em; line-height: 1;
+    margin-bottom: 10px;
+    transition: color 0.25s;
+  }
+  .lab-card-desc {
+    font-family: var(--mono); font-size: 11px;
+    color: #1e5c2c; line-height: 1.6;
+    letter-spacing: 0.04em;
+  }
+  .lab-card-tags {
+    margin-top: 20px;
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .lab-tag {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #1a4d2a;
+    border: 1px solid #0a2e12;
+    padding: 3px 8px;
+    transition: all 0.2s;
+  }
+  .lab-card:hover .lab-tag { border-color: #1a5c28; color: #2a8040; }
+
+  /* ══════════════════════════════════════
+     TRANSITIONS
+  ══════════════════════════════════════ */
+  .transition-overlay {
+    position: fixed; inset: 0; z-index: 500;
+    pointer-events: none;
+  }
+
+  /* Music: horizontal wipe silver */
+  #music-transition {
+    background: #e8e6e0;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  #music-transition.active { transform: scaleX(1); }
+  #music-transition.done { transform: scaleX(0); transform-origin: right; }
+
+  /* Photos: vertical wipe from bottom */
+  #photos-transition {
+    background: #080808;
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  #photos-transition.active { transform: scaleY(1); }
+  #photos-transition.done { transform: scaleY(0); transform-origin: top; }
+
+  /* Lab: glitch flash green */
+  #lab-transition {
+    background: #4cff6a;
+    opacity: 0;
+    transition: opacity 0.08s;
+  }
+  #lab-transition.active { opacity: 1; }
+  #lab-transition.done { opacity: 0; }
+
+  /* Page content animations */
+  .page-enter > * {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: pageItemIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .page-enter > *:nth-child(1) { animation-delay: 0.1s; }
+  .page-enter > *:nth-child(2) { animation-delay: 0.2s; }
+  .page-enter > *:nth-child(3) { animation-delay: 0.3s; }
+  .page-enter > *:nth-child(4) { animation-delay: 0.4s; }
+  @keyframes pageItemIn {
+    to { opacity: 1; transform: none; }
+  }
+
+  #lab-page.page-enter > * {
+    animation-name: labItemIn;
+  }
+  @keyframes labItemIn {
+    from { opacity: 0; transform: translateX(-12px); filter: blur(2px); }
+    to   { opacity: 1; transform: none; filter: none; }
+  }
+
+  /* Glitch text for lab name on transition */
+  @keyframes glitch {
+    0%   { clip-path: inset(0 0 90% 0); transform: translate(-4px,0); }
+    20%  { clip-path: inset(40% 0 50% 0); transform: translate(4px,0); }
+    40%  { clip-path: inset(70% 0 10% 0); transform: translate(-2px,0); }
+    60%  { clip-path: inset(20% 0 70% 0); transform: translate(3px,0); }
+    80%  { clip-path: inset(0 0 40% 0); transform: translate(-3px,0); }
+    100% { clip-path: inset(0 0 0 0); transform: translate(0,0); }
+  }
+
+  /* Mobile adjust */
+  @media (max-width: 600px) {
+    .choices { flex-direction: column; }
+    .photo-grid { grid-template-columns: repeat(2,1fr); }
+    .lab-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+
+<!-- Scanlines -->
+<div id="scanlines"></div>
+
+<!-- Transition overlays -->
+<div class="transition-overlay" id="music-transition"></div>
+<div class="transition-overlay" id="photos-transition"></div>
+<div class="transition-overlay" id="lab-transition"></div>
+
+<!-- Matrix canvas for lab -->
+<canvas id="matrix-canvas"></canvas>
+
+<!-- ════════════════════════════════
+     LANDING
+════════════════════════════════ -->
+<div class="screen" id="landing">
+  <div class="terminal-wrap">
+
+    <div class="term-line prompt" style="animation-delay:0.1s">
+      <span style="color:#333">~/</span><span style="color:#444">portfolio</span><span style="color:#2a2a2a"> $ </span>whoami
+    </div>
+    <div class="term-line" style="animation-delay:0.3s">loading identity...</div>
+    <div class="term-line bright" style="animation-delay:0.6s">songwriter. producer. builder.</div>
+    <div class="term-line" style="animation-delay:0.9s">location: nashville, tn</div>
+    <div class="term-line prompt" style="animation-delay:1.2s">&gt; rendering...</div>
+
+    <div class="term-name">STUART<br>SINGLETON</div>
+
+    <div class="choose-label">
+      &gt; select_environment —
+    </div>
+
+    <div class="choices">
+      <button class="choice-btn" onclick="navigate('music')">
+        <span><span class="prefix">01 /</span> music</span>
+      </button>
+      <button class="choice-btn" onclick="navigate('photos')">
+        <span><span class="prefix">02 /</span> photos</span>
+      </button>
+      <button class="choice-btn" onclick="navigate('lab')">
+        <span><span class="prefix">03 /</span> labs</span>
+      </button>
+    </div>
+
+    <div class="term-line accent" style="animation-delay:2.2s; margin-top:24px;">
+      <span class="blink"></span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     MUSIC PAGE
+════════════════════════════════ -->
+<div class="screen hidden gone" id="music-page">
+  <div class="page-nav">
+    <button class="back-btn" onclick="goBack()">← back</button>
+    <span>/</span>
+    <span>music</span>
+  </div>
+
+  <div class="hero-text">
+    SOUND<br><em>works.</em>
+  </div>
+  <div class="sub">songwriter · producer · new cake records</div>
+
+  <div class="track-list">
+    <div class="track-row">
+      <div class="track-num">01</div>
+      <div class="play-btn">
+        <svg width="10" height="12" viewBox="0 0 10 12">
+          <path d="M1 1L9 6L1 11V1Z" fill="#ccc"/>
+        </svg>
+      </div>
+      <div class="track-info">
+        <div class="track-title">Untitled — Session I</div>
+        <div class="track-meta">Warner Chappell · co-write</div>
+      </div>
+      <div class="track-dur">3:42</div>
+    </div>
+    <div class="track-row">
+      <div class="track-num">02</div>
+      <div class="play-btn">
+        <svg width="10" height="12" viewBox="0 0 10 12">
+          <path d="M1 1L9 6L1 11V1Z" fill="#ccc"/>
+        </svg>
+      </div>
+      <div class="track-info">
+        <div class="track-title">New Cake — Unreleased</div>
+        <div class="track-meta">New Cake Records · producer</div>
+      </div>
+      <div class="track-dur">4:11</div>
+    </div>
+    <div class="track-row">
+      <div class="track-num">03</div>
+      <div class="play-btn">
+        <svg width="10" height="12" viewBox="0 0 10 12">
+          <path d="M1 1L9 6L1 11V1Z" fill="#ccc"/>
+        </svg>
+      </div>
+      <div class="track-info">
+        <div class="track-title">Late Draft — Demo</div>
+        <div class="track-meta">Sony Publishing session</div>
+      </div>
+      <div class="track-dur">3:58</div>
+    </div>
+    <div class="track-row">
+      <div class="track-num">04</div>
+      <div class="play-btn">
+        <svg width="10" height="12" viewBox="0 0 10 12">
+          <path d="M1 1L9 6L1 11V1Z" fill="#ccc"/>
+        </svg>
+      </div>
+      <div class="track-info">
+        <div class="track-title">Bb Major Study</div>
+        <div class="track-meta">Logic Pro session · instrumental</div>
+      </div>
+      <div class="track-dur">2:33</div>
+    </div>
+  </div>
+
+  <div>
+    <span class="music-tag">Spotify</span>
+    <span class="music-tag">Apple Music</span>
+    <span class="music-tag">BMI</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PHOTOS PAGE
+════════════════════════════════ -->
+<div class="screen hidden gone" id="photos-page">
+  <div class="page-nav">
+    <button class="back-btn" onclick="goBack()">← back</button>
+    <span>/</span>
+    <span style="color:#333">photos</span>
+  </div>
+
+  <div class="hero-text">FRAME</div>
+  <div class="hero-sub">nashville · brentwood · on the road</div>
+
+  <div class="photo-grid">
+    <div class="photo-cell" data-label="urban · 2024"></div>
+    <div class="photo-cell" data-label="portrait · session"></div>
+    <div class="photo-cell" data-label="landscape · tn"></div>
+    <div class="photo-cell" data-label="studio · making"></div>
+    <div class="photo-cell" data-label="detail · close"></div>
+    <div class="photo-cell" data-label="street · night"></div>
+    <div class="photo-cell" data-label="abstract · light"></div>
+    <div class="photo-cell" data-label="motion · blur"></div>
+    <div class="photo-cell" data-label="nature · still"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     LAB PAGE
+════════════════════════════════ -->
+<div class="screen hidden gone" id="lab-page">
+  <div class="page-nav">
+    <button class="back-btn" onclick="goBack()">← back</button>
+    <span style="color:#1a4d2a">/</span>
+    <span>labs</span>
+  </div>
+
+  <div class="hero-text">LABS</div>
+  <div class="hero-sub">// experiments. tools. things that exist.</div>
+
+  <div class="lab-grid">
+    <div class="lab-card">
+      <div class="lab-card-num">PROJ_001</div>
+      <div class="lab-card-title">JARVIS</div>
+      <div class="lab-card-desc">Personal AI stack running on Mac Studio. Smart home + music + file control.</div>
+      <div class="lab-card-tags">
+        <span class="lab-tag">Claude</span>
+        <span class="lab-tag">Tailscale</span>
+        <span class="lab-tag">NAS</span>
+      </div>
+    </div>
+    <div class="lab-card">
+      <div class="lab-card-num">PROJ_002</div>
+      <div class="lab-card-title">SIGNAL</div>
+      <div class="lab-card-desc">Multi-signal market intelligence system. Options flow, dark pool, regime detection.</div>
+      <div class="lab-card-tags">
+        <span class="lab-tag">Supabase</span>
+        <span class="lab-tag">Python</span>
+        <span class="lab-tag">Polymarket</span>
+      </div>
+    </div>
+    <div class="lab-card">
+      <div class="lab-card-num">PROJ_003</div>
+      <div class="lab-card-title">CAKE OS</div>
+      <div class="lab-card-desc">Label catalog, publishing tracking, and release management for New Cake Records.</div>
+      <div class="lab-card-tags">
+        <span class="lab-tag">Airtable</span>
+        <span class="lab-tag">BMI</span>
+        <span class="lab-tag">ISRC</span>
+      </div>
+    </div>
+    <div class="lab-card">
+      <div class="lab-card-num">PROJ_004</div>
+      <div class="lab-card-title">VIBE ML</div>
+      <div class="lab-card-desc">Romantasy ambient content pipeline for TikTok. Generative loops + AI visuals.</div>
+      <div class="lab-card-tags">
+        <span class="lab-tag">Seedance</span>
+        <span class="lab-tag">Runway</span>
+        <span class="lab-tag">Logic</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Cursor ──
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('button, .choice-btn, .track-row, .photo-cell, .lab-card, .back-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
+// ── Matrix rain for lab ──
+const canvas = document.getElementById('matrix-canvas');
+const ctx = canvas.getContext('2d');
+let matrixRunning = false;
+
+function initMatrix() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const cols = Math.floor(canvas.width / 14);
+  const drops = Array(cols).fill(1);
+
+  function draw() {
+    if (!matrixRunning) return;
+    ctx.fillStyle = 'rgba(1,15,5,0.07)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0a3d18';
+    ctx.font = '13px "Share Tech Mono"';
+    drops.forEach((y, i) => {
+      const char = String.fromCharCode(0x30A0 + Math.random() * 96);
+      ctx.fillText(char, i * 14, y * 14);
+      if (y * 14 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ── Navigate ──
+let currentPage = 'landing';
+
+function navigate(dest) {
+  const landing = document.getElementById('landing');
+
+  if (dest === 'music') {
+    const trans = document.getElementById('music-transition');
+    trans.classList.add('active');
+    setTimeout(() => {
+      landing.classList.add('hidden');
+      const page = document.getElementById('music-page');
+      page.classList.remove('gone');
+      setTimeout(() => {
+        page.classList.remove('hidden');
+        page.classList.add('page-enter');
+        trans.classList.remove('active');
+        trans.classList.add('done');
+        setTimeout(() => trans.classList.remove('done'), 600);
+      }, 100);
+    }, 500);
+
+  } else if (dest === 'photos') {
+    const trans = document.getElementById('photos-transition');
+    trans.classList.add('active');
+    setTimeout(() => {
+      landing.classList.add('hidden');
+      const page = document.getElementById('photos-page');
+      page.classList.remove('gone');
+      setTimeout(() => {
+        page.classList.remove('hidden');
+        page.classList.add('page-enter');
+        trans.classList.remove('active');
+        trans.classList.add('done');
+        setTimeout(() => trans.classList.remove('done'), 600);
+      }, 100);
+    }, 500);
+
+  } else if (dest === 'lab') {
+    const trans = document.getElementById('lab-transition');
+    // Glitch flash — 3 rapid flashes
+    let flashes = 0;
+    function flash() {
+      trans.classList.add('active');
+      setTimeout(() => {
+        trans.classList.remove('active');
+        flashes++;
+        if (flashes < 3) setTimeout(flash, 80);
+        else {
+          setTimeout(() => {
+            landing.classList.add('hidden');
+            const page = document.getElementById('lab-page');
+            page.classList.remove('gone');
+            matrixRunning = true;
+            initMatrix();
+            setTimeout(() => {
+              page.classList.remove('hidden');
+              page.classList.add('page-enter');
+            }, 80);
+          }, 120);
+        }
+      }, 60);
+    }
+    flash();
+  }
+
+  currentPage = dest;
+}
+
+function goBack() {
+  const pages = ['music-page','photos-page','lab-page'];
+  pages.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.add('hidden');
+    el.classList.remove('page-enter');
+    setTimeout(() => {
+      el.classList.add('gone');
+      el.scrollTop = 0;
+    }, 820);
+  });
+
+  // Stop matrix
+  matrixRunning = false;
+  setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 820);
+
+  // Bring landing back
+  const landing = document.getElementById('landing');
+  landing.classList.remove('hidden', 'gone');
+  landing.style.zIndex = 2;
+  setTimeout(() => { landing.style.zIndex = ''; }, 900);
+
+  currentPage = 'landing';
+}
+
+window.addEventListener('resize', () => {
+  if (matrixRunning) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+});
+</script>
+</body>
+</html>
