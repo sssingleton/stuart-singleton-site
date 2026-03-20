@@ -42,6 +42,12 @@
   #cursor.hover { width: 10px; height: 10px; }
   #cursor.hover::after { width: 44px; height: 44px; border-color: rgba(255,255,255,0.6); }
 
+  @media (hover: none), (pointer: coarse) {
+    #cursor { display: none; }
+    html, body { cursor: auto; }
+    button, a { cursor: pointer; }
+  }
+
   /* SCREENS */
   .screen {
     position: fixed; inset: 0;
@@ -436,7 +442,7 @@
     </div>
     <div class="term-line" style="animation-delay:2.2s; margin-top:22px; color:#1a1a1a;"><span class="blink"></span></div>
     <a href="https://www.instagram.com/stuartsingleton" target="_blank" rel="noopener"
-       style="position:absolute;bottom:clamp(24px,4vw,40px);left:0;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:#2a2a2a;text-decoration:none;text-transform:uppercase;transition:color .2s;opacity:0;animation:fadeIn .4s 2.4s forwards;"
+       style="display:inline-block;margin-top:28px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:#2a2a2a;text-decoration:none;text-transform:uppercase;transition:color .2s;opacity:0;animation:fadeIn .4s 2.4s forwards;"
        onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">@stuartsingleton ↗</a>
   </div>
 </div>
@@ -482,15 +488,18 @@
       <div class="photos-sub">nashville · brentwood · on the road</div>
       <div class="photo-grid">
         <div class="photo-cell">
-          <img src="photos/photo1.jpg" alt="" onerror="this.parentElement.style.background='#111';this.style.display='none'">
+          <img src="photos/DSCF6705.jpg" alt="Monaco" onerror="this.parentElement.style.background='#111';this.style.display='none'">
         </div>
         <div class="photo-cell">
-          <img src="photos/photo2.jpg" alt="" onerror="this.parentElement.style.background='#0d0d0d';this.style.display='none'">
+          <img src="photos/DSCF8189.jpg" alt="Versailles" onerror="this.parentElement.style.background='#0d0d0d';this.style.display='none'">
         </div>
         <div class="photo-cell">
-          <img src="photos/photo3.jpg" alt="" onerror="this.parentElement.style.background='#131313';this.style.display='none'">
+          <img src="photos/amanda_shires_at_browns.jpg" alt="Amanda Shires" onerror="this.parentElement.style.background='#131313';this.style.display='none'">
         </div>
-        <a class="photo-cat" href="https://stuartsingleton.myportfolio.com/travel-1" target="_blank" rel="noopener">
+        <a class="photo-cat" href="https://stuartsingleton.myportfolio.com/travel-1" target="_blank" rel="noopener" style="background-image:url('photos/DSCF8085.jpg');background-size:cover;background-position:center;">
+          <div class="photo-cat-inner"><div class="photo-cat-label">2025</div><div class="photo-cat-name">TRAVEL &amp;<br>LIFESTYLE</div></div>
+          <span class="photo-cat-arrow">↗</span>
+        </a>
           <div class="photo-cat-inner"><div class="photo-cat-label">2025</div><div class="photo-cat-name">TRAVEL &amp;<br>LIFESTYLE</div></div>
           <span class="photo-cat-arrow">↗</span>
         </a>
