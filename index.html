@@ -85,7 +85,7 @@
     to   { opacity: 1; clip-path: inset(0 0% 0 0); }
   }
   .choose-label {
-    font-family: var(--mono); font-size: 10px; color: #333;
+    font-family: var(--mono); font-size: 10px; color: #666;
     letter-spacing: .22em; text-transform: uppercase;
     margin-bottom: 16px; opacity: 0; animation: fadeIn .4s 1.7s forwards;
   }
@@ -95,7 +95,7 @@
     font-size: clamp(10px,1.3vw,11px); letter-spacing: .14em;
     text-transform: uppercase; padding: 13px 26px;
     background: transparent; border: 1px solid #1c1c1c;
-    color: #444; cursor: none; transition: border-color .3s; overflow: hidden;
+    color: #999; cursor: none; transition: border-color .3s; overflow: hidden;
   }
   .choice-btn::before {
     content: ''; position: absolute; inset: 0; background: #fff;
@@ -106,7 +106,7 @@
   .choice-btn:hover::before { transform: scaleX(1); }
   .choice-btn:hover span { color: #000; }
   .choice-btn:hover { border-color: #fff; }
-  .choice-btn .prefix { color: #2a2a2a; margin-right: 7px; transition: color .35s; }
+  .choice-btn .prefix { color: #666; margin-right: 7px; transition: color .35s; }
   .choice-btn:hover .prefix { color: #000; }
   .blink {
     display: inline-block; width: 7px; height: 13px;
