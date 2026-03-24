@@ -409,8 +409,8 @@
       <button onclick="closeContact()" style="background:none;border:none;font-family:var(--mono);font-size:10px;color:#444;cursor:none;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">✕ close</button>
     </div>
     <form name="contact" netlify netlify-honeypot="bot-field" onsubmit="handleContact(event)" style="padding:28px 24px;display:flex;flex-direction:column;gap:16px;">
-      <input type="hidden" name="form-name" value="contact">
-      <p style="display:none;"><input name="bot-field"></p>
+      
+      
       <div>
         <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:8px;">Name</label>
         <input type="text" name="name" required placeholder="your name"
