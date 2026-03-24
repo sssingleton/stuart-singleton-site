@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
+<style
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --mono: 'Share Tech Mono', monospace;
@@ -1030,7 +1030,7 @@ async function handleContact(e) {
   const status = document.getElementById('contact-status');
   btn.textContent = 'Sending...';
   try {
-    const res = await fetch('/', {
+    const res = await fetch('https://formspree.io/f/mwvwevop', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(new FormData(e.target)).toString()
