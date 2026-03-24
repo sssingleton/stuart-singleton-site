@@ -1032,8 +1032,8 @@ async function handleContact(e) {
   try {
     const res = await fetch('https://formspree.io/f/mwvwevop', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(e.target)).toString()
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: e.target.name.value, email: e.target.email.value, message: e.target.message.value })
     });
     if (res.ok) {
       status.style.color='#4a8'; status.textContent='✓ message sent';
