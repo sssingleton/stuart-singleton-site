@@ -387,6 +387,21 @@
   .admin-tag-pill { font-family: var(--mono); font-size: 9px; color: #444; background: none; border: 1px solid #1c1c1c; padding: 3px 10px; cursor: none; letter-spacing: .08em; transition: color .2s, border-color .2s; }
   .admin-tag-pill:hover { color: #aaa; border-color: #555; }
   .admin-tag-pill.selected { color: #fff; border-color: #fff; }
+
+  .admin-drag-handle { cursor: grab; font-size: 14px; color: #333; flex-shrink: 0; user-select: none; transition: color .2s; line-height: 1; padding: 0 4px; }
+  .admin-drag-handle:hover { color: #888; }
+  .admin-photo-row.dragging { opacity: 0.35; }
+  .admin-photo-row.drag-over { border-top: 2px solid #fff; }
+  .admin-photo-thumb.hidden-thumb { opacity: 0.25; filter: grayscale(1); }
+  .admin-hide-btn { font-family: var(--mono); font-size: 8px; color: #333; background: none; border: 1px solid #1c1c1c; padding: 3px 7px; cursor: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s, border-color .2s; flex-shrink: 0; }
+  .admin-hide-btn:hover { color: #888; border-color: #444; }
+  .admin-hide-btn.is-hidden { color: #c44; border-color: #422; }
+  .admin-edit-btn { font-family: var(--mono); font-size: 8px; color: #333; background: none; border: 1px solid #1c1c1c; padding: 3px 7px; cursor: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s, border-color .2s; flex-shrink: 0; }
+  .admin-edit-btn:hover { color: #fff; border-color: #fff; }
+  .admin-edit-row { display: flex; flex-direction: column; gap: 8px; padding: 8px 0 10px 50px; border-bottom: 1px solid #111; }
+  .admin-edit-row input { width: 100%; background: #111; border: 1px solid #222; color: #fff; font-family: var(--mono); font-size: 10px; padding: 6px 10px; outline: none; letter-spacing: .04em; }
+  .admin-edit-row input:focus { border-color: #444; }
+  .admin-edit-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -707,7 +722,7 @@ let selectedSpan = '';
 
 async function loadPhotos() {
   try {
-    const { data, error } = await sb.from('photos').select('*').order('created_at', { ascending: false });
+    const { data, error } = await sb.from('photos').select('*').eq('hidden', false).order('sort_order', { ascending: true }).order('created_at', { ascending: false });
     if (error || !data || data.length === 0) throw new Error('empty');
     PHOTOS = data.map(p => ({ ...p, tags: p.tags || '' }));
   } catch {
@@ -861,29 +876,93 @@ async function uploadAndSave() {
   }
 }
 
+let adminDragSrc = null;
+
 async function loadAdminPhotos() {
   const list = document.getElementById('admin-photo-list');
   const count = document.getElementById('photo-count');
   if (!list) return;
   try {
-    const { data, error } = await sb.from('photos').select('*').order('created_at', { ascending: false });
+    const { data, error } = await sb.from('photos').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: false });
     if (error) throw error;
     count.textContent = `(${data.length})`;
-    list.innerHTML = data.length === 0
-      ? `<div style="font-size:9px;color:#333;letter-spacing:.1em;">no photos yet</div>`
-      : data.map(p => `
-        <div class="admin-photo-row">
-          <img class="admin-photo-thumb" src="${p.src}" onerror="this.style.background='#222'">
-          <div class="admin-photo-info">
-            <span>${p.tags || 'no tags'}</span>
-            <span style="color:#2a2a2a;">${p.span || 'normal'}</span>
-          </div>
-          <button class="admin-delete-btn" onclick="deletePhoto(${p.id},'${p.src}')">✕ delete</button>
-        </div>`).join('');
-    addHover('.admin-delete-btn');
+    if (data.length === 0) { list.innerHTML = '<div style="font-size:9px;color:#333;letter-spacing:.1em;">no photos yet</div>'; return; }
+    list.innerHTML = data.map((p, i) => `
+      <div class="admin-photo-row" data-id="${p.id}" data-idx="${i}" draggable="true">
+        <span class="admin-drag-handle" title="drag to reorder">⠿</span>
+        <img class="admin-photo-thumb${p.hidden ? ' hidden-thumb' : ''}" src="${p.src}" onerror="this.style.background='#222'">
+        <div class="admin-photo-info">
+          <span>${p.tags || 'no tags'}</span>
+          <span style="color:#2a2a2a;">${p.span || 'normal'}${p.hidden ? ' · hidden' : ''}</span>
+        </div>
+        <button class="admin-edit-btn" onclick="toggleEditRow(${p.id}, '${(p.tags||'').replace(/'/g,\"\\\\'\")}', '${p.span||''}')">✎ edit</button>
+        <button class="admin-hide-btn${p.hidden ? ' is-hidden' : ''}" onclick="toggleHidePhoto(${p.id}, ${!!p.hidden})">${p.hidden ? '◉ show' : '◎ hide'}</button>
+        <button class="admin-delete-btn" onclick="deletePhoto(${p.id},'${p.src}')">✕</button>
+      </div>
+      <div class="admin-edit-row" id="edit-row-${p.id}" style="display:none;">
+        <input type="text" id="edit-tags-${p.id}" value="${p.tags||''}" placeholder="tags, comma separated">
+        <div class="admin-edit-actions">
+          <button class="admin-span-btn${!p.span ? ' admin-span-active' : ''}" onclick="setEditSpan(${p.id},'')">Normal</button>
+          <button class="admin-span-btn${p.span==='span-2' ? ' admin-span-active' : ''}" onclick="setEditSpan(${p.id},'span-2')">Wide</button>
+          <button class="admin-span-btn${p.span==='tall' ? ' admin-span-active' : ''}" onclick="setEditSpan(${p.id},'tall')">Tall</button>
+          <button class="admin-btn" onclick="saveEditRow(${p.id})">Save →</button>
+          <button class="admin-delete-btn" onclick="toggleEditRow(${p.id})">Cancel</button>
+        </div>
+      </div>`).join('');
+
+    // Drag-to-reorder
+    list.querySelectorAll('.admin-photo-row').forEach(row => {
+      row.addEventListener('dragstart', e => { adminDragSrc = row; row.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+      row.addEventListener('dragend', () => { row.classList.remove('dragging'); list.querySelectorAll('.admin-photo-row').forEach(r => r.classList.remove('drag-over')); });
+      row.addEventListener('dragover', e => { e.preventDefault(); list.querySelectorAll('.admin-photo-row').forEach(r => r.classList.remove('drag-over')); row.classList.add('drag-over'); });
+      row.addEventListener('drop', async e => {
+        e.preventDefault();
+        if (adminDragSrc === row) return;
+        // Reorder rows in DOM
+        const rows = [...list.querySelectorAll('.admin-photo-row')];
+        const srcIdx = rows.indexOf(adminDragSrc);
+        const tgtIdx = rows.indexOf(row);
+        const editSrc = document.getElementById('edit-row-' + adminDragSrc.dataset.id);
+        if (srcIdx < tgtIdx) { row.after(adminDragSrc); row.after(editSrc||adminDragSrc); } 
+        else { row.before(adminDragSrc); row.before(editSrc||adminDragSrc); }
+        // Persist new order
+        const newRows = [...list.querySelectorAll('.admin-photo-row')];
+        await Promise.all(newRows.map((r, i) => sb.from('photos').update({ sort_order: i }).eq('id', r.dataset.id)));
+      });
+    });
+    addHover('.admin-delete-btn, .admin-hide-btn, .admin-edit-btn');
   } catch(err) {
     list.innerHTML = `<div style="font-size:9px;color:#c44;">could not load photos</div>`;
   }
+}
+
+function toggleEditRow(id, tags, span) {
+  const row = document.getElementById('edit-row-' + id);
+  if (!row) return;
+  row.style.display = row.style.display === 'none' ? 'flex' : 'none';
+}
+
+function setEditSpan(id, span) {
+  const row = document.getElementById('edit-row-' + id);
+  row.querySelectorAll('.admin-span-btn').forEach(b => b.classList.remove('admin-span-active'));
+  row.querySelector(`[onclick="setEditSpan(${id},'${span}')"]`).classList.add('admin-span-active');
+  row.dataset.span = span;
+}
+
+async function saveEditRow(id) {
+  const row = document.getElementById('edit-row-' + id);
+  const tags = document.getElementById('edit-tags-' + id).value.trim();
+  const span = row.dataset.span !== undefined ? row.dataset.span : 
+    (row.querySelector('.admin-span-active')?.getAttribute('onclick')?.match(/'([^']*)')/) || [])[1] || '';
+  const { error } = await sb.from('photos').update({ tags, span }).eq('id', id);
+  if (!error) { row.style.display = 'none'; await loadPhotos(); await loadAdminPhotos(); }
+  else alert('Save failed: ' + error.message);
+}
+
+async function toggleHidePhoto(id, isHidden) {
+  await sb.from('photos').update({ hidden: !isHidden }).eq('id', id);
+  await loadPhotos();
+  await loadAdminPhotos();
 }
 
 async function deletePhoto(id, src) {
