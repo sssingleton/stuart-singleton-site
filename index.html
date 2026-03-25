@@ -587,8 +587,8 @@
     </div>
     <div class="page-content">
       <div class="photos-eyebrow">Stuart Singleton</div>
-      <div class="photos-hero">FRAME</div>
-      <div class="photos-sub">nashville · brentwood · on the road</div>
+      <div class="photos-hero">PHOTOS</div>
+      <div class="photos-sub" id="photos-locations">nashville · brentwood · on the road</div>
 
       <!-- TAG CLOUD -->
       <div class="tag-cloud" id="tag-cloud"></div>
@@ -730,6 +730,7 @@ async function loadPhotos() {
   }
   renderTagCloud();
   renderPhotos();
+  updateLocationSub();
 }
 loadPhotos();
 
@@ -737,6 +738,18 @@ function getTagsArray(photo) {
   return (photo.tags || '').split(',').map(t => t.trim()).filter(Boolean);
 }
 
+
+function updateLocationSub() {
+  const locationTags = ["nashville","brentwood","new york","los angeles","paris","france","europe","monaco","monte carlo","versailles","washington dc","puerto rico","san juan","cannes","beaulieu-sur-mer","villefranche-sur-mer","london","tokyo"];
+  const found = new Set();
+  PHOTOS.forEach(p => {
+    (p.tags || '').split(',').map(t => t.trim().toLowerCase()).forEach(t => {
+      if (locationTags.includes(t)) found.add(t);
+    });
+  });
+  const el = document.getElementById('photos-locations');
+  if (el && found.size > 0) el.textContent = [...found].join(' · ');
+}
 function renderTagCloud() {
   const tagCount = {};
   PHOTOS.forEach(p => getTagsArray(p).forEach(t => { tagCount[t] = (tagCount[t]||0)+1; }));
