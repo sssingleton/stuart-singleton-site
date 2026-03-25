@@ -257,7 +257,7 @@
   .photo-tag.active { color: #fff; }
   .photo-tag.dimmed { opacity: 0.15; pointer-events: none; }
 
-  /* PHOTO GRID — masonry-style varying sizes */
+  /* PHOTO GRID - CSS columns */
   .photo-masonry {
     columns: 180px;
     column-gap: 2px;
@@ -268,11 +268,7 @@
     position: relative; overflow: hidden; cursor: none;
     background: #111;
     transition: opacity .4s;
-    display: inline-block;
-    width: 100%;
-    break-inside: avoid;
-    margin-bottom: 2px;
-    vertical-align: top;
+    display: inline-block; width: 100%; break-inside: avoid; margin-bottom: 2px; vertical-align: top;
   }
   .photo-item.hidden-photo { opacity: 0; pointer-events: none; }
   .photo-item.span-2 { grid-column: span 2; }
@@ -383,43 +379,24 @@
     .photo-masonry { grid-template-columns: repeat(2,1fr); grid-auto-rows: 140px; }
     .lab-grid { grid-template-columns: 1fr; }
   }
-  .admin-tag-suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .admin-tag-pill { font-family: var(--mono); font-size: 9px; color: #444; background: none; border: 1px solid #1c1c1c; padding: 3px 10px; cursor: none; letter-spacing: .08em; transition: color .2s, border-color .2s; }
-  .admin-tag-pill:hover { color: #aaa; border-color: #555; }
-  .admin-tag-pill.selected { color: #fff; border-color: #fff; }
-
-  .admin-drag-handle { cursor: grab; font-size: 14px; color: #333; flex-shrink: 0; user-select: none; transition: color .2s; line-height: 1; padding: 0 4px; }
-  .admin-drag-handle:hover { color: #888; }
-  .admin-photo-row.dragging { opacity: 0.35; }
-  .admin-photo-row.drag-over { border-top: 2px solid #fff; }
-  .admin-photo-thumb.hidden-thumb { opacity: 0.25; filter: grayscale(1); }
-  .admin-hide-btn { font-family: var(--mono); font-size: 8px; color: #333; background: none; border: 1px solid #1c1c1c; padding: 3px 7px; cursor: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s, border-color .2s; flex-shrink: 0; }
-  .admin-hide-btn:hover { color: #888; border-color: #444; }
-  .admin-hide-btn.is-hidden { color: #c44; border-color: #422; }
-  .admin-edit-btn { font-family: var(--mono); font-size: 8px; color: #333; background: none; border: 1px solid #1c1c1c; padding: 3px 7px; cursor: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s, border-color .2s; flex-shrink: 0; }
-  .admin-edit-btn:hover { color: #fff; border-color: #fff; }
-  .admin-edit-row { display: flex; flex-direction: column; gap: 8px; padding: 8px 0 10px 50px; border-bottom: 1px solid #111; }
-  .admin-edit-row input { width: 100%; background: #111; border: 1px solid #222; color: #fff; font-family: var(--mono); font-size: 10px; padding: 6px 10px; outline: none; letter-spacing: .04em; }
-  .admin-edit-row input:focus { border-color: #444; }
-  .admin-edit-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .admin-drag-handle { cursor:grab; font-size:14px; color:#333; flex-shrink:0; user-select:none; transition:color .2s; padding:0 4px; }
-  .admin-drag-handle:hover { color:#888; }
-  .admin-photo-row.dragging { opacity:0.35; }
-  .admin-photo-row.drag-over { border-top:2px solid #fff; }
-  .admin-photo-thumb.hidden-thumb { opacity:0.25; filter:grayscale(1); }
-  .admin-hide-btn { font-family:var(--mono); font-size:8px; color:#333; background:none; border:1px solid #1c1c1c; padding:3px 7px; cursor:none; letter-spacing:.1em; text-transform:uppercase; transition:color .2s,border-color .2s; flex-shrink:0; }
-  .admin-hide-btn:hover { color:#888; border-color:#444; }
-  .admin-hide-btn.is-hidden { color:#c44; border-color:#422; }
-  .admin-edit-btn { font-family:var(--mono); font-size:8px; color:#333; background:none; border:1px solid #1c1c1c; padding:3px 7px; cursor:none; letter-spacing:.1em; text-transform:uppercase; transition:color .2s,border-color .2s; flex-shrink:0; }
-  .admin-edit-btn:hover { color:#fff; border-color:#fff; }
-  .admin-edit-row { display:flex; flex-direction:column; gap:8px; padding:8px 0 10px 50px; border-bottom:1px solid #111; }
-  .admin-edit-row input { width:100%; background:#111; border:1px solid #222; color:#fff; font-family:var(--mono); font-size:10px; padding:6px 10px; outline:none; }
-  .admin-edit-row input:focus { border-color:#444; }
-  .admin-edit-actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-  .admin-tag-suggestions { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-  .admin-tag-pill { font-family:var(--mono); font-size:9px; color:#444; background:none; border:1px solid #1c1c1c; padding:3px 10px; cursor:none; letter-spacing:.08em; transition:color .2s,border-color .2s; }
-  .admin-tag-pill:hover { color:#aaa; border-color:#555; }
-  .admin-tag-pill.selected { color:#fff; border-color:#fff; }
+  .admin-drag-handle{cursor:grab;font-size:14px;color:#333;flex-shrink:0;user-select:none;padding:0 4px;transition:color .2s}
+  .admin-drag-handle:hover{color:#888}
+  .admin-photo-row.dragging{opacity:.35}
+  .admin-photo-row.drag-over{border-top:2px solid #fff}
+  .admin-thumb-hidden{opacity:.25;filter:grayscale(1)}
+  .admin-hide-btn{font-family:var(--mono);font-size:8px;color:#333;background:none;border:1px solid #1c1c1c;padding:3px 7px;cursor:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s,border-color .2s;flex-shrink:0}
+  .admin-hide-btn:hover{color:#888;border-color:#444}
+  .admin-hide-btn.is-hidden{color:#c44;border-color:#422}
+  .admin-edit-btn{font-family:var(--mono);font-size:8px;color:#333;background:none;border:1px solid #1c1c1c;padding:3px 7px;cursor:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s,border-color .2s;flex-shrink:0}
+  .admin-edit-btn:hover{color:#fff;border-color:#fff}
+  .admin-edit-row{flex-direction:column;gap:8px;padding:8px 0 10px 50px;border-bottom:1px solid #111}
+  .admin-edit-row input{width:100%;background:#111;border:1px solid #222;color:#fff;font-family:var(--mono);font-size:10px;padding:6px 10px;outline:none}
+  .admin-edit-row input:focus{border-color:#444}
+  .admin-edit-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px}
+  .admin-tag-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .admin-tag-pill{font-family:var(--mono);font-size:9px;color:#444;background:none;border:1px solid #1c1c1c;padding:3px 10px;cursor:none;letter-spacing:.08em;transition:color .2s,border-color .2s}
+  .admin-tag-pill:hover{color:#aaa;border-color:#555}
+  .admin-tag-pill.selected{color:#fff;border-color:#fff}
 </style>
 </head>
 <body>
@@ -449,14 +426,12 @@
       <span style="font-size:10px;letter-spacing:.2em;color:#444;text-transform:uppercase;">// contact</span>
       <button onclick="closeContact()" style="background:none;border:none;font-family:var(--mono);font-size:10px;color:#444;cursor:none;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">✕ close</button>
     </div>
-    <form name="contact" netlify netlify-honeypot="bot-field" onsubmit="handleContact(event)" style="padding:28px 24px;display:flex;flex-direction:column;gap:16px;">
-      
-      
+    <form name="contact" onsubmit="handleContact(event)" style="padding:28px 24px;display:flex;flex-direction:column;gap:16px;">
       <div>
         <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:8px;">Name</label>
         <input type="text" name="name" required placeholder="your name"
           style="width:100%;background:#111;border:1px solid #1c1c1c;color:#fff;font-family:var(--mono);font-size:12px;padding:11px 14px;outline:none;letter-spacing:.05em;transition:border-color .2s;"
-          onfocus="this.style.borderColor='#444';loadTagSuggestions()" onblur="this.style.borderColor='#1c1c1c'">
+          onfocus="this.style.borderColor='#444';showTagSuggestions()" onblur="this.style.borderColor='#1c1c1c'">
             <div id="tag-suggestions" class="admin-tag-suggestions"></div>
       </div>
       <div>
@@ -510,8 +485,7 @@
             <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Tags <span style="color:#2a2a2a;">(comma separated)</span></label>
             <input type="text" id="photo-tags" placeholder="travel, night, europe, color"
               style="width:100%;background:#111;border:1px solid #1c1c1c;color:#fff;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;"
-              onfocus="this.style.borderColor='#444';loadTagSuggestions()" onblur="this.style.borderColor='#1c1c1c'">
-            <div id="tag-suggestions" class="admin-tag-suggestions"></div>
+              onfocus="this.style.borderColor='#444'" onblur="this.style.borderColor='#1c1c1c'">
           </div>
           <div>
             <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Grid Size</label>
@@ -759,15 +733,16 @@ function getTagsArray(photo) {
 
 
 function updateLocationSub() {
-  const locationTags = ["nashville","brentwood","new york","los angeles","paris","france","europe","monaco","monte carlo","versailles","washington dc","puerto rico","san juan","cannes","beaulieu-sur-mer","villefranche-sur-mer","london","tokyo"];
-  const found = new Set();
-  PHOTOS.forEach(p => {
-    (p.tags || '').split(',').map(t => t.trim().toLowerCase()).forEach(t => {
-      if (locationTags.includes(t)) found.add(t);
+  var locs = ["nashville","brentwood","new york","los angeles","paris","france","europe","monaco","monte carlo","versailles","washington dc","puerto rico","san juan","cannes","london","tokyo","beaulieu sur mer","villefranche sur mer"];
+  var found = [];
+  PHOTOS.forEach(function(p) {
+    (p.tags||"").split(",").forEach(function(t) {
+      t = t.trim().toLowerCase();
+      if (locs.indexOf(t) > -1 && found.indexOf(t) === -1) found.push(t);
     });
   });
-  const el = document.getElementById('photos-locations');
-  if (el && found.size > 0) el.textContent = [...found].join(' · ');
+  var el = document.getElementById("photos-locations");
+  if (el && found.length) el.textContent = found.join(" - ");
 }
 function renderTagCloud() {
   const tagCount = {};
@@ -809,243 +784,182 @@ function toggleTag(tag) {
   renderPhotos();
 }
 
-// ══ ADMIN PHOTO MANAGER ══
+
+// == ADMIN PHOTO MANAGER ==
 function selectSpan(btn, span) {
   selectedSpan = span;
-  document.querySelectorAll('.admin-span-btn').forEach(b => b.classList.remove('admin-span-active'));
-  btn.classList.add('admin-span-active');
+  document.querySelectorAll(".admin-span-btn").forEach(function(b) { b.classList.remove("admin-span-active"); });
+  btn.classList.add("admin-span-active");
 }
-
 function handleFileSelect(input) {
   if (input.files[0]) {
     selectedFile = input.files[0];
-    document.getElementById('selected-file-name').textContent = selectedFile.name;
-    document.getElementById('photo-meta').style.display = 'flex';
+    document.getElementById("selected-file-name").textContent = selectedFile.name;
+    document.getElementById("photo-meta").style.display = "flex";
+    detectAspectRatio(selectedFile);
   }
 }
-
-const uploadArea = document.getElementById('upload-area');
-uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-uploadArea.addEventListener('drop', e => {
-  e.preventDefault(); uploadArea.classList.remove('dragover');
-  const f = e.dataTransfer.files[0];
-  if (f) {
-    selectedFile = f;
-    document.getElementById('selected-file-name').textContent = f.name;
-    document.getElementById('photo-meta').style.display = 'flex';
-  }
-});
-
-
-function loadTagSuggestions() {
-  const input = document.getElementById('photo-tags');
-  sb.from('photos').select('tags').then(({ data }) => {
-    if (!data) return;
-    const allTags = new Set();
-    data.forEach(p => (p.tags || '').split(',').map(t => t.trim()).filter(Boolean).forEach(t => allTags.add(t)));
-    const container = document.getElementById('tag-suggestions');
-    if (!container) return;
-    const current = () => input.value.split(',').map(t => t.trim()).filter(Boolean);
-    container.innerHTML = [...allTags].sort().map(tag => {
-      const sel = current().includes(tag) ? 'selected' : '';
-      return `<button type="button" class="admin-tag-pill ${sel}" onclick="toggleTagPill(this,'${tag}')">${tag}</button>`;
-    }).join('');
-    addHover('.admin-tag-pill');
-  });
-}
-
-function toggleTagPill(btn, tag) {
-  const input = document.getElementById('photo-tags');
-  let tags = input.value.split(',').map(t => t.trim()).filter(Boolean);
-  if (tags.includes(tag)) {
-    tags = tags.filter(t => t !== tag);
-    btn.classList.remove('selected');
-  } else {
-    tags.push(tag);
-    btn.classList.add('selected');
-  }
-  input.value = tags.join(', ');
+function detectAspectRatio(file) {
+  var url = URL.createObjectURL(file);
+  var img = new Image();
+  img.onload = function() {
+    var w = img.naturalWidth, h = img.naturalHeight;
+    var spanBtn;
+    if (h > w) { spanBtn = document.querySelector("[data-span=tall]"); }
+    else if (w / h >= 2.0) { spanBtn = document.querySelector("[data-span=span-2]"); }
+    else { spanBtn = document.querySelector("[data-span=\"\"]"); }
+    if (spanBtn) selectSpan(spanBtn, spanBtn.dataset.span);
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
 }
 async function uploadAndSave() {
   if (!selectedFile) return;
-  const status = document.getElementById('upload-status');
-  const btn = document.getElementById('save-photo-btn');
-  const tags = document.getElementById('photo-tags').value.trim();
-  if (!tags) { status.style.color='#c44'; status.textContent='add at least one tag'; return; }
-
-  btn.textContent = 'Uploading...'; status.textContent = '';
-  const ext = selectedFile.name.split('.').pop();
-  const filename = `photo_${Date.now()}.${ext}`;
-
+  var status = document.getElementById("upload-status");
+  var btn = document.getElementById("save-photo-btn");
+  var tags = document.getElementById("photo-tags").value.trim();
+  if (!tags) { status.style.color="#c44"; status.textContent="add at least one tag"; return; }
+  btn.textContent = "Uploading..."; status.textContent = "";
+  var ext = selectedFile.name.split(".").pop();
+  var filename = "photo_" + Date.now() + "." + ext;
   try {
-    // Upload to Supabase Storage
-    const { error: storageErr } = await sb.storage.from('photos').upload(filename, selectedFile, { contentType: selectedFile.type });
-    if (storageErr) throw storageErr;
-
-    // Get public URL
-    const { data: urlData } = sb.storage.from('photos').getPublicUrl(filename);
-    const src = urlData.publicUrl;
-
-    // Save to photos table
-    const { error: dbErr } = await sb.from('photos').insert({ src, tags, span: selectedSpan });
-    if (dbErr) throw dbErr;
-
-    status.style.color='#4a8'; status.textContent='✓ photo saved';
-    btn.textContent='Upload & Save →';
+    var storageResult = await sb.storage.from("photos").upload(filename, selectedFile, { contentType: selectedFile.type });
+    if (storageResult.error) throw storageResult.error;
+    var urlData = sb.storage.from("photos").getPublicUrl(filename);
+    var src = urlData.data.publicUrl;
+    var dbResult = await sb.from("photos").insert({ src: src, tags: tags, span: selectedSpan });
+    if (dbResult.error) throw dbResult.error;
+    status.style.color="#4a8"; status.textContent="photo saved";
+    btn.textContent="Upload & Save ->";
     selectedFile = null;
-    document.getElementById('photo-file-input').value = '';
-    document.getElementById('selected-file-name').textContent = '';
-    document.getElementById('photo-tags').value = '';
-    document.getElementById('photo-meta').style.display = 'none';
-    selectSpan(document.querySelector('[data-span=""]'), '');
-
+    document.getElementById("photo-file-input").value = "";
+    document.getElementById("selected-file-name").textContent = "";
+    document.getElementById("photo-tags").value = "";
+    document.getElementById("photo-meta").style.display = "none";
+    selectSpan(document.querySelector("[data-span=\"\"]"), "");
     await loadPhotos();
     await loadAdminPhotos();
   } catch(err) {
-    status.style.color='#c44'; status.textContent=`error: ${err.message}`;
-    btn.textContent='Upload & Save →';
+    status.style.color="#c44"; status.textContent="error: " + err.message;
+    btn.textContent="Upload & Save ->";
   }
 }
-
-let adminDragSrc = null;
-
-
+var adminDragSrc = null;
 async function loadAdminPhotos() {
-  const list = document.getElementById('admin-photo-list');
-  const count = document.getElementById('photo-count');
+  var list = document.getElementById("admin-photo-list");
+  var count = document.getElementById("photo-count");
   if (!list) return;
   try {
-    const { data, error } = await sb.from('photos').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: false });
-    if (error) throw error;
-    count.textContent = '(' + data.length + ')';
-    if (data.length === 0) { list.innerHTML = '<div style="font-size:9px;color:#333;letter-spacing:.1em;">no photos yet</div>'; return; }
-    list.innerHTML = data.map(function(p) {
-      var hiddenClass = p.hidden ? ' hidden-thumb' : '';
-      var hideLabel = p.hidden ? '◉ show' : '◎ hide';
-      var hideBtnClass = p.hidden ? ' is-hidden' : '';
-      var spanLabel = p.span || 'normal';
-      var tags = p.tags || 'no tags';
-      var src = p.src || '';
-      var safeTags = (p.tags || '').replace(/'/g, "\'");
-      var safeSpan = (p.span || '').replace(/'/g, "\'");
-      var row = '<div class="admin-photo-row" data-id="' + p.id + '" draggable="true">';
-      row += '<span class="admin-drag-handle" title="drag to reorder">⠿</span>';
-      row += '<img class="admin-photo-thumb' + hiddenClass + '" src="' + src + '" onerror="this.style.background='#222'">';
-      row += '<div class="admin-photo-info"><span>' + tags + '</span><span style="color:#2a2a2a;">' + spanLabel + (p.hidden ? ' · hidden' : '') + '</span></div>';
-      row += '<button class="admin-edit-btn" onclick="openEditRow(' + p.id + ',\'' + safeTags + '\',\'' + safeSpan + '\')">✎ edit</button>';
-      row += '<button class="admin-hide-btn' + hideBtnClass + '" onclick="toggleHidePhoto(' + p.id + ',' + !!p.hidden + ')">' + hideLabel + '</button>';
-      row += '<button class="admin-delete-btn" onclick="deletePhoto(' + p.id + ',\'' + src + '\')">✕</button>';
-      row += '</div>';
-      row += '<div class="admin-edit-row" id="edit-row-' + p.id + '" style="display:none;">';
-      row += '<input type="text" id="edit-tags-' + p.id + '" value="' + (p.tags || '') + '" placeholder="tags, comma separated">';
-      row += '<div class="admin-edit-actions">';
-      row += '<button class="admin-span-btn' + (!p.span ? ' admin-span-active' : '') + '" onclick="setEditSpan(' + p.id + ',\'\')">Normal</button>';
-      row += '<button class="admin-span-btn' + (p.span === 'span-2' ? ' admin-span-active' : '') + '" onclick="setEditSpan(' + p.id + ',\'span-2\')">Wide</button>';
-      row += '<button class="admin-span-btn' + (p.span === 'tall' ? ' admin-span-active' : '') + '" onclick="setEditSpan(' + p.id + ',\'tall\')">Tall</button>';
-      row += '<button class="admin-btn" onclick="saveEditRow(' + p.id + ')">Save →</button>';
-      row += '<button class="admin-delete-btn" onclick="closeEditRow(' + p.id + ')">Cancel</button>';
-      row += '</div></div>';
-      return row;
-    }).join('');
-
-    list.querySelectorAll('.admin-photo-row').forEach(function(row) {
-      row.addEventListener('dragstart', function(e) { adminDragSrc = row; row.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
-      row.addEventListener('dragend', function() { row.classList.remove('dragging'); list.querySelectorAll('.admin-photo-row').forEach(function(r) { r.classList.remove('drag-over'); }); });
-      row.addEventListener('dragover', function(e) { e.preventDefault(); list.querySelectorAll('.admin-photo-row').forEach(function(r) { r.classList.remove('drag-over'); }); row.classList.add('drag-over'); });
-      row.addEventListener('drop', async function(e) {
+    var res = await sb.from("photos").select("*").order("sort_order", {ascending:true}).order("created_at", {ascending:false});
+    if (res.error) throw res.error;
+    var data = res.data || [];
+    count.textContent = "(" + data.length + ")";
+    if (!data.length) { list.innerHTML = "<div style=\"font-size:9px;color:#333\">no photos yet</div>"; return; }
+    var html = "";
+    for (var i = 0; i < data.length; i++) {
+      var p = data[i];
+      var pid = p.id;
+      var ptags = (p.tags || "").replace(/"/g, "&quot;");
+      var pspan = p.span || "";
+      var isHid = !!p.hidden;
+      html += "<div class=\"admin-photo-row\" data-id=\"" + pid + "\" data-span=\"" + pspan + "\" data-hidden=\"" + isHid + "\" draggable=\"true\">";
+      html += "<span class=\"admin-drag-handle\">&#8942;</span>";
+      html += "<img class=\"admin-photo-thumb" + (isHid ? " admin-thumb-hidden" : "") + "\" src=\"" + (p.src||"") + "\" onerror=\"this.style.background='#222'\">";
+      html += "<div class=\"admin-photo-info\"><span>" + (p.tags||"no tags") + "</span>";
+      html += "<span style=\"color:#2a2a2a\">" + (pspan||"normal") + (isHid ? " hidden" : "") + "</span></div>";
+      html += "<button class=\"admin-edit-btn\" data-action=\"edit\" data-id=\"" + pid + "\">edit</button>";
+      html += "<button class=\"admin-hide-btn" + (isHid ? " is-hidden" : "") + "\" data-action=\"hide\" data-id=\"" + pid + "\" data-hidden=\"" + isHid + "\">" + (isHid ? "show" : "hide") + "</button>";
+      html += "<button class=\"admin-delete-btn\" data-action=\"del\" data-id=\"" + pid + "\" data-src=\"" + (p.src||"") + "\">x</button>";
+      html += "</div>";
+      html += "<div class=\"admin-edit-row\" id=\"er" + pid + "\" style=\"display:none\">";
+      html += "<input type=\"text\" id=\"et" + pid + "\" value=\"" + ptags + "\" placeholder=\"tags\">";
+      html += "<div class=\"admin-edit-actions\">";
+      html += "<button class=\"admin-span-btn" + (!pspan ? " admin-span-active" : "") + "\" data-action=\"span\" data-id=\"" + pid + "\" data-span=\"\">Normal</button>";
+      html += "<button class=\"admin-span-btn" + (pspan==="span-2" ? " admin-span-active" : "") + "\" data-action=\"span\" data-id=\"" + pid + "\" data-span=\"span-2\">Wide</button>";
+      html += "<button class=\"admin-span-btn" + (pspan==="tall" ? " admin-span-active" : "") + "\" data-action=\"span\" data-id=\"" + pid + "\" data-span=\"tall\">Tall</button>";
+      html += "<button class=\"admin-btn\" data-action=\"save\" data-id=\"" + pid + "\">Save</button>";
+      html += "<button class=\"admin-delete-btn\" data-action=\"cancel\" data-id=\"" + pid + "\">Cancel</button>";
+      html += "</div></div>";
+    }
+    list.innerHTML = html;
+    list.onclick = function(e) {
+      var btn = e.target.closest("[data-action]");
+      if (!btn) return;
+      var act = btn.dataset.action, id = btn.dataset.id;
+      var er = document.getElementById("er" + id);
+      if (act === "edit") { if(er) er.style.display = er.style.display==="none" ? "flex" : "none"; }
+      else if (act === "cancel") { if(er) er.style.display="none"; }
+      else if (act === "span") {
+        if (!er) return;
+        er.dataset.chosenSpan = btn.dataset.span;
+        er.querySelectorAll("[data-action=span]").forEach(function(b){b.classList.remove("admin-span-active");});
+        btn.classList.add("admin-span-active");
+      } else if (act === "save") {
+        if (!er) return;
+        var tags = document.getElementById("et"+id).value.trim();
+        var span = er.dataset.chosenSpan !== undefined ? er.dataset.chosenSpan : btn.closest(".admin-photo-row").dataset.span;
+        sb.from("photos").update({tags:tags, span:span}).eq("id",id).then(function(res){
+          if (res.error){alert("Save failed");return;}
+          er.style.display="none";
+          loadPhotos(); loadAdminPhotos();
+        });
+      } else if (act === "hide") {
+        var isH = btn.dataset.hidden==="true";
+        sb.from("photos").update({hidden:!isH}).eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
+      } else if (act === "del") {
+        if (!confirm("Delete this photo?")) return;
+        var src = btn.dataset.src;
+        var fn = src.split("/").pop();
+        sb.storage.from("photos").remove([fn]).then(function(){
+          sb.from("photos").delete().eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
+        });
+      }
+    };
+    list.querySelectorAll(".admin-photo-row").forEach(function(row){
+      row.addEventListener("dragstart",function(e){adminDragSrc=row;row.classList.add("dragging");e.dataTransfer.effectAllowed="move";});
+      row.addEventListener("dragend",function(){row.classList.remove("dragging");list.querySelectorAll(".admin-photo-row").forEach(function(r){r.classList.remove("drag-over");});});
+      row.addEventListener("dragover",function(e){e.preventDefault();list.querySelectorAll(".admin-photo-row").forEach(function(r){r.classList.remove("drag-over");});row.classList.add("drag-over");});
+      row.addEventListener("drop",async function(e){
         e.preventDefault();
-        if (adminDragSrc === row) return;
-        var rows = Array.from(list.querySelectorAll('.admin-photo-row'));
-        var srcIdx = rows.indexOf(adminDragSrc);
-        var tgtIdx = rows.indexOf(row);
-        var editSrc = document.getElementById('edit-row-' + adminDragSrc.dataset.id);
-        if (srcIdx < tgtIdx) { row.after(adminDragSrc); if (editSrc) row.after(editSrc); }
-        else { row.before(adminDragSrc); if (editSrc) row.before(editSrc); }
-        var newRows = Array.from(list.querySelectorAll('.admin-photo-row'));
-        for (var i = 0; i < newRows.length; i++) {
-          await sb.from('photos').update({ sort_order: i }).eq('id', newRows[i].dataset.id);
-        }
+        if(adminDragSrc===row)return;
+        var rows=Array.from(list.querySelectorAll(".admin-photo-row"));
+        var si=rows.indexOf(adminDragSrc),ti=rows.indexOf(row);
+        var esr=document.getElementById("er"+adminDragSrc.dataset.id);
+        if(si<ti){row.after(adminDragSrc);if(esr)row.after(esr);}else{row.before(adminDragSrc);if(esr)row.before(esr);}
+        var nr=Array.from(list.querySelectorAll(".admin-photo-row"));
+        for(var i=0;i<nr.length;i++){await sb.from("photos").update({sort_order:i}).eq("id",nr[i].dataset.id);}
       });
     });
-    addHover('.admin-delete-btn,.admin-hide-btn,.admin-edit-btn,.admin-drag-handle');
+    addHover(".admin-delete-btn,.admin-hide-btn,.admin-edit-btn,.admin-drag-handle");
   } catch(err) {
-    list.innerHTML = '<div style="font-size:9px;color:#c44;">could not load photos</div>';
+    list.innerHTML = "<div style=\"font-size:9px;color:#c44\">could not load photos</div>";
   }
 }
-
-function openEditRow(id, tags, span) {
-  var row = document.getElementById('edit-row-' + id);
-  if (row) row.style.display = 'flex';
-}
-function closeEditRow(id) {
-  var row = document.getElementById('edit-row-' + id);
-  if (row) row.style.display = 'none';
-}
-function setEditSpan(id, span) {
-  var row = document.getElementById('edit-row-' + id);
-  if (!row) return;
-  row.dataset.span = span;
-  row.querySelectorAll('.admin-span-btn').forEach(function(b) { b.classList.remove('admin-span-active'); });
-  var btns = row.querySelectorAll('.admin-span-btn');
-  var map = {'':'Normal','span-2':'Wide','tall':'Tall'};
-  btns.forEach(function(b) { if (b.textContent === map[span]) b.classList.add('admin-span-active'); });
-}
-async function saveEditRow(id) {
-  var row = document.getElementById('edit-row-' + id);
-  var tagsInput = document.getElementById('edit-tags-' + id);
-  if (!row || !tagsInput) return;
-  var tags = tagsInput.value.trim();
-  var span = row.dataset.span !== undefined ? row.dataset.span : '';
-  var result = await sb.from('photos').update({ tags: tags, span: span }).eq('id', id);
-  if (!result.error) { closeEditRow(id); await loadPhotos(); await loadAdminPhotos(); }
-  else alert('Save failed: ' + result.error.message);
-}
-async function toggleHidePhoto(id, isHidden) {
-  await sb.from('photos').update({ hidden: !isHidden }).eq('id', id);
-  await loadPhotos();
-  await loadAdminPhotos();
-}
-function loadTagSuggestions() {
-  var input = document.getElementById('photo-tags');
-  sb.from('photos').select('tags').then(function(res) {
+function showTagSuggestions() {
+  var input = document.getElementById("photo-tags");
+  if (!input) return;
+  sb.from("photos").select("tags").then(function(res) {
     if (!res.data) return;
-    var allTags = {};
-    res.data.forEach(function(p) {
-      (p.tags || '').split(',').map(function(t) { return t.trim(); }).filter(Boolean).forEach(function(t) { allTags[t] = 1; });
-    });
-    var container = document.getElementById('tag-suggestions');
+    var all = {};
+    res.data.forEach(function(p){(p.tags||"").split(",").forEach(function(t){t=t.trim();if(t)all[t]=1;});});
+    var container = document.getElementById("tag-suggestions");
     if (!container) return;
-    var current = input.value.split(',').map(function(t) { return t.trim(); }).filter(Boolean);
-    container.innerHTML = Object.keys(allTags).sort().map(function(tag) {
-      var sel = current.indexOf(tag) > -1 ? ' selected' : '';
-      return '<button type="button" class="admin-tag-pill' + sel + '" onclick="toggleTagPill(this,\'' + tag + '\')">' + tag + '</button>';
-    }).join('');
-    addHover('.admin-tag-pill');
+    var current = input.value.split(",").map(function(t){return t.trim();}).filter(Boolean);
+    container.innerHTML = Object.keys(all).sort().map(function(tag){
+      var sel = current.indexOf(tag)>-1 ? " selected" : "";
+      return "<button type=\"button\" class=\"admin-tag-pill"+sel+"\" data-tag=\""+tag.replace(/"/g,"&quot;")+"\">"+tag+"</button>";
+    }).join("");
+    container.onclick = function(e) {
+      var b = e.target.closest(".admin-tag-pill"); if(!b)return;
+      var tag = b.dataset.tag;
+      var tags = input.value.split(",").map(function(t){return t.trim();}).filter(Boolean);
+      var idx = tags.indexOf(tag);
+      if(idx>-1){tags.splice(idx,1);b.classList.remove("selected");}else{tags.push(tag);b.classList.add("selected");}
+      input.value = tags.join(", ");
+    };
+    addHover(".admin-tag-pill");
   });
 }
-function toggleTagPill(btn, tag) {
-  var input = document.getElementById('photo-tags');
-  var tags = input.value.split(',').map(function(t) { return t.trim(); }).filter(Boolean);
-  var idx = tags.indexOf(tag);
-  if (idx > -1) { tags.splice(idx, 1); btn.classList.remove('selected'); }
-  else { tags.push(tag); btn.classList.add('selected'); }
-  input.value = tags.join(', ');
-}
-async function deletePhoto(id, src) {
-  if (!confirm('Delete this photo?')) return;
-  try {
-    // Extract filename from URL
-    const filename = src.split('/').pop();
-    await sb.storage.from('photos').remove([filename]);
-    await sb.from('photos').delete().eq('id', id);
-    await loadPhotos();
-    await loadAdminPhotos();
-  } catch(err) {
-    alert('Error deleting: ' + err.message);
-  }
-}
-
 // ══ YOUTUBE ══
 function openYT(videoId, title, artist) {
   document.getElementById('yt-iframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
