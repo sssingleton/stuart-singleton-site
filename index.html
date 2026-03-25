@@ -863,7 +863,7 @@ function renderPhotos() {
   PHOTOS.forEach(p => {
     const tags = getTagsArray(p);
     const match = activeTags.size === 0 || [...activeTags].every(t => tags.includes(t));
-    const el = `<div class="photo-item ${p.span||''} ${match ? '' : 'hidden-photo'}">
+    const el = `<div class="photo-item ${p.span||''}${match ? '' : ' hidden-photo'}">
       <img src="${p.src}" alt="${tags[0]||''}" loading="lazy" onerror="this.parentElement.style.background='#111';this.style.display='none'">
       <div class="photo-item-label">${tags.join(' · ')}</div>
     </div>`;
