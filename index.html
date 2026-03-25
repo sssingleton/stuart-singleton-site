@@ -397,6 +397,38 @@
   .admin-tag-pill{font-family:var(--mono);font-size:9px;color:#444;background:none;border:1px solid #1c1c1c;padding:3px 10px;cursor:none;letter-spacing:.08em;transition:color .2s,border-color .2s}
   .admin-tag-pill:hover{color:#aaa;border-color:#555}
   .admin-tag-pill.selected{color:#fff;border-color:#fff}
+  .music-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid #e4e0db; }
+  .music-tab-btn { font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:10px 24px; background:transparent; border:none; border-bottom:2px solid transparent; color:#bbb; cursor:none; transition:color .2s,border-color .2s; margin-bottom:-1px; }
+  .music-tab-btn:hover { color:#555; }
+  .music-tab-btn.active-songs { color:#111; border-color:#111; }
+  .music-tab-btn.active-beats { color:#d4a017; border-color:#d4a017; }
+  /* Songs accent colors */
+  #music-page.tab-songs .music-hero { background: linear-gradient(135deg, #c0392b 0%, #2980b9 50%, #f1c40f 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  /* Beats mode */
+  #music-page.tab-beats { background:#080808; }
+  #music-page.tab-beats::before { opacity:.3; }
+  #music-page.tab-beats .page-nav { background:#080808; }
+  #music-page.tab-beats .back-btn { color:#666; }
+  #music-page.tab-beats .back-btn:hover { color:#fff; }
+  #music-page.tab-beats .music-eyebrow { color:#333; }
+  #music-page.tab-beats .music-hero { font-size:clamp(40px,7vw,80px); color:#d4a017; -webkit-text-fill-color:#d4a017; background:none; letter-spacing:.08em; }
+  #music-page.tab-beats .music-sub { color:#444; letter-spacing:.14em; }
+  #music-page.tab-beats .music-divider { background:#1a1a1a; }
+  #music-page.tab-beats .music-tabs { border-color:#1a1a1a; }
+  #music-page.tab-beats .music-tab-btn { color:#444; }
+  #music-page.tab-beats .music-tab-btn:hover { color:#888; }
+  #music-page.tab-beats .track-row { border-color:#111; color:#888; padding-top:20px; padding-bottom:20px; }
+  #music-page.tab-beats .track-row:hover { background:#0f0f0f; padding-left:12px; margin:0 -12px; padding-right:12px; }
+  #music-page.tab-beats .track-title { color:#ccc; font-size:15px; letter-spacing:.04em; }
+  #music-page.tab-beats .track-meta { color:#444; }
+  #music-page.tab-beats .track-num { color:#2a2a2a; }
+  #music-page.tab-beats .track-arrow { color:#333; }
+  #music-page.tab-beats .track-row:hover .track-arrow { color:#d4a017; }
+  #music-page.tab-beats .play-btn { border-color:#222; }
+  #music-page.tab-beats .track-row:hover .play-btn { border-color:#d4a017; background:#d4a017; }
+  #music-page.tab-beats .music-cta { color:#444; border-color:#222; }
+  #music-page.tab-beats .music-cta:hover { color:#d4a017; border-color:#d4a017; }
+  #music-page.tab-beats .music-dot { color:#222; }
 </style>
 </head>
 <body>
@@ -558,6 +590,10 @@
       <div class="music-eyebrow">Songs written &amp; produced by</div>
       <div class="music-hero">STUART<br><em>Singleton.</em></div>
       <div class="music-sub">songwriter · producer</div>
+      <div class="music-tabs">
+        <button class="music-tab-btn active-songs" id="tab-songs" onclick="switchMusicTab('songs')">Songs</button>
+        <button class="music-tab-btn" id="tab-beats" onclick="switchMusicTab('beats')">Beats</button>
+      </div>
       <div class="music-divider"></div>
       <div class="track-list" id="track-list"></div>
       <div class="music-footer">
@@ -659,26 +695,22 @@ const sb = createClient(SUPA_URL, SUPA_KEY);
 
 // ══ TRACKS ══
 const TRACKS = [
-  { num:'01', title:'Rearview',           artist:'Luke Lasso',              role:'writer / producer', spotify:'0UdpxBj2JbkVtyK37eKVQY', yt:'xt6HggDzMDY' },
-  { num:'02', title:'happy for you',      artist:'Stacey Kelleher',         role:'writer',            spotify:'4X3YqAkHyQqWQxi5pgwaPj', yt:'HN-3kgQuNh0' },
-  { num:'03', title:"I Don't Wanna Know", artist:'Preston Wayne',           role:'writer / producer', spotify:'72q09xagLbGM5eo4HvImqI', yt:'gX7zBdtMQFA' },
-  { num:'04', title:'Summertime',         artist:'Luke Lasso',              role:'writer / producer', spotify:'4cxXqqUrgVboKHj1jV7cXS', yt:'SyeMVKnTp-s' },
-  { num:'05', title:'The Way Things Go',  artist:'Luke Lasso',              role:'writer / producer', spotify:'3vymu3fBpcisORqtS8KDKh', yt:'qdZEznxADj0' },
-  { num:'06', title:'Icing',              artist:'Hew G., Casein, Wonkerz', role:'writer / producer', spotify:'67hn2UvcxQGYxYphwiBsaJ', yt:'xR0xW5AoLvk' },
-  { num:'07', title:'Miracles',           artist:'just_omalley',            role:'writer / producer', spotify:'10XM2akXy5A2rNwSG2qOuj', yt:'Lqki0jmkQR4' },
-  { num:'08', title:'Dreams',             artist:'Jyou, Casein, Wonkerz',   role:'writer / producer', spotify:'4tLy74vr5DmehOw4auAtIo', yt:'1Zv3fFfrkgc' },
-  { num:'09', title:'Piece of Cake',      artist:'Hew G., Casein, Wonkerz', role:'writer / producer', spotify:'0m8vNfmWERRuTnOFL2LgiI', yt:'xyx8tYE9ZVI' },
-  { num:'10', title:'Blue Jean Crazy',    artist:'Laura Bryna',             role:'writer',            spotify:'5R6rwKrbPCjYzX7P3aZ3mQ', yt:null },
-  { num:'11', title:'yoru',               artist:'Casein, David Chief',     role:'writer / producer', spotify:'4Eg9lHd6ghvEh7ws7YNmAB', yt:null },
-  { num:'12', title:'aqueous',            artist:'Casein, Wonkerz',         role:'writer / producer', spotify:'6qUHwRsfHRWZyMREomBois', yt:null },
-  { num:'13', title:'soberimwitchu',      artist:'Jyou, Casein',            role:'writer / producer', spotify:'6xKJYv1SWnFOtFIEFfoOGp', yt:null },
-  { num:'14', title:'addict',             artist:'Jyou, Casein',            role:'writer / producer', spotify:'1rZlj2GxALeJ3RGcnIl3Zj', yt:null },
-  { num:'15', title:'truff',              artist:'Casein, Wonkerz',         role:'writer / producer', spotify:'35ryd6EGdTzmas4iN3NzB3', yt:null },
-  { num:'16', title:'Who Are You',        artist:'Nathan Fouts',            role:'writer / producer', spotify:'3dhd1j2RRQjcWsx8aKC5mJ', yt:'q2OqUZxbPkU' },
-  { num:'17', title:'reimbursement',      artist:'Casein, Wonkerz',         role:'writer / producer', spotify:'3uqCGyQePfkza7P0NsqJCT', yt:null },
-  { num:'18', title:'Chocolate',          artist:'Hew G., Casein',          role:'writer / producer', spotify:'3s8aoIib95wmDK6xuZPKD6', yt:null },
-  { num:'19', title:'Surfboard',          artist:'Abraysiv, Casein',        role:'writer / producer', spotify:'3JnsSb6zSxDzE8BQHQ5QNe', yt:null },
-  { num:'20', title:'No Pressure',        artist:'Goody, Casein',           role:'writer / producer', spotify:'1SXbE4fmhRJ0rv00NYh2nL', yt:null },
+  { num:"01", title:"Rearview", artist:"Luke Lasso", role:"writer / producer", spotify:"0UdpxBj2JbkVtyK37eKVQY", yt:"xt6HggDzMDY" },
+  { num:"02", title:"happy for you", artist:"Stacey Kelleher", role:"writer", spotify:"4X3YqAkHyQqWQxi5pgwaPj", yt:"HN-3kgQuNh0" },
+  { num:"03", title:"I Don't Wanna Know", artist:"Preston Wayne", role:"writer / producer", spotify:"72q09xagLbGM5eo4HvImqI", yt:"gX7zBdtMQFA" },
+  { num:"04", title:"Summertime", artist:"Luke Lasso", role:"writer / producer", spotify:"4cxXqqUrgVboKHj1jV7cXS", yt:"SyeMVKnTp-s" },
+  { num:"05", title:"The Way Things Go", artist:"Luke Lasso", role:"writer / producer", spotify:"3vymu3fBpcisORqtS8KDKh", yt:"qdZEznxADj0" },
+  { num:"06", title:"Icing", artist:"Hew G., Casein, Wonkerz", role:"writer / producer", spotify:"67hn2UvcxQGYxYphwiBsaJ", yt:"xR0xW5AoLvk" },
+  { num:"07", title:"Miracles", artist:"just_omalley", role:"writer / producer", spotify:"10XM2akXy5A2rNwSG2qOuj", yt:"Lqki0jmkQR4" },
+  { num:"08", title:"Dreams", artist:"Jyou, Casein, Wonkerz", role:"writer / producer", spotify:"4tLy74vr5DmehOw4auAtIo", yt:"1Zv3fFfrkgc" },
+  { num:"09", title:"Piece of Cake", artist:"Hew G., Casein, Wonkerz", role:"writer / producer", spotify:"0m8vNfmWERRuTnOFL2LgiI", yt:"xyx8tYE9ZVI" },
+  { num:"10", title:"Blue Jean Crazy", artist:"Laura Bryna", role:"writer", spotify:"5R6rwKrbPCjYzX7P3aZ3mQ", yt:null },
+  { num:"11", title:"soberimwitchu", artist:"Jyou, Casein", role:"writer / producer", spotify:"6xKJYv1SWnFOtFIEFfoOGp", yt:null },
+  { num:"12", title:"addict", artist:"Jyou, Casein", role:"writer / producer", spotify:"1rZlj2GxALeJ3RGcnIl3Zj", yt:null },
+  { num:"13", title:"Who Are You", artist:"Nathan Fouts", role:"writer / producer", spotify:"3dhd1j2RRQjcWsx8aKC5mJ", yt:"q2OqUZxbPkU" },
+  { num:"14", title:"Chocolate", artist:"Hew G., Casein", role:"writer / producer", spotify:"3s8aoIib95wmDK6xuZPKD6", yt:null },
+  { num:"15", title:"Surfboard", artist:"Abraysiv, Casein", role:"writer / producer", spotify:"3JnsSb6zSxDzE8BQHQ5QNe", yt:null },
+  { num:"16", title:"No Pressure", artist:"Goody, Casein", role:"writer / producer", spotify:"1SXbE4fmhRJ0rv00NYh2nL", yt:null }
 ];
 
 function renderTracks(tracks) {
@@ -697,6 +729,31 @@ function renderTracks(tracks) {
   }).join('');
   addHover('.play-btn');
 }
+
+// == BEATS ==
+var BEATS = [
+  { num:"01", title:"yoru", artist:"Casein, David Chief", role:"producer", spotify:"4Eg9lHd6ghvEh7ws7YNmAB", yt:null },
+  { num:"02", title:"reimbursement", artist:"Casein, Wonkerz", role:"producer", spotify:"3uqCGyQePfkza7P0NsqJCT", yt:null },
+  { num:"03", title:"aqueous", artist:"Casein, Wonkerz", role:"producer", spotify:"6qUHwRsfHRWZyMREomBois", yt:null },
+  { num:"04", title:"truff", artist:"Casein, Wonkerz", role:"producer", spotify:"35ryd6EGdTzmas4iN3NzB3", yt:null }
+];
+var currentMusicTab = "songs";
+function switchMusicTab(tab) {
+  currentMusicTab = tab;
+  var mp = document.getElementById("music-page");
+  var ts = document.getElementById("tab-songs");
+  var tb = document.getElementById("tab-beats");
+  if (tab === "beats") {
+    mp.classList.add("tab-beats"); mp.classList.remove("tab-songs");
+    ts.classList.remove("active-songs"); tb.classList.add("active-beats");
+    renderTracks(BEATS);
+  } else {
+    mp.classList.remove("tab-beats"); mp.classList.add("tab-songs");
+    ts.classList.add("active-songs"); tb.classList.remove("active-beats");
+    renderTracks(TRACKS);
+  }
+}
+
 renderTracks(TRACKS);
 
 // ══ PHOTOS WITH TAG FILTER ══
