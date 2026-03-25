@@ -400,34 +400,40 @@
   .music-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid #e4e0db; }
   .music-tab-btn { font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:10px 24px; background:transparent; border:none; border-bottom:2px solid transparent; color:#bbb; cursor:none; transition:color .2s,border-color .2s; margin-bottom:-1px; }
   .music-tab-btn:hover { color:#555; }
-  .music-tab-btn.active-songs { color:#111; border-color:#111; }
-  .music-tab-btn.active-beats { color:#d4a017; border-color:#d4a017; }
-  /* Songs accent colors */
-  #music-page.tab-songs .music-hero { background: linear-gradient(135deg, #c0392b 0%, #2980b9 50%, #f1c40f 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-  /* Beats mode */
-  #music-page.tab-beats { background:#080808; }
-  #music-page.tab-beats::before { opacity:.3; }
-  #music-page.tab-beats .page-nav { background:#080808; }
-  #music-page.tab-beats .back-btn { color:#666; }
+  .music-tab-btn.active-songs { color:#111; border-color:#c0392b; }
+  .music-tab-btn.active-beats { color:#fff; border-color:#c0392b; }
+
+  /* Songs: alternating red/blue/yellow on track numbers */
+  #music-page.tab-songs .track-num-r { color:#c0392b; }
+  #music-page.tab-songs .track-num-b { color:#2471a3; }
+  #music-page.tab-songs .track-num-y { color:#d4ac0d; }
+
+  /* Beats mode: black bg, white text, red/blue/yellow accents */
+  #music-page.tab-beats { background:#000; }
+  #music-page.tab-beats .page-nav { background:#000; }
+  #music-page.tab-beats .back-btn { color:#444; }
   #music-page.tab-beats .back-btn:hover { color:#fff; }
   #music-page.tab-beats .music-eyebrow { color:#333; }
-  #music-page.tab-beats .music-hero { font-size:clamp(40px,7vw,80px); color:#d4a017; -webkit-text-fill-color:#d4a017; background:none; letter-spacing:.08em; }
-  #music-page.tab-beats .music-sub { color:#444; letter-spacing:.14em; }
-  #music-page.tab-beats .music-divider { background:#1a1a1a; }
-  #music-page.tab-beats .music-tabs { border-color:#1a1a1a; }
+  #music-page.tab-beats .music-hero { color:#c0392b; -webkit-text-fill-color:#c0392b; background:none; letter-spacing:.06em; }
+  #music-page.tab-beats .music-sub { color:#444; }
+  #music-page.tab-beats .music-divider { background:#111; }
+  #music-page.tab-beats .music-tabs { border-color:#111; }
   #music-page.tab-beats .music-tab-btn { color:#444; }
-  #music-page.tab-beats .music-tab-btn:hover { color:#888; }
-  #music-page.tab-beats .track-row { border-color:#111; color:#888; padding-top:20px; padding-bottom:20px; }
-  #music-page.tab-beats .track-row:hover { background:#0f0f0f; padding-left:12px; margin:0 -12px; padding-right:12px; }
-  #music-page.tab-beats .track-title { color:#ccc; font-size:15px; letter-spacing:.04em; }
-  #music-page.tab-beats .track-meta { color:#444; }
-  #music-page.tab-beats .track-num { color:#2a2a2a; }
+  #music-page.tab-beats .music-tab-btn:hover { color:#aaa; }
+  #music-page.tab-beats .track-row { border-color:#111; padding-top:22px; padding-bottom:22px; }
+  #music-page.tab-beats .track-row:hover { background:#080808; }
+  #music-page.tab-beats .track-title { color:#fff; font-size:15px; letter-spacing:.03em; }
+  #music-page.tab-beats .track-meta { color:#555; }
   #music-page.tab-beats .track-arrow { color:#333; }
-  #music-page.tab-beats .track-row:hover .track-arrow { color:#d4a017; }
+  #music-page.tab-beats .track-row:hover .track-arrow { color:#fff; }
   #music-page.tab-beats .play-btn { border-color:#222; }
-  #music-page.tab-beats .track-row:hover .play-btn { border-color:#d4a017; background:#d4a017; }
+  #music-page.tab-beats .track-row:hover .play-btn { border-color:#c0392b; background:#c0392b; }
+  /* Beats track numbers: cycle red blue yellow */
+  #music-page.tab-beats .track-num-r { color:#c0392b; }
+  #music-page.tab-beats .track-num-b { color:#2471a3; }
+  #music-page.tab-beats .track-num-y { color:#d4ac0d; }
   #music-page.tab-beats .music-cta { color:#444; border-color:#222; }
-  #music-page.tab-beats .music-cta:hover { color:#d4a017; border-color:#d4a017; }
+  #music-page.tab-beats .music-cta:hover { color:#c0392b; border-color:#c0392b; }
   #music-page.tab-beats .music-dot { color:#222; }
 </style>
 </head>
@@ -722,7 +728,7 @@ function renderTracks(tracks) {
       : `window.open('https://open.spotify.com/track/${t.spotify}','_blank')`
     }" aria-label="Play"><svg width="9" height="11" viewBox="0 0 9 11"><path d="M1 1L8 5.5L1 10V1Z" fill="#ccc"/></svg></button>`;
     return `<a class="track-row" href="https://open.spotify.com/track/${t.spotify}" target="_blank" rel="noopener">
-      <div class="track-num">${t.num}</div>${playBtn}
+      <div class="track-num ${["track-num-r","track-num-b","track-num-y"][parseInt(t.num.replace(/^0+/,""),10) % 3 === 1 ? 0 : parseInt(t.num.replace(/^0+/,""),10) % 3 === 2 ? 1 : 2]}">${t.num}</div>${playBtn}
       <div class="track-info"><div class="track-title">${t.title}</div><div class="track-meta">${t.artist} · ${t.role}</div></div>
       <div class="track-arrow">↗</div>
     </a>`;
