@@ -402,6 +402,24 @@
   .admin-edit-row input { width: 100%; background: #111; border: 1px solid #222; color: #fff; font-family: var(--mono); font-size: 10px; padding: 6px 10px; outline: none; letter-spacing: .04em; }
   .admin-edit-row input:focus { border-color: #444; }
   .admin-edit-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .admin-drag-handle { cursor:grab; font-size:14px; color:#333; flex-shrink:0; user-select:none; transition:color .2s; padding:0 4px; }
+  .admin-drag-handle:hover { color:#888; }
+  .admin-photo-row.dragging { opacity:0.35; }
+  .admin-photo-row.drag-over { border-top:2px solid #fff; }
+  .admin-photo-thumb.hidden-thumb { opacity:0.25; filter:grayscale(1); }
+  .admin-hide-btn { font-family:var(--mono); font-size:8px; color:#333; background:none; border:1px solid #1c1c1c; padding:3px 7px; cursor:none; letter-spacing:.1em; text-transform:uppercase; transition:color .2s,border-color .2s; flex-shrink:0; }
+  .admin-hide-btn:hover { color:#888; border-color:#444; }
+  .admin-hide-btn.is-hidden { color:#c44; border-color:#422; }
+  .admin-edit-btn { font-family:var(--mono); font-size:8px; color:#333; background:none; border:1px solid #1c1c1c; padding:3px 7px; cursor:none; letter-spacing:.1em; text-transform:uppercase; transition:color .2s,border-color .2s; flex-shrink:0; }
+  .admin-edit-btn:hover { color:#fff; border-color:#fff; }
+  .admin-edit-row { display:flex; flex-direction:column; gap:8px; padding:8px 0 10px 50px; border-bottom:1px solid #111; }
+  .admin-edit-row input { width:100%; background:#111; border:1px solid #222; color:#fff; font-family:var(--mono); font-size:10px; padding:6px 10px; outline:none; }
+  .admin-edit-row input:focus { border-color:#444; }
+  .admin-edit-actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .admin-tag-suggestions { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .admin-tag-pill { font-family:var(--mono); font-size:9px; color:#444; background:none; border:1px solid #1c1c1c; padding:3px 10px; cursor:none; letter-spacing:.08em; transition:color .2s,border-color .2s; }
+  .admin-tag-pill:hover { color:#aaa; border-color:#555; }
+  .admin-tag-pill.selected { color:#fff; border-color:#fff; }
 </style>
 </head>
 <body>
@@ -438,7 +456,8 @@
         <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:8px;">Name</label>
         <input type="text" name="name" required placeholder="your name"
           style="width:100%;background:#111;border:1px solid #1c1c1c;color:#fff;font-family:var(--mono);font-size:12px;padding:11px 14px;outline:none;letter-spacing:.05em;transition:border-color .2s;"
-          onfocus="this.style.borderColor='#444'" onblur="this.style.borderColor='#1c1c1c'">
+          onfocus="this.style.borderColor='#444';loadTagSuggestions()" onblur="this.style.borderColor='#1c1c1c'">
+            <div id="tag-suggestions" class="admin-tag-suggestions"></div>
       </div>
       <div>
         <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:8px;">Email</label>
@@ -891,6 +910,8 @@ async function uploadAndSave() {
 
 let adminDragSrc = null;
 
+let adminDragSrc = null;
+
 async function loadAdminPhotos() {
   const list = document.getElementById('admin-photo-list');
   const count = document.getElementById('photo-count');
@@ -898,86 +919,120 @@ async function loadAdminPhotos() {
   try {
     const { data, error } = await sb.from('photos').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: false });
     if (error) throw error;
-    count.textContent = `(${data.length})`;
+    count.textContent = '(' + data.length + ')';
     if (data.length === 0) { list.innerHTML = '<div style="font-size:9px;color:#333;letter-spacing:.1em;">no photos yet</div>'; return; }
-    list.innerHTML = data.map((p, i) => `
-      <div class="admin-photo-row" data-id="${p.id}" data-idx="${i}" draggable="true">
-        <span class="admin-drag-handle" title="drag to reorder">⠿</span>
-        <img class="admin-photo-thumb${p.hidden ? ' hidden-thumb' : ''}" src="${p.src}" onerror="this.style.background='#222'">
-        <div class="admin-photo-info">
-          <span>${p.tags || 'no tags'}</span>
-          <span style="color:#2a2a2a;">${p.span || 'normal'}${p.hidden ? ' · hidden' : ''}</span>
-        </div>
-        <button class="admin-edit-btn" onclick="toggleEditRow(${p.id}, '${(p.tags||'').replace(/'/g,\"\\\\'\")}', '${p.span||''}')">✎ edit</button>
-        <button class="admin-hide-btn${p.hidden ? ' is-hidden' : ''}" onclick="toggleHidePhoto(${p.id}, ${!!p.hidden})">${p.hidden ? '◉ show' : '◎ hide'}</button>
-        <button class="admin-delete-btn" onclick="deletePhoto(${p.id},'${p.src}')">✕</button>
-      </div>
-      <div class="admin-edit-row" id="edit-row-${p.id}" style="display:none;">
-        <input type="text" id="edit-tags-${p.id}" value="${p.tags||''}" placeholder="tags, comma separated">
-        <div class="admin-edit-actions">
-          <button class="admin-span-btn${!p.span ? ' admin-span-active' : ''}" onclick="setEditSpan(${p.id},'')">Normal</button>
-          <button class="admin-span-btn${p.span==='span-2' ? ' admin-span-active' : ''}" onclick="setEditSpan(${p.id},'span-2')">Wide</button>
-          <button class="admin-span-btn${p.span==='tall' ? ' admin-span-active' : ''}" onclick="setEditSpan(${p.id},'tall')">Tall</button>
-          <button class="admin-btn" onclick="saveEditRow(${p.id})">Save →</button>
-          <button class="admin-delete-btn" onclick="toggleEditRow(${p.id})">Cancel</button>
-        </div>
-      </div>`).join('');
+    list.innerHTML = data.map(function(p) {
+      var hiddenClass = p.hidden ? ' hidden-thumb' : '';
+      var hideLabel = p.hidden ? '◉ show' : '◎ hide';
+      var hideBtnClass = p.hidden ? ' is-hidden' : '';
+      var spanLabel = p.span || 'normal';
+      var tags = p.tags || 'no tags';
+      var src = p.src || '';
+      var safeTags = (p.tags || '').replace(/'/g, "\'");
+      var safeSpan = (p.span || '').replace(/'/g, "\'");
+      var row = '<div class="admin-photo-row" data-id="' + p.id + '" draggable="true">';
+      row += '<span class="admin-drag-handle" title="drag to reorder">⠿</span>';
+      row += '<img class="admin-photo-thumb' + hiddenClass + '" src="' + src + '" onerror="this.style.background='#222'">';
+      row += '<div class="admin-photo-info"><span>' + tags + '</span><span style="color:#2a2a2a;">' + spanLabel + (p.hidden ? ' · hidden' : '') + '</span></div>';
+      row += '<button class="admin-edit-btn" onclick="openEditRow(' + p.id + ',\'' + safeTags + '\',\'' + safeSpan + '\')">✎ edit</button>';
+      row += '<button class="admin-hide-btn' + hideBtnClass + '" onclick="toggleHidePhoto(' + p.id + ',' + !!p.hidden + ')">' + hideLabel + '</button>';
+      row += '<button class="admin-delete-btn" onclick="deletePhoto(' + p.id + ',\'' + src + '\')">✕</button>';
+      row += '</div>';
+      row += '<div class="admin-edit-row" id="edit-row-' + p.id + '" style="display:none;">';
+      row += '<input type="text" id="edit-tags-' + p.id + '" value="' + (p.tags || '') + '" placeholder="tags, comma separated">';
+      row += '<div class="admin-edit-actions">';
+      row += '<button class="admin-span-btn' + (!p.span ? ' admin-span-active' : '') + '" onclick="setEditSpan(' + p.id + ',\'\')">Normal</button>';
+      row += '<button class="admin-span-btn' + (p.span === 'span-2' ? ' admin-span-active' : '') + '" onclick="setEditSpan(' + p.id + ',\'span-2\')">Wide</button>';
+      row += '<button class="admin-span-btn' + (p.span === 'tall' ? ' admin-span-active' : '') + '" onclick="setEditSpan(' + p.id + ',\'tall\')">Tall</button>';
+      row += '<button class="admin-btn" onclick="saveEditRow(' + p.id + ')">Save →</button>';
+      row += '<button class="admin-delete-btn" onclick="closeEditRow(' + p.id + ')">Cancel</button>';
+      row += '</div></div>';
+      return row;
+    }).join('');
 
-    // Drag-to-reorder
-    list.querySelectorAll('.admin-photo-row').forEach(row => {
-      row.addEventListener('dragstart', e => { adminDragSrc = row; row.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
-      row.addEventListener('dragend', () => { row.classList.remove('dragging'); list.querySelectorAll('.admin-photo-row').forEach(r => r.classList.remove('drag-over')); });
-      row.addEventListener('dragover', e => { e.preventDefault(); list.querySelectorAll('.admin-photo-row').forEach(r => r.classList.remove('drag-over')); row.classList.add('drag-over'); });
-      row.addEventListener('drop', async e => {
+    list.querySelectorAll('.admin-photo-row').forEach(function(row) {
+      row.addEventListener('dragstart', function(e) { adminDragSrc = row; row.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+      row.addEventListener('dragend', function() { row.classList.remove('dragging'); list.querySelectorAll('.admin-photo-row').forEach(function(r) { r.classList.remove('drag-over'); }); });
+      row.addEventListener('dragover', function(e) { e.preventDefault(); list.querySelectorAll('.admin-photo-row').forEach(function(r) { r.classList.remove('drag-over'); }); row.classList.add('drag-over'); });
+      row.addEventListener('drop', async function(e) {
         e.preventDefault();
         if (adminDragSrc === row) return;
-        // Reorder rows in DOM
-        const rows = [...list.querySelectorAll('.admin-photo-row')];
-        const srcIdx = rows.indexOf(adminDragSrc);
-        const tgtIdx = rows.indexOf(row);
-        const editSrc = document.getElementById('edit-row-' + adminDragSrc.dataset.id);
-        if (srcIdx < tgtIdx) { row.after(adminDragSrc); row.after(editSrc||adminDragSrc); } 
-        else { row.before(adminDragSrc); row.before(editSrc||adminDragSrc); }
-        // Persist new order
-        const newRows = [...list.querySelectorAll('.admin-photo-row')];
-        await Promise.all(newRows.map((r, i) => sb.from('photos').update({ sort_order: i }).eq('id', r.dataset.id)));
+        var rows = Array.from(list.querySelectorAll('.admin-photo-row'));
+        var srcIdx = rows.indexOf(adminDragSrc);
+        var tgtIdx = rows.indexOf(row);
+        var editSrc = document.getElementById('edit-row-' + adminDragSrc.dataset.id);
+        if (srcIdx < tgtIdx) { row.after(adminDragSrc); if (editSrc) row.after(editSrc); }
+        else { row.before(adminDragSrc); if (editSrc) row.before(editSrc); }
+        var newRows = Array.from(list.querySelectorAll('.admin-photo-row'));
+        for (var i = 0; i < newRows.length; i++) {
+          await sb.from('photos').update({ sort_order: i }).eq('id', newRows[i].dataset.id);
+        }
       });
     });
-    addHover('.admin-delete-btn, .admin-hide-btn, .admin-edit-btn');
+    addHover('.admin-delete-btn,.admin-hide-btn,.admin-edit-btn,.admin-drag-handle');
   } catch(err) {
-    list.innerHTML = `<div style="font-size:9px;color:#c44;">could not load photos</div>`;
+    list.innerHTML = '<div style="font-size:9px;color:#c44;">could not load photos</div>';
   }
 }
 
-function toggleEditRow(id, tags, span) {
-  const row = document.getElementById('edit-row-' + id);
-  if (!row) return;
-  row.style.display = row.style.display === 'none' ? 'flex' : 'none';
+function openEditRow(id, tags, span) {
+  var row = document.getElementById('edit-row-' + id);
+  if (row) row.style.display = 'flex';
 }
-
+function closeEditRow(id) {
+  var row = document.getElementById('edit-row-' + id);
+  if (row) row.style.display = 'none';
+}
 function setEditSpan(id, span) {
-  const row = document.getElementById('edit-row-' + id);
-  row.querySelectorAll('.admin-span-btn').forEach(b => b.classList.remove('admin-span-active'));
-  row.querySelector(`[onclick="setEditSpan(${id},'${span}')"]`).classList.add('admin-span-active');
+  var row = document.getElementById('edit-row-' + id);
+  if (!row) return;
   row.dataset.span = span;
+  row.querySelectorAll('.admin-span-btn').forEach(function(b) { b.classList.remove('admin-span-active'); });
+  var btns = row.querySelectorAll('.admin-span-btn');
+  var map = {'':'Normal','span-2':'Wide','tall':'Tall'};
+  btns.forEach(function(b) { if (b.textContent === map[span]) b.classList.add('admin-span-active'); });
 }
-
 async function saveEditRow(id) {
-  const row = document.getElementById('edit-row-' + id);
-  const tags = document.getElementById('edit-tags-' + id).value.trim();
-  const span = row.dataset.span !== undefined ? row.dataset.span : 
-    (row.querySelector('.admin-span-active')?.getAttribute('onclick')?.match(/'([^']*)')/) || [])[1] || '';
-  const { error } = await sb.from('photos').update({ tags, span }).eq('id', id);
-  if (!error) { row.style.display = 'none'; await loadPhotos(); await loadAdminPhotos(); }
-  else alert('Save failed: ' + error.message);
+  var row = document.getElementById('edit-row-' + id);
+  var tagsInput = document.getElementById('edit-tags-' + id);
+  if (!row || !tagsInput) return;
+  var tags = tagsInput.value.trim();
+  var span = row.dataset.span !== undefined ? row.dataset.span : '';
+  var result = await sb.from('photos').update({ tags: tags, span: span }).eq('id', id);
+  if (!result.error) { closeEditRow(id); await loadPhotos(); await loadAdminPhotos(); }
+  else alert('Save failed: ' + result.error.message);
 }
-
 async function toggleHidePhoto(id, isHidden) {
   await sb.from('photos').update({ hidden: !isHidden }).eq('id', id);
   await loadPhotos();
   await loadAdminPhotos();
 }
-
+function loadTagSuggestions() {
+  var input = document.getElementById('photo-tags');
+  sb.from('photos').select('tags').then(function(res) {
+    if (!res.data) return;
+    var allTags = {};
+    res.data.forEach(function(p) {
+      (p.tags || '').split(',').map(function(t) { return t.trim(); }).filter(Boolean).forEach(function(t) { allTags[t] = 1; });
+    });
+    var container = document.getElementById('tag-suggestions');
+    if (!container) return;
+    var current = input.value.split(',').map(function(t) { return t.trim(); }).filter(Boolean);
+    container.innerHTML = Object.keys(allTags).sort().map(function(tag) {
+      var sel = current.indexOf(tag) > -1 ? ' selected' : '';
+      return '<button type="button" class="admin-tag-pill' + sel + '" onclick="toggleTagPill(this,\'' + tag + '\')">' + tag + '</button>';
+    }).join('');
+    addHover('.admin-tag-pill');
+  });
+}
+function toggleTagPill(btn, tag) {
+  var input = document.getElementById('photo-tags');
+  var tags = input.value.split(',').map(function(t) { return t.trim(); }).filter(Boolean);
+  var idx = tags.indexOf(tag);
+  if (idx > -1) { tags.splice(idx, 1); btn.classList.remove('selected'); }
+  else { tags.push(tag); btn.classList.add('selected'); }
+  input.value = tags.join(', ');
+}
 async function deletePhoto(id, src) {
   if (!confirm('Delete this photo?')) return;
   try {
