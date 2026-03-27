@@ -284,7 +284,7 @@
     padding: 24px 14px 12px;
     background: linear-gradient(to top, rgba(0,0,0,.7), transparent);
     font-family: var(--mono); font-size: 9px; letter-spacing: .14em;
-    color: #555; text-transform: uppercase;
+    color: #999; text-transform: uppercase;
     opacity: 0; transition: opacity .3s;
   }
   .photo-item:hover .photo-item-label { opacity: 1; color: #aaa; }
@@ -347,7 +347,7 @@
   #admin-overlay.active { opacity: 1; pointer-events: all; }
   #admin-box { width: min(520px, 92vw); border: 1px solid #222; background: #0a0a0a; font-family: var(--mono); }
   #admin-header { padding: 20px 24px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; }
-  #admin-header span { font-size: 11px; letter-spacing: .2em; color: #555; text-transform: uppercase; }
+  #admin-header span { font-size: 11px; letter-spacing: .2em; color: #999; text-transform: uppercase; }
   #admin-close { background: none; border: none; font-family: var(--mono); font-size: 10px; color: #444; cursor: none; letter-spacing: .15em; text-transform: uppercase; transition: color .2s; }
   #admin-close:hover { color: #fff; }
   #admin-login, #admin-panel { padding: 28px 24px; }
@@ -850,10 +850,24 @@ function renderTagCloud() {
         getTagsArray(p).includes(tag) && [...activeTags].every(at => getTagsArray(p).includes(at))
       );
       const cls = active ? 'active' : (!compatible ? 'dimmed' : '');
-      return `<button class="photo-tag ${cls}" style="font-size:${size}px;" onclick="toggleTag('${tag}')">${tag}</button>`;
+      const safeTag = tag.replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+      return `<button class="photo-tag ${cls}" style="font-size:${size}px;" data-tag="${safeTag}">${tag}</button>`;
     }).join('');
   addHover('.photo-tag');
 }
+
+// Event delegation for tag cloud
+(function() {
+  const cloud = document.getElementById('tag-cloud');
+  if (cloud) {
+    cloud.addEventListener('click', function(e) {
+      const btn = e.target.closest('.photo-tag');
+      if (!btn || btn.classList.contains('dimmed')) return;
+      const tag = btn.dataset.tag || btn.textContent.trim();
+      if (tag) toggleTag(tag);
+    });
+  }
+})();
 
 function renderPhotos() {
   const masonry = document.getElementById('photo-masonry');
