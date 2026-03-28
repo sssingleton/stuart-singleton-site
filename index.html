@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://stuartsingleton.netlify.app">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23050505'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='20' fill='white' font-style='italic'>S</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamod:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -244,9 +244,9 @@
   #photos-page .page-nav { background: #070707; color: #2a2a2a; }
   #photos-page .back-btn { color: #444; }
   #photos-page .back-btn:hover { color: #fff; }
-  .photos-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: #222; text-transform: uppercase; margin-bottom: 12px; }
+  .photos-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: #999; text-transform: uppercase; margin-bottom: 12px; }
   .photos-hero { font-family: var(--display); font-size: clamp(60px,11vw,124px); color: #fff; line-height: .88; letter-spacing: .02em; margin-bottom: 6px; }
-  .photos-sub { font-family: var(--sans); font-size: 11px; font-weight: 300; color: #333; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 36px; }
+  .photos-sub { font-family: var(--sans); font-size: 11px; font-weight: 300; color: #aaa; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 36px; }
 
   /* TAG CLOUD */
   .tag-cloud {
@@ -255,7 +255,7 @@
   }
   .photo-tag {
     font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase;
-    color: #333; cursor: none; transition: color .25s, opacity .3s;
+    color: #999; cursor: none; transition: color .25s, opacity .3s;
     border: none; background: none; padding: 0; line-height: 1;
   }
   .photo-tag.active { color: #fff; }
@@ -293,16 +293,16 @@
   .photo-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; max-width: 100%; }
   .photo-link {
     font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
-    text-transform: uppercase; color: #333; text-decoration: none;
-    border-bottom: 1px solid #1c1c1c; padding-bottom: 2px;
+    text-transform: uppercase; color: #999; text-decoration: none;
+    border-bottom: 1px solid #444; padding-bottom: 2px;
     transition: color .2s, border-color .2s; cursor: none;
   }
   .photo-link:hover { color: #fff; border-color: #444; }
   .photos-ig {
     display: inline-block; margin-top: 28px;
     font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
-    color: #333; text-decoration: none; text-transform: uppercase;
-    border-bottom: 1px solid #1c1c1c; padding-bottom: 2px;
+    color: #999; text-decoration: none; text-transform: uppercase;
+    border-bottom: 1px solid #333; padding-bottom: 2px;
     transition: color .2s, border-color .2s; cursor: none;
   }
   .photos-ig:hover { color: #fff; border-color: #444; }
