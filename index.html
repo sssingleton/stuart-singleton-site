@@ -654,16 +654,6 @@
       <!-- PHOTO MASONRY -->
       <div class="photo-masonry" id="photo-masonry"></div>
 
-      <!-- PORTFOLIO LINKS -->
-      <div class="photo-links">
-        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/photography" target="_blank" rel="noopener">Full Portfolio ↗</a>
-        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/travel-1" target="_blank" rel="noopener">Travel ↗</a>
-        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/portraits-1" target="_blank" rel="noopener">Portraits ↗</a>
-        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/concerts-studios" target="_blank" rel="noopener">Concerts ↗</a>
-        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/abstract-1" target="_blank" rel="noopener">Abstract ↗</a>
-        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/nature-1" target="_blank" rel="noopener">Nature ↗</a>
-        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/food-2" target="_blank" rel="noopener">Food ↗</a>
-      </div>
 
       <a href="https://www.instagram.com/stuartsingleton.jpg" target="_blank" rel="noopener" class="photos-ig">@stuartsingleton.jpg ↗</a>
     </div>
@@ -830,6 +820,11 @@ function switchCamera(camera) {
   document.querySelectorAll('.camera-tab-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.camera === camera);
   });
+  // Update subtitle for CampSnap
+  var sub = document.getElementById('photos-locations');
+  if (sub) {
+    if (camera === 'campsnap') sub.textContent = 'my camera but not always my photos';
+  }
   // Fade out then reload
   const masonry = document.getElementById('photo-masonry');
   if (masonry) masonry.classList.add('fading');
@@ -860,6 +855,9 @@ function getTagsArray(photo) {
 
 
 function updateLocationSub() {
+  var el = document.getElementById("photos-locations");
+  if (!el) return;
+  if (currentCamera === 'campsnap') { el.textContent = 'my camera but not always my photos'; return; }
   var locs = ["nashville","brentwood","new york","los angeles","paris","monte carlo","versailles","washington dc","san juan","cannes","london","tokyo","beaulieu sur mer","villefranche sur mer"];
   var found = [];
   PHOTOS.forEach(function(p) {
@@ -868,8 +866,7 @@ function updateLocationSub() {
       if (locs.indexOf(t) > -1 && found.indexOf(t) === -1) found.push(t);
     });
   });
-  var el = document.getElementById("photos-locations");
-  if (el && found.length) el.textContent = found.join(" - ");
+  if (found.length) el.textContent = found.join(" - ");
 }
 function renderTagCloud() {
   const tagCount = {};
@@ -1001,6 +998,7 @@ async function uploadAndSave() {
     document.getElementById("photo-file-input").value = "";
     document.getElementById("selected-file-name").textContent = "";
     document.getElementById("photo-tags").value = "";
+    showTagSuggestions();
     document.getElementById("photo-meta").style.display = "none";
     selectSpan(document.querySelector("[data-span=\"\"]"), "");
     await loadPhotos();
