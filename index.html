@@ -8,10 +8,10 @@
 <meta property="og:title" content="Stuart Singleton">
 <meta property="og:description" content="Songwriter · Producer · Nashville TN">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://stuartsingleton.netlify.app">
+<meta property="og:url" content="https://stuartsingleton.com">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23050505'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='20' fill='white' font-style='italic'>S</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamod:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -52,10 +52,10 @@
   .screen {
     position: fixed; inset: 0;
     display: flex; flex-direction: column;
-    transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1);
+    transition: opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1), filter .6s;
     z-index: 1;
   }
-  .screen.hidden { opacity: 0; pointer-events: none; transform: scale(1.025); z-index: 0; }
+  .screen.hidden { opacity: 0; pointer-events: none; transform: scale(1.02); z-index: 0; filter: blur(4px); }
   .screen.gone { display: none; }
 
   /* LANDING */
@@ -67,11 +67,11 @@
   }
   .term-line {
     font-family: var(--mono); font-size: clamp(10px,1.3vw,12px);
-    color: #444; letter-spacing: .05em; line-height: 1.8;
+    color: #555; letter-spacing: .05em; line-height: 1.8;
     opacity: 0; animation: fadeIn .3s forwards;
   }
-  .term-line.bright { color: #777; }
-  .term-line.prompt { color: #2a2a2a; }
+  .term-line.bright { color: #8a8a8a; }
+  .term-line.prompt { color: #333; }
   @keyframes fadeIn { to { opacity: 1; } }
   .term-name {
     font-family: var(--display);
@@ -85,29 +85,30 @@
     to   { opacity: 1; clip-path: inset(0 0% 0 0); }
   }
   .choose-label {
-    font-family: var(--mono); font-size: 10px; color: #666;
+    font-family: var(--mono); font-size: 10px; color: #555;
     letter-spacing: .22em; text-transform: uppercase;
-    margin-bottom: 16px; opacity: 0; animation: fadeIn .4s 1.7s forwards;
+    margin-bottom: 18px; opacity: 0; animation: fadeIn .4s 1.7s forwards;
   }
   .choices { display: flex; gap: 0; opacity: 0; animation: fadeIn .6s 1.9s forwards; }
   .choice-btn {
     position: relative; font-family: var(--mono);
     font-size: clamp(10px,1.3vw,11px); letter-spacing: .14em;
-    text-transform: uppercase; padding: 13px 26px;
-    background: transparent; border: 1px solid #1c1c1c;
-    color: #999; cursor: none; transition: border-color .3s; overflow: hidden;
+    text-transform: uppercase; padding: 14px 28px;
+    background: transparent; border: 1px solid #222;
+    color: #999; cursor: none; transition: border-color .3s, transform .2s; overflow: hidden;
   }
   .choice-btn::before {
     content: ''; position: absolute; inset: 0; background: #fff;
     transform: scaleX(0); transform-origin: left;
-    transition: transform .4s cubic-bezier(.16,1,.3,1); z-index: 0;
+    transition: transform .45s cubic-bezier(.16,1,.3,1); z-index: 0;
   }
   .choice-btn span { position: relative; z-index: 1; transition: color .35s; }
   .choice-btn:hover::before { transform: scaleX(1); }
-  .choice-btn:hover span { color: #000; }
-  .choice-btn:hover { border-color: #fff; }
-  .choice-btn .prefix { color: #666; margin-right: 7px; transition: color .35s; }
-  .choice-btn:hover .prefix { color: #000; }
+  .choice-btn:hover span { color: #050505; }
+  .choice-btn:hover { border-color: #fff; transform: translateY(-1px); }
+  .choice-btn:active { transform: translateY(0); }
+  .choice-btn .prefix { color: #555; margin-right: 7px; transition: color .35s; }
+  .choice-btn:hover .prefix { color: #050505; }
   .blink {
     display: inline-block; width: 7px; height: 13px;
     background: #fff; vertical-align: middle; margin-left: 4px;
@@ -119,13 +120,13 @@
   .contact-btn {
     display: inline-block; margin-top: 20px;
     font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
-    text-transform: uppercase; color: #2a2a2a; text-decoration: none;
-    border: 1px solid #1c1c1c; padding: 8px 16px;
-    transition: color .2s, border-color .2s; cursor: none;
+    text-transform: uppercase; color: #444; text-decoration: none;
+    border: 1px solid #222; padding: 8px 16px;
+    transition: color .25s, border-color .25s, transform .2s; cursor: none;
     opacity: 0; animation: fadeIn .4s 2.5s forwards;
     background: transparent;
   }
-  .contact-btn:hover { color: #fff; border-color: #fff; }
+  .contact-btn:hover { color: #fff; border-color: #fff; transform: translateY(-1px); }
 
   /* SHARED PAGE STRUCTURE */
   .page-inner {
@@ -147,24 +148,26 @@
   .back-btn {
     background: none; border: none; font-family: var(--mono);
     font-size: 10px; letter-spacing: .16em; cursor: none;
-    text-transform: uppercase; transition: color .2s, letter-spacing .2s;
+    text-transform: uppercase; transition: color .25s, letter-spacing .25s, transform .25s;
     text-decoration: none; padding: 10px 0; margin: -10px 0;
   }
-  .back-btn:hover { letter-spacing: .22em; }
+  .back-btn:hover { letter-spacing: .2em; transform: translateX(-2px); }
 
   /* PAGE ENTER */
   .page-enter .page-nav,
   .page-enter .page-content > * {
-    opacity: 0; transform: translateY(18px);
-    animation: pageIn .65s cubic-bezier(.16,1,.3,1) forwards;
+    opacity: 0; transform: translateY(20px); filter: blur(2px);
+    animation: pageIn .7s cubic-bezier(.16,1,.3,1) forwards;
   }
-  .page-enter .page-nav { animation-delay: .04s; }
+  .page-enter .page-nav { animation-delay: .06s; }
   .page-enter .page-content > *:nth-child(1) { animation-delay: .12s; }
-  .page-enter .page-content > *:nth-child(2) { animation-delay: .20s; }
+  .page-enter .page-content > *:nth-child(2) { animation-delay: .2s; }
   .page-enter .page-content > *:nth-child(3) { animation-delay: .28s; }
   .page-enter .page-content > *:nth-child(4) { animation-delay: .36s; }
   .page-enter .page-content > *:nth-child(5) { animation-delay: .44s; }
-  @keyframes pageIn { to { opacity:1; transform:none; } }
+  .page-enter .page-content > *:nth-child(6) { animation-delay: .52s; }
+  .page-enter .page-content > *:nth-child(7) { animation-delay: .6s; }
+  @keyframes pageIn { to { opacity:1; transform:none; filter:none; } }
   #lab-page.page-enter .page-nav,
   #lab-page.page-enter .page-content > * { animation-name: labIn; }
   @keyframes labIn {
@@ -192,10 +195,11 @@
   .track-row {
     display: flex; align-items: center; gap: 18px;
     padding: 15px 0; border-bottom: 1px solid #eae6e1;
-    font-family: var(--sans); transition: all .22s; cursor: none;
+    font-family: var(--sans); transition: all .22s cubic-bezier(.16,1,.3,1); cursor: none;
     position: relative; text-decoration: none; color: inherit;
+    border-radius: 4px;
   }
-  .track-row:hover { padding-left: 8px; background: #eeecea; margin: 0 -8px; padding-right: 8px; }
+  .track-row:hover { padding-left: 10px; background: #eeecea; margin: 0 -10px; padding-right: 10px; }
   /* Hover color matches track number — songs tab */
   .track-row.color-r:hover { background: rgba(192,57,43,0.07) !important; }
   .track-row.color-b:hover { background: rgba(36,113,163,0.07) !important; }
@@ -244,14 +248,15 @@
   #photos-page .page-nav { background: #070707; color: #2a2a2a; }
   #photos-page .back-btn { color: #444; }
   #photos-page .back-btn:hover { color: #fff; }
-  .photos-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: #999; text-transform: uppercase; margin-bottom: 12px; }
-  .photos-hero { font-family: var(--display); font-size: clamp(60px,11vw,124px); color: #fff; line-height: .88; letter-spacing: .02em; margin-bottom: 6px; }
-  .photos-sub { font-family: var(--sans); font-size: 11px; font-weight: 300; color: #aaa; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 36px; }
+  .photos-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: #666; text-transform: uppercase; margin-bottom: 12px; }
+  .photos-hero { font-family: var(--display); font-size: clamp(60px,11vw,124px); color: #fff; line-height: .88; letter-spacing: .02em; margin-bottom: 8px; }
+  .photos-sub { font-family: var(--sans); font-size: 11px; font-weight: 400; color: #777; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 28px; }
 
   /* TAG CLOUD */
   .tag-cloud {
     display: flex; flex-wrap: wrap; gap: 10px 14px;
-    max-width: 100%; margin-bottom: 48px; align-items: baseline; justify-content: center;
+    width: 100%; max-width: 100%; margin-bottom: 48px; align-items: baseline;
+    justify-content: center; text-align: center;
   }
   .photo-tag {
     font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase;
@@ -261,23 +266,53 @@
   .photo-tag.active { color: #fff; }
   .photo-tag.dimmed { opacity: 0.15; pointer-events: none; }
 
+  /* CAMERA TABS */
+  .camera-tabs {
+    display: flex; gap: 0; margin-bottom: 32px; border-bottom: 1px solid #1a1a1a;
+  }
+  .camera-tab-btn {
+    font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+    text-transform: uppercase; padding: 10px 24px;
+    background: transparent; border: none; border-bottom: 2px solid transparent;
+    color: #444; cursor: none; transition: color .25s, border-color .25s;
+    margin-bottom: -1px; position: relative;
+  }
+  .camera-tab-btn:hover { color: #888; }
+  .camera-tab-btn.active { color: #fff; border-color: #fff; }
+
   /* PHOTO GRID - CSS columns */
   .photo-masonry {
     columns: 180px;
     column-gap: 2px;
     width: 100%;
     max-width: 100%;
+    transition: opacity .35s ease;
   }
+  .photo-masonry.fading { opacity: 0; }
   .photo-item {
     position: relative; overflow: hidden; cursor: none;
     background: #111;
-    transition: opacity .4s;
+    transition: opacity .4s, transform .4s;
     display: inline-block; width: 100%; break-inside: avoid; margin-bottom: 2px; vertical-align: top;
+    opacity: 0; transform: translateY(12px);
+    animation: photoReveal .5s ease forwards;
   }
+  @keyframes photoReveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .photo-item:nth-child(1) { animation-delay: 0s; }
+  .photo-item:nth-child(2) { animation-delay: .04s; }
+  .photo-item:nth-child(3) { animation-delay: .08s; }
+  .photo-item:nth-child(4) { animation-delay: .12s; }
+  .photo-item:nth-child(5) { animation-delay: .16s; }
+  .photo-item:nth-child(6) { animation-delay: .2s; }
+  .photo-item:nth-child(7) { animation-delay: .24s; }
+  .photo-item:nth-child(8) { animation-delay: .28s; }
+  .photo-item:nth-child(n+9) { animation-delay: .32s; }
   .photo-item.hidden-photo { opacity: 0; pointer-events: none; }
   .photo-item.span-2 { grid-column: span 2; }
   .photo-item.tall { grid-row: span 2; }
-  .photo-item img { width: 100%; height: auto; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1), filter .4s; filter: grayscale(15%); display: block; }
+  .photo-item img { width: 100%; height: auto; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1), filter .4s; filter: grayscale(15%); }
   .photo-item:hover img { transform: scale(1.04); filter: grayscale(0%); }
   .photo-item-label {
     position: absolute; bottom: 0; left: 0; right: 0;
@@ -317,7 +352,8 @@
   .lab-hero { position: relative; z-index: 1; font-family: var(--display); font-size: clamp(68px,13vw,144px); color: #4cff6a; line-height: .88; letter-spacing: .02em; text-shadow: 0 0 60px rgba(76,255,106,.25); margin-bottom: 6px; }
   .lab-sub { position: relative; z-index: 1; font-family: var(--mono); font-size: 10px; color: #1e5228; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 52px; }
   .lab-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 1px; width: 100%; max-width: 800px; outline: 1px solid #071a0c; }
-  .lab-card { background: #010f05; padding: 32px 28px 28px; cursor: none; transition: background .28s; position: relative; overflow: hidden; text-decoration: none; display: block; border-top: 1px solid #071a0c; }
+  .lab-card { background: #010f05; padding: 32px 28px 28px; cursor: none; transition: background .28s, transform .28s; position: relative; overflow: hidden; text-decoration: none; display: block; border-top: 1px solid #071a0c; }
+  .lab-card:hover { transform: translateY(-2px); }
   .lab-card::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: rgba(76,255,106,.15); top: -2px; transition: top .6s cubic-bezier(.16,1,.3,1); }
   .lab-card:hover::after { top: 110%; }
   .lab-card:hover { background: #011508; }
@@ -347,13 +383,13 @@
   #admin-overlay.active { opacity: 1; pointer-events: all; }
   #admin-box { width: min(520px, 92vw); border: 1px solid #222; background: #0a0a0a; font-family: var(--mono); }
   #admin-header { padding: 20px 24px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; }
-  #admin-header span { font-size: 11px; letter-spacing: .2em; color: #999; text-transform: uppercase; }
+  #admin-header span { font-size: 11px; letter-spacing: .2em; color: #555; text-transform: uppercase; }
   #admin-close { background: none; border: none; font-family: var(--mono); font-size: 10px; color: #444; cursor: none; letter-spacing: .15em; text-transform: uppercase; transition: color .2s; }
   #admin-close:hover { color: #fff; }
   #admin-login, #admin-panel { padding: 28px 24px; }
   #admin-login label { display: block; font-size: 9px; letter-spacing: .2em; color: #444; text-transform: uppercase; margin-bottom: 8px; }
-  #admin-password { width: 100%; background: #111; border: 1px solid #222; color: #fff; font-family: var(--mono); font-size: 13px; padding: 12px 14px; outline: none; letter-spacing: .08em; transition: border-color .2s; }
-  #admin-password:focus { border-color: #444; }
+  #admin-email, #admin-password { width: 100%; background: #111; border: 1px solid #222; color: #fff; font-family: var(--mono); font-size: 13px; padding: 12px 14px; outline: none; letter-spacing: .08em; transition: border-color .2s; }
+  #admin-email:focus, #admin-password:focus { border-color: #444; }
   #admin-login-btn { margin-top: 16px; width: 100%; padding: 12px; background: transparent; border: 1px solid #333; color: #666; font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; cursor: none; transition: all .2s; }
   #admin-login-btn:hover { border-color: #fff; color: #fff; }
   #admin-error { font-size: 9px; color: #c44; letter-spacing: .1em; margin-top: 10px; min-height: 14px; }
@@ -378,10 +414,31 @@
   .admin-delete-btn { font-family: var(--mono); font-size: 9px; color: #333; background: none; border: none; cursor: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; flex-shrink: 0; }
   .admin-delete-btn:hover { color: #c44; }
 
+  /* REDUCED MOTION */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .screen.hidden { filter: none; transform: none; }
+  }
+
   @media (max-width:600px) {
     .choices { flex-direction: column; }
-    .photo-masonry { grid-template-columns: repeat(2,1fr); grid-auto-rows: 140px; }
+    .photo-masonry { columns: 2 !important; max-width: 100% !important; margin: 0 !important; }
     .lab-grid { grid-template-columns: 1fr; }
+    .camera-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .camera-tabs::-webkit-scrollbar { display: none; }
+    .camera-tab-btn { white-space: nowrap; padding: 10px 16px; font-size: 9px; }
+    .tag-cloud { gap: 8px 10px; }
+    .photo-tag { font-size: 10px !important; }
+    .photos-hero { font-size: clamp(48px,14vw,80px); }
+  }
+
+  @media (max-width:768px) {
+    .track-row { gap: 12px; }
+    .track-title { font-size: 12px; }
   }
   .admin-drag-handle{cursor:grab;font-size:14px;color:#333;flex-shrink:0;user-select:none;padding:0 4px;transition:color .2s}
   .admin-drag-handle:hover{color:#888}
@@ -508,62 +565,14 @@
       <button id="admin-close" onclick="closeAdmin()">✕ close</button>
     </div>
     <div id="admin-login">
-      <label>Password</label>
-      <input type="password" id="admin-password" placeholder="enter password" autocomplete="off">
+      <label>Email</label>
+      <input type="email" id="admin-email" placeholder="email" autocomplete="email" value="stuartssingleton@gmail.com">
+      <label style="margin-top:12px;">Password</label>
+      <input type="password" id="admin-password" placeholder="enter password" autocomplete="current-password">
       <button id="admin-login-btn" onclick="adminLogin()">Authenticate →</button>
       <div id="admin-error"></div>
     </div>
-    <div id="admin-panel" style="display:none;">
-
-      <!-- UPLOAD SECTION -->
-      <div class="admin-section">
-        <div class="admin-section-title">Add Photo</div>
-        <div class="admin-upload-area" id="upload-area">
-          <p id="upload-area-label">Drag & drop or click to select</p>
-          <input type="file" id="photo-file-input" accept="image/*" onchange="handleFileSelect(this)">
-          <button class="admin-btn" onclick="document.getElementById('photo-file-input').click()">Select File</button>
-        </div>
-        <div id="selected-file-name" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:8px;min-height:14px;"></div>
-
-        <!-- Tags + Span inputs — shown after file selected -->
-        <div id="photo-meta" style="display:none;margin-top:16px;display:flex;flex-direction:column;gap:12px;">
-          <div>
-            <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Tags <span style="color:#2a2a2a;">(comma separated)</span></label>
-            <input type="text" id="photo-tags" placeholder="travel, night, europe, color"
-              style="width:100%;background:#111;border:1px solid #1c1c1c;color:#fff;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;"
-              onfocus="this.style.borderColor='#444'" onblur="this.style.borderColor='#1c1c1c'">
-          </div>
-          <div>
-            <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Grid Size</label>
-            <div style="display:flex;gap:8px;">
-              <button class="admin-span-btn admin-span-active" data-span="" onclick="selectSpan(this,'')">Normal</button>
-              <button class="admin-span-btn" data-span="span-2" onclick="selectSpan(this,'span-2')">Wide</button>
-              <button class="admin-span-btn" data-span="tall" onclick="selectSpan(this,'tall')">Tall</button>
-            </div>
-          </div>
-          <button class="admin-btn" onclick="uploadAndSave()" id="save-photo-btn" style="margin-top:4px;">Upload & Save →</button>
-        </div>
-        <div id="upload-status" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:10px;min-height:14px;"></div>
-      </div>
-
-      <!-- PHOTO LIST -->
-      <div class="admin-section">
-        <div class="admin-section-title">Manage Photos <span id="photo-count" style="color:#2a2a2a;"></span></div>
-        <div id="admin-photo-list" style="display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;"></div>
-      </div>
-
-      <!-- QUICK LINKS -->
-      <div class="admin-section">
-        <div class="admin-section-title">Quick Links</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="https://github.com" target="_blank" class="admin-btn" style="text-decoration:none;">GitHub ↗</a>
-          <a href="https://zbcdeglxwrappriwpxwt.supabase.co" target="_blank" class="admin-btn" style="text-decoration:none;">Supabase ↗</a>
-          <a href="https://app.netlify.com" target="_blank" class="admin-btn" style="text-decoration:none;">Netlify ↗</a>
-        </div>
-      </div>
-
-      <button id="admin-logout" onclick="adminLogout()">Sign Out</button>
-    </div>
+    <div id="admin-panel"></div>
   </div>
 </div>
 
@@ -585,10 +594,10 @@
     <div class="term-line" style="animation-delay:2.2s;margin-top:22px;color:#1a1a1a;"><span class="blink"></span></div>
     <div style="display:flex;align-items:center;gap:20px;margin-top:28px;opacity:0;animation:fadeIn .4s 2.4s forwards;">
       <a href="https://www.instagram.com/stuartsingleton" target="_blank" rel="noopener"
-         style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:#2a2a2a;text-decoration:none;text-transform:uppercase;transition:color .2s;"
-         onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">@stuartsingleton ↗</a>
-      <span style="color:#1c1c1c;font-size:10px;">·</span>
-      <button onclick="openContact()" style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:#2a2a2a;text-transform:uppercase;border:1px solid #1c1c1c;padding:6px 14px;transition:color .2s,border-color .2s;background:none;cursor:none;" onmouseenter="cursor.classList.add('hover');this.style.color='#fff';this.style.borderColor='#fff'" onmouseleave="cursor.classList.remove('hover');this.style.color='#2a2a2a';this.style.borderColor='#1c1c1c'">contact</button>
+         style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:#444;text-decoration:none;text-transform:uppercase;transition:color .25s;"
+         onmouseenter="cursor.classList.add('hover');this.style.color='#fff'" onmouseleave="cursor.classList.remove('hover');this.style.color='#444'">@stuartsingleton ↗</a>
+      <span style="color:#222;font-size:10px;">·</span>
+      <button onclick="openContact()" style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:#444;text-transform:uppercase;border:1px solid #222;padding:6px 14px;transition:color .25s,border-color .25s,transform .2s;background:none;cursor:none;" onmouseenter="cursor.classList.add('hover');this.style.color='#fff';this.style.borderColor='#fff';this.style.transform='translateY(-1px)'" onmouseleave="cursor.classList.remove('hover');this.style.color='#444';this.style.borderColor='#222';this.style.transform=''">contact</button>
     </div>
   </div>
 </div>
@@ -632,6 +641,13 @@
       <div class="photos-eyebrow">Stuart Singleton</div>
       <div class="photos-hero">PHOTOS</div>
       <div class="photos-sub" id="photos-locations">nashville · brentwood · on the road</div>
+
+      <!-- CAMERA TABS -->
+      <div class="camera-tabs">
+        <button class="camera-tab-btn active" data-camera="fujifilm" onclick="switchCamera('fujifilm')">Fujifilm X-T5</button>
+        <button class="camera-tab-btn" data-camera="nomo" onclick="switchCamera('nomo')">NOMO</button>
+        <button class="camera-tab-btn" data-camera="campsnap" onclick="switchCamera('campsnap')">CAMPSNAP</button>
+      </div>
 
       <!-- TAG CLOUD -->
       <div class="tag-cloud" id="tag-cloud"></div>
@@ -791,22 +807,43 @@ function switchMusicTab(tab) {
 renderTracks(TRACKS);
 
 // ══ PHOTOS WITH TAG FILTER ══
-// ══ PHOTOS — load from Supabase, fallback to hardcoded ══
-const FALLBACK_PHOTOS = [
-  { src:'photos/DSCF6705.jpg',               tags:'travel,architecture,black & white,europe', span:'span-2' },
-  { src:'photos/DSCF8189.jpg',               tags:'travel,night,black & white,europe,france', span:'tall' },
-  { src:'photos/DSCF8085.jpg',               tags:'travel,night,europe,france,color',         span:'' },
-  { src:'photos/amanda_shires_at_browns.jpg', tags:'concerts,portraits,nashville,music',       span:'' },
-];
+// ══ PHOTOS — load from Supabase ══
+const FALLBACK_PHOTOS = [];
 
 let PHOTOS = [];
 let activeTags = new Set();
 let selectedFile = null;
 let selectedSpan = '';
+let currentCamera = 'fujifilm';
+
+// Camera tab tables
+const CAMERA_TABLES = {
+  fujifilm: 'photos',
+  nomo: 'photos_nomo',
+  campsnap: 'photos_campsnap'
+};
+
+function switchCamera(camera) {
+  if (camera === currentCamera) return;
+  currentCamera = camera;
+  activeTags.clear();
+  // Update active tab
+  document.querySelectorAll('.camera-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.camera === camera);
+  });
+  // Fade out then reload
+  const masonry = document.getElementById('photo-masonry');
+  if (masonry) masonry.classList.add('fading');
+  setTimeout(() => {
+    loadPhotos();
+    if (masonry) masonry.classList.remove('fading');
+  }, 300);
+}
 
 async function loadPhotos() {
+  const table = CAMERA_TABLES[currentCamera] || 'photos';
   try {
-    const { data, error } = await sb.from('photos').select('*').eq('hidden', false).order('sort_order', { ascending: true }).order('created_at', { ascending: false });
+    const { data, error } = await sb.from(table).select('*').eq('hidden', false).order('sort_order', { ascending: true }).order('created_at', { ascending: false });
     if (error || !data || data.length === 0) throw new Error('empty');
     PHOTOS = data.map(p => ({ ...p, tags: p.tags || '' }));
   } catch {
@@ -856,7 +893,7 @@ function renderTagCloud() {
   addHover('.photo-tag');
 }
 
-// Event delegation for tag cloud
+// Event delegation for tag cloud — handles all tag clicks robustly
 (function() {
   const cloud = document.getElementById('tag-cloud');
   if (cloud) {
@@ -873,18 +910,36 @@ function renderPhotos() {
   const masonry = document.getElementById('photo-masonry');
   if (!masonry) return;
   const visible = [];
-  const hidden = [];
   PHOTOS.forEach(p => {
     const tags = getTagsArray(p);
     const match = activeTags.size === 0 || [...activeTags].every(t => tags.includes(t));
-    const el = `<div class="photo-item ${p.span||''}${match ? '' : ' hidden-photo'}">
+    if (match) {
+      visible.push(`<div class="photo-item ${p.span||''}">
       <img src="${p.src}" alt="${tags[0]||''}" loading="lazy" onerror="this.parentElement.style.background='#111';this.style.display='none'">
       <div class="photo-item-label">${tags.join(' · ')}</div>
-    </div>`;
-    if (match) visible.push(el);
-    else hidden.push(el);
+    </div>`);
+    }
   });
-  masonry.innerHTML = [...visible, ...hidden].join('');
+  masonry.innerHTML = visible.join('');
+  // Center filtered results by adjusting columns intelligently
+  const count = visible.length;
+  if (activeTags.size > 0 && count <= 2) {
+    masonry.style.columns = 'auto 2';
+    masonry.style.maxWidth = '400px';
+    masonry.style.margin = '0 auto';
+  } else if (activeTags.size > 0 && count <= 5) {
+    masonry.style.columns = 'auto 3';
+    masonry.style.maxWidth = '600px';
+    masonry.style.margin = '0 auto';
+  } else if (activeTags.size > 0 && count <= 10) {
+    masonry.style.columns = '180px';
+    masonry.style.maxWidth = '800px';
+    masonry.style.margin = '0 auto';
+  } else {
+    masonry.style.columns = '180px';
+    masonry.style.maxWidth = '100%';
+    masonry.style.margin = '0';
+  }
 }
 
 function toggleTag(tag) {
@@ -931,15 +986,17 @@ async function uploadAndSave() {
   if (!tags) { status.style.color="#c44"; status.textContent="add at least one tag"; return; }
   btn.textContent = "Uploading..."; status.textContent = "";
   var ext = selectedFile.name.split(".").pop();
+  var table = CAMERA_TABLES[currentCamera] || 'photos';
+  var storageBucket = currentCamera === 'fujifilm' ? 'photos' : 'photos-' + currentCamera;
   var filename = "photo_" + Date.now() + "." + ext;
   try {
-    var storageResult = await sb.storage.from("photos").upload(filename, selectedFile, { contentType: selectedFile.type });
+    var storageResult = await sb.storage.from(storageBucket).upload(filename, selectedFile, { contentType: selectedFile.type });
     if (storageResult.error) throw storageResult.error;
-    var urlData = sb.storage.from("photos").getPublicUrl(filename);
+    var urlData = sb.storage.from(storageBucket).getPublicUrl(filename);
     var src = urlData.data.publicUrl;
-    var dbResult = await sb.from("photos").insert({ src: src, tags: tags, span: selectedSpan });
+    var dbResult = await sb.from(table).insert({ src: src, tags: tags, span: selectedSpan });
     if (dbResult.error) throw dbResult.error;
-    status.style.color="#4a8"; status.textContent="photo saved";
+    status.style.color="#4a8"; status.textContent="photo saved to " + currentCamera;
     btn.textContent="Upload & Save ->";
     selectedFile = null;
     document.getElementById("photo-file-input").value = "";
@@ -959,8 +1016,9 @@ async function loadAdminPhotos() {
   var list = document.getElementById("admin-photo-list");
   var count = document.getElementById("photo-count");
   if (!list) return;
+  var table = CAMERA_TABLES[currentCamera] || 'photos';
   try {
-    var res = await sb.from("photos").select("*").order("sort_order", {ascending:true}).order("created_at", {ascending:false});
+    var res = await sb.from(table).select("*").order("sort_order", {ascending:true}).order("created_at", {ascending:false});
     if (res.error) throw res.error;
     var data = res.data || [];
     count.textContent = "(" + data.length + ")";
@@ -1008,20 +1066,24 @@ async function loadAdminPhotos() {
         if (!er) return;
         var tags = document.getElementById("et"+id).value.trim();
         var span = er.dataset.chosenSpan !== undefined ? er.dataset.chosenSpan : btn.closest(".admin-photo-row").dataset.span;
-        sb.from("photos").update({tags:tags, span:span}).eq("id",id).then(function(res){
+        var tbl = CAMERA_TABLES[currentCamera] || 'photos';
+        sb.from(tbl).update({tags:tags, span:span}).eq("id",id).then(function(res){
           if (res.error){alert("Save failed");return;}
           er.style.display="none";
           loadPhotos(); loadAdminPhotos();
         });
       } else if (act === "hide") {
         var isH = btn.dataset.hidden==="true";
-        sb.from("photos").update({hidden:!isH}).eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
+        var tbl = CAMERA_TABLES[currentCamera] || 'photos';
+        sb.from(tbl).update({hidden:!isH}).eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
       } else if (act === "del") {
         if (!confirm("Delete this photo?")) return;
         var src = btn.dataset.src;
         var fn = src.split("/").pop();
-        sb.storage.from("photos").remove([fn]).then(function(){
-          sb.from("photos").delete().eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
+        var tbl = CAMERA_TABLES[currentCamera] || 'photos';
+        var bucket = currentCamera === 'fujifilm' ? 'photos' : 'photos-' + currentCamera;
+        sb.storage.from(bucket).remove([fn]).then(function(){
+          sb.from(tbl).delete().eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
         });
       }
     };
@@ -1037,7 +1099,8 @@ async function loadAdminPhotos() {
         var esr=document.getElementById("er"+adminDragSrc.dataset.id);
         if(si<ti){row.after(adminDragSrc);if(esr)row.after(esr);}else{row.before(adminDragSrc);if(esr)row.before(esr);}
         var nr=Array.from(list.querySelectorAll(".admin-photo-row"));
-        for(var i=0;i<nr.length;i++){await sb.from("photos").update({sort_order:i}).eq("id",nr[i].dataset.id);}
+        var tbl=CAMERA_TABLES[currentCamera]||'photos';
+        for(var i=0;i<nr.length;i++){await sb.from(tbl).update({sort_order:i}).eq("id",nr[i].dataset.id);}
       });
     });
     addHover(".admin-delete-btn,.admin-hide-btn,.admin-edit-btn,.admin-drag-handle");
@@ -1048,7 +1111,8 @@ async function loadAdminPhotos() {
 function showTagSuggestions() {
   var input = document.getElementById("photo-tags");
   if (!input) return;
-  sb.from("photos").select("tags").then(function(res) {
+  var tbl = CAMERA_TABLES[currentCamera] || 'photos';
+  sb.from(tbl).select("tags").then(function(res) {
     if (!res.data) return;
     var all = {};
     res.data.forEach(function(p){(p.tags||"").split(",").forEach(function(t){t=t.trim();if(t)all[t]=1;});});
@@ -1097,7 +1161,7 @@ function addHover(sel) {
     el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
   });
 }
-addHover('button, .choice-btn, .track-row, .photo-item, .photo-tag, .photo-link, .photos-ig, .lab-card, .back-btn, .music-cta, .admin-btn, #admin-login-btn, #admin-close, #admin-logout, #yt-modal-close, a');
+addHover('button, .choice-btn, .track-row, .photo-item, .photo-tag, .photo-link, .photos-ig, .lab-card, .back-btn, .music-cta, .admin-btn, #admin-login-btn, #admin-close, #admin-logout, #yt-modal-close, .camera-tab-btn, a');
 
 // ══ SECRET ADMIN TRIGGER ══
 let adminBuffer = '';
@@ -1111,37 +1175,109 @@ document.addEventListener('keydown', e => {
 });
 
 // ══ ADMIN ══
-const ADMIN_PASS = 'newcake2025';
 let adminAuthed = false;
-function openAdmin() {
-  document.getElementById('admin-overlay').classList.add('active');
-  if (adminAuthed) {
-    document.getElementById('admin-login').style.display='none';
-    document.getElementById('admin-panel').style.display='block';
-    loadAdminPhotos();
+function getAdminPanelHTML() {
+  return `
+      <div class="admin-section">
+        <div class="admin-section-title">Add Photo <span id="admin-camera-label" style="color:#4a8;"></span></div>
+        <div class="admin-upload-area" id="upload-area">
+          <p id="upload-area-label">Drag & drop or click to select</p>
+          <input type="file" id="photo-file-input" accept="image/*" onchange="handleFileSelect(this)" style="display:none">
+          <button class="admin-btn" onclick="document.getElementById('photo-file-input').click()">Select File</button>
+        </div>
+        <div id="selected-file-name" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:8px;min-height:14px;"></div>
+        <div id="photo-meta" style="display:none;margin-top:16px;display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Tags <span style="color:#2a2a2a;">(comma separated)</span></label>
+            <input type="text" id="photo-tags" placeholder="travel, night, europe, color"
+              style="width:100%;background:#111;border:1px solid #1c1c1c;color:#fff;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;"
+              onfocus="this.style.borderColor='#444'" onblur="this.style.borderColor='#1c1c1c'">
+          </div>
+          <div>
+            <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Grid Size</label>
+            <div style="display:flex;gap:8px;">
+              <button class="admin-span-btn admin-span-active" data-span="" onclick="selectSpan(this,'')">Normal</button>
+              <button class="admin-span-btn" data-span="span-2" onclick="selectSpan(this,'span-2')">Wide</button>
+              <button class="admin-span-btn" data-span="tall" onclick="selectSpan(this,'tall')">Tall</button>
+            </div>
+          </div>
+          <button class="admin-btn" onclick="uploadAndSave()" id="save-photo-btn" style="margin-top:4px;">Upload & Save →</button>
+        </div>
+        <div id="upload-status" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:10px;min-height:14px;"></div>
+      </div>
+      <div class="admin-section">
+        <div class="admin-section-title">Manage Photos <span id="photo-count" style="color:#2a2a2a;"></span></div>
+        <div id="admin-photo-list" style="display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;"></div>
+      </div>
+      <div class="admin-section">
+        <div class="admin-section-title">Quick Links</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="https://github.com/sssingleton/stuart-singleton-site" target="_blank" class="admin-btn" style="text-decoration:none;">GitHub ↗</a>
+          <a href="https://supabase.com/dashboard/project/zbcdeglxwrappriwpxwt" target="_blank" class="admin-btn" style="text-decoration:none;">Supabase ↗</a>
+          <a href="https://vercel.com" target="_blank" class="admin-btn" style="text-decoration:none;">Vercel ↗</a>
+        </div>
+      </div>
+      <button id="admin-logout" onclick="adminLogout()">Sign Out</button>`;
+}
+function showAdminPanel() {
+  const panel = document.getElementById('admin-panel');
+  panel.innerHTML = getAdminPanelHTML();
+  panel.style.display = 'block';
+  document.getElementById('admin-login').style.display = 'none';
+  updateAdminCameraLabel();
+  initUploadArea();
+  loadAdminPhotos();
+}
+function updateAdminCameraLabel() {
+  const label = document.getElementById('admin-camera-label');
+  if (label) {
+    const names = { fujifilm: 'Fujifilm X-T5', nomo: 'NOMO', campsnap: 'CAMPSNAP' };
+    label.textContent = '→ ' + (names[currentCamera] || currentCamera);
   }
-  setTimeout(() => document.getElementById('admin-password').focus(), 100);
+}
+function initUploadArea() {
+  const area = document.getElementById('upload-area');
+  if (!area) return;
+  area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('dragover'); });
+  area.addEventListener('dragleave', () => area.classList.remove('dragover'));
+  area.addEventListener('drop', e => { e.preventDefault(); area.classList.remove('dragover'); if(e.dataTransfer.files[0]){selectedFile=e.dataTransfer.files[0];document.getElementById('selected-file-name').textContent=selectedFile.name;document.getElementById('photo-meta').style.display='flex';} });
+}
+async function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('active');
+  // Check for existing Supabase session
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    adminAuthed = true;
+    showAdminPanel();
+  } else {
+    setTimeout(() => document.getElementById('admin-password').focus(), 100);
+  }
 }
 function closeAdmin() {
   document.getElementById('admin-overlay').classList.remove('active');
   document.getElementById('admin-error').textContent = '';
   document.getElementById('admin-password').value = '';
 }
-function adminLogin() {
+async function adminLogin() {
+  const email = document.getElementById('admin-email').value.trim();
   const pw = document.getElementById('admin-password').value;
-  if (pw === ADMIN_PASS) {
-    adminAuthed = true;
-    document.getElementById('admin-login').style.display = 'none';
-    document.getElementById('admin-panel').style.display = 'block';
-    loadAdminPhotos();
-  } else {
-    document.getElementById('admin-error').textContent = 'incorrect password';
+  const errEl = document.getElementById('admin-error');
+  errEl.textContent = 'authenticating...';
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+  if (error) {
+    errEl.textContent = error.message || 'authentication failed';
     document.getElementById('admin-password').value = '';
+    return;
   }
+  adminAuthed = true;
+  showAdminPanel();
 }
-function adminLogout() {
+async function adminLogout() {
+  await sb.auth.signOut();
   adminAuthed = false;
-  document.getElementById('admin-panel').style.display = 'none';
+  const panel = document.getElementById('admin-panel');
+  panel.innerHTML = '';
+  panel.style.display = 'none';
   document.getElementById('admin-login').style.display = 'block';
   closeAdmin();
 }
