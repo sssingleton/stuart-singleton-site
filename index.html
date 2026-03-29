@@ -1170,6 +1170,8 @@ document.addEventListener('keydown', e => {
   adminBuffer = adminBuffer.slice(-5);
   if (adminBuffer === 'admin') openAdmin();
 });
+// ══ URL HASH ADMIN TRIGGER ══
+if (window.location.hash === '#admin') { window.addEventListener('DOMContentLoaded', () => openAdmin()); if (document.readyState !== 'loading') openAdmin(); history.replaceState(null, '', window.location.pathname); }
 
 // ══ ADMIN ══
 let adminAuthed = false;
