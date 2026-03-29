@@ -534,8 +534,7 @@
         <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:8px;">Name</label>
         <input type="text" name="name" required placeholder="your name"
           style="width:100%;background:#111;border:1px solid #1c1c1c;color:#fff;font-family:var(--mono);font-size:12px;padding:11px 14px;outline:none;letter-spacing:.05em;transition:border-color .2s;"
-          onfocus="this.style.borderColor='#444';showTagSuggestions()" onblur="this.style.borderColor='#1c1c1c'">
-            <div id="tag-suggestions" class="admin-tag-suggestions"></div>
+          onfocus="this.style.borderColor='#444'" onblur="this.style.borderColor='#1c1c1c'">
       </div>
       <div>
         <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:8px;">Email</label>
@@ -1191,7 +1190,8 @@ function getAdminPanelHTML() {
             <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Tags <span style="color:#2a2a2a;">(comma separated)</span></label>
             <input type="text" id="photo-tags" placeholder="travel, night, europe, color"
               style="width:100%;background:#111;border:1px solid #1c1c1c;color:#fff;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;"
-              onfocus="this.style.borderColor='#444'" onblur="this.style.borderColor='#1c1c1c'">
+              onfocus="this.style.borderColor='#444';showTagSuggestions()" onblur="this.style.borderColor='#1c1c1c'">
+            <div id="tag-suggestions" class="admin-tag-suggestions"></div>
           </div>
           <div>
             <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Grid Size</label>
