@@ -1052,7 +1052,7 @@ async function loadAdminPhotos() {
       if (!btn) return;
       var act = btn.dataset.action, id = btn.dataset.id;
       var er = document.getElementById("er" + id);
-      if (act === "edit") { if(er) er.style.display = er.style.display==="none" ? "flex" : "none"; }
+      if (act === "edit") { if(er) { er.style.display = er.style.display==="none" ? "flex" : "none"; er.dataset.chosenSpan = btn.closest(".admin-photo-row").dataset.span || ""; } }
       else if (act === "cancel") { if(er) er.style.display="none"; }
       else if (act === "span") {
         if (!er) return;
@@ -1062,7 +1062,7 @@ async function loadAdminPhotos() {
       } else if (act === "save") {
         if (!er) return;
         var tags = document.getElementById("et"+id).value.trim();
-        var span = er.dataset.chosenSpan !== undefined ? er.dataset.chosenSpan : btn.closest(".admin-photo-row").dataset.span;
+        var span = er.dataset.chosenSpan !== undefined ? er.dataset.chosenSpan : "";
         var tbl = CAMERA_TABLES[currentCamera] || 'photos';
         sb.from(tbl).update({tags:tags, span:span}).eq("id",id).then(function(res){
           if (res.error){alert("Save failed");return;}
