@@ -289,7 +289,11 @@
   #photos-page .back-btn:hover { color: #fff; }
   .photos-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: #666; text-transform: uppercase; margin-bottom: 12px; }
   .photos-hero { font-family: var(--display); font-size: clamp(60px,11vw,124px); color: #fff; line-height: .88; letter-spacing: .02em; margin-bottom: 6px; }
-  .photos-sub { font-family: var(--sans); font-size: 11px; font-weight: 400; color: #777; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 36px; }
+  .photos-sub { font-family: var(--sans); font-size: 11px; font-weight: 400; color: #777; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 22px; }
+  .photos-mode-toggle { display: flex; gap: 6px; margin-bottom: 28px; }
+  .pm-btn { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; padding: 7px 16px; background: transparent; border: 1px solid #1c1c1c; color: #555; cursor: none; transition: all .2s; }
+  .pm-btn:hover { border-color: #444; color: #999; }
+  .pm-btn.active { border-color: #fff; color: #fff; }
 
   /* TAG CLOUD */
   .tag-cloud {
@@ -345,15 +349,27 @@
   }
   .photo-item:hover .photo-buy-btn { opacity: 1; pointer-events: all; }
   .photo-buy-btn:hover { color: #ddd; border-color: #444; }
+  .photo-request-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(8,8,8,.82); border: 1px solid #1c1c1c;
+    color: #555; font-family: var(--mono); font-size: 8px;
+    letter-spacing: .18em; text-transform: uppercase;
+    padding: 5px 9px; cursor: none;
+    opacity: 0; transition: opacity .3s, color .2s, border-color .2s;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .photo-item:hover .photo-request-btn { opacity: 1; pointer-events: all; }
+  .photo-request-btn:hover { color: #aaa; border-color: #333; }
 
   /* print modal */
-  #print-modal {
+  #print-modal, #request-modal {
     position: fixed; inset: 0; z-index: 950;
     background: rgba(0,0,0,.92);
     display: flex; align-items: center; justify-content: center;
     opacity: 0; pointer-events: none; transition: opacity .3s;
   }
-  #print-modal.open { opacity: 1; pointer-events: all; }
+  #print-modal.open, #request-modal.open { opacity: 1; pointer-events: all; }
   .print-modal-inner {
     width: min(560px, 94vw);
     border: 1px solid #1c1c1c; background: #080808;
@@ -383,6 +399,8 @@
   .print-size-btn.selected { border-color: #444; color: #ddd; }
   .print-size-btn.selected span.ps-price { color: #888; }
   .print-size-btn:hover { border-color: #333; color: #bbb; }
+  .print-measuring { grid-column: 1 / -1; font-size: 9px; color: #555; letter-spacing: .08em; line-height: 1.6; padding: 10px 2px; }
+  .print-size-note { grid-column: 1 / -1; font-size: 8px; color: #3a3a3a; letter-spacing: .06em; line-height: 1.5; margin-top: 4px; }
   .print-frame-row { display: flex; gap: 8px; }
   .print-frame-btn {
     border: 1px solid #1c1c1c; background: none;
@@ -898,6 +916,34 @@
   </div>
 </div>
 
+<!-- REQUEST MODAL -->
+<div id="request-modal">
+  <div class="print-modal-inner">
+    <div class="print-modal-header">
+      <span>// request a print</span>
+      <button onclick="closeRequestModal()">✕ close</button>
+    </div>
+    <img id="request-modal-photo" class="print-modal-photo" src="" alt="">
+    <div class="print-modal-body">
+      <p class="print-note" style="text-align:left;margin:0 0 4px;">This photo isn't in the print shop yet. Request it and Stuart will review it for sale — you'll get an email if it's listed.</p>
+      <div>
+        <span class="print-label">Your email</span>
+        <input type="email" id="request-email" placeholder="you@example.com"
+          style="width:100%;background:#0d0d0d;border:1px solid #1c1c1c;color:#ddd;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;">
+      </div>
+      <div>
+        <span class="print-label">Note <span style="color:#2a2a2a;">(optional — size, framing, etc.)</span></span>
+        <textarea id="request-message" rows="2" placeholder="e.g. would love this as a large framed print"
+          style="width:100%;background:#0d0d0d;border:1px solid #1c1c1c;color:#ddd;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;resize:vertical;"></textarea>
+      </div>
+      <div class="print-error" id="request-error"></div>
+      <button class="print-checkout-btn" id="request-submit-btn" onclick="submitRequest()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
+        Send Request →
+      </button>
+    </div>
+  </div>
+</div>
+
 <div id="admin-overlay">
   <div id="admin-box">
     <div id="admin-header">
@@ -934,6 +980,8 @@
     <div class="term-line" style="animation-delay:2.1s"><span class="blink"></span></div>
     <div class="bottom-links">
       <a href="https://www.instagram.com/stuartsingleton" target="_blank" rel="noopener">@stuartsingleton ↗</a>
+      <span>·</span>
+      <button onclick="navigate('shop')">shop prints</button>
       <span>·</span>
       <button onclick="openContact()">contact</button>
     </div>
@@ -982,11 +1030,22 @@
     </div>
     <div class="page-content">
       <div class="photos-eyebrow">Stuart Singleton</div>
-      <div class="photos-hero">PHOTOS</div>
+      <div class="photos-hero" id="photos-hero">PHOTOS</div>
       <div class="photos-sub" id="photos-locations">nashville · brentwood · on the road</div>
+
+      <!-- GALLERY / SHOP TOGGLE -->
+      <div class="photos-mode-toggle">
+        <button class="pm-btn" id="pm-gallery" onclick="setShopMode(false)">Gallery</button>
+        <button class="pm-btn" id="pm-shop" onclick="setShopMode(true)">Shop Prints</button>
+      </div>
 
       <!-- TAG CLOUD -->
       <div class="tag-cloud" id="tag-cloud"></div>
+
+      <!-- SHOP EMPTY STATE -->
+      <div id="shop-empty" style="display:none;font-size:10px;color:#444;letter-spacing:.1em;line-height:1.8;text-align:center;padding:30px 0;">
+        No prints listed yet. Browse the gallery and hit “Request a print” on any photo you'd like to buy.
+      </div>
 
       <!-- PHOTO MASONRY -->
       <div class="photo-masonry" id="photo-masonry"></div>
@@ -1368,24 +1427,31 @@ function renderTagCloud() {
   addHover('.photo-tag');
 }
 
+let shopMode = false;
 function renderPhotos() {
   const masonry = document.getElementById('photo-masonry');
   if (!masonry) return;
   const visible = [];
   PHOTOS.forEach(p => {
+    if (shopMode && !p.for_sale) return; // shop view = only listed prints
     const tags = getTagsArray(p);
     const match = activeTags.size === 0 || [...activeTags].every(t => tags.includes(t));
     if (match) {
-      const buyBadge = p.for_sale ? `<button class="photo-buy-btn" onclick="event.stopPropagation();openPrintModal('${p.id}')">Buy Print</button>` : '';
-      visible.push(`<div class="photo-item ${p.span||''}" onclick="openPrintModal('${p.id}')">
+      const badge = p.for_sale
+        ? `<button class="photo-buy-btn" onclick="event.stopPropagation();openPrintModal('${p.id}')">Buy Print</button>`
+        : `<button class="photo-request-btn" onclick="event.stopPropagation();openRequestModal('${p.id}')">Request a print</button>`;
+      const itemClick = p.for_sale ? `openPrintModal('${p.id}')` : `openRequestModal('${p.id}')`;
+      visible.push(`<div class="photo-item ${p.span||''}" onclick="${itemClick}">
       <img src="${p.src}" alt="${tags[0]||''}" loading="lazy" onerror="this.parentElement.style.background='#111';this.style.display='none'">
       <div class="photo-item-label">${tags.join(' · ')}</div>
-      ${buyBadge}
+      ${badge}
     </div>`);
     }
   });
   masonry.innerHTML = visible.join('');
-  addHover('.photo-buy-btn');
+  const emptyEl = document.getElementById('shop-empty');
+  if (emptyEl) emptyEl.style.display = (shopMode && visible.length === 0) ? 'block' : 'none';
+  addHover('.photo-buy-btn,.photo-request-btn');
   // Dynamically limit columns so filtered results don't bunch in left column
   const count = visible.length;
   if (activeTags.size > 0 && count <= 3) {
@@ -1402,6 +1468,25 @@ function toggleTag(tag) {
   else activeTags.add(tag);
   renderTagCloud();
   renderPhotos();
+}
+
+function setShopMode(on) {
+  shopMode = !!on;
+  const hero = document.getElementById('photos-hero');
+  const sub = document.getElementById('photos-locations');
+  const gBtn = document.getElementById('pm-gallery');
+  const sBtn = document.getElementById('pm-shop');
+  if (gBtn) gBtn.classList.toggle('active', !shopMode);
+  if (sBtn) sBtn.classList.toggle('active', shopMode);
+  if (hero) hero.textContent = shopMode ? 'PRINTS' : 'PHOTOS';
+  if (sub) sub.textContent = shopMode ? 'fine-art prints · shipped worldwide' : 'nashville · brentwood · on the road';
+  renderTagCloud();
+  renderPhotos();
+  // Keep the URL honest so /shop is shareable
+  const targetPath = shopMode ? '/shop' : '/photos';
+  if (window.location.pathname !== targetPath) {
+    history.replaceState({ page: shopMode ? 'shop' : 'photos' }, '', targetPath);
+  }
 }
 
 
@@ -1665,6 +1750,10 @@ function getAdminPanelHTML() {
         <div id="admin-photo-list" style="display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;"></div>
       </div>
       <div class="admin-section">
+        <div class="admin-section-title">Print Requests <span id="request-count" style="color:#2a2a2a;"></span></div>
+        <div id="admin-request-list" style="display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;"></div>
+      </div>
+      <div class="admin-section">
         <div class="admin-section-title">Quick Links</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <a href="https://github.com/sssingleton/stuart-singleton-site" target="_blank" class="admin-btn" style="text-decoration:none;">GitHub ↗</a>
@@ -1681,6 +1770,58 @@ function showAdminPanel() {
   document.getElementById('admin-login').style.display = 'none';
   initUploadArea();
   loadAdminPhotos();
+  loadPrintRequests();
+}
+
+async function loadPrintRequests() {
+  var list = document.getElementById('admin-request-list');
+  var count = document.getElementById('request-count');
+  if (!list) return;
+  try {
+    var res = await sb.from('print_requests').select('*').order('created_at', { ascending: false });
+    if (res.error) throw res.error;
+    var data = res.data || [];
+    var openCount = data.filter(function(r){ return r.status === 'new'; }).length;
+    if (count) count.textContent = '(' + openCount + ' new)';
+    if (!data.length) { list.innerHTML = '<div style="font-size:9px;color:#333">no requests yet</div>'; return; }
+    var html = '';
+    for (var i = 0; i < data.length; i++) {
+      var r = data[i];
+      var dim = r.status === 'new' ? '' : 'opacity:.5;';
+      var when = new Date(r.created_at).toLocaleDateString('en-US', { month:'short', day:'numeric' });
+      html += '<div class="admin-photo-row" style="' + dim + '">';
+      html += '<img class="admin-photo-thumb" src="' + (r.photo_src||'') + '" onerror="this.style.background=\'#222\'">';
+      html += '<div class="admin-photo-info">';
+      html += '<span style="color:#888">' + (r.email||'(no email)') + '</span>';
+      html += '<span>' + (r.message ? r.message.replace(/</g,'&lt;') : 'no note') + '</span>';
+      html += '<span style="color:#2a2a2a">photo #' + (r.photo_id==null?'?':r.photo_id) + ' · ' + when + ' · ' + r.status + '</span>';
+      html += '</div>';
+      if (r.photo_id != null) {
+        html += '<button class="admin-edit-btn" data-req-action="list" data-id="' + r.id + '" data-photo="' + r.photo_id + '" title="Mark this photo for sale + mark request listed">list it</button>';
+      }
+      html += '<button class="admin-delete-btn" data-req-action="dismiss" data-id="' + r.id + '" title="Dismiss request">x</button>';
+      html += '</div>';
+    }
+    list.innerHTML = html;
+    list.onclick = function(e) {
+      var btn = e.target.closest('[data-req-action]');
+      if (!btn) return;
+      var act = btn.dataset.reqAction, id = btn.dataset.id;
+      if (act === 'list') {
+        var photoId = btn.dataset.photo;
+        sb.from('photos').update({ for_sale: true }).eq('id', photoId).then(function(res){
+          if (res.error) { alert('Could not flag photo: ' + res.error.message); return; }
+          sb.from('print_requests').update({ status: 'listed' }).eq('id', id).then(function(){
+            loadPhotos(); loadAdminPhotos(); loadPrintRequests();
+          });
+        });
+      } else if (act === 'dismiss') {
+        sb.from('print_requests').update({ status: 'dismissed' }).eq('id', id).then(function(){ loadPrintRequests(); });
+      }
+    };
+  } catch (err) {
+    list.innerHTML = '<div style="font-size:9px;color:#c44">requests error: ' + (err.message||err) + '</div>';
+  }
 }
 function initUploadArea() {
   const area = document.getElementById('upload-area');
@@ -2029,9 +2170,10 @@ function navigate(dest) {
   if (dest==='music') {
     const tr=document.getElementById('music-transition'); tr.classList.add('active'); showPage('music-page',500);
     setTimeout(()=>{tr.classList.remove('active');tr.classList.add('done');},510); setTimeout(()=>tr.classList.remove('done'),1100);
-  } else if (dest==='photos') {
+  } else if (dest==='photos' || dest==='shop') {
     const tr=document.getElementById('photos-transition'); tr.classList.add('active'); showPage('photos-page',500);
     setTimeout(()=>{tr.classList.remove('active');tr.classList.add('done');},510); setTimeout(()=>tr.classList.remove('done'),1100);
+    setTimeout(()=>setShopMode(dest==='shop'), 520);
   } else if (dest==='lab') {
     const tr=document.getElementById('lab-transition'); let f=0;
     const flash=()=>{tr.classList.add('active');setTimeout(()=>{tr.classList.remove('active');if(++f<3){setTimeout(flash,80);return;}setTimeout(()=>{landing.classList.add('hidden');const page=document.getElementById('lab-page');page.classList.remove('gone');startMatrix();requestAnimationFrame(()=>requestAnimationFrame(()=>{page.classList.remove('hidden');page.classList.add('page-enter');}));},100);},55);};
@@ -2049,9 +2191,11 @@ function goBack() {
     setTimeout(()=>{el.classList.add('gone');const inner=el.querySelector('.page-inner');if(inner)inner.scrollTop=0;},720);
   });
   stopMatrix();
+  if (shopMode) { shopMode = false; }
   const landing=document.getElementById('landing');
   landing.classList.remove('hidden','gone'); landing.style.zIndex='3';
   setTimeout(()=>{landing.style.zIndex='';},800);
+  history.replaceState({ page: 'home' }, '', '/');
 }
 
 // ══ CONTACT MODAL ══
@@ -2269,12 +2413,33 @@ goBack = function() {
     setTimeout(()=>{el.classList.add('gone');const inner=el.querySelector('.page-inner');if(inner)inner.scrollTop=0;},720);
   });
   stopMatrix();
+  if (shopMode) { shopMode = false; }
   const landing=document.getElementById('landing');
   landing.classList.remove('hidden','gone'); landing.style.zIndex='3';
   setTimeout(()=>{landing.style.zIndex='';},800);
   // Reset URL
   history.pushState({ page: 'home' }, '', '/');
 };
+
+// ══ URL ROUTING — direct /shop access ══
+(function() {
+  if (window.location.pathname === '/shop') {
+    // Direct URL access — open the photos page straight into Shop mode.
+    setTimeout(() => {
+      const landing = document.getElementById('landing');
+      landing.classList.add('hidden');
+      setTimeout(() => { landing.classList.add('gone'); }, 100);
+      const page = document.getElementById('photos-page');
+      page.classList.remove('gone');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        page.classList.remove('hidden');
+        page.classList.add('page-enter');
+        setShopMode(true);
+        addHover('#photos-page .back-btn, #photos-page a');
+      }));
+    }, 300);
+  }
+})();
 
 // ══ URL ROUTING — direct /whoami access ══
 (function() {
@@ -2316,17 +2481,28 @@ window.addEventListener('popstate', (e) => {
 // ══ PRINT MODAL ══
 const SUPA_EDGE = 'https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1';
 
+// `longIn` = print's long edge in inches; used to gate sizes by photo resolution.
 const PRINT_SIZES = [
-  { sku: 'GLOBAL-FAP-8X10',   label: '8×10"',  price: 3500,  framed: false },
-  { sku: 'GLOBAL-FAP-8X12',   label: '8×12"',  price: 4500,  framed: false },
-  { sku: 'GLOBAL-FAP-12X16',  label: '12×16"', price: 6500,  framed: false },
-  { sku: 'GLOBAL-FAP-16X24',  label: '16×24"', price: 7500,  framed: false },
-  { sku: 'GLOBAL-FAP-18X24',  label: '18×24"', price: 8500,  framed: false },
-  { sku: 'GLOBAL-FAP-24X36',  label: '24×36"', price: 11500, framed: false },
-  { sku: 'GLOBAL-CFPM-8X10',  label: '8×10" Framed',  price: 12000, framed: true },
-  { sku: 'GLOBAL-CFPM-12X16', label: '12×16" Framed', price: 16000, framed: true },
-  { sku: 'GLOBAL-CFPM-16X24', label: '16×24" Framed', price: 22000, framed: true },
+  { sku: 'GLOBAL-FAP-8X10',   label: '8×10"',  price: 3500,  framed: false, longIn: 10 },
+  { sku: 'GLOBAL-FAP-8X12',   label: '8×12"',  price: 4500,  framed: false, longIn: 12 },
+  { sku: 'GLOBAL-FAP-12X16',  label: '12×16"', price: 6500,  framed: false, longIn: 16 },
+  { sku: 'GLOBAL-FAP-16X24',  label: '16×24"', price: 7500,  framed: false, longIn: 24 },
+  { sku: 'GLOBAL-FAP-18X24',  label: '18×24"', price: 8500,  framed: false, longIn: 24 },
+  { sku: 'GLOBAL-FAP-24X36',  label: '24×36"', price: 11500, framed: false, longIn: 36 },
+  { sku: 'GLOBAL-CFPM-8X10',  label: '8×10" Framed',  price: 12000, framed: true, longIn: 10 },
+  { sku: 'GLOBAL-CFPM-12X16', label: '12×16" Framed', price: 16000, framed: true, longIn: 16 },
+  { sku: 'GLOBAL-CFPM-16X24', label: '16×24" Framed', price: 22000, framed: true, longIn: 24 },
 ];
+
+// Minimum print quality floor. A size is offered only if the photo's long edge
+// has at least (longIn × MIN_DPI) pixels. 150 = standard fine-art floor.
+const MIN_PRINT_DPI = 150;
+
+// Returns the subset of PRINT_SIZES a given pixel resolution can satisfy at MIN_PRINT_DPI.
+function sizesForResolution(longestPx) {
+  if (!longestPx) return PRINT_SIZES; // unknown -> don't block (defensive)
+  return PRINT_SIZES.filter(s => longestPx >= s.longIn * MIN_PRINT_DPI);
+}
 
 let _printPhotoId = null;
 let _printSku = null;
@@ -2348,25 +2524,54 @@ function openPrintModal(photoId) {
   document.getElementById('print-total-row').textContent = '';
   document.getElementById('print-checkout-btn').disabled = true;
 
-  // Build size grid
-  const grid = document.getElementById('print-size-grid');
-  grid.innerHTML = PRINT_SIZES.map(s => {
-    const dollars = (s.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
-    return `<button class="print-size-btn" data-sku="${s.sku}" data-price="${s.price}" data-framed="${s.framed}" onclick="selectSize(this)">
-      <span class="ps-size">${s.label}</span>
-      <span class="ps-price">${dollars}</span>
-    </button>`;
-  }).join('');
-  addHover('.print-size-btn,.print-frame-btn,.print-checkout-btn');
-
   // Reset frame section
   document.getElementById('print-frame-section').style.display = 'none';
   document.querySelectorAll('.print-frame-btn').forEach(b => {
     b.classList.toggle('selected', b.dataset.color === 'black');
   });
 
+  // Show modal first (with a measuring state), then gate sizes by real resolution
+  const grid = document.getElementById('print-size-grid');
+  grid.innerHTML = '<div class="print-measuring">checking print sizes…</div>';
   const modal = document.getElementById('print-modal');
   modal.classList.add('open');
+
+  // Measure the photo's true pixel dimensions, then build only feasible sizes.
+  measurePhotoAndBuildSizes(photo.src);
+}
+
+function buildSizeGrid(sizes, note) {
+  const grid = document.getElementById('print-size-grid');
+  if (!sizes.length) {
+    grid.innerHTML = '<div class="print-measuring">This photo is only available as a request — its resolution is below print quality. Use “Request a larger version”.</div>';
+    return;
+  }
+  grid.innerHTML = sizes.map(s => {
+    const dollars = (s.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
+    return `<button class="print-size-btn" data-sku="${s.sku}" data-price="${s.price}" data-framed="${s.framed}" onclick="selectSize(this)">
+      <span class="ps-size">${s.label}</span>
+      <span class="ps-price">${dollars}</span>
+    </button>`;
+  }).join('') + (note ? `<div class="print-size-note">${note}</div>` : '');
+  addHover('.print-size-btn,.print-frame-btn,.print-checkout-btn');
+}
+
+function measurePhotoAndBuildSizes(src) {
+  const img = new Image();
+  img.onload = function() {
+    const longestPx = Math.max(img.naturalWidth, img.naturalHeight);
+    const feasible = sizesForResolution(longestPx);
+    const capped = feasible.length < PRINT_SIZES.length;
+    const note = capped
+      ? `Sizes shown fit this photo’s resolution for a sharp print. Want it bigger? Use “Request a larger version”.`
+      : '';
+    buildSizeGrid(feasible, note);
+  };
+  img.onerror = function() {
+    // If measuring fails, fall back to the conservative small-only set (≤12×16).
+    buildSizeGrid(PRINT_SIZES.filter(s => s.longIn <= 16), '');
+  };
+  img.src = src;
 }
 
 function closePrintModal() {
@@ -2376,6 +2581,81 @@ function closePrintModal() {
 document.getElementById('print-modal').addEventListener('click', e => {
   if (e.target === document.getElementById('print-modal')) closePrintModal();
 });
+
+// ══ REQUEST-A-PRINT MODAL ══
+let _requestPhotoId = null;
+let _requestPhotoSrc = '';
+function openRequestModal(photoId) {
+  const photo = PHOTOS.find(p => String(p.id) === String(photoId));
+  if (!photo) return;
+  _requestPhotoId = photoId;
+  _requestPhotoSrc = photo.src || '';
+  document.getElementById('request-modal-photo').src = _requestPhotoSrc;
+  document.getElementById('request-email').value = '';
+  document.getElementById('request-message').value = '';
+  document.getElementById('request-error').textContent = '';
+  const btn = document.getElementById('request-submit-btn');
+  btn.disabled = false;
+  btn.textContent = 'Send Request →';
+  document.getElementById('request-modal').classList.add('open');
+  addHover('.print-checkout-btn');
+}
+function closeRequestModal() {
+  document.getElementById('request-modal').classList.remove('open');
+}
+document.getElementById('request-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('request-modal')) closeRequestModal();
+});
+async function submitRequest() {
+  const email = document.getElementById('request-email').value.trim();
+  const message = document.getElementById('request-message').value.trim();
+  const errEl = document.getElementById('request-error');
+  const btn = document.getElementById('request-submit-btn');
+  errEl.textContent = '';
+  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    errEl.textContent = 'Please enter a valid email.';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  try {
+    // 1) Save the request to Supabase (anon INSERT allowed by RLS)
+    const ins = await sb.from('print_requests').insert({
+      photo_id: _requestPhotoId,
+      photo_src: _requestPhotoSrc,
+      email: email,
+      message: message || null,
+      user_agent: navigator.userAgent
+    });
+    if (ins.error) throw ins.error;
+
+    // 2) Notify Stuart by email via the existing Formspree endpoint (best-effort)
+    try {
+      await fetch('https://formspree.io/f/mwvwevop', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'New print request — stuartsingleton.com',
+          type: 'PRINT REQUEST',
+          photo_id: _requestPhotoId,
+          photo: _requestPhotoSrc,
+          requester_email: email,
+          note: message || '(none)'
+        })
+      });
+    } catch (notifyErr) { /* notification is non-blocking; request already saved */ }
+
+    btn.textContent = 'Request sent ✓';
+    const body = document.querySelector('#request-modal .print-modal-body');
+    body.innerHTML = `<p class="print-note" style="text-align:center;line-height:1.8;color:#888;">Thanks — your request is in.<br>Stuart will review this photo for sale and email you at <span style="color:#aaa;">${email}</span> if it's listed.</p>
+      <button class="print-checkout-btn" onclick="closeRequestModal()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Close</button>`;
+    addHover('.print-checkout-btn');
+  } catch (err) {
+    errEl.textContent = (err && err.message) ? err.message : 'Could not send request. Please try again.';
+    btn.disabled = false;
+    btn.textContent = 'Send Request →';
+  }
+}
 
 function selectSize(btn) {
   document.querySelectorAll('.print-size-btn').forEach(b => b.classList.remove('selected'));
