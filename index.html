@@ -438,6 +438,26 @@
   .print-modal-header button { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; background: none; border: 1px solid #222; color: #555; padding: 4px 10px; cursor: none; }
   .print-modal-header button:hover { color: #aaa; border-color: #444; }
   .print-modal-photo { max-width: 100%; max-height: 300px; width: auto; margin: 0 auto; object-fit: contain; display: block; }
+  /* ── live print preview stage ── */
+  #print-preview-stage {
+    background: #0b0b0b; padding: 26px 22px; display: flex; align-items: center;
+    justify-content: center; min-height: 230px; max-height: 340px; border-bottom: 1px solid #161616;
+  }
+  /* the framed/print mockup: outer = frame, mat = inner border, img fills the print area */
+  .pv-frame {
+    box-sizing: border-box; max-width: 78%; max-height: 290px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.04) inset;
+    transition: border-color .25s, background .25s, padding .25s;
+    display: block; line-height: 0;
+  }
+  .pv-frame.framed { border-style: solid; border-width: 14px; background: #fff; padding: 16px; }
+  .pv-frame.framed.fc-black   { border-color: #15161a; }
+  .pv-frame.framed.fc-white   { border-color: #f3f1ec; }
+  .pv-frame.framed.fc-natural { border-color: #b8966a; }
+  .pv-frame.paper { border: 1px solid #1d1d1d; background: #111; padding: 0; }
+  .pv-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pv-caption { font-family: var(--mono); font-size: 8px; letter-spacing: .14em; color: #3f3f3f; text-transform: uppercase; text-align: center; margin-top: 12px; }
+  .pv-mockup-img { max-width: 88%; max-height: 300px; display: block; box-shadow: 0 18px 40px rgba(0,0,0,.55); }
   .print-modal-body { padding: 22px; display: flex; flex-direction: column; gap: 20px; }
   .print-label { font-size: 8px; letter-spacing: .2em; color: #444; text-transform: uppercase; margin-bottom: 8px; display: block; }
   .print-size-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
@@ -932,7 +952,12 @@
       <span>// buy a print</span>
       <button onclick="closePrintModal()">✕ close</button>
     </div>
-    <img id="print-modal-photo" class="print-modal-photo" src="" alt="">
+    <div id="print-preview-stage">
+      <div id="print-preview-frame" class="pv-frame paper">
+        <img id="print-preview-img" src="" alt="">
+      </div>
+    </div>
+    <div class="pv-caption" id="print-preview-caption">select a size to preview your print</div>
     <div class="print-modal-body">
       <!-- size selector -->
       <div>
@@ -2665,33 +2690,41 @@ window.addEventListener('popstate', (e) => {
 // ══ PRINT MODAL ══
 const SUPA_EDGE = 'https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1';
 
-// `longIn` = print's long edge in inches; used to gate sizes by photo resolution.
+// Print sizes offered. We ONLY list sizes whose aspect ratio matches the photo,
+// so Prodigi never crops the image. The Fuji X-T5 archive is 3:2 / 2:3, so every
+// size here is a true 2:3 (=1.5) ratio. `longIn` gates by resolution; `shortIn`/`longIn`
+// give the print proportions used for the live crop-accurate preview. Prodigi
+// auto-orients the asset, so one SKU serves both portrait and landscape.
 const PRINT_SIZES = [
-  { sku: 'GLOBAL-FAP-8X10',   label: '8×10"',  price: 3500,  framed: false, longIn: 10 },
-  { sku: 'GLOBAL-FAP-8X12',   label: '8×12"',  price: 4500,  framed: false, longIn: 12 },
-  { sku: 'GLOBAL-FAP-12X16',  label: '12×16"', price: 6500,  framed: false, longIn: 16 },
-  { sku: 'GLOBAL-FAP-16X24',  label: '16×24"', price: 7500,  framed: false, longIn: 24 },
-  { sku: 'GLOBAL-FAP-18X24',  label: '18×24"', price: 8500,  framed: false, longIn: 24 },
-  { sku: 'GLOBAL-FAP-24X36',  label: '24×36"', price: 11500, framed: false, longIn: 36 },
-  { sku: 'GLOBAL-CFPM-8X10',  label: '8×10" Framed',  price: 12000, framed: true, longIn: 10 },
-  { sku: 'GLOBAL-CFPM-12X16', label: '12×16" Framed', price: 16000, framed: true, longIn: 16 },
-  { sku: 'GLOBAL-CFPM-16X24', label: '16×24" Framed', price: 22000, framed: true, longIn: 24 },
+  { sku: 'GLOBAL-FAP-8X12',   label: '8×12"',  price: 4500,  framed: false, shortIn: 8,  longIn: 12, ratio: 1.5 },
+  { sku: 'GLOBAL-FAP-16X24',  label: '16×24"', price: 7500,  framed: false, shortIn: 16, longIn: 24, ratio: 1.5 },
+  { sku: 'GLOBAL-FAP-24X36',  label: '24×36"', price: 11500, framed: false, shortIn: 24, longIn: 36, ratio: 1.5 },
+  { sku: 'GLOBAL-CFPM-16X24', label: '16×24" Framed', price: 22000, framed: true, shortIn: 16, longIn: 24, ratio: 1.5 },
 ];
 
 // Minimum print quality floor. A size is offered only if the photo's long edge
 // has at least (longIn × MIN_DPI) pixels. 150 = standard fine-art floor.
 const MIN_PRINT_DPI = 150;
+// Aspect-ratio tolerance: a print ratio within this of the photo ratio = "no crop".
+const RATIO_TOLERANCE = 0.06;
 
-// Returns the subset of PRINT_SIZES a given pixel resolution can satisfy at MIN_PRINT_DPI.
-function sizesForResolution(longestPx) {
-  if (!longestPx) return PRINT_SIZES; // unknown -> don't block (defensive)
-  return PRINT_SIZES.filter(s => longestPx >= s.longIn * MIN_PRINT_DPI);
+// Returns the subset of PRINT_SIZES that BOTH fit the resolution AND match the
+// photo's aspect ratio (so nothing is ever cropped).
+function sizesForPhoto(longestPx, photoRatio) {
+  return PRINT_SIZES.filter(s => {
+    const fitsRes = !longestPx || longestPx >= s.longIn * MIN_PRINT_DPI;
+    const fitsRatio = !photoRatio || Math.abs(s.ratio - photoRatio) <= RATIO_TOLERANCE;
+    return fitsRes && fitsRatio;
+  });
 }
 
 let _printPhotoId = null;
 let _printSku = null;
 let _printFrameColor = 'black';
 let _printPriceCents = 0;
+let _printPhotoSrc = '';
+let _printPhotoIsPortrait = false;
+let _printPhotoMockupUrl = null; // optional per-photo Prodigi hero mockup override
 
 function openPrintModal(photoId) {
   const photo = PHOTOS.find(p => String(p.id) === String(photoId));
@@ -2700,9 +2733,14 @@ function openPrintModal(photoId) {
   _printSku = null;
   _printFrameColor = 'black';
   _printPriceCents = 0;
+  _printPhotoSrc = photo.src || '';
+  _printPhotoMockupUrl = photo.mockup_url || null;
 
-  // Set photo
-  document.getElementById('print-modal-photo').src = photo.src || '';
+  // Seed the preview with the bare photo (paper mode) until a size is chosen
+  document.getElementById('print-preview-img').src = _printPhotoSrc;
+  document.getElementById('print-preview-frame').className = 'pv-frame paper';
+  document.getElementById('print-preview-frame').style.aspectRatio = '';
+  document.getElementById('print-preview-caption').textContent = 'select a size to preview your print';
   document.getElementById('print-error').textContent = '';
   document.getElementById('print-copies').value = 1;
   document.getElementById('print-total-row').textContent = '';
@@ -2721,18 +2759,18 @@ function openPrintModal(photoId) {
   modal.classList.add('open');
 
   // Measure the photo's true pixel dimensions, then build only feasible sizes.
-  measurePhotoAndBuildSizes(photo.src);
+  measurePhotoAndBuildSizes(_printPhotoSrc);
 }
 
 function buildSizeGrid(sizes, note) {
   const grid = document.getElementById('print-size-grid');
   if (!sizes.length) {
-    grid.innerHTML = '<div class="print-measuring">This photo is only available as a request — its resolution is below print quality. Use “Request a larger version”.</div>';
+    grid.innerHTML = '<div class="print-measuring">This photo isn’t available as a print at the moment — its resolution is below our print-quality floor. Use “Request a larger version”.</div>';
     return;
   }
   grid.innerHTML = sizes.map(s => {
     const dollars = (s.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
-    return `<button class="print-size-btn" data-sku="${s.sku}" data-price="${s.price}" data-framed="${s.framed}" onclick="selectSize(this)">
+    return `<button class="print-size-btn" data-sku="${s.sku}" data-price="${s.price}" data-framed="${s.framed}" data-short="${s.shortIn}" data-long="${s.longIn}" onclick="selectSize(this)">
       <span class="ps-size">${s.label}</span>
       <span class="ps-price">${dollars}</span>
     </button>`;
@@ -2743,19 +2781,54 @@ function buildSizeGrid(sizes, note) {
 function measurePhotoAndBuildSizes(src) {
   const img = new Image();
   img.onload = function() {
-    const longestPx = Math.max(img.naturalWidth, img.naturalHeight);
-    const feasible = sizesForResolution(longestPx);
-    const capped = feasible.length < PRINT_SIZES.length;
-    const note = capped
-      ? `Sizes shown fit this photo’s resolution for a sharp print. Want it bigger? Use “Request a larger version”.`
+    const w = img.naturalWidth, h = img.naturalHeight;
+    const longestPx = Math.max(w, h);
+    _printPhotoIsPortrait = h > w;
+    const photoRatio = longestPx / Math.min(w, h); // long/short, e.g. 1.5 for 3:2
+    const feasible = sizesForPhoto(longestPx, photoRatio);
+    const note = feasible.length
+      ? `Only sizes that match this photo’s proportions are shown — your print is never cropped.`
       : '';
     buildSizeGrid(feasible, note);
   };
   img.onerror = function() {
-    // If measuring fails, fall back to the conservative small-only set (≤12×16).
-    buildSizeGrid(PRINT_SIZES.filter(s => s.longIn <= 16), '');
+    // If measuring fails, fall back to the smallest matching size only.
+    buildSizeGrid(PRINT_SIZES.filter(s => s.longIn <= 12), '');
   };
   img.src = src;
+}
+
+// Render the live preview: photo at the selected size's true proportions,
+// inside a paper or framed mockup. Honors an optional per-photo hero mockup URL.
+function renderPrintPreview() {
+  const stage = document.getElementById('print-preview-stage');
+  const caption = document.getElementById('print-preview-caption');
+
+  // Hero override: a hand-made Prodigi lifestyle mockup for this photo, if present.
+  if (_printPhotoMockupUrl) {
+    stage.innerHTML = `<img class="pv-mockup-img" src="${_printPhotoMockupUrl}" alt="">`;
+    caption.textContent = _printSku ? 'product mockup' : 'select a size to preview your print';
+    return;
+  }
+
+  const size = PRINT_SIZES.find(s => s.sku === _printSku);
+  // proportions of the selected print, oriented to match the photo
+  let arW = 2, arH = 3; // default portrait 2:3
+  if (size) {
+    if (_printPhotoIsPortrait) { arW = size.shortIn; arH = size.longIn; }
+    else { arW = size.longIn; arH = size.shortIn; }
+  } else {
+    if (!_printPhotoIsPortrait) { arW = 3; arH = 2; }
+  }
+
+  const framed = !!(size && size.framed);
+  const fc = framed ? ` fc-${_printFrameColor}` : '';
+  stage.innerHTML = `<div id="print-preview-frame" class="pv-frame ${framed ? 'framed' : 'paper'}${fc}" style="aspect-ratio:${arW}/${arH}">
+      <img id="print-preview-img" src="${_printPhotoSrc}" alt="">
+    </div>`;
+  caption.textContent = size
+    ? `${size.label}${framed ? ` · ${_printFrameColor} frame` : ' · fine-art paper'} · actual proportions, no crop`
+    : 'select a size to preview your print';
 }
 
 function closePrintModal() {
@@ -2849,6 +2922,7 @@ function selectSize(btn) {
   const isFramed = btn.dataset.framed === 'true';
   document.getElementById('print-frame-section').style.display = isFramed ? 'block' : 'none';
   document.getElementById('print-checkout-btn').disabled = false;
+  renderPrintPreview();
   updatePrintTotal();
 }
 
@@ -2856,6 +2930,7 @@ function selectFrame(btn) {
   document.querySelectorAll('.print-frame-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   _printFrameColor = btn.dataset.color;
+  renderPrintPreview();
 }
 
 function adjustCopies(delta) {
@@ -2892,7 +2967,7 @@ async function submitPrintOrder() {
         frameColor: _printFrameColor,
         copies,
         successUrl: `${window.location.origin}/print-success`,
-        cancelUrl: window.location.href
+        cancelUrl: `${window.location.origin}/shop`
       })
     });
     const data = await res.json();
