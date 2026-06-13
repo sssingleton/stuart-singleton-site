@@ -1812,6 +1812,17 @@ async function loadPrintRequests() {
         sb.from('photos').update({ for_sale: true }).eq('id', photoId).then(function(res){
           if (res.error) { alert('Could not flag photo: ' + res.error.message); return; }
           sb.from('print_requests').update({ status: 'listed' }).eq('id', id).then(function(){
+            // Notify the requester their photo is now buyable (best-effort; never blocks listing).
+            try {
+              fetch('https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1/notify-request-listed', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ requestId: id })
+              }).then(function(r){ return r.json(); }).then(function(d){
+                if (d && d.emailed) { console.log('Requester notified:', d.to); }
+                else { console.warn('Requester not emailed:', d && (d.reason || d.error)); }
+              }).catch(function(e){ console.warn('notify-request-listed failed:', e); });
+            } catch (e) {}
             loadPhotos(); loadAdminPhotos(); loadPrintRequests();
           });
         });
@@ -2424,6 +2435,10 @@ goBack = function() {
 // ══ URL ROUTING — direct /shop access ══
 (function() {
   if (window.location.pathname === '/shop') {
+    // Optional deep link: /shop?buy=<photoId> auto-opens that photo's buy modal
+    // (used by the "your requested print is now available" email).
+    var buyId = null;
+    try { buyId = new URLSearchParams(window.location.search).get('buy'); } catch (e) {}
     // Direct URL access — open the photos page straight into Shop mode.
     setTimeout(() => {
       const landing = document.getElementById('landing');
@@ -2436,6 +2451,10 @@ goBack = function() {
         page.classList.add('page-enter');
         setShopMode(true);
         addHover('#photos-page .back-btn, #photos-page a');
+        // Auto-open the buy modal for a deep-linked photo, once photos have rendered.
+        if (buyId) {
+          setTimeout(() => { try { openPrintModal(buyId); } catch (e) {} }, 900);
+        }
       }));
     }, 300);
   }
