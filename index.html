@@ -9,13 +9,6 @@
 <meta property="og:description" content="Songwriter · Producer · Nashville TN">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://stuartsingleton.com">
-<meta property="og:image" content="https://stuartsingleton.com/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Stuart Singleton">
-<meta name="twitter:description" content="Songwriter · Producer · Builder — Nashville, TN">
-<meta name="twitter:image" content="https://stuartsingleton.com/og-image.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23050505'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='20' fill='white' font-style='italic'>S</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
@@ -317,9 +310,7 @@
     column-gap: 2px;
     width: 100%;
     max-width: 100%;
-    transition: opacity .35s ease;
   }
-  .photo-masonry.fading { opacity: 0; }
   .photo-item {
     position: relative; overflow: hidden; cursor: none;
     background: #111;
@@ -341,19 +332,87 @@
   }
   .photo-item:hover .photo-item-label { opacity: 1; color: #aaa; }
 
-  /* CAMERA TABS */
-  .camera-tabs {
-    display: flex; gap: 0; margin-bottom: 32px; border-bottom: 1px solid #1a1a1a;
+  /* buy print badge */
+  .photo-buy-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(8,8,8,.88); border: 1px solid #2a2a2a;
+    color: #888; font-family: var(--mono); font-size: 8px;
+    letter-spacing: .18em; text-transform: uppercase;
+    padding: 5px 9px; cursor: none;
+    opacity: 0; transition: opacity .3s, color .2s, border-color .2s;
+    pointer-events: none;
+    z-index: 2;
   }
-  .camera-tab-btn {
-    font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
-    text-transform: uppercase; padding: 10px 24px;
-    background: transparent; border: none; border-bottom: 2px solid transparent;
-    color: #444; cursor: none; transition: color .25s, border-color .25s;
-    margin-bottom: -1px; position: relative;
+  .photo-item:hover .photo-buy-btn { opacity: 1; pointer-events: all; }
+  .photo-buy-btn:hover { color: #ddd; border-color: #444; }
+
+  /* print modal */
+  #print-modal {
+    position: fixed; inset: 0; z-index: 950;
+    background: rgba(0,0,0,.92);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity .3s;
   }
-  .camera-tab-btn:hover { color: #888; }
-  .camera-tab-btn.active { color: #fff; border-color: #fff; }
+  #print-modal.open { opacity: 1; pointer-events: all; }
+  .print-modal-inner {
+    width: min(560px, 94vw);
+    border: 1px solid #1c1c1c; background: #080808;
+    font-family: var(--mono);
+    max-height: 92vh; overflow-y: auto;
+  }
+  .print-modal-header {
+    padding: 18px 22px; border-bottom: 1px solid #141414;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .print-modal-header span { font-size: 9px; letter-spacing: .2em; color: #444; text-transform: uppercase; }
+  .print-modal-header button { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; background: none; border: 1px solid #222; color: #555; padding: 4px 10px; cursor: none; }
+  .print-modal-header button:hover { color: #aaa; border-color: #444; }
+  .print-modal-photo { width: 100%; max-height: 300px; object-fit: cover; display: block; }
+  .print-modal-body { padding: 22px; display: flex; flex-direction: column; gap: 20px; }
+  .print-label { font-size: 8px; letter-spacing: .2em; color: #444; text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .print-size-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .print-size-btn {
+    border: 1px solid #1c1c1c; background: none; color: #666;
+    font-family: var(--mono); font-size: 9px; letter-spacing: .1em;
+    padding: 9px 6px; text-align: center; cursor: none;
+    display: flex; flex-direction: column; gap: 3px; align-items: center;
+    transition: border-color .2s, color .2s;
+  }
+  .print-size-btn span.ps-size { font-size: 10px; color: #888; }
+  .print-size-btn span.ps-price { font-size: 8px; color: #444; }
+  .print-size-btn.selected { border-color: #444; color: #ddd; }
+  .print-size-btn.selected span.ps-price { color: #888; }
+  .print-size-btn:hover { border-color: #333; color: #bbb; }
+  .print-frame-row { display: flex; gap: 8px; }
+  .print-frame-btn {
+    border: 1px solid #1c1c1c; background: none;
+    font-family: var(--mono); font-size: 9px; letter-spacing: .12em;
+    color: #666; padding: 8px 14px; cursor: none;
+    transition: border-color .2s, color .2s;
+  }
+  .print-frame-btn.selected { border-color: #444; color: #ddd; }
+  .print-frame-btn:hover { border-color: #333; color: #bbb; }
+  .print-copies-row { display: flex; align-items: center; gap: 14px; }
+  .print-copies-row input {
+    width: 60px; background: #111; border: 1px solid #1c1c1c;
+    color: #ccc; font-family: var(--mono); font-size: 13px;
+    padding: 7px 10px; text-align: center; outline: none;
+    -moz-appearance: textfield;
+  }
+  .print-copies-row input::-webkit-inner-spin-button,
+  .print-copies-row input::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .print-total-row { font-size: 10px; color: #555; letter-spacing: .1em; }
+  .print-total-row strong { color: #aaa; }
+  .print-checkout-btn {
+    width: 100%; border: 1px solid #2a2a2a; background: none;
+    color: #888; font-family: var(--mono); font-size: 9px;
+    letter-spacing: .22em; text-transform: uppercase;
+    padding: 14px; cursor: none; transition: border-color .2s, color .2s;
+  }
+  .print-checkout-btn:hover { border-color: #444; color: #ddd; }
+  .print-checkout-btn:disabled { opacity: .4; pointer-events: none; }
+  .print-error { font-size: 9px; color: #c44; letter-spacing: .1em; min-height: 13px; }
+  .print-note { font-size: 8px; color: #333; letter-spacing: .1em; line-height: 1.6; }
 
   /* external category links below grid */
   .photo-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; max-width: 100%; }
@@ -408,6 +467,229 @@
   #lab-transition { background: #4cff6a; opacity: 0; transition: opacity .07s; }
   #lab-transition.active { opacity: 1; }
 
+  /* WHOAMI TRANSITION */
+  #whoami-transition {
+    background: #000;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(.4,0,.2,1);
+    z-index: 600;
+  }
+  #whoami-transition.active { opacity: 1; }
+
+  /* WHOAMI HOVER STATE — make prompt line clickable */
+  .whoami-trigger {
+    cursor: none;
+    display: inline;
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+    position: relative;
+  }
+  .whoami-trigger:hover {
+    color: #fff !important;
+    text-shadow: 0 0 20px rgba(255,255,255,0.15);
+  }
+  .whoami-trigger::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 1px;
+    background: rgba(255,255,255,0.3);
+    transition: width 0.5s cubic-bezier(.16,1,.3,1);
+  }
+  .whoami-trigger:hover::after { width: 100%; }
+
+  /* ZOOM TEXT — the animated whoami that fills the screen */
+  #whoami-zoom-text {
+    position: fixed; inset: 0;
+    z-index: 550;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none; opacity: 0;
+    font-family: var(--mono);
+    font-size: clamp(10px,1.3vw,12px);
+    color: #fff;
+    letter-spacing: .05em;
+  }
+  #whoami-zoom-text.animating {
+    opacity: 1;
+    animation: whoamiZoom 1.2s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  @keyframes whoamiZoom {
+    0%   { font-size: clamp(10px,1.3vw,12px); opacity: 1; }
+    40%  { font-size: clamp(60px,12vw,140px); opacity: 1; letter-spacing: .08em; }
+    70%  { font-size: clamp(80px,18vw,200px); opacity: 0.6; letter-spacing: .12em; }
+    100% { font-size: clamp(120px,30vw,350px); opacity: 0; letter-spacing: .2em; }
+  }
+
+  /* WHOAMI PAGE */
+  #whoami-page {
+    background: #050505;
+  }
+  #whoami-page .page-nav {
+    background: rgba(5,5,5,0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  #whoami-page .back-btn { color: #444; }
+  #whoami-page .back-btn:hover { color: #fff; }
+
+  .whoami-hero {
+    margin-top: clamp(40px, 8vh, 80px);
+    margin-bottom: 8px;
+  }
+  .whoami-eyebrow {
+    font-family: var(--mono);
+    font-size: clamp(9px, 1.1vw, 10px);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #333;
+    margin-bottom: 12px;
+  }
+  .whoami-title {
+    font-family: var(--display);
+    font-size: clamp(42px, 8vw, 90px);
+    color: #fff;
+    letter-spacing: .02em;
+    line-height: .9;
+  }
+  .whoami-subtitle {
+    font-family: var(--mono);
+    font-size: clamp(10px, 1.2vw, 11px);
+    color: #555;
+    letter-spacing: .1em;
+    margin-top: 16px;
+    margin-bottom: clamp(40px, 6vh, 60px);
+  }
+
+  /* BIO */
+  .whoami-bio {
+    max-width: 680px;
+    font-family: var(--serif);
+    font-size: clamp(16px, 2vw, 20px);
+    line-height: 1.7;
+    color: #999;
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+  .whoami-bio-extended {
+    max-width: 680px;
+    font-family: var(--serif);
+    font-size: clamp(15px, 1.8vw, 18px);
+    line-height: 1.7;
+    color: #777;
+    font-weight: 300;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.8s cubic-bezier(.16,1,.3,1), opacity 0.6s ease, margin 0.6s ease;
+    margin-bottom: 0;
+  }
+  .whoami-bio-extended.expanded {
+    max-height: 600px;
+    opacity: 1;
+    margin-bottom: 16px;
+  }
+  .whoami-read-more {
+    font-family: var(--mono);
+    font-size: clamp(9px, 1vw, 10px);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: #444;
+    background: none;
+    border: none;
+    cursor: none;
+    padding: 8px 0;
+    transition: color 0.3s;
+    margin-bottom: clamp(50px, 8vh, 80px);
+    display: block;
+  }
+  .whoami-read-more:hover { color: #fff; }
+
+  /* TIMELINE */
+  .whoami-timeline-label {
+    font-family: var(--mono);
+    font-size: clamp(9px, 1vw, 10px);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #333;
+    margin-bottom: 40px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #111;
+  }
+  .tl-item {
+    display: flex;
+    gap: clamp(20px, 4vw, 48px);
+    padding: 28px 0;
+    border-bottom: 1px solid #0d0d0d;
+    position: relative;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .tl-item.tl-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .tl-year {
+    font-family: var(--display);
+    font-size: clamp(28px, 4vw, 42px);
+    color: #1a1a1a;
+    letter-spacing: .04em;
+    min-width: clamp(60px, 10vw, 100px);
+    line-height: 1;
+    flex-shrink: 0;
+    transition: color 0.4s ease;
+  }
+  .tl-item:hover .tl-year { color: #fff; }
+  .tl-content {
+    flex: 1;
+  }
+  .tl-title {
+    font-family: var(--sans);
+    font-size: clamp(14px, 1.6vw, 17px);
+    color: #ccc;
+    font-weight: 300;
+    letter-spacing: .02em;
+    margin-bottom: 6px;
+  }
+  .tl-desc {
+    font-family: var(--serif);
+    font-size: clamp(13px, 1.4vw, 15px);
+    color: #555;
+    font-weight: 300;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .tl-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #333;
+    border: 1px solid #1a1a1a;
+    padding: 3px 8px;
+    margin-top: 10px;
+    margin-right: 6px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .tl-item:hover .tl-tag { color: #666; border-color: #333; }
+
+  .whoami-footer {
+    margin-top: clamp(60px, 10vh, 100px);
+    padding-top: 20px;
+    border-top: 1px solid #111;
+    margin-bottom: 40px;
+  }
+  .whoami-footer a {
+    font-family: var(--mono);
+    font-size: clamp(9px, 1vw, 10px);
+    letter-spacing: .12em;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+    margin-right: 20px;
+  }
+  .whoami-footer a:hover { color: #999; }
+
   /* ADMIN */
   #admin-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; }
   #admin-overlay.active { opacity: 1; pointer-events: all; }
@@ -449,9 +731,9 @@
     .photo-masonry { grid-template-columns: repeat(2,1fr); grid-auto-rows: 140px; }
     .lab-grid { grid-template-columns: 1fr; }
     #sphere-container { width: 60px; height: 60px; top: 16px; right: 16px; }
-    .camera-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .camera-tabs::-webkit-scrollbar { display: none; }
-    .camera-tab-btn { white-space: nowrap; padding: 10px 16px; font-size: 9px; }
+    .tl-item { flex-direction: column; gap: 4px; }
+    .tl-year { min-width: auto; }
+    .whoami-bio, .whoami-bio-extended { font-size: 16px; }
   }
   .admin-drag-handle{cursor:grab;font-size:14px;color:#333;flex-shrink:0;user-select:none;padding:0 4px;transition:color .2s}
   .admin-drag-handle:hover{color:#888}
@@ -571,6 +853,51 @@
     </form>
   </div>
 </div>
+<!-- PRINT MODAL -->
+<div id="print-modal">
+  <div class="print-modal-inner">
+    <div class="print-modal-header">
+      <span>// buy a print</span>
+      <button onclick="closePrintModal()">✕ close</button>
+    </div>
+    <img id="print-modal-photo" class="print-modal-photo" src="" alt="">
+    <div class="print-modal-body">
+      <!-- size selector -->
+      <div>
+        <span class="print-label">Size + Format</span>
+        <div id="print-size-grid" class="print-size-grid"></div>
+      </div>
+      <!-- frame color (hidden for FAP) -->
+      <div id="print-frame-section" style="display:none">
+        <span class="print-label">Frame Color</span>
+        <div class="print-frame-row">
+          <button class="print-frame-btn selected" data-color="black" onclick="selectFrame(this)">Black</button>
+          <button class="print-frame-btn" data-color="white" onclick="selectFrame(this)">White</button>
+          <button class="print-frame-btn" data-color="natural" onclick="selectFrame(this)">Natural</button>
+        </div>
+      </div>
+      <!-- copies -->
+      <div>
+        <span class="print-label">Quantity</span>
+        <div class="print-copies-row">
+          <button onclick="adjustCopies(-1)" style="border:1px solid #1c1c1c;background:none;color:#666;font-family:var(--mono);font-size:14px;padding:5px 12px;cursor:none;" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">−</button>
+          <input type="number" id="print-copies" value="1" min="1" max="20" onchange="updatePrintTotal()">
+          <button onclick="adjustCopies(1)" style="border:1px solid #1c1c1c;background:none;color:#666;font-family:var(--mono);font-size:14px;padding:5px 12px;cursor:none;" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">+</button>
+        </div>
+      </div>
+      <!-- total -->
+      <div class="print-total-row" id="print-total-row"></div>
+      <!-- error -->
+      <div class="print-error" id="print-error"></div>
+      <!-- cta -->
+      <button class="print-checkout-btn" id="print-checkout-btn" onclick="submitPrintOrder()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
+        Proceed to Checkout →
+      </button>
+      <p class="print-note">Printed on demand via Prodigi · Shipped worldwide · Secure checkout via Stripe</p>
+    </div>
+  </div>
+</div>
+
 <div id="admin-overlay">
   <div id="admin-box">
     <div id="admin-header">
@@ -592,7 +919,7 @@
 <!-- LANDING -->
 <div class="screen" id="landing" style="align-items:center;justify-content:center;background:transparent;">
   <div class="terminal-wrap">
-    <div class="term-line prompt" style="animation-delay:.1s"><span>~/</span><span>portfolio</span><span> $ whoami</span></div>
+    <div class="term-line prompt" style="animation-delay:.1s"><span>~/</span><span>portfolio</span><span> $ </span><span class="whoami-trigger" id="whoami-trigger" onmouseenter="whoamiHoverOn()" onmouseleave="whoamiHoverOff()" onclick="navigateWhoami()">whoami</span></div>
     <div class="term-line" style="animation-delay:.5s">initializing...</div>
     <div class="term-line bright" style="animation-delay:.9s">songwriter · producer · builder</div>
     <div class="term-line" style="animation-delay:1.2s">location: nashville, tn</div>
@@ -658,19 +985,22 @@
       <div class="photos-hero">PHOTOS</div>
       <div class="photos-sub" id="photos-locations">nashville · brentwood · on the road</div>
 
-      <!-- CAMERA TABS -->
-      <div class="camera-tabs">
-        <button class="camera-tab-btn active" data-camera="fujifilm" onclick="switchCamera('fujifilm')">Fujifilm X-T5</button>
-        <button class="camera-tab-btn" data-camera="nomo" onclick="switchCamera('nomo')">NOMO</button>
-        <button class="camera-tab-btn" data-camera="campsnap" onclick="switchCamera('campsnap')">CAMPSNAP</button>
-      </div>
-
       <!-- TAG CLOUD -->
       <div class="tag-cloud" id="tag-cloud"></div>
 
       <!-- PHOTO MASONRY -->
       <div class="photo-masonry" id="photo-masonry"></div>
 
+      <!-- PORTFOLIO LINKS -->
+      <div class="photo-links">
+        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/photography" target="_blank" rel="noopener">Full Portfolio ↗</a>
+        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/travel-1" target="_blank" rel="noopener">Travel ↗</a>
+        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/portraits-1" target="_blank" rel="noopener">Portraits ↗</a>
+        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/concerts-studios" target="_blank" rel="noopener">Concerts ↗</a>
+        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/abstract-1" target="_blank" rel="noopener">Abstract ↗</a>
+        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/nature-1" target="_blank" rel="noopener">Nature ↗</a>
+        <a class="photo-link" href="https://stuartsingleton.myportfolio.com/food-2" target="_blank" rel="noopener">Food ↗</a>
+      </div>
 
       <a href="https://www.instagram.com/stuartsingleton.jpg" target="_blank" rel="noopener" class="photos-ig">@stuartsingleton.jpg ↗</a>
     </div>
@@ -724,6 +1054,165 @@
           <div class="lab-card-tags"><span class="lab-tag">AI</span><span class="lab-tag">Claude</span><span class="lab-tag">Plugins</span></div>
           <span class="lab-arrow">↗</span>
         </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHOAMI TRANSITION + ZOOM TEXT -->
+<div class="transition-overlay" id="whoami-transition"></div>
+<div id="whoami-zoom-text">$ whoami</div>
+
+<!-- WHOAMI PAGE -->
+<div class="screen hidden gone" id="whoami-page">
+  <div class="page-inner">
+    <div class="page-nav">
+      <button class="back-btn" onclick="goBack()">← back</button>
+      <span style="color:#333">/</span><span>whoami</span>
+    </div>
+    <div class="page-content">
+      <div class="whoami-hero">
+        <div class="whoami-eyebrow">// system query: who am i</div>
+        <div class="whoami-title">STUART<br>SINGLETON</div>
+        <div class="whoami-subtitle">songwriter · producer · label founder · builder &nbsp;|&nbsp; nashville, tn</div>
+      </div>
+
+      <div class="whoami-bio">
+        Son of legendary record producer Shelby Singleton — the man who bought Sun Records from Sam Phillips — Stuart grew up where music history meets music business. He started his first company on his 18th birthday, spent four years booking 300+ shows across Nashville's indie scene, then launched Cake Records in 2018 as a full-service label and publisher. Under the alias Casein, he's produced lofi instrumentals with over 6 million Apple Music plays and editorial placements across every major platform.
+      </div>
+
+      <div class="whoami-bio-extended" id="bio-extended">
+        Today he builds the infrastructure independent artists need — CakeHQ, a custom label operating system; AI-powered marketing and bio generators; catalogOS for catalog management — while developing The Sun Building, a Nashville creative hub carrying forward his family's legacy in a historic building.<br><br>
+        He married Audrey in October 2023 and their son Sterling was born in June 2025. When he's not writing songs, shipping code, or structuring deals, he's behind a camera — ten years of photography spanning Nashville to the south of France — or in the kitchen making something from scratch.<br><br>
+        His operating philosophy is simple: <em>jack of all trades, master of none, but better than a master of one.</em> He thinks in webs, not lines. Builds things to process the world. And believes that independence doesn't mean isolation — it means owning your work while choosing who you collaborate with.
+      </div>
+
+      <button class="whoami-read-more" id="bio-toggle" onclick="toggleBio()">+ read more</button>
+
+      <div class="whoami-timeline-label">> timeline</div>
+
+      <div id="whoami-timeline">
+        <div class="tl-item">
+          <div class="tl-year">1995</div>
+          <div class="tl-content">
+            <div class="tl-title">Born in Nashville, Tennessee</div>
+            <div class="tl-desc">Baptist Hospital, March 10. Stuart Steele Singleton.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2009</div>
+          <div class="tl-content">
+            <div class="tl-title">Father Shelby Singleton passes away</div>
+            <div class="tl-desc">Stuart was 14. Shelby owned Sun Records, produced millions of records, and changed the shape of Nashville's music industry.</div>
+            <span class="tl-tag">family</span><span class="tl-tag">sun records</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2013</div>
+          <div class="tl-content">
+            <div class="tl-title">Founded Mattress House Music & Premier Booking Enterprises</div>
+            <div class="tl-desc">Started on his 18th birthday. Found artists with great songs but bad recordings, brought them to good studios, developed them from scratch. When they couldn't get shows, built a booking agency to solve it. 300+ shows over 4 years across Nashville's indie scene.</div>
+            <span class="tl-tag">music</span><span class="tl-tag">entrepreneurship</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2015</div>
+          <div class="tl-content">
+            <div class="tl-title">The Nashville Radio</div>
+            <div class="tl-desc">Built a 24/7 online streaming radio station featuring 100% local Nashville music. Produced live video sessions and artist interviews.</div>
+            <span class="tl-tag">music</span><span class="tl-tag">media</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2016</div>
+          <div class="tl-content">
+            <div class="tl-title">Peak booking year — 83 shows</div>
+            <div class="tl-desc">Averaging 7 shows per month across 15+ Nashville venues. Sold-out shows at Exit/In and Sofar Sounds. Profitable out-of-state tours with zero label support. Early artists included Goth Babe, Katie Pruitt, and Devin Dawson.</div>
+            <span class="tl-tag">premier booking</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2018</div>
+          <div class="tl-content">
+            <div class="tl-title">Founded Cake Records</div>
+            <div class="tl-desc">Full-service record label and music publisher. Nashville-based, multi-genre roster. Distribution, publishing admin, playlist curation, artist development.</div>
+            <span class="tl-tag">cake records</span><span class="tl-tag">label</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2020</div>
+          <div class="tl-content">
+            <div class="tl-title">Exploration Group — Royalty Administration</div>
+            <div class="tl-desc">Business development for a royalty administration firm. Audited master and publishing catalogs for missing royalties. Created an educational video series about music industry economics.</div>
+            <span class="tl-tag">publishing</span><span class="tl-tag">royalties</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2022</div>
+          <div class="tl-content">
+            <div class="tl-title">Casein breaks 6M Apple Music plays</div>
+            <div class="tl-desc">Lofi hip-hop instrumentals earning editorial placements across Apple Music, Spotify, and every major streaming platform. Full-time on Cake Records.</div>
+            <span class="tl-tag">casein</span><span class="tl-tag">streaming</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2023</div>
+          <div class="tl-content">
+            <div class="tl-title">Sun Records sold to Primary Wave Music</div>
+            <div class="tl-desc">Helped put together the deal to sell the Sun Records catalog — his family's legacy — to Primary Wave. A chapter closing and a new one opening.</div>
+            <span class="tl-tag">sun records</span><span class="tl-tag">legacy</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2023</div>
+          <div class="tl-content">
+            <div class="tl-title">Married Audrey</div>
+            <div class="tl-desc">October 15, Nashville.</div>
+            <span class="tl-tag">personal</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2024</div>
+          <div class="tl-content">
+            <div class="tl-title">Honeymoon — 17 days in France</div>
+            <div class="tl-desc">Nice, Cannes, St. Paul de Vence, Beaulieu-sur-Mer, Monte Carlo, Versailles, Paris. Six cities, one camera, thousands of frames.</div>
+            <span class="tl-tag">travel</span><span class="tl-tag">photography</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2025</div>
+          <div class="tl-content">
+            <div class="tl-title">Sterling Singleton born</div>
+            <div class="tl-desc">June 29. A new chapter.</div>
+            <span class="tl-tag">family</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2026</div>
+          <div class="tl-content">
+            <div class="tl-title">Building the next layer</div>
+            <div class="tl-desc">CakeHQ — a custom label operating system. The Sun Building — a Nashville creative hub. catalogOS — catalog intelligence. 40+ custom AI skills. Shipping code and writing songs, same conversation.</div>
+            <span class="tl-tag">cakehq</span><span class="tl-tag">sun building</span><span class="tl-tag">ai</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="whoami-footer">
+        <a href="https://www.instagram.com/stuartsingleton" target="_blank" rel="noopener">@stuartsingleton ↗</a>
+        <a href="https://open.spotify.com/playlist/5xpDsfdcCrFmEcV4BAGtkv" target="_blank" rel="noopener">spotify ��</a>
+        <a href="https://credits.muso.ai/profile/9e6a5347-f8c0-46e9-a289-d02982ded67b" target="_blank" rel="noopener">muso.ai ↗</a>
       </div>
     </div>
   </div>
@@ -827,47 +1316,10 @@ let PHOTOS = [];
 let activeTags = new Set();
 let selectedFile = null;
 let selectedSpan = '';
-let currentCamera = 'fujifilm';
-
-// Camera tab tables
-const CAMERA_TABLES = {
-  fujifilm: 'photos',
-  nomo: 'photos_nomo',
-  campsnap: 'photos_campsnap'
-};
-
-function switchCamera(camera) {
-  if (camera === currentCamera) return;
-  currentCamera = camera;
-  activeTags.clear();
-  // Update active tab
-  document.querySelectorAll('.camera-tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.camera === camera);
-  });
-  // Update subtitle for CampSnap
-  var sub = document.getElementById('photos-locations');
-  if (sub) {
-    if (camera === 'campsnap') sub.textContent = 'my camera but not always my photos';
-  }
-  // Fade out then reload
-  const masonry = document.getElementById('photo-masonry');
-  if (masonry) masonry.classList.add('fading');
-  setTimeout(() => {
-    loadPhotos();
-    if (masonry) masonry.classList.remove('fading');
-  }, 300);
-  // Update admin label if admin panel is open
-  var label = document.getElementById('admin-camera-label');
-  if (label) {
-    const names = { fujifilm: 'Fujifilm X-T5', nomo: 'NOMO', campsnap: 'CAMPSNAP' };
-    label.textContent = '→ ' + (names[currentCamera] || currentCamera);
-  }
-}
 
 async function loadPhotos() {
-  const table = CAMERA_TABLES[currentCamera] || 'photos';
   try {
-    const { data, error } = await sb.from(table).select('*').eq('hidden', false).order('sort_order', { ascending: true }).order('created_at', { ascending: false });
+    const { data, error } = await sb.from('photos').select('*').eq('hidden', false).order('sort_order', { ascending: true }).order('created_at', { ascending: false });
     if (error || !data || data.length === 0) throw new Error('empty');
     PHOTOS = data.map(p => ({ ...p, tags: p.tags || '' }));
   } catch {
@@ -885,9 +1337,6 @@ function getTagsArray(photo) {
 
 
 function updateLocationSub() {
-  var el = document.getElementById("photos-locations");
-  if (!el) return;
-  if (currentCamera === 'campsnap') { el.textContent = 'my camera but not always my photos'; return; }
   var locs = ["nashville","brentwood","new york","los angeles","paris","monte carlo","versailles","washington dc","san juan","cannes","london","tokyo","beaulieu sur mer","villefranche sur mer"];
   var found = [];
   PHOTOS.forEach(function(p) {
@@ -896,7 +1345,8 @@ function updateLocationSub() {
       if (locs.indexOf(t) > -1 && found.indexOf(t) === -1) found.push(t);
     });
   });
-  if (found.length) el.textContent = found.join(" - ");
+  var el = document.getElementById("photos-locations");
+  if (el && found.length) el.textContent = found.join(" - ");
 }
 function renderTagCloud() {
   const tagCount = {};
@@ -922,18 +1372,20 @@ function renderPhotos() {
   const masonry = document.getElementById('photo-masonry');
   if (!masonry) return;
   const visible = [];
-  const hidden = [];
   PHOTOS.forEach(p => {
     const tags = getTagsArray(p);
     const match = activeTags.size === 0 || [...activeTags].every(t => tags.includes(t));
     if (match) {
-      visible.push(`<div class="photo-item ${p.span||''}">
+      const buyBadge = p.for_sale ? `<button class="photo-buy-btn" onclick="event.stopPropagation();openPrintModal('${p.id}')">Buy Print</button>` : '';
+      visible.push(`<div class="photo-item ${p.span||''}" onclick="openPrintModal('${p.id}')">
       <img src="${p.src}" alt="${tags[0]||''}" loading="lazy" onerror="this.parentElement.style.background='#111';this.style.display='none'">
       <div class="photo-item-label">${tags.join(' · ')}</div>
+      ${buyBadge}
     </div>`);
     }
   });
   masonry.innerHTML = visible.join('');
+  addHover('.photo-buy-btn');
   // Dynamically limit columns so filtered results don't bunch in left column
   const count = visible.length;
   if (activeTags.size > 0 && count <= 3) {
@@ -990,16 +1442,14 @@ async function uploadAndSave() {
   btn.textContent = "Uploading..."; status.textContent = "";
   var ext = selectedFile.name.split(".").pop();
   var filename = "photo_" + Date.now() + "." + ext;
-  var table = CAMERA_TABLES[currentCamera] || 'photos';
-  var storageBucket = currentCamera === 'fujifilm' ? 'photos' : 'photos-' + currentCamera;
   try {
-    var storageResult = await sb.storage.from(storageBucket).upload(filename, selectedFile, { contentType: selectedFile.type });
+    var storageResult = await sb.storage.from("photos").upload(filename, selectedFile, { contentType: selectedFile.type });
     if (storageResult.error) throw storageResult.error;
-    var urlData = sb.storage.from(storageBucket).getPublicUrl(filename);
+    var urlData = sb.storage.from("photos").getPublicUrl(filename);
     var src = urlData.data.publicUrl;
-    var dbResult = await sb.from(table).insert({ src: src, tags: tags, span: selectedSpan });
+    var dbResult = await sb.from("photos").insert({ src: src, tags: tags, span: selectedSpan });
     if (dbResult.error) throw dbResult.error;
-    status.style.color="#4a8"; status.textContent="photo saved to " + currentCamera;
+    status.style.color="#4a8"; status.textContent="photo saved";
     btn.textContent="Upload & Save ->";
     selectedFile = null;
     document.getElementById("photo-file-input").value = "";
@@ -1019,9 +1469,8 @@ async function loadAdminPhotos() {
   var list = document.getElementById("admin-photo-list");
   var count = document.getElementById("photo-count");
   if (!list) return;
-  var table = CAMERA_TABLES[currentCamera] || 'photos';
   try {
-    var res = await sb.from(table).select("*").order("sort_order", {ascending:true}).order("created_at", {ascending:false});
+    var res = await sb.from("photos").select("*").order("sort_order", {ascending:true}).order("created_at", {ascending:false});
     if (res.error) throw res.error;
     var data = res.data || [];
     count.textContent = "(" + data.length + ")";
@@ -1040,6 +1489,8 @@ async function loadAdminPhotos() {
       html += "<span style=\"color:#2a2a2a\">" + (pspan||"normal") + (isHid ? " hidden" : "") + "</span></div>";
       html += "<button class=\"admin-edit-btn\" data-action=\"edit\" data-id=\"" + pid + "\">edit</button>";
       html += "<button class=\"admin-hide-btn" + (isHid ? " is-hidden" : "") + "\" data-action=\"hide\" data-id=\"" + pid + "\" data-hidden=\"" + isHid + "\">" + (isHid ? "show" : "hide") + "</button>";
+      var isForSale = !!p.for_sale;
+      html += "<button class=\"admin-edit-btn" + (isForSale ? " admin-span-active" : "") + "\" data-action=\"forsale\" data-id=\"" + pid + "\" data-forsale=\"" + isForSale + "\" title=\"Toggle print sale\">" + (isForSale ? "for sale ✓" : "for sale") + "</button>";
       html += "<button class=\"admin-delete-btn\" data-action=\"del\" data-id=\"" + pid + "\" data-src=\"" + (p.src||"") + "\">x</button>";
       html += "</div>";
       html += "<div class=\"admin-edit-row\" id=\"er" + pid + "\" style=\"display:none\">";
@@ -1069,24 +1520,23 @@ async function loadAdminPhotos() {
         if (!er) return;
         var tags = document.getElementById("et"+id).value.trim();
         var span = er.dataset.chosenSpan !== undefined ? er.dataset.chosenSpan : btn.closest(".admin-photo-row").dataset.span;
-        var tbl = CAMERA_TABLES[currentCamera] || 'photos';
-        sb.from(tbl).update({tags:tags, span:span}).eq("id",id).then(function(res){
+        sb.from("photos").update({tags:tags, span:span}).eq("id",id).then(function(res){
           if (res.error){alert("Save failed");return;}
           er.style.display="none";
           loadPhotos(); loadAdminPhotos();
         });
       } else if (act === "hide") {
         var isH = btn.dataset.hidden==="true";
-        var tbl = CAMERA_TABLES[currentCamera] || 'photos';
-        sb.from(tbl).update({hidden:!isH}).eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
+        sb.from("photos").update({hidden:!isH}).eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
+      } else if (act === "forsale") {
+        var isFS = btn.dataset.forsale==="true";
+        sb.from("photos").update({for_sale:!isFS}).eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
       } else if (act === "del") {
         if (!confirm("Delete this photo?")) return;
         var src = btn.dataset.src;
         var fn = src.split("/").pop();
-        var tbl = CAMERA_TABLES[currentCamera] || 'photos';
-        var bucket = currentCamera === 'fujifilm' ? 'photos' : 'photos-' + currentCamera;
-        sb.storage.from(bucket).remove([fn]).then(function(){
-          sb.from(tbl).delete().eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
+        sb.storage.from("photos").remove([fn]).then(function(){
+          sb.from("photos").delete().eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
         });
       }
     };
@@ -1102,8 +1552,7 @@ async function loadAdminPhotos() {
         var esr=document.getElementById("er"+adminDragSrc.dataset.id);
         if(si<ti){row.after(adminDragSrc);if(esr)row.after(esr);}else{row.before(adminDragSrc);if(esr)row.before(esr);}
         var nr=Array.from(list.querySelectorAll(".admin-photo-row"));
-        var tbl=CAMERA_TABLES[currentCamera]||'photos';
-        for(var i=0;i<nr.length;i++){await sb.from(tbl).update({sort_order:i}).eq("id",nr[i].dataset.id);}
+        for(var i=0;i<nr.length;i++){await sb.from("photos").update({sort_order:i}).eq("id",nr[i].dataset.id);}
       });
     });
     addHover(".admin-delete-btn,.admin-hide-btn,.admin-edit-btn,.admin-drag-handle");
@@ -1114,8 +1563,7 @@ async function loadAdminPhotos() {
 function showTagSuggestions() {
   var input = document.getElementById("photo-tags");
   if (!input) return;
-  var tbl = CAMERA_TABLES[currentCamera] || 'photos';
-  sb.from(tbl).select("tags").then(function(res) {
+  sb.from("photos").select("tags").then(function(res) {
     if (!res.data) return;
     var all = {};
     res.data.forEach(function(p){(p.tags||"").split(",").forEach(function(t){t=t.trim();if(t)all[t]=1;});});
@@ -1167,7 +1615,7 @@ function addHover(sel) {
     el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
   });
 }
-addHover('button, .choice-btn, .track-row, .photo-item, .photo-tag, .photo-link, .photos-ig, .lab-card, .back-btn, .music-cta, .admin-btn, #admin-login-btn, #admin-close, #admin-logout, #yt-modal-close, .camera-tab-btn, a');
+addHover('button, .choice-btn, .track-row, .photo-item, .photo-tag, .photo-link, .photos-ig, .lab-card, .back-btn, .music-cta, .admin-btn, #admin-login-btn, #admin-close, #admin-logout, #yt-modal-close, a');
 
 // ══ SECRET ADMIN TRIGGER ══
 let adminBuffer = '';
@@ -1185,7 +1633,7 @@ let adminAuthed = false;
 function getAdminPanelHTML() {
   return `
       <div class="admin-section">
-        <div class="admin-section-title">Add Photo <span id="admin-camera-label" style="color:#4a8;"></span></div>
+        <div class="admin-section-title">Add Photo</div>
         <div class="admin-upload-area" id="upload-area">
           <p id="upload-area-label">Drag & drop or click to select</p>
           <input type="file" id="photo-file-input" accept="image/*" onchange="handleFileSelect(this)" style="display:none">
@@ -1231,16 +1679,8 @@ function showAdminPanel() {
   panel.innerHTML = getAdminPanelHTML();
   panel.style.display = 'block';
   document.getElementById('admin-login').style.display = 'none';
-  updateAdminCameraLabel();
   initUploadArea();
   loadAdminPhotos();
-}
-function updateAdminCameraLabel() {
-  const label = document.getElementById('admin-camera-label');
-  if (label) {
-    const names = { fujifilm: 'Fujifilm X-T5', nomo: 'NOMO', campsnap: 'CAMPSNAP' };
-    label.textContent = '→ ' + (names[currentCamera] || currentCamera);
-  }
 }
 function initUploadArea() {
   const area = document.getElementById('upload-area');
@@ -1309,36 +1749,51 @@ new p5(function(p) {
 
   p.draw = function() {
     p.clear();
-    // Draw connections
-    p.stroke(255, 12); p.strokeWeight(0.5);
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const d = p.dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
-        if (d < 140) {
-          const alpha = p.map(d, 0, 140, 18, 0);
-          p.stroke(255, alpha);
-          p.line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+    const grav = (typeof gravityStrength !== 'undefined') ? gravityStrength : 0;
+    // Draw connections — fade out during gravity
+    if (grav < 0.5) {
+      p.strokeWeight(0.5);
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const d = p.dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+          if (d < 140) {
+            const alpha = p.map(d, 0, 140, 18, 0) * (1 - grav * 2);
+            if (alpha > 0) {
+              p.stroke(255, alpha);
+              p.line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+            }
+          }
         }
       }
     }
     // Draw and update particles
     p.noStroke();
     for (const pt of particles) {
+      // Gravity effect
+      if (grav > 0.01) {
+        pt.vy += 0.12 * grav;
+        pt.vx *= (1 - 0.015 * grav);
+      }
       const dx = p.mouseX - pt.x;
       const dy = p.mouseY - pt.y;
       const dist = p.sqrt(dx * dx + dy * dy);
       let alpha = 40;
       if (dist < 200) {
-        const force = (200 - dist) / 200 * 0.008;
+        const force = (200 - dist) / 200 * 0.008 * (1 - grav * 0.8);
         pt.vx += dx * force; pt.vy += dy * force;
         alpha = p.map(dist, 0, 200, 90, 40);
       }
+      alpha *= (1 - grav * 0.4);
       pt.vx *= 0.98; pt.vy *= 0.98;
       pt.x += pt.vx; pt.y += pt.vy;
       if (pt.x < 0) pt.x = p.width;
       if (pt.x > p.width) pt.x = 0;
-      if (pt.y < 0) pt.y = p.height;
-      if (pt.y > p.height) pt.y = 0;
+      if (grav > 0.01 && pt.y > p.height + 10) {
+        pt.y = -5; pt.x = Math.random() * p.width; pt.vy = Math.random() * 0.3;
+      } else {
+        if (pt.y < 0) pt.y = p.height;
+        if (pt.y > p.height) pt.y = 0;
+      }
       p.fill(255, alpha);
       p.ellipse(pt.x, pt.y, pt.size);
     }
@@ -1634,6 +2089,389 @@ document.getElementById('contact-modal').addEventListener('click', e => {
 });
 
 window.addEventListener('resize',()=>{if(matrixRunning){mCanvas.width=window.innerWidth;mCanvas.height=window.innerHeight;}});
+
+// ══ WHOAMI — PARTICLE GRAVITY EFFECT ══
+let whoamiHovering = false;
+let gravityStrength = 0; // 0 = normal, 1 = full gravity
+const GRAVITY_RAMP_UP = 0.04;
+const GRAVITY_RAMP_DOWN = 0.02;
+
+function whoamiHoverOn() {
+  whoamiHovering = true;
+  cursor.classList.add('hover');
+}
+function whoamiHoverOff() {
+  whoamiHovering = false;
+  cursor.classList.remove('hover');
+}
+
+// Patch the abstract particle update to include gravity
+const _origAbstractUpdate = AbstractParticle.prototype.update;
+AbstractParticle.prototype.update = function() {
+  // Apply gravity when whoami is hovered
+  if (gravityStrength > 0.01) {
+    // Gravity pulls down
+    this.vy += 0.15 * gravityStrength;
+    // Dampen horizontal to simulate "disconnect" — particles drift lazily
+    this.vx *= (1 - 0.02 * gravityStrength);
+    // Reduce cursor influence
+    const dx = cursorX - this.x;
+    const dy = cursorY - this.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 180) {
+      // Weaken attraction proportional to gravity
+      const force = (180 - dist) / 180 * 0.012 * (1 - gravityStrength * 0.85);
+      this.vx += dx * force * 0.01;
+      this.vy += dy * force * 0.01;
+      this.alpha = this.baseAlpha + (180 - dist) / 180 * 0.18 * (1 - gravityStrength * 0.6);
+    } else {
+      this.alpha += (this.baseAlpha * (1 - gravityStrength * 0.5) - this.alpha) * 0.02;
+    }
+    this.vx *= 0.99; this.vy *= 0.99;
+    this.x += this.vx; this.y += this.vy;
+    // Wrap horizontally, but let particles fall off bottom and respawn at top
+    if (this.x < 0) this.x = aCanvas.width;
+    if (this.x > aCanvas.width) this.x = 0;
+    if (this.y > aCanvas.height + 20) {
+      this.y = -10;
+      this.x = Math.random() * aCanvas.width;
+      this.vy = Math.random() * 0.5;
+    }
+    if (this.y < -20) this.y = aCanvas.height;
+  } else {
+    _origAbstractUpdate.call(this);
+  }
+};
+
+// Patch the abstract connection drawing to fade connections during gravity
+const _origDrawConnections = drawAbstractConnections;
+drawAbstractConnections = function() {
+  if (gravityStrength > 0.5) return; // No connections when fully disconnected
+  for (let i = 0; i < abstractParticles.length; i++) {
+    for (let j = i + 1; j < abstractParticles.length; j++) {
+      const dx = abstractParticles[i].x - abstractParticles[j].x;
+      const dy = abstractParticles[i].y - abstractParticles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 110) {
+        const alpha = (1 - dist / 110) * 0.05 * (1 - gravityStrength * 1.8);
+        if (alpha > 0.001) {
+          aCtx.beginPath();
+          aCtx.moveTo(abstractParticles[i].x, abstractParticles[i].y);
+          aCtx.lineTo(abstractParticles[j].x, abstractParticles[j].y);
+          aCtx.strokeStyle = `rgba(255, 255, 255, ${Math.max(0, alpha)})`;
+          aCtx.lineWidth = 0.5;
+          aCtx.stroke();
+        }
+      }
+    }
+  }
+};
+
+// Update gravity strength each frame (called from animateAbstract indirectly via rAF)
+const _origAnimateAbstract = animateAbstract;
+animateAbstract = function() {
+  // Ramp gravity up/down
+  if (whoamiHovering) {
+    gravityStrength = Math.min(1, gravityStrength + GRAVITY_RAMP_UP);
+  } else {
+    gravityStrength = Math.max(0, gravityStrength - GRAVITY_RAMP_DOWN);
+  }
+  aCtx.clearRect(0, 0, aCanvas.width, aCanvas.height);
+  abstractParticles.forEach(p => { p.update(); p.draw(); });
+  drawAbstractConnections();
+  requestAnimationFrame(animateAbstract);
+};
+
+// ══ WHOAMI — ZOOM + NAVIGATE ══
+let whoamiNavigating = false;
+
+function navigateWhoami() {
+  if (whoamiNavigating) return;
+  whoamiNavigating = true;
+
+  const landing = document.getElementById('landing');
+  const zoomText = document.getElementById('whoami-zoom-text');
+  const transition = document.getElementById('whoami-transition');
+
+  // 1) Start the zoom text animation
+  zoomText.classList.add('animating');
+
+  // 2) After zoom text starts fading, fade to black
+  setTimeout(() => {
+    transition.classList.add('active');
+  }, 600);
+
+  // 3) After black screen, show the whoami page
+  setTimeout(() => {
+    landing.classList.add('hidden');
+    const page = document.getElementById('whoami-page');
+    page.classList.remove('gone');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      page.classList.remove('hidden');
+      page.classList.add('page-enter');
+      // Start timeline scroll reveal
+      observeTimeline();
+      // Add hover listeners
+      addHover('#whoami-page .back-btn, #whoami-page a, .whoami-read-more');
+    }));
+
+    // Fade out the transition overlay
+    setTimeout(() => {
+      transition.classList.remove('active');
+      zoomText.classList.remove('animating');
+      whoamiNavigating = false;
+    }, 400);
+  }, 1200);
+
+  // Update URL
+  history.pushState({ page: 'whoami' }, '', '/whoami');
+}
+
+// ══ WHOAMI — BIO TOGGLE ══
+function toggleBio() {
+  const ext = document.getElementById('bio-extended');
+  const btn = document.getElementById('bio-toggle');
+  if (ext.classList.contains('expanded')) {
+    ext.classList.remove('expanded');
+    btn.textContent = '+ read more';
+  } else {
+    ext.classList.add('expanded');
+    btn.textContent = '− read less';
+  }
+}
+
+// ══ WHOAMI — TIMELINE SCROLL REVEAL ══
+function observeTimeline() {
+  const items = document.querySelectorAll('.tl-item');
+  if (!items.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // Stagger the reveal slightly based on index within viewport
+        setTimeout(() => {
+          entry.target.classList.add('tl-visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, root: document.querySelector('#whoami-page .page-inner') });
+  items.forEach(item => observer.observe(item));
+}
+
+// ══ WHOAMI — UPDATE GOBACK ══
+const _origGoBack = goBack;
+goBack = function() {
+  closeYT();
+  ['music-page','photos-page','lab-page','whoami-page'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el.classList.contains('gone')) return;
+    el.classList.remove('page-enter'); el.classList.add('hidden');
+    setTimeout(()=>{el.classList.add('gone');const inner=el.querySelector('.page-inner');if(inner)inner.scrollTop=0;},720);
+  });
+  stopMatrix();
+  const landing=document.getElementById('landing');
+  landing.classList.remove('hidden','gone'); landing.style.zIndex='3';
+  setTimeout(()=>{landing.style.zIndex='';},800);
+  // Reset URL
+  history.pushState({ page: 'home' }, '', '/');
+};
+
+// ══ URL ROUTING — direct /whoami access ══
+(function() {
+  const path = window.location.pathname;
+  if (path === '/whoami') {
+    // Direct URL access — skip the zoom animation, go straight to page
+    setTimeout(() => {
+      const landing = document.getElementById('landing');
+      landing.classList.add('hidden');
+      setTimeout(() => { landing.classList.add('gone'); }, 100);
+      const page = document.getElementById('whoami-page');
+      page.classList.remove('gone');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        page.classList.remove('hidden');
+        page.classList.add('page-enter');
+        observeTimeline();
+        addHover('#whoami-page .back-btn, #whoami-page a, .whoami-read-more');
+      }));
+    }, 300);
+  }
+})();
+
+// Handle browser back/forward
+window.addEventListener('popstate', (e) => {
+  if (e.state && e.state.page === 'whoami') {
+    // Forward to whoami
+    const landing = document.getElementById('landing');
+    landing.classList.add('hidden');
+    const page = document.getElementById('whoami-page');
+    page.classList.remove('gone','hidden');
+    page.classList.add('page-enter');
+    observeTimeline();
+  } else {
+    // Back to landing
+    goBack();
+  }
+});
+
+// ══ PRINT MODAL ══
+const SUPA_EDGE = 'https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1';
+
+const PRINT_SIZES = [
+  { sku: 'GLOBAL-FAP-8X10',   label: '8×10"',  price: 3500,  framed: false },
+  { sku: 'GLOBAL-FAP-8X12',   label: '8×12"',  price: 4500,  framed: false },
+  { sku: 'GLOBAL-FAP-12X16',  label: '12×16"', price: 6500,  framed: false },
+  { sku: 'GLOBAL-FAP-16X24',  label: '16×24"', price: 7500,  framed: false },
+  { sku: 'GLOBAL-FAP-18X24',  label: '18×24"', price: 8500,  framed: false },
+  { sku: 'GLOBAL-FAP-24X36',  label: '24×36"', price: 11500, framed: false },
+  { sku: 'GLOBAL-CFPM-8X10',  label: '8×10" Framed',  price: 12000, framed: true },
+  { sku: 'GLOBAL-CFPM-12X16', label: '12×16" Framed', price: 16000, framed: true },
+  { sku: 'GLOBAL-CFPM-16X24', label: '16×24" Framed', price: 22000, framed: true },
+];
+
+let _printPhotoId = null;
+let _printSku = null;
+let _printFrameColor = 'black';
+let _printPriceCents = 0;
+
+function openPrintModal(photoId) {
+  const photo = PHOTOS.find(p => String(p.id) === String(photoId));
+  if (!photo) return;
+  _printPhotoId = photoId;
+  _printSku = null;
+  _printFrameColor = 'black';
+  _printPriceCents = 0;
+
+  // Set photo
+  document.getElementById('print-modal-photo').src = photo.src || '';
+  document.getElementById('print-error').textContent = '';
+  document.getElementById('print-copies').value = 1;
+  document.getElementById('print-total-row').textContent = '';
+  document.getElementById('print-checkout-btn').disabled = true;
+
+  // Build size grid
+  const grid = document.getElementById('print-size-grid');
+  grid.innerHTML = PRINT_SIZES.map(s => {
+    const dollars = (s.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
+    return `<button class="print-size-btn" data-sku="${s.sku}" data-price="${s.price}" data-framed="${s.framed}" onclick="selectSize(this)">
+      <span class="ps-size">${s.label}</span>
+      <span class="ps-price">${dollars}</span>
+    </button>`;
+  }).join('');
+  addHover('.print-size-btn,.print-frame-btn,.print-checkout-btn');
+
+  // Reset frame section
+  document.getElementById('print-frame-section').style.display = 'none';
+  document.querySelectorAll('.print-frame-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.color === 'black');
+  });
+
+  const modal = document.getElementById('print-modal');
+  modal.classList.add('open');
+}
+
+function closePrintModal() {
+  document.getElementById('print-modal').classList.remove('open');
+}
+
+document.getElementById('print-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('print-modal')) closePrintModal();
+});
+
+function selectSize(btn) {
+  document.querySelectorAll('.print-size-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  _printSku = btn.dataset.sku;
+  _printPriceCents = parseInt(btn.dataset.price, 10);
+  const isFramed = btn.dataset.framed === 'true';
+  document.getElementById('print-frame-section').style.display = isFramed ? 'block' : 'none';
+  document.getElementById('print-checkout-btn').disabled = false;
+  updatePrintTotal();
+}
+
+function selectFrame(btn) {
+  document.querySelectorAll('.print-frame-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  _printFrameColor = btn.dataset.color;
+}
+
+function adjustCopies(delta) {
+  const input = document.getElementById('print-copies');
+  const next = Math.max(1, Math.min(20, parseInt(input.value || 1, 10) + delta));
+  input.value = next;
+  updatePrintTotal();
+}
+
+function updatePrintTotal() {
+  if (!_printSku) return;
+  const copies = parseInt(document.getElementById('print-copies').value || 1, 10);
+  const total = (_printPriceCents * copies) / 100;
+  const formatted = total.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
+  document.getElementById('print-total-row').innerHTML = `Subtotal: <strong>${formatted}</strong> + shipping (calculated at checkout)`;
+}
+
+async function submitPrintOrder() {
+  if (!_printPhotoId || !_printSku) return;
+  const copies = parseInt(document.getElementById('print-copies').value || 1, 10);
+  const btn = document.getElementById('print-checkout-btn');
+  const errEl = document.getElementById('print-error');
+  errEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Redirecting…';
+
+  try {
+    const res = await fetch(`${SUPA_EDGE}/create-checkout-session`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY },
+      body: JSON.stringify({
+        photoId: _printPhotoId,
+        sku: _printSku,
+        frameColor: _printFrameColor,
+        copies,
+        successUrl: `${window.location.origin}/print-success`,
+        cancelUrl: window.location.href
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.url) {
+      throw new Error(data.error || 'Could not create checkout session');
+    }
+    window.location.href = data.url;
+  } catch (err) {
+    errEl.textContent = err.message || 'Something went wrong. Please try again.';
+    btn.disabled = false;
+    btn.textContent = 'Proceed to Checkout →';
+  }
+}
+
+// ══ PRINT SUCCESS PAGE ══
+(function() {
+  if (window.location.pathname === '/print-success') {
+    const landing = document.getElementById('landing');
+    landing.classList.add('hidden');
+    setTimeout(() => { landing.classList.add('gone'); }, 100);
+    // Show a simple thank-you overlay
+    const el = document.createElement('div');
+    el.style.cssText = 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:#050505;';
+    el.innerHTML = `<div style="text-align:center;font-family:var(--mono);max-width:440px;padding:40px 24px;">
+      <div style="font-size:9px;letter-spacing:.3em;color:#333;text-transform:uppercase;margin-bottom:24px;">// order confirmed</div>
+      <div style="font-size:13px;color:#888;letter-spacing:.08em;line-height:1.7;margin-bottom:32px;">
+        Your print order has been received.<br>
+        You'll get a confirmation email shortly.<br>
+        <span style="color:#444;">Prints ship within 3–5 business days.</span>
+      </div>
+      <button onclick="history.pushState({},'','/');this.closest('div[style]').remove();document.getElementById('landing').classList.remove('hidden','gone');"
+        style="background:none;border:1px solid #222;color:#555;font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;padding:12px 28px;cursor:none;"
+        onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
+        ← Back to Site
+      </button>
+    </div>`;
+    document.body.appendChild(el);
+    history.replaceState({ page: 'print-success' }, '', '/print-success');
+  }
+})();
+
+// ══ ADMIN FOR_SALE TOGGLE ══
+// Patched into loadAdminPhotos via event delegation — handled in admin photo list click handler
 </script>
 </body>
 </html>
