@@ -2793,8 +2793,12 @@ const PRINT_SIZES = [
 ];
 
 // Minimum print quality floor. A size is offered only if the photo's long edge
-// has at least (longIn × MIN_DPI) pixels. 150 = standard fine-art floor.
-const MIN_PRINT_DPI = 150;
+// has at least (longIn × MIN_DPI) pixels. 200 = honest "sharp at arm's length"
+// floor (raised from 150, which let web-optimized 2048px photos offer soft
+// 8×12/9×12 prints that undercut the museum-quality positioning). Full-res,
+// Nomo, and 3000px+ photos still offer their large sizes; only the
+// web-optimized 2048px photos are now capped at ~6×9 / 6×8.
+const MIN_PRINT_DPI = 200;
 // Aspect-ratio tolerance: a print ratio within this of the photo ratio = "no crop".
 const RATIO_TOLERANCE = 0.06;
 
