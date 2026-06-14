@@ -416,37 +416,38 @@
   .photo-item:hover .photo-request-btn { opacity: 1; pointer-events: all; }
   .photo-request-btn:hover { color: #aaa; border-color: #333; }
 
-  /* print modal */
+  /* print modal — WHITE shop-matching theme */
   #print-modal, #request-modal {
     position: fixed; inset: 0; z-index: 950;
-    background: rgba(0,0,0,.92);
+    background: rgba(20,18,15,.55); backdrop-filter: blur(3px);
     display: flex; align-items: center; justify-content: center;
     opacity: 0; pointer-events: none; transition: opacity .3s;
   }
   #print-modal.open, #request-modal.open { opacity: 1; pointer-events: all; }
   .print-modal-inner {
     width: min(560px, 94vw);
-    border: 1px solid #1c1c1c; background: #080808;
+    border: 1px solid #e2dfd7; background: #ffffff; border-radius: 2px;
     font-family: var(--mono);
     max-height: 92vh; overflow-y: auto;
+    box-shadow: 0 24px 70px rgba(0,0,0,.22);
   }
   .print-modal-header {
-    padding: 18px 22px; border-bottom: 1px solid #141414;
+    padding: 18px 22px; border-bottom: 1px solid #ece9e2;
     display: flex; justify-content: space-between; align-items: center;
   }
-  .print-modal-header span { font-size: 9px; letter-spacing: .2em; color: #444; text-transform: uppercase; }
-  .print-modal-header button { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; background: none; border: 1px solid #222; color: #555; padding: 4px 10px; cursor: none; }
-  .print-modal-header button:hover { color: #aaa; border-color: #444; }
+  .print-modal-header span { font-size: 9px; letter-spacing: .2em; color: #908b82; text-transform: uppercase; }
+  .print-modal-header button { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; background: none; border: 1px solid #d8d5cd; color: #908b82; padding: 4px 10px; cursor: none; transition: color .2s, border-color .2s; }
+  .print-modal-header button:hover { color: #1a1a1a; border-color: #b3aea3; }
   .print-modal-photo { max-width: 100%; max-height: 300px; width: auto; margin: 0 auto; object-fit: contain; display: block; }
   /* ── live print preview stage ── */
   #print-preview-stage {
-    background: #0b0b0b; padding: 26px 22px; display: flex; align-items: center;
-    justify-content: center; min-height: 230px; max-height: 340px; border-bottom: 1px solid #161616;
+    background: #f6f5f2; padding: 26px 22px; display: flex; align-items: center;
+    justify-content: center; min-height: 230px; max-height: 340px; border-bottom: 1px solid #ece9e2;
   }
   /* the framed/print mockup: outer = frame, mat = inner border, img fills the print area */
   .pv-frame {
     box-sizing: border-box; max-width: 78%; max-height: 290px;
-    box-shadow: 0 18px 40px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.04) inset;
+    box-shadow: 0 8px 22px rgba(0,0,0,.14);
     transition: border-color .25s, background .25s, padding .25s;
     display: block; line-height: 0;
   }
@@ -454,57 +455,58 @@
   .pv-frame.framed.fc-black   { border-color: #15161a; }
   .pv-frame.framed.fc-white   { border-color: #f3f1ec; }
   .pv-frame.framed.fc-natural { border-color: #b8966a; }
-  .pv-frame.paper { border: 1px solid #1d1d1d; background: #111; padding: 0; }
+  .pv-frame.paper { border: 1px solid #e2dfd7; background: #fff; padding: 0; }
   .pv-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .pv-caption { font-family: var(--mono); font-size: 8px; letter-spacing: .14em; color: #3f3f3f; text-transform: uppercase; text-align: center; margin-top: 12px; }
-  .pv-mockup-img { max-width: 88%; max-height: 300px; display: block; box-shadow: 0 18px 40px rgba(0,0,0,.55); }
+  .pv-caption { font-family: var(--mono); font-size: 8px; letter-spacing: .14em; color: #b0aaa0; text-transform: uppercase; text-align: center; margin-top: 12px; }
+  .pv-mockup-img { max-width: 88%; max-height: 300px; display: block; box-shadow: 0 8px 22px rgba(0,0,0,.14); }
   .print-modal-body { padding: 22px; display: flex; flex-direction: column; gap: 20px; }
-  .print-label { font-size: 8px; letter-spacing: .2em; color: #444; text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .print-label { font-size: 8px; letter-spacing: .2em; color: #908b82; text-transform: uppercase; margin-bottom: 8px; display: block; }
   .print-size-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
   .print-size-btn {
-    border: 1px solid #1c1c1c; background: none; color: #666;
+    border: 1px solid #d8d5cd; background: #fff; color: #6a655c;
     font-family: var(--mono); font-size: 9px; letter-spacing: .1em;
     padding: 9px 6px; text-align: center; cursor: none;
     display: flex; flex-direction: column; gap: 3px; align-items: center;
-    transition: border-color .2s, color .2s;
+    transition: border-color .2s, color .2s, background .2s;
   }
-  .print-size-btn span.ps-size { font-size: 10px; color: #888; }
-  .print-size-btn span.ps-price { font-size: 8px; color: #444; }
-  .print-size-btn.selected { border-color: #444; color: #ddd; }
-  .print-size-btn.selected span.ps-price { color: #888; }
-  .print-size-btn:hover { border-color: #333; color: #bbb; }
-  .print-measuring { grid-column: 1 / -1; font-size: 9px; color: #555; letter-spacing: .08em; line-height: 1.6; padding: 10px 2px; }
-  .print-size-note { grid-column: 1 / -1; font-size: 8px; color: #3a3a3a; letter-spacing: .06em; line-height: 1.5; margin-top: 4px; }
+  .print-size-btn span.ps-size { font-size: 10px; color: #4a4640; }
+  .print-size-btn span.ps-price { font-size: 8px; color: #b0aaa0; }
+  .print-size-btn.selected { border-color: #1a1a1a; color: #1a1a1a; background: #f6f5f2; }
+  .print-size-btn.selected span.ps-size { color: #1a1a1a; }
+  .print-size-btn.selected span.ps-price { color: #6a655c; }
+  .print-size-btn:hover { border-color: #b3aea3; color: #1a1a1a; }
+  .print-measuring { grid-column: 1 / -1; font-size: 9px; color: #908b82; letter-spacing: .08em; line-height: 1.6; padding: 10px 2px; }
+  .print-size-note { grid-column: 1 / -1; font-size: 8px; color: #b0aaa0; letter-spacing: .06em; line-height: 1.5; margin-top: 4px; }
   .print-frame-row { display: flex; gap: 8px; }
   .print-frame-btn {
-    border: 1px solid #1c1c1c; background: none;
+    border: 1px solid #d8d5cd; background: #fff;
     font-family: var(--mono); font-size: 9px; letter-spacing: .12em;
-    color: #666; padding: 8px 14px; cursor: none;
-    transition: border-color .2s, color .2s;
+    color: #6a655c; padding: 8px 14px; cursor: none;
+    transition: border-color .2s, color .2s, background .2s;
   }
-  .print-frame-btn.selected { border-color: #444; color: #ddd; }
-  .print-frame-btn:hover { border-color: #333; color: #bbb; }
+  .print-frame-btn.selected { border-color: #1a1a1a; color: #1a1a1a; background: #f6f5f2; }
+  .print-frame-btn:hover { border-color: #b3aea3; color: #1a1a1a; }
   .print-copies-row { display: flex; align-items: center; gap: 14px; }
   .print-copies-row input {
-    width: 60px; background: #111; border: 1px solid #1c1c1c;
-    color: #ccc; font-family: var(--mono); font-size: 13px;
+    width: 60px; background: #fff; border: 1px solid #d8d5cd;
+    color: #1a1a1a; font-family: var(--mono); font-size: 13px;
     padding: 7px 10px; text-align: center; outline: none;
     -moz-appearance: textfield;
   }
   .print-copies-row input::-webkit-inner-spin-button,
   .print-copies-row input::-webkit-outer-spin-button { -webkit-appearance: none; }
-  .print-total-row { font-size: 10px; color: #555; letter-spacing: .1em; }
-  .print-total-row strong { color: #aaa; }
+  .print-total-row { font-size: 10px; color: #908b82; letter-spacing: .1em; }
+  .print-total-row strong { color: #1a1a1a; font-weight: 600; }
   .print-checkout-btn {
-    width: 100%; border: 1px solid #2a2a2a; background: none;
-    color: #888; font-family: var(--mono); font-size: 9px;
+    width: 100%; border: 1px solid #1a1a1a; background: #1a1a1a;
+    color: #f6f5f2; font-family: var(--mono); font-size: 9px;
     letter-spacing: .22em; text-transform: uppercase;
-    padding: 14px; cursor: none; transition: border-color .2s, color .2s;
+    padding: 15px; cursor: none; transition: background .2s, color .2s, border-color .2s;
   }
-  .print-checkout-btn:hover { border-color: #444; color: #ddd; }
-  .print-checkout-btn:disabled { opacity: .4; pointer-events: none; }
-  .print-error { font-size: 9px; color: #c44; letter-spacing: .1em; min-height: 13px; }
-  .print-note { font-size: 8px; color: #333; letter-spacing: .1em; line-height: 1.6; }
+  .print-checkout-btn:hover { background: #fff; color: #1a1a1a; }
+  .print-checkout-btn:disabled { opacity: .35; pointer-events: none; }
+  .print-error { font-size: 9px; color: #c0392b; letter-spacing: .1em; min-height: 13px; }
+  .print-note { font-size: 8px; color: #b0aaa0; letter-spacing: .1em; line-height: 1.6; }
 
   /* external category links below grid */
   .photo-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; max-width: 100%; }
@@ -826,6 +828,26 @@
     .tl-item { flex-direction: column; gap: 4px; }
     .tl-year { min-width: auto; }
     .whoami-bio, .whoami-bio-extended { font-size: 16px; }
+
+    /* ── SHOP on mobile: 2-up product cards instead of one giant card ── */
+    .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .shop-card-body { padding: 11px 11px 13px; gap: 7px; }
+    .shop-card-title { font-size: 8.5px; min-height: 24px; }
+    .shop-card-price { font-size: 12px; }
+    .shop-card-buy { padding: 9px 0; }            /* taller tap target */
+    .shop-head { margin-bottom: 22px; padding-bottom: 16px; }
+
+    /* ── PRINT / REQUEST modal on mobile ── */
+    #print-modal, #request-modal { align-items: stretch; }
+    .print-modal-inner { width: 100vw; max-height: 100dvh; border-radius: 0; border-left: none; border-right: none; -webkit-overflow-scrolling: touch; }
+    .print-modal-header { padding: 16px 18px; }
+    #print-preview-stage { padding: 20px 16px; min-height: 200px; max-height: 46vh; }
+    .pv-frame { max-width: 70%; max-height: 42vh; }
+    .print-modal-body { padding: 18px 18px 26px; gap: 18px; }
+    .print-size-grid { gap: 7px; }
+    .print-size-btn { padding: 11px 4px; }        /* bigger tap targets */
+    .print-checkout-btn { padding: 16px; }
+    .print-copies-row input { width: 64px; padding: 9px 10px; }
   }
   .admin-drag-handle{cursor:grab;font-size:14px;color:#333;flex-shrink:0;user-select:none;padding:0 4px;transition:color .2s}
   .admin-drag-handle:hover{color:#888}
@@ -977,9 +999,9 @@
       <div>
         <span class="print-label">Quantity</span>
         <div class="print-copies-row">
-          <button onclick="adjustCopies(-1)" style="border:1px solid #1c1c1c;background:none;color:#666;font-family:var(--mono);font-size:14px;padding:5px 12px;cursor:none;" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">−</button>
+          <button onclick="adjustCopies(-1)" style="border:1px solid #d8d5cd;background:#fff;color:#6a655c;font-family:var(--mono);font-size:14px;padding:5px 12px;cursor:none;transition:border-color .2s,color .2s;" onmouseenter="cursor.classList.add('hover');this.style.borderColor='#b3aea3';this.style.color='#1a1a1a'" onmouseleave="cursor.classList.remove('hover');this.style.borderColor='#d8d5cd';this.style.color='#6a655c'">−</button>
           <input type="number" id="print-copies" value="1" min="1" max="20" onchange="updatePrintTotal()">
-          <button onclick="adjustCopies(1)" style="border:1px solid #1c1c1c;background:none;color:#666;font-family:var(--mono);font-size:14px;padding:5px 12px;cursor:none;" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">+</button>
+          <button onclick="adjustCopies(1)" style="border:1px solid #d8d5cd;background:#fff;color:#6a655c;font-family:var(--mono);font-size:14px;padding:5px 12px;cursor:none;transition:border-color .2s,color .2s;" onmouseenter="cursor.classList.add('hover');this.style.borderColor='#b3aea3';this.style.color='#1a1a1a'" onmouseleave="cursor.classList.remove('hover');this.style.borderColor='#d8d5cd';this.style.color='#6a655c'">+</button>
         </div>
       </div>
       <!-- total -->
@@ -1008,12 +1030,12 @@
       <div>
         <span class="print-label">Your email</span>
         <input type="email" id="request-email" placeholder="you@example.com"
-          style="width:100%;background:#0d0d0d;border:1px solid #1c1c1c;color:#ddd;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;">
+          style="width:100%;background:#fff;border:1px solid #d8d5cd;color:#1a1a1a;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;">
       </div>
       <div>
-        <span class="print-label">Note <span style="color:#2a2a2a;">(optional — size, framing, etc.)</span></span>
+        <span class="print-label">Note <span style="color:#b0aaa0;">(optional — size, framing, etc.)</span></span>
         <textarea id="request-message" rows="2" placeholder="e.g. would love this as a large framed print"
-          style="width:100%;background:#0d0d0d;border:1px solid #1c1c1c;color:#ddd;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;resize:vertical;"></textarea>
+          style="width:100%;background:#fff;border:1px solid #d8d5cd;color:#1a1a1a;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;resize:vertical;"></textarea>
       </div>
       <div class="print-error" id="request-error"></div>
       <button class="print-checkout-btn" id="request-submit-btn" onclick="submitRequest()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
@@ -1372,6 +1394,27 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const { createClient } = supabase;
 const sb = createClient(SUPA_URL, SUPA_KEY);
 
+// ══ RESPONSIVE IMAGES ══
+// Supabase serves on-the-fly resized JPEGs from /render/image/. A full-res
+// original is ~400KB+; a 480px copy is ~35KB. We serve small copies for grid
+// thumbnails (huge win on mobile/cellular) and keep full-res only in the print
+// preview, where print-quality matters.
+function thumbURL(src, width, quality) {
+  if (!src || typeof src !== 'string') return src;
+  // Only transform our own Supabase storage objects.
+  const marker = '/storage/v1/object/public/';
+  const i = src.indexOf(marker);
+  if (i === -1) return src;
+  const rest = src.slice(i + marker.length); // e.g. "photos/photo_123.jpg"
+  const q = (quality != null ? quality : 62);
+  return src.slice(0, i) + '/storage/v1/render/image/public/' + rest +
+    '?width=' + width + '&quality=' + q + '&resize=contain';
+}
+// Build a srcset so the browser picks the right size for the device/DPR.
+function thumbSrcset(src, widths) {
+  return widths.map(function(w){ return thumbURL(src, w, 62) + ' ' + w + 'w'; }).join(', ');
+}
+
 // ══ TRACKS ══
 const TRACKS = [
   { num:"01", title:"Rearview", artist:"Luke Lasso", role:"writer / producer", spotify:"0UdpxBj2JbkVtyK37eKVQY", yt:"xt6HggDzMDY" },
@@ -1577,7 +1620,7 @@ function renderPhotos() {
         : `<button class="photo-request-btn" onclick="event.stopPropagation();openRequestModal('${p.id}')">Request a print</button>`;
       const itemClick = p.for_sale ? `openPrintModal('${p.id}')` : `openRequestModal('${p.id}')`;
       visible.push(`<div class="photo-item ${p.span||''}" onclick="${itemClick}">
-      <img src="${p.src}" alt="${tags[0]||''}" loading="lazy" onerror="this.parentElement.style.background='#111';this.style.display='none'">
+      <img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 760])}" sizes="(max-width:600px) 48vw, 200px" alt="${tags[0]||''}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${p.src}'">
       <div class="photo-item-label">${tags.join(' · ')}</div>
       ${badge}
     </div>`);
@@ -1622,7 +1665,7 @@ function renderShop() {
     const titleTags = tags.filter(t => t !== cam).slice(0, 3);
     const title = titleTags.length ? titleTags.join(' · ') : 'Fine-art print';
     cards.push(`<div class="shop-card" onclick="openPrintModal('${p.id}')">
-      <div class="shop-card-imgwrap"><img src="${p.src}" alt="${title}" loading="lazy" onerror="this.parentElement.style.background='#efece6';this.style.display='none'"></div>
+      <div class="shop-card-imgwrap"><img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 700])}" sizes="(max-width:600px) 46vw, 240px" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${p.src}'"></div>
       <div class="shop-card-body">
         <div class="shop-card-title">${title}</div>
         ${camLabel ? `<div class="shop-card-cam">${camLabel}</div>` : ''}
