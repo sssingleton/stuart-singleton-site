@@ -325,11 +325,10 @@
     transition: box-shadow .25s, transform .25s, border-color .25s;
   }
   .shop-card:hover { box-shadow: 0 10px 34px rgba(0,0,0,.10); transform: translateY(-3px); border-color: #d8d4ca; }
-  /* Card image box adapts to the photo's orientation so it's shown as-is, never cropped. */
-  .shop-card-imgwrap { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #efece6; display: flex; align-items: center; justify-content: center; }
-  .shop-card-imgwrap.is-landscape { aspect-ratio: 3/2; }
-  .shop-card-imgwrap.is-wide      { aspect-ratio: 2/1; }
-  .shop-card-imgwrap.is-portrait  { aspect-ratio: 2/3; }
+  /* Card image box adapts to the photo's orientation so it's shown as-is, never cropped.
+     All cards share a consistent BOX height so rows line up; the image is centered inside
+     via object-fit:contain, so portraits sit in a shorter, aligned box (not towering). */
+  .shop-card-imgwrap { width: 100%; height: 230px; overflow: hidden; background: #efece6; display: flex; align-items: center; justify-content: center; }
   .shop-card-imgwrap img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform .5s cubic-bezier(.16,1,.3,1); }
   .shop-card:hover .shop-card-imgwrap img { transform: scale(1.05); }
   .shop-card-body { padding: 14px 15px 16px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
@@ -446,11 +445,13 @@
   /* ── live print preview stage ── */
   #print-preview-stage {
     background: #f6f5f2; padding: 26px 22px; display: flex; align-items: center;
-    justify-content: center; min-height: 230px; max-height: 340px; border-bottom: 1px solid #ece9e2;
+    justify-content: center; height: 340px; overflow: hidden; border-bottom: 1px solid #ece9e2;
   }
-  /* the framed/print mockup: outer = frame, mat = inner border, img fills the print area */
+  /* the framed/print mockup: outer = frame, mat = inner border, img fills the print area.
+     Height-driven so a portrait aspect-ratio can never exceed the stage and overlap the
+     controls below — the frame's height is capped, width follows from aspect-ratio. */
   .pv-frame {
-    box-sizing: border-box; max-width: 78%; max-height: 290px;
+    box-sizing: border-box; height: 100%; width: auto; max-width: 78%;
     box-shadow: 0 8px 22px rgba(0,0,0,.14);
     transition: border-color .25s, background .25s, padding .25s;
     display: block; line-height: 0;
@@ -835,6 +836,7 @@
 
     /* ── SHOP on mobile: 2-up product cards instead of one giant card ── */
     .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .shop-card-imgwrap { height: 165px; }   /* shorter uniform box for narrow 2-up cards */
     .shop-card-body { padding: 11px 11px 13px; gap: 7px; }
     .shop-card-title { font-size: 8.5px; min-height: 24px; }
     .shop-card-price { font-size: 12px; }
@@ -845,8 +847,8 @@
     #print-modal, #request-modal { align-items: stretch; }
     .print-modal-inner { width: 100vw; max-height: 100dvh; border-radius: 0; border-left: none; border-right: none; -webkit-overflow-scrolling: touch; }
     .print-modal-header { padding: 16px 18px; }
-    #print-preview-stage { padding: 20px 16px; min-height: 200px; max-height: 46vh; }
-    .pv-frame { max-width: 70%; max-height: 42vh; }
+    #print-preview-stage { padding: 20px 16px; height: 44vh; overflow: hidden; }
+    .pv-frame { height: 100%; width: auto; max-width: 70%; }
     .print-modal-body { padding: 18px 18px 26px; gap: 18px; }
     .print-size-grid { gap: 7px; }
     .print-size-btn { padding: 11px 4px; }        /* bigger tap targets */
@@ -1668,12 +1670,11 @@ function renderShop() {
     // build a human title from the most descriptive tags (skip the camera tag)
     const titleTags = tags.filter(t => t !== cam).slice(0, 3);
     const title = titleTags.length ? titleTags.join(' · ') : 'Fine-art print';
-    // Orientation class drives the card aspect ratio so landscape photos show
-    // as landscape (not cropped into a vertical box). span: 'tall'=portrait,
-    // 'span-2'=wide landscape, ''/null=normal landscape (Fuji 3:2 is landscape).
-    const orient = p.span === 'tall' ? 'is-portrait' : (p.span === 'span-2' ? 'is-wide' : 'is-landscape');
+    // All cards share a uniform image-box height (CSS); each photo is centered inside
+    // via object-fit:contain, so landscapes fill the width and portraits sit in the
+    // same-height box — rows line up cleanly and nothing is ever cropped.
     cards.push(`<div class="shop-card" onclick="openPrintModal('${p.id}')">
-      <div class="shop-card-imgwrap ${orient}"><img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 700])}" sizes="(max-width:600px) 46vw, 240px" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${p.src}'"></div>
+      <div class="shop-card-imgwrap"><img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 700])}" sizes="(max-width:600px) 46vw, 240px" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${p.src}'"></div>
       <div class="shop-card-body">
         <div class="shop-card-title">${title}</div>
         ${camLabel ? `<div class="shop-card-cam">${camLabel}</div>` : ''}
