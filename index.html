@@ -2203,39 +2203,42 @@ async function loadPrintRequests() {
   try {
     var res = await sb.from('print_requests').select('*').order('created_at', { ascending: false });
     if (res.error) throw res.error;
-    var data = res.data || [];
-    var openCount = data.filter(function(r){ return r.status === 'new'; }).length;
-    if (count) count.textContent = '(' + openCount + ' new)';
-    if (!data.length) { list.innerHTML = '<div style="font-size:9px;color:#333">no requests yet</div>'; return; }
+    // Only show still-open requests. Accepted/declined/listed/dismissed drop off the list.
+    var OPEN = function(s){ return s === 'new' || s == null; };
+    var data = (res.data || []).filter(function(r){ return OPEN(r.status); });
+    if (count) count.textContent = '(' + data.length + ' new)';
+    if (!data.length) { list.innerHTML = '<div style="font-size:9px;color:#333">no open requests</div>'; return; }
     var html = '';
     for (var i = 0; i < data.length; i++) {
       var r = data[i];
-      var dim = r.status === 'new' ? '' : 'opacity:.5;';
       var when = new Date(r.created_at).toLocaleDateString('en-US', { month:'short', day:'numeric' });
-      html += '<div class="admin-photo-row" style="' + dim + '">';
+      html += '<div class="admin-photo-row" data-req-row="' + r.id + '">';
       html += '<img class="admin-photo-thumb" src="' + (r.photo_src||'') + '" onerror="this.style.background=\'#222\'">';
       html += '<div class="admin-photo-info">';
       html += '<span style="color:#888">' + (r.email||'(no email)') + '</span>';
       html += '<span>' + (r.message ? r.message.replace(/</g,'&lt;') : 'no note') + '</span>';
-      html += '<span style="color:#2a2a2a">photo #' + (r.photo_id==null?'?':r.photo_id) + ' · ' + when + ' · ' + r.status + '</span>';
+      html += '<span style="color:#2a2a2a">photo #' + (r.photo_id==null?'?':r.photo_id) + ' · ' + when + '</span>';
       html += '</div>';
-      if (r.photo_id != null) {
-        html += '<button class="admin-edit-btn" data-req-action="list" data-id="' + r.id + '" data-photo="' + r.photo_id + '" title="Mark this photo for sale + mark request listed">list it</button>';
-      }
-      html += '<button class="admin-delete-btn" data-req-action="dismiss" data-id="' + r.id + '" title="Dismiss request">x</button>';
+      // Accept = list photo for sale + email requester. Disabled if no photo to list.
+      var canAccept = r.photo_id != null;
+      html += '<button class="admin-edit-btn" data-req-action="accept" data-id="' + r.id + '" data-photo="' + (r.photo_id==null?'':r.photo_id) + '"' + (canAccept?'':' disabled style="opacity:.3"') + ' title="List photo for sale + email requester">accept</button>';
+      html += '<button class="admin-hide-btn" data-req-action="decline" data-id="' + r.id + '" title="Decline (no email)">decline</button>';
       html += '</div>';
     }
     list.innerHTML = html;
+    addHover('#admin-request-list .admin-edit-btn, #admin-request-list .admin-hide-btn');
     list.onclick = function(e) {
       var btn = e.target.closest('[data-req-action]');
-      if (!btn) return;
+      if (!btn || btn.disabled) return;
       var act = btn.dataset.reqAction, id = btn.dataset.id;
-      if (act === 'list') {
+      var row = list.querySelector('[data-req-row="' + id + '"]');
+      if (act === 'accept') {
         var photoId = btn.dataset.photo;
+        btn.disabled = true; btn.textContent = '…';
         sb.from('photos').update({ for_sale: true }).eq('id', photoId).then(function(res){
-          if (res.error) { alert('Could not flag photo: ' + res.error.message); return; }
-          sb.from('print_requests').update({ status: 'listed' }).eq('id', id).then(function(){
-            // Notify the requester their photo is now buyable (best-effort; never blocks listing).
+          if (res.error) { alert('Could not flag photo: ' + res.error.message); btn.disabled=false; btn.textContent='accept'; return; }
+          sb.from('print_requests').update({ status: 'accepted' }).eq('id', id).then(function(){
+            // Email the requester their photo is now buyable (best-effort; never blocks the accept).
             try {
               fetch('https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1/notify-request-listed', {
                 method: 'POST',
@@ -2246,11 +2249,16 @@ async function loadPrintRequests() {
                 else { console.warn('Requester not emailed:', d && (d.reason || d.error)); }
               }).catch(function(e){ console.warn('notify-request-listed failed:', e); });
             } catch (e) {}
+            if (row) row.remove();
             loadPhotos(); loadAdminPhotos(); loadPrintRequests();
           });
         });
-      } else if (act === 'dismiss') {
-        sb.from('print_requests').update({ status: 'dismissed' }).eq('id', id).then(function(){ loadPrintRequests(); });
+      } else if (act === 'decline') {
+        // No email. Just mark declined so it drops off the list.
+        sb.from('print_requests').update({ status: 'declined' }).eq('id', id).then(function(){
+          if (row) row.remove();
+          loadPrintRequests();
+        });
       }
     };
   } catch (err) {
