@@ -881,6 +881,17 @@
   .admin-edit-row{flex-direction:column;gap:8px;padding:8px 0 10px 50px;border-bottom:1px solid #111}
   .admin-edit-row input{width:100%;background:#111;border:1px solid #222;color:#fff;font-family:var(--mono);font-size:10px;padding:6px 10px;outline:none}
   .admin-edit-row input:focus{border-color:#444}
+  .admin-versions-row{padding:10px 0 14px 50px;border-bottom:1px solid #111}
+  .ver-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+  .ver-item{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:#777}
+  .ver-item .ver-tag{font-size:7px;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border:1px solid #2a2a2a;color:#888}
+  .ver-item .ver-tag.master{border-color:#363;color:#6a6}
+  .ver-item .ver-tag.preview{border-color:#335;color:#88a}
+  .ver-uploader{display:flex;flex-direction:column;gap:8px;border-top:1px solid #161616;padding-top:10px}
+  .ver-variant-pick{display:flex;gap:6px}
+  .ver-variant-btn{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;background:none;border:1px solid #1c1c1c;color:#555;cursor:none;transition:all .2s}
+  .ver-variant-btn.active{border-color:#fff;color:#fff}
+  .ver-status{font-size:8px;letter-spacing:.1em;color:#555;min-height:12px}
   .admin-edit-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px}
   .admin-tag-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
   .admin-tag-pill{font-family:var(--mono);font-size:9px;color:#444;background:none;border:1px solid #1c1c1c;padding:3px 10px;cursor:none;letter-spacing:.08em;transition:color .2s,border-color .2s}
@@ -1861,6 +1872,7 @@ async function loadAdminPhotos() {
       html += "<div class=\"admin-photo-info\"><span>" + (p.tags||"no tags") + "</span>";
       html += "<span style=\"color:#2a2a2a\">" + (pspan||"normal") + (isHid ? " hidden" : "") + "</span></div>";
       html += "<button class=\"admin-edit-btn\" data-action=\"edit\" data-id=\"" + pid + "\">edit</button>";
+      html += "<button class=\"admin-edit-btn\" data-action=\"versions\" data-id=\"" + pid + "\" data-cam=\"" + photoCamera(p) + "\" title=\"Manage print master / preview versions\">versions</button>";
       html += "<button class=\"admin-hide-btn" + (isHid ? " is-hidden" : "") + "\" data-action=\"hide\" data-id=\"" + pid + "\" data-hidden=\"" + isHid + "\">" + (isHid ? "show" : "hide") + "</button>";
       var isForSale = !!p.for_sale;
       html += "<button class=\"admin-edit-btn" + (isForSale ? " admin-span-active" : "") + "\" data-action=\"forsale\" data-id=\"" + pid + "\" data-forsale=\"" + isForSale + "\" title=\"Toggle print sale\">" + (isForSale ? "for sale ✓" : "for sale") + "</button>";
@@ -1875,6 +1887,7 @@ async function loadAdminPhotos() {
       html += "<button class=\"admin-btn\" data-action=\"save\" data-id=\"" + pid + "\">Save</button>";
       html += "<button class=\"admin-delete-btn\" data-action=\"cancel\" data-id=\"" + pid + "\">Cancel</button>";
       html += "</div></div>";
+      html += "<div class=\"admin-versions-row\" id=\"vr" + pid + "\" data-cam=\"" + photoCamera(p) + "\" data-src=\"" + (p.src||"").replace(/"/g,"&quot;") + "\" style=\"display:none\"></div>";
     }
     list.innerHTML = html;
     list.onclick = function(e) {
@@ -1883,6 +1896,13 @@ async function loadAdminPhotos() {
       var act = btn.dataset.action, id = btn.dataset.id;
       var er = document.getElementById("er" + id);
       if (act === "edit") { if(er) er.style.display = er.style.display==="none" ? "flex" : "none"; }
+      else if (act === "versions") {
+        var vr = document.getElementById("vr" + id);
+        if (vr) {
+          if (vr.style.display === "none") { vr.style.display = "block"; renderVersionsPanel(id, vr.dataset.cam, vr.dataset.src); }
+          else { vr.style.display = "none"; }
+        }
+      }
       else if (act === "cancel") { if(er) er.style.display="none"; }
       else if (act === "span") {
         if (!er) return;
@@ -1936,6 +1956,146 @@ async function loadAdminPhotos() {
     list.innerHTML = "<div style=\"font-size:9px;color:#c44\">could not load photos</div>";
   }
 }
+
+// ══ PHASE 2 — PER-PHOTO MANAGE VERSIONS (print-master + preview) ══
+// Each photo can have asset variants in photo_assets. print-master = full-res
+// JPG in the PRIVATE photos-masters bucket (Prodigi gets a signed URL at order
+// time). preview = the public web image shown in gallery/shop. This panel lists
+// existing variants and lets Stuart upload either. Bordered/alt-crop deferred.
+const MASTERS_BUCKET = 'photos-masters';
+
+// Read an image File's pixel dimensions in-browser (no server round-trip).
+function measureImage(file) {
+  return new Promise(function(resolve, reject){
+    var url = URL.createObjectURL(file);
+    var img = new Image();
+    img.onload = function(){ var d={width:img.naturalWidth,height:img.naturalHeight}; URL.revokeObjectURL(url); resolve(d); };
+    img.onerror = function(){ URL.revokeObjectURL(url); reject(new Error('could not read image')); };
+    img.src = url;
+  });
+}
+
+async function renderVersionsPanel(photoId, cam, src) {
+  var vr = document.getElementById('vr' + photoId);
+  if (!vr) return;
+  vr.innerHTML = '<div class="ver-status" style="color:#555">loading versions…</div>';
+  var res = await sb.from('photo_assets').select('id,variant,bucket,path,width,height,bytes,is_print_default,is_display_default').eq('photo_id', photoId).order('variant');
+  var assets = (res && res.data) ? res.data : [];
+  var hasMaster = assets.some(function(a){ return a.variant === 'print-master'; });
+  var listHtml = '';
+  if (!assets.length) {
+    listHtml = '<div class="ver-item" style="color:#444">no variants recorded</div>';
+  } else {
+    assets.forEach(function(a){
+      var dims = (a.width && a.height) ? (a.width + '×' + a.height) : '?';
+      var mb = a.bytes ? (a.bytes/1048576).toFixed(1) + ' MB' : '';
+      var cls = a.variant === 'print-master' ? 'master' : (a.variant === 'preview' ? 'preview' : '');
+      listHtml += '<div class="ver-item">'
+        + '<span class="ver-tag ' + cls + '">' + a.variant + '</span>'
+        + '<span>' + dims + (mb ? ' · ' + mb : '') + '</span>'
+        + (a.variant === 'print-master' ? '<button class="admin-delete-btn" data-ver-del="' + a.id + '" data-bucket="' + (a.bucket||'') + '" data-path="' + (a.path||'').replace(/"/g,'&quot;') + '" data-photo="' + photoId + '" title="Remove this master">x</button>' : '')
+        + '</div>';
+    });
+  }
+  // Uploader. Default variant = master if none yet, else preview.
+  var defaultVar = hasMaster ? 'preview' : 'print-master';
+  vr.innerHTML =
+    '<div class="ver-list">' + listHtml + '</div>'
+    + '<div class="ver-uploader" data-photo="' + photoId + '" data-cam="' + cam + '" data-src="' + (src||'').replace(/"/g,'&quot;') + '" data-chosen="' + defaultVar + '">'
+    + '<div class="ver-variant-pick">'
+    + '<button type="button" class="ver-variant-btn' + (defaultVar==='print-master'?' active':'') + '" data-var="print-master" title="Full-res original → private bucket, used for printing">print-master</button>'
+    + '<button type="button" class="ver-variant-btn' + (defaultVar==='preview'?' active':'') + '" data-var="preview" title="Web image shown in gallery/shop">preview</button>'
+    + '</div>'
+    + '<input type="file" accept="image/jpeg,image/jpg,image/png" id="vfile' + photoId + '" style="font-family:var(--mono);font-size:9px;color:#777">'
+    + '<button class="admin-btn" data-ver-upload="' + photoId + '">Upload version →</button>'
+    + '<div class="ver-status" id="vstatus' + photoId + '"></div>'
+    + '</div>';
+  addHover('#vr' + photoId + ' .ver-variant-btn, #vr' + photoId + ' .admin-btn, #vr' + photoId + ' .admin-delete-btn');
+  // Wire variant picker + upload + delete (scoped to this panel).
+  vr.onclick = function(e){
+    var pick = e.target.closest('.ver-variant-btn');
+    if (pick) {
+      var up = vr.querySelector('.ver-uploader');
+      up.dataset.chosen = pick.dataset.var;
+      vr.querySelectorAll('.ver-variant-btn').forEach(function(b){ b.classList.remove('active'); });
+      pick.classList.add('active');
+      return;
+    }
+    var del = e.target.closest('[data-ver-del]');
+    if (del) { deleteMaster(del.dataset.verDel, del.dataset.bucket, del.dataset.path, del.dataset.photo); return; }
+    var upBtn = e.target.closest('[data-ver-upload]');
+    if (upBtn) { uploadVariant(upBtn.dataset.verUpload); return; }
+  };
+}
+
+async function uploadVariant(photoId) {
+  var vr = document.getElementById('vr' + photoId);
+  var up = vr.querySelector('.ver-uploader');
+  var variant = up.dataset.chosen;
+  var cam = up.dataset.cam;
+  var oldSrc = up.dataset.src;
+  var fileInput = document.getElementById('vfile' + photoId);
+  var status = document.getElementById('vstatus' + photoId);
+  var file = fileInput.files && fileInput.files[0];
+  if (!file) { status.style.color = '#c44'; status.textContent = 'pick a file first'; return; }
+  status.style.color = '#555'; status.textContent = 'measuring…';
+  try {
+    var dims = await measureImage(file).catch(function(){ return { width: null, height: null }; });
+    // Route to the right bucket. Masters → private; preview → the camera's public bucket.
+    var bucket = variant === 'print-master' ? MASTERS_BUCKET : bucketForCamera(cam);
+    var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+    var path = variant === 'print-master'
+      ? (photoId + '/master_' + Date.now() + '.' + ext)
+      : ('photo_' + Date.now() + '.' + ext);
+    status.textContent = 'uploading to ' + bucket + '…';
+    var upRes = await sb.storage.from(bucket).upload(path, file, { contentType: file.type, upsert: false });
+    if (upRes.error) throw upRes.error;
+    // Insert the photo_assets row. For masters, mark print-default. For preview,
+    // mark display-default AND update photos.src so the public image updates.
+    var row = {
+      photo_id: parseInt(photoId), variant: variant, bucket: bucket, path: path,
+      width: dims.width, height: dims.height, bytes: file.size,
+      is_print_default: variant === 'print-master',
+      is_display_default: variant === 'preview'
+    };
+    var insRes = await sb.from('photo_assets').insert(row);
+    if (insRes.error) throw insRes.error;
+    if (variant === 'preview') {
+      // New public preview becomes the photo's src (gallery/shop/emails use it).
+      var pub = sb.storage.from(bucket).getPublicUrl(path);
+      var newSrc = pub.data.publicUrl;
+      await sb.from('photos').update({ src: newSrc }).eq('id', photoId);
+      up.dataset.src = newSrc;
+    }
+    status.style.color = '#4a8';
+    status.textContent = variant === 'print-master'
+      ? 'master uploaded ✓ (now used for printing)'
+      : 'preview uploaded ✓ (gallery updated)';
+    fileInput.value = '';
+    _dashCache = null; // dashboard recomputes missing-master / dims next open
+    // Refresh the panel + lists so the new variant + badges show.
+    await renderVersionsPanel(photoId, cam, up.dataset.src);
+    if (variant === 'preview') { loadPhotos(); loadAdminPhotos(); }
+  } catch(err) {
+    status.style.color = '#c44';
+    status.textContent = 'error: ' + (err.message || err);
+  }
+}
+
+async function deleteMaster(assetId, bucket, path, photoId) {
+  if (!confirm('Remove this print master? Orders will fall back to the web preview until you upload a new one.')) return;
+  try {
+    if (bucket && path) { await sb.storage.from(bucket).remove([path]); }
+    await sb.from('photo_assets').delete().eq('id', assetId);
+    _dashCache = null;
+    var vr = document.getElementById('vr' + photoId);
+    var up = vr ? vr.querySelector('.ver-uploader') : null;
+    await renderVersionsPanel(photoId, up ? up.dataset.cam : 'fujifilm-xt5', up ? up.dataset.src : '');
+  } catch(err) {
+    alert('Delete failed: ' + (err.message || err));
+  }
+}
+
 function showTagSuggestions() {
   var input = document.getElementById("photo-tags");
   if (!input) return;
