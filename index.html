@@ -1581,6 +1581,19 @@ const CAMERA_ORDER = ['fujifilm-xt5', 'nomo', 'campsnap'];
 
 function photoCamera(p) { return p.camera || 'fujifilm-xt5'; }
 
+// Storage bucket per camera: fuji lives in "photos", others in "photos-<cam>"
+function bucketForCamera(cam) { return cam === 'fujifilm-xt5' ? 'photos' : 'photos-' + cam; }
+
+// Admin: which camera new uploads + the admin list belong to (independent of gallery view)
+let adminCamera = 'fujifilm-xt5';
+function setAdminCamera(cam) {
+  adminCamera = cam;
+  document.querySelectorAll('#admin-camera-picker .cam-btn').forEach(function(b){
+    b.classList.toggle('active', b.dataset.cam === cam);
+  });
+  loadAdminPhotos();
+}
+
 function renderCameraFilter() {
   const el = document.getElementById('camera-filter');
   if (!el) return;
@@ -1769,14 +1782,16 @@ async function uploadAndSave() {
   btn.textContent = "Uploading..."; status.textContent = "";
   var ext = selectedFile.name.split(".").pop();
   var filename = "photo_" + Date.now() + "." + ext;
+  var cam = adminCamera || 'fujifilm-xt5';
+  var bucket = bucketForCamera(cam);
   try {
-    var storageResult = await sb.storage.from("photos").upload(filename, selectedFile, { contentType: selectedFile.type });
+    var storageResult = await sb.storage.from(bucket).upload(filename, selectedFile, { contentType: selectedFile.type });
     if (storageResult.error) throw storageResult.error;
-    var urlData = sb.storage.from("photos").getPublicUrl(filename);
+    var urlData = sb.storage.from(bucket).getPublicUrl(filename);
     var src = urlData.data.publicUrl;
-    var dbResult = await sb.from("photos").insert({ src: src, tags: tags, span: selectedSpan });
+    var dbResult = await sb.from("photos").insert({ src: src, tags: tags, span: selectedSpan, camera: cam });
     if (dbResult.error) throw dbResult.error;
-    status.style.color="#4a8"; status.textContent="photo saved";
+    status.style.color="#4a8"; status.textContent="photo saved to " + (CAMERA_LABELS[cam]||cam);
     btn.textContent="Upload & Save ->";
     selectedFile = null;
     document.getElementById("photo-file-input").value = "";
@@ -1800,6 +1815,8 @@ async function loadAdminPhotos() {
     var res = await sb.from("photos").select("*").order("sort_order", {ascending:true}).order("created_at", {ascending:false});
     if (res.error) throw res.error;
     var data = res.data || [];
+    // Show only the admin-selected camera's photos
+    data = data.filter(function(p){ return photoCamera(p) === adminCamera; });
     count.textContent = "(" + data.length + ")";
     if (!data.length) { list.innerHTML = "<div style=\"font-size:9px;color:#333\">no photos yet</div>"; return; }
     var html = "";
@@ -1811,7 +1828,7 @@ async function loadAdminPhotos() {
       var isHid = !!p.hidden;
       html += "<div class=\"admin-photo-row\" data-id=\"" + pid + "\" data-span=\"" + pspan + "\" data-hidden=\"" + isHid + "\" draggable=\"true\">";
       html += "<span class=\"admin-drag-handle\">&#8942;</span>";
-      html += "<img class=\"admin-photo-thumb" + (isHid ? " admin-thumb-hidden" : "") + "\" src=\"" + (p.src||"") + "\" onerror=\"this.style.background='#222'\">";
+      html += "<img class=\"admin-photo-thumb" + (isHid ? " admin-thumb-hidden" : "") + "\" src=\"" + thumbURL(p.src||"", 120, 60) + "\" onerror=\"this.onerror=null;this.src='" + (p.src||"") + "';this.style.background='#222'\">";
       html += "<div class=\"admin-photo-info\"><span>" + (p.tags||"no tags") + "</span>";
       html += "<span style=\"color:#2a2a2a\">" + (pspan||"normal") + (isHid ? " hidden" : "") + "</span></div>";
       html += "<button class=\"admin-edit-btn\" data-action=\"edit\" data-id=\"" + pid + "\">edit</button>";
@@ -1862,7 +1879,10 @@ async function loadAdminPhotos() {
         if (!confirm("Delete this photo?")) return;
         var src = btn.dataset.src;
         var fn = src.split("/").pop();
-        sb.storage.from("photos").remove([fn]).then(function(){
+        // Derive the storage bucket from the public URL so nomo/campsnap files are removed too
+        var bm = src.match(/\/object\/public\/([^/]+)\//);
+        var delBucket = bm ? bm[1] : "photos";
+        sb.storage.from(delBucket).remove([fn]).then(function(){
           sb.from("photos").delete().eq("id",id).then(function(){loadPhotos();loadAdminPhotos();});
         });
       }
@@ -1961,6 +1981,11 @@ function getAdminPanelHTML() {
   return `
       <div class="admin-section">
         <div class="admin-section-title">Add Photo</div>
+        <div id="admin-camera-picker" style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="cam-btn active" data-cam="fujifilm-xt5" onclick="setAdminCamera('fujifilm-xt5')">Fujifilm X-T5</button>
+          <button class="cam-btn" data-cam="nomo" onclick="setAdminCamera('nomo')">Nomo</button>
+          <button class="cam-btn" data-cam="campsnap" onclick="setAdminCamera('campsnap')">CampSnap</button>
+        </div>
         <div class="admin-upload-area" id="upload-area">
           <p id="upload-area-label">Drag & drop or click to select</p>
           <input type="file" id="photo-file-input" accept="image/*" onchange="handleFileSelect(this)" style="display:none">
@@ -2011,6 +2036,8 @@ function showAdminPanel() {
   panel.style.display = 'block';
   document.getElementById('admin-login').style.display = 'none';
   initUploadArea();
+  adminCamera = 'fujifilm-xt5';
+  addHover('#admin-camera-picker .cam-btn');
   loadAdminPhotos();
   loadPrintRequests();
 }
