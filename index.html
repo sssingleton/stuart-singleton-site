@@ -2695,11 +2695,15 @@ const SUPA_EDGE = 'https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1';
 // size here is a true 2:3 (=1.5) ratio. `longIn` gates by resolution; `shortIn`/`longIn`
 // give the print proportions used for the live crop-accurate preview. Prodigi
 // auto-orients the asset, so one SKU serves both portrait and landscape.
+// Prices are ALL-IN with FREE shipping (shipping cost is baked into the price,
+// not added at checkout). Validated against live Prodigi cost + Stripe fees:
+// every size holds 45–70% margin worldwide. Framed ships free to US/UK/AU only
+// (Canada framed is blocked server-side — Prodigi's framed-CA shipping is ~$94).
 const PRINT_SIZES = [
   { sku: 'GLOBAL-FAP-8X12',   label: '8×12"',  price: 4500,  framed: false, shortIn: 8,  longIn: 12, ratio: 1.5 },
-  { sku: 'GLOBAL-FAP-16X24',  label: '16×24"', price: 7500,  framed: false, shortIn: 16, longIn: 24, ratio: 1.5 },
+  { sku: 'GLOBAL-FAP-16X24',  label: '16×24"', price: 7900,  framed: false, shortIn: 16, longIn: 24, ratio: 1.5 },
   { sku: 'GLOBAL-FAP-24X36',  label: '24×36"', price: 11500, framed: false, shortIn: 24, longIn: 36, ratio: 1.5 },
-  { sku: 'GLOBAL-CFPM-16X24', label: '16×24" Framed', price: 22000, framed: true, shortIn: 16, longIn: 24, ratio: 1.5 },
+  { sku: 'GLOBAL-CFPM-16X24', label: '16×24" Framed', price: 20900, framed: true, shortIn: 16, longIn: 24, ratio: 1.5 },
 ];
 
 // Minimum print quality floor. A size is offered only if the photo's long edge
@@ -2945,7 +2949,7 @@ function updatePrintTotal() {
   const copies = parseInt(document.getElementById('print-copies').value || 1, 10);
   const total = (_printPriceCents * copies) / 100;
   const formatted = total.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
-  document.getElementById('print-total-row').innerHTML = `Subtotal: <strong>${formatted}</strong> + shipping (calculated at checkout)`;
+  document.getElementById('print-total-row').innerHTML = `Total: <strong>${formatted}</strong> &middot; <span style="color:#3a7a3a">free shipping</span>`;
 }
 
 async function submitPrintOrder() {
