@@ -790,9 +790,9 @@
   .whoami-footer a:hover { color: #999; }
 
   /* ADMIN */
-  #admin-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; }
+  #admin-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.95); display: flex; align-items: flex-start; justify-content: center; padding: 4vh 0; overflow-y: auto; opacity: 0; pointer-events: none; transition: opacity .3s; }
   #admin-overlay.active { opacity: 1; pointer-events: all; }
-  #admin-box { width: min(520px, 92vw); border: 1px solid #222; background: #0a0a0a; font-family: var(--mono); }
+  #admin-box { width: min(520px, 92vw); max-height: 92vh; overflow-y: auto; border: 1px solid #222; background: #0a0a0a; font-family: var(--mono); margin: auto; }
   #admin-header { padding: 20px 24px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; }
   #admin-header span { font-size: 11px; letter-spacing: .2em; color: #555; text-transform: uppercase; }
   #admin-close { background: none; border: none; font-family: var(--mono); font-size: 10px; color: #444; cursor: none; letter-spacing: .15em; text-transform: uppercase; transition: color .2s; }
