@@ -1873,6 +1873,7 @@ async function loadAdminPhotos() {
       html += "<span style=\"color:#2a2a2a\">" + (pspan||"normal") + (isHid ? " hidden" : "") + "</span></div>";
       html += "<button class=\"admin-edit-btn\" data-action=\"edit\" data-id=\"" + pid + "\">edit</button>";
       html += "<button class=\"admin-edit-btn\" data-action=\"versions\" data-id=\"" + pid + "\" data-cam=\"" + photoCamera(p) + "\" title=\"Manage print master / preview versions\">versions</button>";
+      html += "<button class=\"admin-edit-btn\" data-action=\"mockups\" data-id=\"" + pid + "\" title=\"Upload framed wall mockups (per frame colour)\">mockups</button>";
       html += "<button class=\"admin-hide-btn" + (isHid ? " is-hidden" : "") + "\" data-action=\"hide\" data-id=\"" + pid + "\" data-hidden=\"" + isHid + "\">" + (isHid ? "show" : "hide") + "</button>";
       var isForSale = !!p.for_sale;
       html += "<button class=\"admin-edit-btn" + (isForSale ? " admin-span-active" : "") + "\" data-action=\"forsale\" data-id=\"" + pid + "\" data-forsale=\"" + isForSale + "\" title=\"Toggle print sale\">" + (isForSale ? "for sale ✓" : "for sale") + "</button>";
@@ -1888,6 +1889,7 @@ async function loadAdminPhotos() {
       html += "<button class=\"admin-delete-btn\" data-action=\"cancel\" data-id=\"" + pid + "\">Cancel</button>";
       html += "</div></div>";
       html += "<div class=\"admin-versions-row\" id=\"vr" + pid + "\" data-cam=\"" + photoCamera(p) + "\" data-src=\"" + (p.src||"").replace(/"/g,"&quot;") + "\" style=\"display:none\"></div>";
+      html += "<div class=\"admin-versions-row\" id=\"mk" + pid + "\" style=\"display:none\"></div>";
     }
     list.innerHTML = html;
     list.onclick = function(e) {
@@ -1901,6 +1903,13 @@ async function loadAdminPhotos() {
         if (vr) {
           if (vr.style.display === "none") { vr.style.display = "block"; renderVersionsPanel(id, vr.dataset.cam, vr.dataset.src); }
           else { vr.style.display = "none"; }
+        }
+      }
+      else if (act === "mockups") {
+        var mk = document.getElementById("mk" + id);
+        if (mk) {
+          if (mk.style.display === "none") { mk.style.display = "block"; renderMockupsPanel(id); }
+          else { mk.style.display = "none"; }
         }
       }
       else if (act === "cancel") { if(er) er.style.display="none"; }
@@ -2091,6 +2100,92 @@ async function deleteMaster(assetId, bucket, path, photoId) {
     var vr = document.getElementById('vr' + photoId);
     var up = vr ? vr.querySelector('.ver-uploader') : null;
     await renderVersionsPanel(photoId, up ? up.dataset.cam : 'fujifilm-xt5', up ? up.dataset.src : '');
+  } catch(err) {
+    alert('Delete failed: ' + (err.message || err));
+  }
+}
+
+// ══ FRAMED WALL-MOCKUP MANAGER ══
+// Lets Stuart upload a hand-made room/wall photo per frame colour. When a buyer
+// picks that colour on a framed size, the buy modal shows the real wall shot
+// instead of the CSS frame mockup. Stored in the public 'photo-mockups' bucket;
+// the URL is saved to photos.mockup_frame_{black,white,natural}.
+const MOCKUPS_BUCKET = 'photo-mockups';
+const MOCKUP_COLORS = ['black', 'white', 'natural'];
+
+async function renderMockupsPanel(photoId) {
+  var mk = document.getElementById('mk' + photoId);
+  if (!mk) return;
+  mk.innerHTML = '<div class="ver-status" style="color:#555">loading mockups…</div>';
+  var res = await sb.from('photos').select('mockup_frame_black,mockup_frame_white,mockup_frame_natural').eq('id', photoId).single();
+  var row = (res && res.data) ? res.data : {};
+  var current = {
+    black: row.mockup_frame_black || null,
+    white: row.mockup_frame_white || null,
+    natural: row.mockup_frame_natural || null
+  };
+  var html = '<div class="mk-intro" style="font-size:9px;color:#777;letter-spacing:.05em;margin-bottom:10px;">'
+    + 'Framed wall mockups (your Gemini room shots). Buyers see the matching one when they pick a frame colour on a framed size. Optional — colours without an image fall back to the standard frame preview.</div>';
+  html += '<div class="mk-grid" style="display:flex;flex-wrap:wrap;gap:14px;">';
+  MOCKUP_COLORS.forEach(function(color){
+    var url = current[color];
+    var thumb = url
+      ? '<img src="' + url + '" alt="" style="width:88px;height:88px;object-fit:cover;border:1px solid #1c1c1c;display:block;">'
+      : '<div style="width:88px;height:88px;border:1px dashed #2a2a2a;display:flex;align-items:center;justify-content:center;color:#444;font-size:8px;">none</div>';
+    html += '<div class="mk-slot" data-color="' + color + '" style="display:flex;flex-direction:column;gap:6px;">'
+      + '<span class="ver-tag" style="text-transform:capitalize;">' + color + ' frame</span>'
+      + thumb
+      + '<input type="file" accept="image/jpeg,image/jpg,image/png" id="mkfile_' + photoId + '_' + color + '" style="font-family:var(--mono);font-size:8px;color:#777;width:140px;">'
+      + '<div style="display:flex;gap:6px;">'
+      + '<button class="admin-btn" data-mk-upload="' + color + '" data-photo="' + photoId + '">Upload →</button>'
+      + (url ? '<button class="admin-delete-btn" data-mk-del="' + color + '" data-photo="' + photoId + '" title="Remove this mockup">x</button>' : '')
+      + '</div>'
+      + '<div class="ver-status" id="mkstatus_' + photoId + '_' + color + '"></div>'
+      + '</div>';
+  });
+  html += '</div>';
+  mk.innerHTML = html;
+  addHover('#mk' + photoId + ' .admin-btn, #mk' + photoId + ' .admin-delete-btn');
+  mk.onclick = function(e){
+    var up = e.target.closest('[data-mk-upload]');
+    if (up) { uploadMockup(up.dataset.photo, up.dataset.mkUpload); return; }
+    var del = e.target.closest('[data-mk-del]');
+    if (del) { deleteMockup(del.dataset.photo, del.dataset.mkDel); return; }
+  };
+}
+
+async function uploadMockup(photoId, color) {
+  var fileInput = document.getElementById('mkfile_' + photoId + '_' + color);
+  var status = document.getElementById('mkstatus_' + photoId + '_' + color);
+  var file = fileInput.files && fileInput.files[0];
+  if (!file) { status.style.color = '#c44'; status.textContent = 'pick a file first'; return; }
+  status.style.color = '#555'; status.textContent = 'uploading…';
+  try {
+    var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+    var path = photoId + '/' + color + '_' + Date.now() + '.' + ext;
+    var upRes = await sb.storage.from(MOCKUPS_BUCKET).upload(path, file, { contentType: file.type, upsert: false });
+    if (upRes.error) throw upRes.error;
+    var pub = sb.storage.from(MOCKUPS_BUCKET).getPublicUrl(path);
+    var col = 'mockup_frame_' + color;
+    var patch = {}; patch[col] = pub.data.publicUrl;
+    var updRes = await sb.from('photos').update(patch).eq('id', photoId);
+    if (updRes.error) throw updRes.error;
+    status.style.color = '#4a8'; status.textContent = color + ' mockup uploaded ✓';
+    await renderMockupsPanel(photoId);
+    loadPhotos(); // refresh PHOTOS so the buy modal picks it up
+  } catch(err) {
+    status.style.color = '#c44'; status.textContent = 'error: ' + (err.message || err);
+  }
+}
+
+async function deleteMockup(photoId, color) {
+  if (!confirm('Remove the ' + color + ' frame mockup? Buyers will see the standard frame preview for that colour.')) return;
+  try {
+    var col = 'mockup_frame_' + color;
+    var patch = {}; patch[col] = null;
+    await sb.from('photos').update(patch).eq('id', photoId);
+    await renderMockupsPanel(photoId);
+    loadPhotos();
   } catch(err) {
     alert('Delete failed: ' + (err.message || err));
   }
@@ -3114,6 +3209,14 @@ const SUPA_EDGE = 'https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1';
 // not added at checkout). Validated against live Prodigi cost + Stripe fees:
 // every size holds 45–70% margin worldwide. Framed ships free to US/UK/AU only
 // (Canada framed is blocked server-side — Prodigi's framed-CA shipping is ~$94).
+// FRAMED SKUs are the VERIFIED Prodigi product GLOBAL-CFPM-MOTH-[size]: Classic
+// Frame, EMA 200gsm Fine Art Print, Mounted/Matted, Motheye Glaze, snow-white
+// mount — confirmed against the live Prodigi catalogue during the Etsy launch.
+// Frame COLOUR (Black/White/Natural) is a real Prodigi option on this frame and
+// is passed through to fulfillment; cost is the same across the three colours.
+// Framed item costs (US, item only): 8×12 $45, 16×24 $116 (+~$25/$26 frame
+// shipping). Retail matches Etsy so the channels don't undercut each other:
+// 8×12 framed $119, 16×24 framed $245.
 const PRINT_SIZES = [
   // 3:2 family (Fujifilm X-T5, Nomo) — ratio 1.5
   { sku: 'GLOBAL-FAP-4X6',    label: '4×6"',   price: 2900,  framed: false, shortIn: 4,  longIn: 6,  ratio: 1.5 },
@@ -3121,7 +3224,8 @@ const PRINT_SIZES = [
   { sku: 'GLOBAL-FAP-8X12',   label: '8×12"',  price: 4500,  framed: false, shortIn: 8,  longIn: 12, ratio: 1.5 },
   { sku: 'GLOBAL-FAP-16X24',  label: '16×24"', price: 7900,  framed: false, shortIn: 16, longIn: 24, ratio: 1.5 },
   { sku: 'GLOBAL-FAP-24X36',  label: '24×36"', price: 11500, framed: false, shortIn: 24, longIn: 36, ratio: 1.5 },
-  { sku: 'GLOBAL-CFPM-16X24', label: '16×24" Framed', price: 20900, framed: true, shortIn: 16, longIn: 24, ratio: 1.5 },
+  { sku: 'GLOBAL-CFPM-MOTH-8X12',  label: '8×12" Framed',  price: 11900, framed: true, shortIn: 8,  longIn: 12, ratio: 1.5 },
+  { sku: 'GLOBAL-CFPM-MOTH-16X24', label: '16×24" Framed', price: 24500, framed: true, shortIn: 16, longIn: 24, ratio: 1.5 },
   // 4:3 family (CampSnap & any 4:3 crop) — ratio 1.3333 — so these photos get no-crop options too
   { sku: 'GLOBAL-FAP-6X8',    label: '6×8"',   price: 2900,  framed: false, shortIn: 6,  longIn: 8,  ratio: 4/3 },
   { sku: 'GLOBAL-FAP-9X12',   label: '9×12"',  price: 4500,  framed: false, shortIn: 9,  longIn: 12, ratio: 4/3 },
@@ -3155,6 +3259,7 @@ let _printPriceCents = 0;
 let _printPhotoSrc = '';
 let _printPhotoIsPortrait = false;
 let _printPhotoMockupUrl = null; // optional per-photo Prodigi hero mockup override
+let _printFrameMockups = { black: null, white: null, natural: null }; // per-colour wall mockups
 
 function openPrintModal(photoId) {
   const photo = PHOTOS.find(p => String(p.id) === String(photoId));
@@ -3165,6 +3270,12 @@ function openPrintModal(photoId) {
   _printPriceCents = 0;
   _printPhotoSrc = photo.src || '';
   _printPhotoMockupUrl = photo.mockup_url || null;
+  // Per-frame-colour wall mockups (hand-made Gemini room shots), if uploaded.
+  _printFrameMockups = {
+    black:   photo.mockup_frame_black   || null,
+    white:   photo.mockup_frame_white   || null,
+    natural: photo.mockup_frame_natural || null,
+  };
 
   // Seed the preview with the bare photo (paper mode) until a size is chosen
   document.getElementById('print-preview-img').src = _printPhotoSrc;
@@ -3253,6 +3364,18 @@ function renderPrintPreview() {
   }
 
   const framed = !!(size && size.framed);
+
+  // If this is a framed size AND a hand-made wall mockup exists for the chosen
+  // frame colour, show that photo-real room shot instead of the CSS frame.
+  if (framed) {
+    const realMockup = _printFrameMockups[_printFrameColor];
+    if (realMockup) {
+      stage.innerHTML = `<img class="pv-mockup-img" src="${realMockup}" alt="">`;
+      caption.textContent = `${size.label} · ${_printFrameColor} frame · shown on a wall`;
+      return;
+    }
+  }
+
   const fc = framed ? ` fc-${_printFrameColor}` : '';
   stage.innerHTML = `<div id="print-preview-frame" class="pv-frame ${framed ? 'framed' : 'paper'}${fc}" style="aspect-ratio:${arW}/${arH}">
       <img id="print-preview-img" src="${_printPhotoSrc}" alt="">
