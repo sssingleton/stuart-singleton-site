@@ -1041,6 +1041,14 @@
           <button class="print-frame-btn" data-color="natural" onclick="selectFrame(this)">Natural</button>
         </div>
       </div>
+      <!-- border finish (shown only when a white-border asset exists) -->
+      <div id="print-border-section" style="display:none">
+        <span class="print-label">Finish</span>
+        <div class="print-frame-row">
+          <button class="print-frame-btn print-border-btn selected" data-variant="print-master" onclick="selectBorder(this)">Full bleed</button>
+          <button class="print-frame-btn print-border-btn" data-variant="bordered" onclick="selectBorder(this)">White border</button>
+        </div>
+      </div>
       <!-- copies -->
       <div>
         <span class="print-label">Quantity</span>
@@ -1384,15 +1392,6 @@
             <div class="tl-title">Sun Records sold to Primary Wave Music</div>
             <div class="tl-desc">Helped put together the deal to sell the Sun Records catalog — his family's legacy — to Primary Wave. A chapter closing and a new one opening.</div>
             <span class="tl-tag">sun records</span><span class="tl-tag">legacy</span>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-year">2024</div>
-          <div class="tl-content">
-            <div class="tl-title">17 days in France</div>
-            <div class="tl-desc">Nice, Cannes, St. Paul de Vence, Beaulieu-sur-Mer, Monte Carlo, Versailles, Paris. Six cities, one camera, thousands of frames.</div>
-            <span class="tl-tag">travel</span><span class="tl-tag">photography</span>
           </div>
         </div>
 
@@ -3242,6 +3241,12 @@ let _printPhotoSrc = '';
 let _printPhotoIsPortrait = false;
 let _printPhotoMockupUrl = null; // optional per-photo Prodigi hero mockup override
 let _printFrameMockups = { black: null, white: null, natural: null }; // per-colour wall mockups
+// ── Phase 2b: print finish variant. 'print-master' = full bleed; 'bordered' =
+// the pre-generated white-border asset. Border option only shown when a
+// 'bordered' photo_assets row exists for this photo. The chosen variant rides
+// through checkout in metadata.variant; the webhook prints that asset.
+let _printVariant = 'print-master';
+let _printHasBordered = false;
 
 function openPrintModal(photoId) {
   const photo = PHOTOS.find(p => String(p.id) === String(photoId));
@@ -3274,6 +3279,17 @@ function openPrintModal(photoId) {
   document.querySelectorAll('.print-frame-btn').forEach(b => {
     b.classList.toggle('selected', b.dataset.color === 'black');
   });
+
+  // Reset + resolve the white-border option. Default to full bleed; only reveal
+  // the toggle once we confirm a 'bordered' variant exists for this photo.
+  _printVariant = 'print-master';
+  _printHasBordered = false;
+  const borderSection = document.getElementById('print-border-section');
+  if (borderSection) borderSection.style.display = 'none';
+  document.querySelectorAll('.print-border-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.variant === 'print-master');
+  });
+  checkBorderedVariant(photoId);
 
   // Show modal first (with a measuring state), then gate sizes by real resolution
   const grid = document.getElementById('print-size-grid');
@@ -3359,16 +3375,49 @@ function renderPrintPreview() {
   }
 
   const fc = framed ? ` fc-${_printFrameColor}` : '';
+  // White-border variant: inset the image inside a white mat so the buyer sees
+  // the border in the preview. ~5% padding mirrors the 4%-of-long-edge print border.
+  const bordered = !framed && _printVariant === 'bordered';
+  const imgStyle = bordered
+    ? 'style="display:block;width:100%;height:100%;padding:5%;background:#fff;object-fit:contain"'
+    : '';
   stage.innerHTML = `<div id="print-preview-frame" class="pv-frame ${framed ? 'framed' : 'paper'}${fc}" style="aspect-ratio:${arW}/${arH}">
-      <img id="print-preview-img" src="${_printPhotoSrc}" alt="">
+      <img id="print-preview-img" src="${_printPhotoSrc}" alt="" ${imgStyle}>
     </div>`;
+  const finishLabel = framed
+    ? ` · ${_printFrameColor} frame`
+    : (bordered ? ' · fine-art paper · white border' : ' · fine-art paper');
   caption.textContent = size
-    ? `${size.label}${framed ? ` · ${_printFrameColor} frame` : ' · fine-art paper'} · actual proportions, no crop`
+    ? `${size.label}${finishLabel} · actual proportions, no crop`
     : 'select a size to preview your print';
 }
 
 function closePrintModal() {
   document.getElementById('print-modal').classList.remove('open');
+}
+
+// Phase 2b — does this photo have a pre-generated white-border print asset?
+// If so, reveal the Full bleed / White border toggle. Async + best-effort: on
+// any error we simply leave the toggle hidden (full bleed remains the default).
+async function checkBorderedVariant(photoId) {
+  try {
+    const { data, error } = await sb.from('photo_assets')
+      .select('id').eq('photo_id', photoId).eq('variant', 'bordered').limit(1);
+    if (error || !data || !data.length) return;
+    // Photo may have changed while the query was in flight — ignore stale result.
+    if (String(_printPhotoId) !== String(photoId)) return;
+    _printHasBordered = true;
+    const sec = document.getElementById('print-border-section');
+    if (sec) sec.style.display = 'block';
+    addHover('.print-border-btn');
+  } catch (_) { /* leave toggle hidden */ }
+}
+
+function selectBorder(btn) {
+  document.querySelectorAll('.print-border-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  _printVariant = btn.dataset.variant; // 'print-master' | 'bordered'
+  renderPrintPreview();
 }
 
 document.getElementById('print-modal').addEventListener('click', e => {
