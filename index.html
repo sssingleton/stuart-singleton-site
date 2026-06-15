@@ -3550,6 +3550,7 @@ async function submitPrintOrder() {
         photoId: _printPhotoId,
         sku: _printSku,
         frameColor: _printFrameColor,
+        variant: _printVariant, // 'print-master' (full bleed) or 'bordered'
         copies,
         successUrl: `${window.location.origin}/print-success`,
         cancelUrl: `${window.location.origin}/shop`
