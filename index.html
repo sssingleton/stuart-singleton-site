@@ -1535,6 +1535,13 @@ let activeTags = new Set();
 let selectedFile = null;
 let selectedSpan = '';
 
+// Resolves the first time loadPhotos() finishes (success or fallback). Deep-link
+// routing (e.g. /shop?buy=<id>) awaits this so it never opens a buy modal before
+// PHOTOS is populated — previously a fixed 900ms timer raced the network and
+// left the modal empty on cold direct loads.
+let _resolvePhotosReady;
+const photosReady = new Promise(res => { _resolvePhotosReady = res; });
+
 async function loadPhotos() {
   try {
     const { data, error } = await sb.from('photos').select('*').eq('hidden', false).order('sort_order', { ascending: true }).order('created_at', { ascending: false });
@@ -1547,6 +1554,7 @@ async function loadPhotos() {
   renderTagCloud();
   renderPhotos();
   updateLocationSub();
+  if (_resolvePhotosReady) { _resolvePhotosReady(PHOTOS); _resolvePhotosReady = null; }
 }
 loadPhotos();
 
@@ -3113,27 +3121,44 @@ goBack = function() {
 (function() {
   if (window.location.pathname === '/shop') {
     // Optional deep link: /shop?buy=<photoId> auto-opens that photo's buy modal
-    // (used by the "your requested print is now available" email).
+    // (used by Pinterest/Etsy product links + the "your requested print is now
+    // available" email).
     var buyId = null;
     try { buyId = new URLSearchParams(window.location.search).get('buy'); } catch (e) {}
-    // Direct URL access — open the photos page straight into Shop mode.
-    setTimeout(() => {
-      const landing = document.getElementById('landing');
-      landing.classList.add('hidden');
-      setTimeout(() => { landing.classList.add('gone'); }, 100);
-      const page = document.getElementById('photos-page');
+    // Direct URL access — open the photos page straight into Shop mode. We wait
+    // for the DOM to be ready, reveal the shop, THEN await photosReady before
+    // rendering the grid / opening the buy modal so neither races the network.
+    var openShop = function () {
+      var landing = document.getElementById('landing');
+      if (landing) {
+        landing.classList.add('hidden');
+        setTimeout(function () { landing.classList.add('gone'); }, 100);
+      }
+      var page = document.getElementById('photos-page');
+      if (!page) return;
       page.classList.remove('gone');
-      requestAnimationFrame(() => requestAnimationFrame(() => {
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
         page.classList.remove('hidden');
         page.classList.add('page-enter');
         setShopMode(true);
         addHover('#photos-page .back-btn, #photos-page a');
-        // Auto-open the buy modal for a deep-linked photo, once photos have rendered.
-        if (buyId) {
-          setTimeout(() => { try { openPrintModal(buyId); } catch (e) {} }, 900);
-        }
-      }));
-    }, 300);
+        // Wait until PHOTOS is actually populated before rendering the shop grid
+        // and (optionally) opening the deep-linked buy modal. photosReady
+        // resolves the moment loadPhotos() finishes, so this is robust on slow
+        // connections instead of guessing with a fixed timer.
+        photosReady.then(function () {
+          try { renderShop(); } catch (e) {}
+          if (buyId) {
+            try { openPrintModal(buyId); } catch (e) {}
+          }
+        });
+      }); });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(openShop, 50); });
+    } else {
+      setTimeout(openShop, 50);
+    }
   }
 })();
 
