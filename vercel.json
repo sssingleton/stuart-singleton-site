@@ -3,6 +3,7 @@
     { "source": "/whoami", "destination": "/index.html" },
     { "source": "/print-success", "destination": "/index.html" },
     { "source": "/shop", "destination": "/index.html" },
+    { "source": "/p", "destination": "/index.html" },
     { "source": "/mr.manager", "destination": "/index.html" }
   ]
 }

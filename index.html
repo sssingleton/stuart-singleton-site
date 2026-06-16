@@ -3117,6 +3117,66 @@ goBack = function() {
   history.pushState({ page: 'home' }, '', '/');
 };
 
+// ══ FAST SINGLE-PHOTO DEEP LINK ══
+// openProductFast(photoId) reveals the shop and opens the buy modal by fetching
+// ONLY that one photo — it never waits for or renders the full ~335-card catalog.
+// This is what makes /p?id= and /shop?buy= cold loads paint in <1s instead of ~1min.
+// The full catalog is warmed lazily in the background so closing the modal lands
+// on a populated shop.
+async function openProductFast(photoId) {
+  // Reveal the photos page immediately (same force-reveal the /shop router uses,
+  // since a CSS transition can't start from a never-painted display:none element).
+  var landing = document.getElementById('landing');
+  if (landing) { landing.classList.add('hidden', 'gone'); }
+  var page = document.getElementById('photos-page');
+  if (page) {
+    page.classList.remove('gone', 'hidden');
+    page.classList.add('page-enter');
+    page.style.opacity = '1';
+    page.style.transform = 'none';
+    page.style.pointerEvents = 'auto';
+  }
+  try {
+    // Single-row fetch — the whole point: never pull the full catalog to show one print.
+    var res = await sb.from('photos').select('*').eq('id', photoId).eq('hidden', false).single();
+    var photo = res && res.data;
+    if (!photo) {
+      // Missing/hidden photo — fall back to the normal shop so the link isn't a dead end.
+      try { navigate('shop'); } catch (e) {}
+      photosReady.then(function () { try { setShopMode(true); renderShop(); } catch (e) {} });
+      return;
+    }
+    photo.tags = photo.tags || '';
+    // Seed PHOTOS with just this one so openPrintModal (which does PHOTOS.find) works
+    // immediately. loadPhotos() below replaces it with the full set in the background.
+    if (!Array.isArray(PHOTOS) || !PHOTOS.length) { PHOTOS = [photo]; }
+    try { setShopMode(true); } catch (e) {}
+    try { renderShop(); } catch (e) {}
+    openPrintModal(photo.id);
+    // Warm the full catalog off the critical path so closing the modal reveals the shop.
+    try { loadPhotos(); } catch (e) {}
+  } catch (e) {
+    try { navigate('shop'); } catch (e2) {}
+  }
+}
+
+// ══ URL ROUTING — direct /p product page (fast single-photo deep link) ══
+// /p?id=<photoId> is the shareable per-photo product link (Pinterest/Etsy/email).
+(function() {
+  if (window.location.pathname !== '/p') return;
+  var pid = null;
+  try { pid = new URLSearchParams(window.location.search).get('id'); } catch (e) {}
+  var go = function () {
+    if (!pid) { try { navigate('shop'); } catch (e) {} return; }
+    openProductFast(pid);
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(go, 0); });
+  } else {
+    setTimeout(go, 0);
+  }
+})();
+
 // ══ URL ROUTING — direct /shop access ══
 (function() {
   if (window.location.pathname === '/shop') {
@@ -3125,6 +3185,18 @@ goBack = function() {
     // available" email).
     var buyId = null;
     try { buyId = new URLSearchParams(window.location.search).get('buy'); } catch (e) {}
+    // Fast path: if this is a per-photo deep link (?buy=<id>), open just that one
+    // photo (single-row fetch) instead of waiting for the whole catalog. This makes
+    // existing Pinterest/Etsy ?buy= links as fast as the newer /p?id= links.
+    if (buyId) {
+      var goBuy = function () { openProductFast(buyId); };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { setTimeout(goBuy, 0); });
+      } else {
+        setTimeout(goBuy, 0);
+      }
+      return;
+    }
     // Direct URL access — reuse the SAME reveal path as a normal in-app click
     // (navigate('shop')). Rolling our own reveal here left the page stuck at the
     // hidden-state opacity:0/scale on a cold load, because a CSS transition can't
