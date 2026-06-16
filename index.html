@@ -3125,34 +3125,40 @@ goBack = function() {
     // available" email).
     var buyId = null;
     try { buyId = new URLSearchParams(window.location.search).get('buy'); } catch (e) {}
-    // Direct URL access — open the photos page straight into Shop mode. We wait
-    // for the DOM to be ready, reveal the shop, THEN await photosReady before
-    // rendering the grid / opening the buy modal so neither races the network.
+    // Direct URL access — reuse the SAME reveal path as a normal in-app click
+    // (navigate('shop')). Rolling our own reveal here left the page stuck at the
+    // hidden-state opacity:0/scale on a cold load, because a CSS transition can't
+    // start from a display:none element that was never painted. navigate() is the
+    // proven path: it runs the transition overlay, reveals the page, and flips
+    // shop mode. We then await photosReady before opening the deep-linked buy
+    // modal so it never fires against an empty PHOTOS array.
     var openShop = function () {
-      var landing = document.getElementById('landing');
-      if (landing) {
-        landing.classList.add('hidden');
-        setTimeout(function () { landing.classList.add('gone'); }, 100);
-      }
-      var page = document.getElementById('photos-page');
-      if (!page) return;
-      page.classList.remove('gone');
-      requestAnimationFrame(function () { requestAnimationFrame(function () {
-        page.classList.remove('hidden');
-        page.classList.add('page-enter');
-        setShopMode(true);
-        addHover('#photos-page .back-btn, #photos-page a');
-        // Wait until PHOTOS is actually populated before rendering the shop grid
-        // and (optionally) opening the deep-linked buy modal. photosReady
-        // resolves the moment loadPhotos() finishes, so this is robust on slow
-        // connections instead of guessing with a fixed timer.
-        photosReady.then(function () {
-          try { renderShop(); } catch (e) {}
-          if (buyId) {
-            try { openPrintModal(buyId); } catch (e) {}
-          }
-        });
-      }); });
+      // Kick the normal animated reveal (transition overlay + page-enter).
+      try { navigate('shop'); } catch (e) {}
+      // Guaranteed reveal: on a cold direct load the CSS transition can fail to
+      // start (it can't animate from a never-painted display:none element), which
+      // left the page stuck invisible at opacity:0. So once photos are loaded we
+      // FORCE the photos page fully visible and in shop mode, independent of the
+      // animation — then open the deep-linked buy modal. This is what makes the
+      // Pinterest/Etsy ?buy= links reliable.
+      photosReady.then(function () {
+        var landing = document.getElementById('landing');
+        if (landing) { landing.classList.add('hidden', 'gone'); }
+        var page = document.getElementById('photos-page');
+        if (page) {
+          page.classList.remove('gone', 'hidden');
+          page.classList.add('page-enter');
+          page.style.opacity = '1';
+          page.style.transform = 'none';
+          page.style.pointerEvents = 'auto';
+        }
+        try { setShopMode(true); } catch (e) {}
+        try { renderShop(); } catch (e) {}
+        try { addHover('#photos-page .back-btn, #photos-page a'); } catch (e) {}
+        if (buyId) {
+          setTimeout(function () { try { openPrintModal(buyId); } catch (e) {} }, 300);
+        }
+      });
     };
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', function () { setTimeout(openShop, 50); });
