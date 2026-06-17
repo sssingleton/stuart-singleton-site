@@ -329,6 +329,8 @@
   /* Card image box adapts to the photo's orientation so it's shown as-is, never cropped.
      All cards share a consistent BOX height so rows line up; the image is centered inside
      via object-fit:contain, so portraits sit in a shorter, aligned box (not towering). */
+  .shop-card-imglink { display: block; text-decoration: none; color: inherit; }
+  .shop-card-titlelink { color: inherit; text-decoration: none; }
   .shop-card-imgwrap { width: 100%; height: 230px; overflow: hidden; background: #efece6; display: flex; align-items: center; justify-content: center; }
   .shop-card-imgwrap img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform .5s cubic-bezier(.16,1,.3,1); }
   .shop-card:hover .shop-card-imgwrap img { transform: scale(1.05); }
@@ -1547,6 +1549,7 @@ async function loadPhotos() {
     const { data, error } = await sb.from('photos').select('*').eq('hidden', false).order('sort_order', { ascending: true }).order('created_at', { ascending: false });
     if (error || !data || data.length === 0) throw new Error('empty');
     PHOTOS = data.map(p => ({ ...p, tags: p.tags || '' }));
+    await attachMasterDims();
   } catch {
     PHOTOS = FALLBACK_PHOTOS;
   }
@@ -1557,6 +1560,49 @@ async function loadPhotos() {
   if (_resolvePhotosReady) { _resolvePhotosReady(PHOTOS); _resolvePhotosReady = null; }
 }
 loadPhotos();
+
+// Pull the measured dimensions of each photo's print-master (private full-res
+// asset) so the buy modal can offer print sizes based on the MASTER, not the
+// smaller public web file. Without this, photos with a real master still get
+// their sizes gated by their ~2048px display image. Best-effort: any failure
+// just leaves photos without master dims, and the modal falls back to measuring
+// the web src as before.
+async function attachMasterDims() {
+  try {
+    const { data, error } = await sb.from('photo_assets')
+      .select('photo_id,width,height')
+      .eq('variant', 'print-master');
+    if (error || !data) return;
+    const byId = {};
+    data.forEach(a => {
+      if (a.width && a.height) byId[String(a.photo_id)] = { w: a.width, h: a.height };
+    });
+    PHOTOS.forEach(p => {
+      const m = byId[String(p.id)];
+      if (m) { p.masterW = m.w; p.masterH = m.h; }
+    });
+  } catch (e) { /* non-fatal */ }
+}
+
+// id -> /print/<slug> map, loaded from the generated print/index.json so shop
+// cards can link to the crawlable per-photo product pages. Best-effort: if the
+// map isn't available, cards fall back to the in-app buy modal.
+let PRINT_SLUGS = {};
+(async function loadPrintSlugs() {
+  try {
+    const res = await fetch('/print/index.json', { cache: 'no-cache' });
+    if (!res.ok) return;
+    const map = await res.json(); // { slug: id }
+    const byId = {};
+    Object.keys(map).forEach(slug => { byId[String(map[slug])] = slug; });
+    PRINT_SLUGS = byId;
+    if (typeof shopMode !== 'undefined' && shopMode) { try { renderShop(); } catch (e) {} }
+  } catch (e) { /* non-fatal */ }
+})();
+function printPageURL(photoId) {
+  const slug = PRINT_SLUGS[String(photoId)];
+  return slug ? ('/print/' + slug) : null;
+}
 
 function getTagsArray(photo) {
   return (photo.tags || '').split(',').map(t => t.trim()).filter(Boolean);
@@ -1716,10 +1762,21 @@ function renderShop() {
     // All cards share a uniform image-box height (CSS); each photo is centered inside
     // via object-fit:contain, so landscapes fill the width and portraits sit in the
     // same-height box — rows line up cleanly and nothing is ever cropped.
+    // Link the card to its crawlable /print/<slug> product page when we have one
+    // (good for SEO + shareable links); the page itself redirects into the buy
+    // flow. The Buy button still opens the in-app modal directly for a fast path.
+    const printURL = printPageURL(p.id);
+    const imgInner = `<img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 700])}" sizes="(max-width:600px) 46vw, 240px" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${p.src}'">`;
+    const imgWrap = printURL
+      ? `<a class="shop-card-imglink" href="${printURL}" onclick="event.preventDefault();event.stopPropagation();openPrintModal('${p.id}');"><div class="shop-card-imgwrap">${imgInner}</div></a>`
+      : `<div class="shop-card-imgwrap">${imgInner}</div>`;
+    const titleInner = printURL
+      ? `<a class="shop-card-titlelink" href="${printURL}" onclick="event.preventDefault();event.stopPropagation();openPrintModal('${p.id}');">${title}</a>`
+      : title;
     cards.push(`<div class="shop-card" onclick="openPrintModal('${p.id}')">
-      <div class="shop-card-imgwrap"><img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 700])}" sizes="(max-width:600px) 46vw, 240px" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${p.src}'"></div>
+      ${imgWrap}
       <div class="shop-card-body">
-        <div class="shop-card-title">${title}</div>
+        <div class="shop-card-title">${titleInner}</div>
         ${camLabel ? `<div class="shop-card-cam">${camLabel}</div>` : ''}
         <div class="shop-card-meta">
           <span class="shop-card-price"><span class="from">from</span>${priceHint(p)}</span>
@@ -3402,7 +3459,9 @@ function openPrintModal(photoId) {
   modal.classList.add('open');
 
   // Measure the photo's true pixel dimensions, then build only feasible sizes.
-  measurePhotoAndBuildSizes(_printPhotoSrc);
+  // Prefer the print-master's measured dims (the file Prodigi actually prints)
+  // over the smaller public web file, so sizes aren't under-offered.
+  measurePhotoAndBuildSizes(_printPhotoSrc, photo);
 }
 
 function buildSizeGrid(sizes, note) {
@@ -3421,7 +3480,21 @@ function buildSizeGrid(sizes, note) {
   addHover('.print-size-btn,.print-frame-btn,.print-checkout-btn');
 }
 
-function measurePhotoAndBuildSizes(src) {
+function measurePhotoAndBuildSizes(src, photo) {
+  // If we know the print-master's real dimensions, gate sizes by THOSE — the
+  // master is what gets printed, and it's usually much larger than the web src.
+  if (photo && photo.masterW && photo.masterH) {
+    const w = photo.masterW, h = photo.masterH;
+    const longestPx = Math.max(w, h);
+    _printPhotoIsPortrait = h > w;
+    const photoRatio = longestPx / Math.min(w, h);
+    const feasible = sizesForPhoto(longestPx, photoRatio);
+    const note = feasible.length
+      ? `Only sizes that match this photo’s proportions are shown — your print is never cropped.`
+      : '';
+    buildSizeGrid(feasible, note);
+    return;
+  }
   const img = new Image();
   img.onload = function() {
     const w = img.naturalWidth, h = img.naturalHeight;
