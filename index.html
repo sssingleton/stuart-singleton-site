@@ -1043,7 +1043,10 @@
   <div class="print-modal-inner">
     <div class="print-modal-header">
       <span>// buy a print</span>
-      <button onclick="closePrintModal()">✕ close</button>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button id="print-share-btn" onclick="sharePrintPhoto(this)" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">↗ share</button>
+        <button onclick="closePrintModal()">✕ close</button>
+      </div>
     </div>
     <div id="print-preview-stage">
       <div id="print-preview-frame" class="pv-frame paper">
@@ -3613,6 +3616,52 @@ function openPrintModal(photoId) {
   // Prefer the print-master's measured dims (the file Prodigi actually prints)
   // over the smaller public web file, so sizes aren't under-offered.
   measurePhotoAndBuildSizes(_printPhotoSrc, photo);
+}
+
+// Share the current photo's buy link. Uses the native share sheet on mobile
+// (navigator.share), and falls back to copying the link to the clipboard on
+// desktop with a brief "copied" confirmation. Canonical link = /p?id=<photoId>.
+function sharePrintPhoto(btn) {
+  if (!_printPhotoId) return;
+  const photo = PHOTOS.find(p => String(p.id) === String(_printPhotoId));
+  const url = 'https://stuartsingleton.com/p?id=' + encodeURIComponent(_printPhotoId);
+  // Build a human title from tags, the same way the shop cards do.
+  let title = 'Fine-art print';
+  if (photo) {
+    const tg = (photo.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+    const cam = tg.find(t => typeof CAMERA_LABELS !== 'undefined' && CAMERA_LABELS[t]);
+    const titleTags = tg.filter(t => t !== cam).slice(0, 3);
+    if (titleTags.length) title = titleTags.join(' · ');
+  }
+  const shareTitle = title + ' — print by Stuart Singleton';
+  const shareData = { title: shareTitle, text: shareTitle, url: url };
+
+  // Native share sheet (mobile + supported browsers)
+  if (navigator.share) {
+    navigator.share(shareData).catch(() => {});
+    return;
+  }
+  // Desktop fallback: copy the link, flash confirmation on the button
+  const flash = (msg) => {
+    if (!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = msg;
+    setTimeout(() => { btn.textContent = orig; }, 1600);
+  };
+  const copyFallback = () => {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      flash('✓ link copied');
+    } catch (e) { flash('↗ ' + url); }
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => flash('✓ link copied')).catch(copyFallback);
+  } else {
+    copyFallback();
+  }
 }
 
 function buildSizeGrid(sizes, note) {
