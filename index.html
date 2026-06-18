@@ -3455,6 +3455,22 @@ async function openProductFast(photoId) {
       return;
     }
     photo.tags = photo.tags || '';
+    // Attach this photo's print-master dimensions BEFORE opening the modal, so the
+    // buy modal gates sizes by the master (full-res) not the small web src. The
+    // full loadPhotos()/attachMasterDims() runs in the background, but on a cold
+    // /p?id= or /shop?buy= deep link it hasn't populated yet — without this, a photo
+    // with a real master would still under-offer sizes (measured off its ~2048px
+    // web file). Best-effort: any failure just leaves the web-src fallback as before.
+    try {
+      var ma = await sb.from('photo_assets')
+        .select('width,height,is_print_default,created_at')
+        .eq('photo_id', photo.id)
+        .eq('variant', 'print-master')
+        .order('is_print_default', { ascending: false })
+        .order('created_at', { ascending: false });
+      var mrow = ma && ma.data && ma.data.find(function (a) { return a.width && a.height; });
+      if (mrow) { photo.masterW = mrow.width; photo.masterH = mrow.height; }
+    } catch (e) { /* non-fatal: falls back to measuring web src */ }
     // Seed PHOTOS with just this one so openPrintModal (which does PHOTOS.find) works
     // immediately. loadPhotos() below replaces it with the full set in the background.
     if (!Array.isArray(PHOTOS) || !PHOTOS.length) { PHOTOS = [photo]; }
