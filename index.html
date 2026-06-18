@@ -1044,7 +1044,7 @@
     <div class="print-modal-header">
       <span>// buy a print</span>
       <div style="display:flex;gap:8px;align-items:center;">
-        <button id="print-share-btn" onclick="sharePrintPhoto(this)" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">↗ share</button>
+        <button id="print-share-btn" onclick="sharePrintPhoto(this)" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">⧉ copy link</button>
         <button onclick="closePrintModal()">✕ close</button>
       </div>
     </div>
@@ -2014,6 +2014,91 @@ function detectAspectRatio(file) {
   };
   img.src = url;
 }
+// ══ ADMIN: OPTIMIZE WEB PREVIEWS ══
+// Gallery/shop images are served through Supabase's on-the-fly resize, which is
+// slow on huge originals and outright fails (400/422) on files over ~25MB. This
+// downsizes any oversized PUBLIC web image in-browser (long edge 2048px, q0.85)
+// and overwrites it in place. Print masters live in a separate private bucket
+// and are NOT touched, so print quality is unaffected. Safe to run repeatedly.
+const PREVIEW_MAX_EDGE = 2048;
+const PREVIEW_SIZE_THRESHOLD = 2 * 1048576; // only shrink files bigger than 2MB
+
+async function optimizeWebPreviews() {
+  const status = document.getElementById('optimize-status');
+  const btn = document.getElementById('optimize-previews-btn');
+  const setS = (m) => { if (status) status.textContent = m; };
+  if (btn) btn.disabled = true;
+  setS('scanning photos…');
+  try {
+    // All photos (every camera) — the heavy ones are what we care about.
+    const res = await sb.from('photos').select('id, src, camera');
+    if (res.error) throw res.error;
+    const rows = res.data || [];
+
+    // Find which are oversized by HEADing the public file.
+    const heavy = [];
+    for (const p of rows) {
+      const marker = '/storage/v1/object/public/';
+      const i = (p.src || '').indexOf(marker);
+      if (i === -1) continue;
+      const rest = p.src.slice(i + marker.length);          // "photos/photo_x.jpg"
+      const bucket = rest.slice(0, rest.indexOf('/'));
+      const path = rest.slice(rest.indexOf('/') + 1);
+      try {
+        const h = await fetch(p.src.split('?')[0], { method: 'HEAD' });
+        const sz = parseInt(h.headers.get('content-length') || '0', 10);
+        if (sz > PREVIEW_SIZE_THRESHOLD) heavy.push({ id: p.id, bucket, path, src: p.src.split('?')[0], sz });
+      } catch (e) { /* skip unreachable */ }
+    }
+
+    if (!heavy.length) { setS('✓ nothing to optimize — all web images are already small.'); if (btn) btn.disabled = false; return; }
+
+    let done = 0, saved = 0, failed = 0;
+    for (const h of heavy) {
+      done++;
+      setS('optimizing ' + done + ' / ' + heavy.length + ' (' + h.path + ')…');
+      try {
+        const blob = await downscaleImage(h.src, PREVIEW_MAX_EDGE, 0.85);
+        if (!blob) { failed++; continue; }
+        // Overwrite the same object in place — DB src stays valid, no row change.
+        const up = await sb.storage.from(h.bucket).upload(h.path, blob, {
+          contentType: 'image/jpeg', upsert: true, cacheControl: '3600'
+        });
+        if (up.error) throw up.error;
+        saved += (h.sz - blob.size);
+      } catch (e) { failed++; console.warn('optimize failed for', h.path, e); }
+    }
+    setS('✓ done — optimized ' + (heavy.length - failed) + ' of ' + heavy.length +
+         (failed ? ' (' + failed + ' failed)' : '') +
+         ', saved ~' + (saved / 1048576).toFixed(1) + 'MB. Reloading…');
+    await loadPhotos();
+    await loadAdminPhotos();
+  } catch (err) {
+    setS('error: ' + (err.message || err));
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+// Draw an image onto a canvas at a capped long edge and return a JPEG blob.
+function downscaleImage(url, maxEdge, quality) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function () {
+      let w = img.naturalWidth, hgt = img.naturalHeight;
+      const longEdge = Math.max(w, hgt);
+      if (longEdge > maxEdge) { const s = maxEdge / longEdge; w = Math.round(w * s); hgt = Math.round(hgt * s); }
+      const c = document.createElement('canvas');
+      c.width = w; c.height = hgt;
+      c.getContext('2d').drawImage(img, 0, 0, w, hgt);
+      c.toBlob((b) => resolve(b), 'image/jpeg', quality);
+    };
+    img.onerror = function () { resolve(null); };
+    img.src = url;
+  });
+}
+
 async function uploadAndSave() {
   if (!selectedFile) return;
   var status = document.getElementById("upload-status");
@@ -2502,6 +2587,10 @@ function getAdminPanelHTML(fullpage) {
           <button class="admin-btn" onclick="uploadAndSave()" id="save-photo-btn" style="margin-top:4px;">Upload & Save →</button>
         </div>
         <div id="upload-status" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:10px;min-height:14px;"></div>
+        <div style="border-top:1px solid #161616;margin-top:14px;padding-top:12px;">
+          <button class="admin-btn" onclick="optimizeWebPreviews()" id="optimize-previews-btn" title="Shrink any oversized web images so the gallery loads fast (originals/print masters untouched)">⚡ Optimize web previews</button>
+          <div id="optimize-status" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:8px;min-height:14px;line-height:1.5;"></div>
+        </div>
       </div>
       <div class="admin-section">
         <div class="admin-section-title">Manage Photos <span id="photo-count" style="color:#2a2a2a;"></span></div>
@@ -3623,25 +3712,9 @@ function openPrintModal(photoId) {
 // desktop with a brief "copied" confirmation. Canonical link = /p?id=<photoId>.
 function sharePrintPhoto(btn) {
   if (!_printPhotoId) return;
-  const photo = PHOTOS.find(p => String(p.id) === String(_printPhotoId));
   const url = 'https://stuartsingleton.com/p?id=' + encodeURIComponent(_printPhotoId);
-  // Build a human title from tags, the same way the shop cards do.
-  let title = 'Fine-art print';
-  if (photo) {
-    const tg = (photo.tags || '').split(',').map(t => t.trim()).filter(Boolean);
-    const cam = tg.find(t => typeof CAMERA_LABELS !== 'undefined' && CAMERA_LABELS[t]);
-    const titleTags = tg.filter(t => t !== cam).slice(0, 3);
-    if (titleTags.length) title = titleTags.join(' · ');
-  }
-  const shareTitle = title + ' — print by Stuart Singleton';
-  const shareData = { title: shareTitle, text: shareTitle, url: url };
-
-  // Native share sheet (mobile + supported browsers)
-  if (navigator.share) {
-    navigator.share(shareData).catch(() => {});
-    return;
-  }
-  // Desktop fallback: copy the link, flash confirmation on the button
+  // Always copy the link directly — simplest, most reliable behavior on every
+  // device (the native share sheet doesn't always offer a copy-URL option).
   const flash = (msg) => {
     if (!btn) return;
     const orig = btn.textContent;
@@ -3655,7 +3728,7 @@ function sharePrintPhoto(btn) {
       document.body.appendChild(ta); ta.select();
       document.execCommand('copy'); document.body.removeChild(ta);
       flash('✓ link copied');
-    } catch (e) { flash('↗ ' + url); }
+    } catch (e) { flash('✓ copied'); }
   };
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(url).then(() => flash('✓ link copied')).catch(copyFallback);
