@@ -115,6 +115,14 @@ function pageHTML(photo, slug) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7P9FGW6PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y7P9FGW6PT');
+</script>
 <title>${esc(fullTitle)}</title>
 <link rel="canonical" href="${esc(canonical)}">
 <meta name="description" content="${esc(desc)}">
