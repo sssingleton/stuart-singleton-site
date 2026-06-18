@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /mr.manager
+Disallow: /p
+
+Sitemap: https://stuartsingleton.com/sitemap.xml
