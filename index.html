@@ -355,6 +355,28 @@
   .shop-head-count { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: #b0aaa0; }
   .shop-head-sub { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #908b82; margin-top: 8px; }
 
+  /* shop filter bar */
+  .shop-filters { margin-bottom: 34px; display: flex; flex-direction: column; gap: 14px; }
+  .sf-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .sf-label { font-family: var(--mono); font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #b0aaa0; margin-right: 4px; min-width: 62px; }
+  .sf-pill {
+    font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+    padding: 6px 13px; background: transparent; border: 1px solid #d8d5cd; color: #8a857c;
+    cursor: none; transition: all .2s; border-radius: 2px;
+  }
+  .sf-pill:hover { border-color: #b3aea3; color: #4a4640; }
+  .sf-pill.active { border-color: #1a1a1a; background: #1a1a1a; color: #f6f5f2; }
+  .sf-pill .sf-count { margin-left: 6px; opacity: .55; }
+  .sf-clear {
+    font-family: var(--mono); font-size: 8px; letter-spacing: .16em; text-transform: uppercase;
+    background: none; border: none; color: #b0aaa0; cursor: none; padding: 4px 0;
+    text-decoration: underline; text-underline-offset: 3px; transition: color .2s;
+  }
+  .sf-clear:hover { color: #1a1a1a; }
+  @media (max-width: 600px) {
+    .sf-label { min-width: 100%; margin-bottom: -4px; }
+  }
+
   /* TAG CLOUD */
   .tag-cloud {
     display: flex; flex-wrap: wrap; gap: 10px 14px;
@@ -1214,6 +1236,9 @@
       <!-- SHOP HEADER (shop view) -->
       <div class="shop-head" id="shop-head" style="display:none;"></div>
 
+      <!-- SHOP FILTERS (shop view) -->
+      <div class="shop-filters" id="shop-filters" style="display:none;"></div>
+
       <!-- PRODUCT GRID (shop view) -->
       <div class="shop-grid" id="shop-grid" style="display:none;"></div>
 
@@ -1736,8 +1761,118 @@ function renderPhotos() {
   }
 }
 
+// === SHOP FILTERS ===
+// Structured, tag-driven filters for the storefront. Reads the existing
+// comma-separated photo.tags — no schema change. A photo matches a filter group
+// if ANY of that group's selected values match; across groups it's AND.
+//
+// Location groups consolidate the many fine-grained place tags (paris, eze,
+// monaco…) into a few shopper-friendly buckets. Color is a single-select toggle.
+const SHOP_FILTER_GROUPS = [
+  { key: 'color', label: 'Color', single: true, options: [
+    { id: 'color',         label: 'Color',         match: ['color'] },
+    { id: 'black & white', label: 'Black & White', match: ['black & white'] },
+  ]},
+  { key: 'location', label: 'Location', options: [
+    { id: 'france',     label: 'France / Riviera', match: ['france','paris','versailles','monaco','monte carlo','eze','cannes','beaulieu-sur-mer','beaulieu','villefranche-sur-mer','saint-jean-cap-ferrat','saint-paul-de-vence'] },
+    { id: 'europe',     label: 'Europe',           match: ['europe'] },
+    { id: 'nashville',  label: 'Nashville',        match: ['nashville','franklin'] },
+    { id: 'puertorico', label: 'Puerto Rico',      match: ['puerto rico','san juan'] },
+    { id: 'newyork',    label: 'New York',         match: ['new york','jfk'] },
+    { id: 'dc',         label: 'Washington DC',    match: ['washington dc'] },
+    { id: 'kentucky',   label: 'Kentucky',         match: ['kentucky','lexington'] },
+  ]},
+  { key: 'subject', label: 'Subject', options: [
+    { id: 'architecture', label: 'Architecture', match: ['architecture','city'] },
+    { id: 'nature',       label: 'Nature',       match: ['nature','plants','trees','flowers','garden'] },
+    { id: 'water',        label: 'Water',        match: ['ocean','water'] },
+    { id: 'wildlife',     label: 'Wildlife',     match: ['wildlife','animals','dogs'] },
+    { id: 'neon',         label: 'Neon',         match: ['neon'] },
+    { id: 'longexp',      label: 'Long Exposure',match: ['long exposure'] },
+    { id: 'hotel',        label: 'Hotels',       match: ['hotel','hotels'] },
+    { id: 'music',        label: 'Live Music',   match: ['live music','concerts','stage'] },
+  ]},
+  { key: 'mood', label: 'Mood', options: [
+    { id: 'day',         label: 'Daytime',     match: ['day'] },
+    { id: 'night',       label: 'Night',       match: ['night'] },
+    { id: 'dark',        label: 'Dark',        match: ['dark'] },
+    { id: 'ethereal',    label: 'Ethereal',    match: ['ethereal'] },
+    { id: 'psychedelic', label: 'Psychedelic', match: ['psychedelic'] },
+  ]},
+];
+
+// active shop filter selections: { groupKey: Set(optionId) }
+const shopFilters = {};
+SHOP_FILTER_GROUPS.forEach(g => { shopFilters[g.key] = new Set(); });
+
+function optionMatchesPhoto(opt, tagSet) {
+  return opt.match.some(m => tagSet.has(m));
+}
+
+// A photo passes the filter bar if, for every group with a selection, at least
+// one selected option in that group matches the photo's tags.
+function photoPassesShopFilters(p) {
+  const tagSet = new Set(getTagsArray(p).map(t => t.toLowerCase()));
+  return SHOP_FILTER_GROUPS.every(g => {
+    const sel = shopFilters[g.key];
+    if (sel.size === 0) return true;
+    return g.options.some(opt => sel.has(opt.id) && optionMatchesPhoto(opt, tagSet));
+  });
+}
+
+function clearShopFilters() {
+  SHOP_FILTER_GROUPS.forEach(g => shopFilters[g.key].clear());
+  renderShop();
+}
+
+function toggleShopFilter(groupKey, optId) {
+  const group = SHOP_FILTER_GROUPS.find(g => g.key === groupKey);
+  const sel = shopFilters[groupKey];
+  if (sel.has(optId)) {
+    sel.delete(optId);
+  } else {
+    if (group && group.single) sel.clear(); // single-select group (Color)
+    sel.add(optId);
+  }
+  renderShop();
+}
+
+function renderShopFilters() {
+  const el = document.getElementById('shop-filters');
+  if (!el) return;
+  const forSale = PHOTOS.filter(p => p.for_sale);
+  // count how many for-sale photos each option would match, given current
+  // selections in OTHER groups (so counts reflect what a click would yield)
+  const anySelected = SHOP_FILTER_GROUPS.some(g => shopFilters[g.key].size > 0);
+  const rows = SHOP_FILTER_GROUPS.map(group => {
+    const pills = group.options.map(opt => {
+      const n = forSale.filter(p => {
+        const tagSet = new Set(getTagsArray(p).map(t => t.toLowerCase()));
+        if (!optionMatchesPhoto(opt, tagSet)) return false;
+        // respect selections in the OTHER groups for an accurate count
+        return SHOP_FILTER_GROUPS.every(g2 => {
+          if (g2.key === group.key) return true;
+          const sel2 = shopFilters[g2.key];
+          if (sel2.size === 0) return true;
+          return g2.options.some(o2 => sel2.has(o2.id) && optionMatchesPhoto(o2, tagSet));
+        });
+      }).length;
+      if (n === 0 && !shopFilters[group.key].has(opt.id)) return ''; // hide empties
+      const active = shopFilters[group.key].has(opt.id);
+      return `<button class="sf-pill ${active?'active':''}" onclick="toggleShopFilter('${group.key}','${opt.id}')">${opt.label}<span class="sf-count">${n}</span></button>`;
+    }).filter(Boolean).join('');
+    if (!pills) return '';
+    return `<div class="sf-row"><span class="sf-label">${group.label}</span>${pills}</div>`;
+  }).filter(Boolean).join('');
+  el.innerHTML = rows + (anySelected
+    ? `<div class="sf-row"><span class="sf-label"></span><button class="sf-clear" onclick="clearShopFilters()">Clear all filters</button></div>`
+    : '');
+  addHover('.sf-pill,.sf-clear');
+}
+
 // === SHOP VIEW (white product cards) ===
 function renderShop() {
+  renderShopFilters();
   const grid = document.getElementById('shop-grid');
   if (!grid) return;
   const forSaleCount = PHOTOS.filter(p => p.for_sale).length;
@@ -1751,9 +1886,8 @@ function renderShop() {
   const cards = [];
   PHOTOS.forEach(p => {
     if (!p.for_sale) return; // shop = listed prints only
+    if (!photoPassesShopFilters(p)) return; // structured shop filter bar
     const tags = getTagsArray(p);
-    const match = activeTags.size === 0 || [...activeTags].every(t => tags.includes(t));
-    if (!match) return;
     const cam = photoCamera(p);
     const camLabel = CAMERA_LABELS[cam] || '';
     // build a human title from the most descriptive tags (skip the camera tag)
@@ -1786,8 +1920,23 @@ function renderShop() {
     </div>`);
   });
   grid.innerHTML = cards.join('');
+  // Reflect the filtered result count in the header
+  const anyFilter = SHOP_FILTER_GROUPS.some(g => shopFilters[g.key].size > 0);
+  const countEl = document.querySelector('.shop-head-count');
+  if (countEl) countEl.textContent = anyFilter
+    ? `${cards.length} of ${forSaleCount}`
+    : `${forSaleCount} available`;
   const emptyEl = document.getElementById('shop-empty');
-  if (emptyEl) emptyEl.style.display = cards.length === 0 ? 'block' : 'none';
+  if (emptyEl) {
+    if (cards.length === 0) {
+      emptyEl.style.display = 'block';
+      emptyEl.textContent = anyFilter
+        ? 'No prints match these filters. Try removing one.'
+        : 'No prints listed yet. Browse the gallery and hit “Request a print” on any photo you’d like to buy.';
+    } else {
+      emptyEl.style.display = 'none';
+    }
+  }
   addHover('.shop-card,.shop-card-buy');
 }
 
@@ -1808,6 +1957,7 @@ function setShopMode(on) {
   const masonry = document.getElementById('photo-masonry');
   const grid = document.getElementById('shop-grid');
   const head = document.getElementById('shop-head');
+  const filters = document.getElementById('shop-filters');
   const tagCloud = document.getElementById('tag-cloud');
   const camFilter = document.getElementById('camera-filter');
   if (page) page.classList.toggle('shop-on', shopMode);
@@ -1818,6 +1968,7 @@ function setShopMode(on) {
   if (masonry) masonry.style.display = shopMode ? 'none' : '';
   if (grid) grid.style.display = shopMode ? 'grid' : 'none';
   if (head) head.style.display = shopMode ? 'block' : 'none';
+  if (filters) filters.style.display = shopMode ? 'flex' : 'none';
   // tag cloud + camera tabs are gallery chrome — hide them in the shop
   if (tagCloud) tagCloud.style.display = shopMode ? 'none' : '';
   if (camFilter) camFilter.style.display = shopMode ? 'none' : 'flex';
