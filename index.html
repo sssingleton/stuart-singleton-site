@@ -2152,18 +2152,54 @@ async function uploadAndSave() {
   }
 }
 var adminDragSrc = null;
+var adminPhotoFilter = 'all';
 async function loadAdminPhotos() {
   var list = document.getElementById("admin-photo-list");
   var count = document.getElementById("photo-count");
   if (!list) return;
   try {
-    var res = await sb.from("photos").select("*").order("sort_order", {ascending:true}).order("created_at", {ascending:false});
-    if (res.error) throw res.error;
-    var data = res.data || [];
+    // Pull photos AND their measured asset variants so each row can show the
+    // REAL print-master + preview dimensions and accurate print-readiness badges
+    // (the same source of truth the versions panel uses — no second opinion).
+    var phRes = await sb.from("photos").select("*").order("sort_order", {ascending:true}).order("created_at", {ascending:false});
+    if (phRes.error) throw phRes.error;
+    var asRes = await sb.from("photo_assets").select("photo_id,variant,width,height,bytes");
+    var assetsByPhoto = {};
+    (asRes && asRes.data ? asRes.data : []).forEach(function(a){
+      (assetsByPhoto[a.photo_id] = assetsByPhoto[a.photo_id] || []).push(a);
+    });
+    var data = phRes.data || [];
     // Show only the admin-selected camera's photos
     data = data.filter(function(p){ return photoCamera(p) === adminCamera; });
+    // Attach computed asset info to each photo
+    data.forEach(function(p){
+      var vs = assetsByPhoto[p.id] || [];
+      var master = vs.find(function(v){return v.variant==='print-master';}) || null;
+      var preview = vs.find(function(v){return v.variant==='preview';}) || vs[0] || null;
+      var hasBordered = vs.some(function(v){return v.variant==='bordered';});
+      // Largest pixels available for printing = master if present, else preview.
+      var printSrc = master || preview;
+      var printLongest = printSrc ? Math.max(printSrc.width||0, printSrc.height||0) : 0;
+      var printShort = printSrc ? Math.min(printSrc.width||0, printSrc.height||0) : 0;
+      var ratio = (printLongest && printShort) ? printLongest/printShort : 0;
+      // Print-ready = there's enough resolution to crisply make at least the
+      // smallest offered print at our DPI floor. This is what actually matters —
+      // NOT whether the small web preview happens to be 2048px (it's meant to be).
+      var offered = printLongest ? sizesForPhoto(printLongest, ratio) : [];
+      p._assets = { master: master, preview: preview, hasMaster: !!master, hasBordered: hasBordered,
+                    printLongest: printLongest, ratio: ratio, offered: offered,
+                    printReady: offered.length > 0 };
+    });
+    // Apply the in-camera filter bar
+    var data = data.filter(function(p){
+      var a = p._assets;
+      if (adminPhotoFilter === 'forsale') return !!p.for_sale;
+      if (adminPhotoFilter === 'nomaster') return !a.hasMaster;
+      if (adminPhotoFilter === 'lowres') return !a.printReady; // genuinely can't print any size
+      return true; // 'all'
+    });
     count.textContent = "(" + data.length + ")";
-    if (!data.length) { list.innerHTML = "<div style=\"font-size:9px;color:#333\">no photos yet</div>"; return; }
+    if (!data.length) { list.innerHTML = "<div style=\"font-size:9px;color:#333\">none match this filter</div>"; return; }
     var html = "";
     for (var i = 0; i < data.length; i++) {
       var p = data[i];
@@ -2171,11 +2207,25 @@ async function loadAdminPhotos() {
       var ptags = (p.tags || "").replace(/"/g, "&quot;");
       var pspan = p.span || "";
       var isHid = !!p.hidden;
+      var a = p._assets;
+      // Build the resolution/sale meta line + honest badges
+      var dimsTxt = a.master ? (a.master.width + "×" + a.master.height + " master")
+                  : a.preview ? (a.preview.width + "×" + a.preview.height + " preview only")
+                  : "no measured dims";
+      var offeredTxt = a.offered.length ? a.offered.map(function(s){return s.label;}).join(", ") : "none";
+      var badges = "";
+      if (!a.hasMaster) badges += "<span class=\"dash-badge warn\">no master</span>";
+      if (!a.printReady) badges += "<span class=\"dash-badge warn\">not print-ready</span>";
+      else badges += "<span class=\"dash-badge ok\">print-ready</span>";
+      if (a.hasMaster && !a.hasBordered) badges += "<span class=\"dash-badge info\">no bordered</span>";
+      if (p.for_sale) badges += "<span class=\"dash-badge ok\">for sale</span>";
+      if (isHid) badges += "<span class=\"dash-badge\">hidden</span>";
       html += "<div class=\"admin-photo-row\" data-id=\"" + pid + "\" data-span=\"" + pspan + "\" data-hidden=\"" + isHid + "\" draggable=\"true\">";
       html += "<span class=\"admin-drag-handle\">&#8942;</span>";
       html += "<img class=\"admin-photo-thumb" + (isHid ? " admin-thumb-hidden" : "") + "\" src=\"" + thumbURL(p.src||"", 120, 60) + "\" onerror=\"this.onerror=null;this.src='" + (p.src||"") + "';this.style.background='#222'\">";
       html += "<div class=\"admin-photo-info\"><span>" + (p.tags||"no tags") + "</span>";
-      html += "<span style=\"color:#2a2a2a\">" + (pspan||"normal") + (isHid ? " hidden" : "") + "</span></div>";
+      html += "<span style=\"color:#3a3a3a\">" + dimsTxt + " · offers: " + offeredTxt + "</span>";
+      html += "<div class=\"dash-badges\">" + badges + "</div></div>";
       html += "<button class=\"admin-edit-btn\" data-action=\"edit\" data-id=\"" + pid + "\">edit</button>";
       html += "<button class=\"admin-edit-btn\" data-action=\"versions\" data-id=\"" + pid + "\" data-cam=\"" + photoCamera(p) + "\" title=\"Manage print master / preview versions\">versions</button>";
       html += "<button class=\"admin-edit-btn\" data-action=\"mockups\" data-id=\"" + pid + "\" title=\"Upload framed wall mockups (per frame colour)\">mockups</button>";
@@ -2266,6 +2316,19 @@ async function loadAdminPhotos() {
       });
     });
     addHover(".admin-delete-btn,.admin-hide-btn,.admin-edit-btn,.admin-drag-handle");
+    // Wire the in-camera filter bar (once)
+    var fb = document.getElementById("admin-photo-filters");
+    if (fb && !fb._wired) {
+      fb._wired = true;
+      fb.onclick = function(e){
+        var b = e.target.closest(".dash-filter-btn"); if (!b) return;
+        adminPhotoFilter = b.dataset.filter;
+        fb.querySelectorAll(".dash-filter-btn").forEach(function(x){x.classList.remove("active");});
+        b.classList.add("active");
+        loadAdminPhotos();
+      };
+      addHover(".dash-filter-btn");
+    }
   } catch(err) {
     list.innerHTML = "<div style=\"font-size:9px;color:#c44\">could not load photos</div>";
   }
@@ -2386,10 +2449,10 @@ async function uploadVariant(photoId) {
       ? 'master uploaded ✓ (now used for printing)'
       : 'preview uploaded ✓ (gallery updated)';
     fileInput.value = '';
-    _dashCache = null; // dashboard recomputes missing-master / dims next open
     // Refresh the panel + lists so the new variant + badges show.
     await renderVersionsPanel(photoId, cam, up.dataset.src);
-    if (variant === 'preview') { loadPhotos(); loadAdminPhotos(); }
+    if (variant === 'preview') loadPhotos();
+    loadAdminPhotos(); // always refresh so master/preview dims + badges update
   } catch(err) {
     status.style.color = '#c44';
     status.textContent = 'error: ' + (err.message || err);
@@ -2401,10 +2464,10 @@ async function deleteMaster(assetId, bucket, path, photoId) {
   try {
     if (bucket && path) { await sb.storage.from(bucket).remove([path]); }
     await sb.from('photo_assets').delete().eq('id', assetId);
-    _dashCache = null;
     var vr = document.getElementById('vr' + photoId);
     var up = vr ? vr.querySelector('.ver-uploader') : null;
     await renderVersionsPanel(photoId, up ? up.dataset.cam : 'fujifilm-xt5', up ? up.dataset.src : '');
+    loadAdminPhotos(); // refresh dims + badges after a master is removed
   } catch(err) {
     alert('Delete failed: ' + (err.message || err));
   }
@@ -2568,8 +2631,8 @@ document.addEventListener('keydown', e => {
 let adminAuthed = false;
 function getAdminPanelHTML(fullpage) {
   // In fullpage mode (route /mr.manager) the sections are split into two columns:
-  // left = Add Photo + Manage Photos, right = Resolution Dashboard + Print Requests
-  // + Quick Links. In modal mode these wrappers are empty so it stays a single stack.
+  // left = Add Photo + Manage Photos (with res/badge intel + filters merged in),
+  // right = Print Requests + Quick Links. Modal mode = single stack.
   const colsOpen  = fullpage ? '<div class="admin-cols"><div class="admin-col-left">' : '';
   const colsSplit = fullpage ? '</div><div class="admin-col-right">' : '';
   const colsClose = fullpage ? '</div></div>' : '';
@@ -2613,21 +2676,14 @@ function getAdminPanelHTML(fullpage) {
       </div>
       <div class="admin-section">
         <div class="admin-section-title">Manage Photos <span id="photo-count" style="color:#2a2a2a;"></span></div>
-        <div id="admin-photo-list" style="display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;"></div>
-      </div>` + colsSplit + `
-      <div class="admin-section">
-        <div class="admin-section-title">Resolution Dashboard <span id="dash-count" style="color:#2a2a2a;"></span></div>
-        <div class="dash-filters" id="dash-filters">
+        <div class="dash-filters" id="admin-photo-filters">
           <button class="dash-filter-btn active" data-filter="all">All</button>
           <button class="dash-filter-btn" data-filter="forsale">For Sale</button>
-          <button class="dash-filter-btn" data-filter="lowres">Low-res only</button>
-          <button class="dash-filter-btn" data-filter="nomaster">No master</button>
-          <button class="dash-filter-btn" data-filter="fujifilm-xt5">Fuji</button>
-          <button class="dash-filter-btn" data-filter="nomo">Nomo</button>
-          <button class="dash-filter-btn" data-filter="campsnap">CampSnap</button>
+          <button class="dash-filter-btn" data-filter="nomaster">No Master</button>
+          <button class="dash-filter-btn" data-filter="lowres">Not Print-Ready</button>
         </div>
-        <div id="dash-list" style="display:flex;flex-direction:column;gap:0;max-height:340px;overflow-y:auto;"></div>
-      </div>
+        <div id="admin-photo-list" style="display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto;"></div>
+      </div>` + colsSplit + `
       <div class="admin-section">
         <div class="admin-section-title">Print Requests <span id="request-count" style="color:#2a2a2a;"></span></div>
         <div id="admin-request-list" style="display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;"></div>
@@ -2653,111 +2709,6 @@ function showAdminPanel() {
   addHover('#admin-camera-picker .cam-btn');
   loadAdminPhotos();
   loadPrintRequests();
-  loadDashboard();
-}
-
-// ══ ADMIN RESOLUTION DASHBOARD (Phase 1 — read-only) ══
-// Joins photo_assets (real measured dims) with photos so Stuart can SEE, per photo:
-// resolution + MP, max crisp print size @200/@300 DPI, ratio + size-family, for-sale
-// status + exact sizes a buyer sees, and missing-version flags. Pure display, no writes.
-let dashFilter = 'all';
-let _dashCache = null;
-
-function maxCrispSize(longestPx, photoRatio, dpi) {
-  // Largest PRINT_SIZES entry whose long edge fits at the given DPI AND matches ratio.
-  let best = null;
-  for (const s of PRINT_SIZES) {
-    const fitsRes = longestPx >= s.longIn * dpi;
-    const fitsRatio = !photoRatio || Math.abs(s.ratio - photoRatio) <= RATIO_TOLERANCE;
-    if (fitsRes && fitsRatio && (!best || s.longIn > best.longIn)) best = s;
-  }
-  return best ? best.label.replace(' Framed','') : '—';
-}
-
-async function loadDashboard() {
-  const list = document.getElementById('dash-list');
-  const count = document.getElementById('dash-count');
-  if (!list) return;
-  try {
-    if (!_dashCache) {
-      // Pull photos + their preview variant (real dims). One query each, joined in JS.
-      const [ph, as] = await Promise.all([
-        sb.from('photos').select('id,src,tags,for_sale,hidden,camera').order('id'),
-        sb.from('photo_assets').select('photo_id,variant,width,height,bytes,is_print_default')
-      ]);
-      if (ph.error) throw ph.error;
-      if (as.error) throw as.error;
-      const byPhoto = {};
-      (as.data || []).forEach(a => { (byPhoto[a.photo_id] = byPhoto[a.photo_id] || []).push(a); });
-      _dashCache = (ph.data || []).map(p => {
-        const variants = byPhoto[p.id] || [];
-        const preview = variants.find(v => v.variant === 'preview') || variants[0] || null;
-        const hasMaster = variants.some(v => v.variant === 'print-master');
-        const hasBordered = variants.some(v => v.variant === 'bordered');
-        return { p, preview, variants, hasMaster, hasBordered };
-      });
-    }
-    // Apply the active filter.
-    const rows = _dashCache.filter(d => {
-      const longest = d.preview ? Math.max(d.preview.width, d.preview.height) : 0;
-      const cam = photoCamera(d.p);
-      if (dashFilter === 'all') return true;
-      if (dashFilter === 'forsale') return !!d.p.for_sale;
-      if (dashFilter === 'lowres') return longest > 0 && longest <= 2048;
-      if (dashFilter === 'nomaster') return !d.hasMaster;
-      return cam === dashFilter; // camera filters
-    });
-    count.textContent = '(' + rows.length + ')';
-    if (!rows.length) { list.innerHTML = '<div style="font-size:9px;color:#333;padding:8px 0">none match this filter</div>'; return; }
-    let html = '';
-    for (const d of rows) {
-      const p = d.p, pv = d.preview;
-      const w = pv ? pv.width : 0, h = pv ? pv.height : 0;
-      const longest = Math.max(w, h), shortest = Math.min(w, h);
-      const mp = longest ? ((w * h) / 1e6).toFixed(1) : '?';
-      const ratio = longest && shortest ? longest / shortest : 0;
-      // Size-family by ratio
-      let fam = '—';
-      if (ratio) fam = Math.abs(ratio - 1.5) <= RATIO_TOLERANCE ? '3:2'
-                     : Math.abs(ratio - 4/3) <= RATIO_TOLERANCE ? '4:3'
-                     : ratio.toFixed(2) + ':1';
-      const crisp200 = longest ? maxCrispSize(longest, ratio, 200) : '—';
-      const crisp300 = longest ? maxCrispSize(longest, ratio, 300) : '—';
-      const offered = longest ? sizesForPhoto(longest, ratio) : [];
-      const offeredLabels = offered.map(s => s.label).join(', ') || 'none';
-      // Badges
-      const badges = [];
-      if (!pv) badges.push('<span class="dash-badge warn">no dims</span>');
-      if (!d.hasMaster) badges.push('<span class="dash-badge warn">no master</span>');
-      if (longest && longest <= 2048) badges.push('<span class="dash-badge warn">low-res only</span>');
-      if (!d.hasBordered) badges.push('<span class="dash-badge info">no bordered</span>');
-      if (p.for_sale) badges.push('<span class="dash-badge ok">for sale</span>');
-      if (p.hidden) badges.push('<span class="dash-badge">hidden</span>');
-      html += '<div class="dash-row">';
-      html += '<img class="dash-thumb" src="' + thumbURL(p.src||'', 120, 60) + '" onerror="this.onerror=null;this.src=\'' + (p.src||'') + '\'">';
-      html += '<div class="dash-info">';
-      html += '<span class="dash-dims">' + (longest ? w + '×' + h + ' · ' + mp + ' MP · ' + fam : 'no measured dims') + '</span><br>';
-      html += '<span class="dash-meta">crisp @200: ' + crisp200 + ' · @300: ' + crisp300 + '</span><br>';
-      html += '<span class="dash-sale">offers: ' + offeredLabels + '</span>';
-      html += '<div class="dash-badges">' + badges.join('') + '</div>';
-      html += '</div></div>';
-    }
-    list.innerHTML = html;
-    const fb = document.getElementById('dash-filters');
-    if (fb && !fb._wired) {
-      fb._wired = true;
-      fb.onclick = function(e){
-        const b = e.target.closest('.dash-filter-btn'); if (!b) return;
-        dashFilter = b.dataset.filter;
-        fb.querySelectorAll('.dash-filter-btn').forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        loadDashboard();
-      };
-      addHover('.dash-filter-btn');
-    }
-  } catch(err) {
-    list.innerHTML = '<div style="font-size:9px;color:#c44;padding:8px 0">could not load dashboard</div>';
-  }
 }
 
 async function loadPrintRequests() {
