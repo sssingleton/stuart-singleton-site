@@ -3436,6 +3436,10 @@ async function openProductFast(photoId) {
     // Seed PHOTOS with just this one so openPrintModal (which does PHOTOS.find) works
     // immediately. loadPhotos() below replaces it with the full set in the background.
     if (!Array.isArray(PHOTOS) || !PHOTOS.length) { PHOTOS = [photo]; }
+    // Agent discoverability: enrich this /p?id= page's <head> for JS-capable
+    // crawlers (title, description, OG, schema.org JSON-LD). Non-JS agents read
+    // the static /print/<slug> page instead; this is a bonus for JS-capable ones.
+    try { applyProductSeo(photo); } catch (e) { /* non-fatal */ }
     try { setShopMode(true); } catch (e) {}
     try { renderShop(); } catch (e) {}
     openPrintModal(photo.id);
@@ -3444,6 +3448,93 @@ async function openProductFast(photoId) {
   } catch (e) {
     try { navigate('shop'); } catch (e2) {}
   }
+}
+
+// ══ AGENT DISCOVERABILITY — per-photo head SEO + schema.org on /p?id= ══
+// Mutates the document head for JS-capable crawlers: title, description, OG, and
+// a VisualArtwork+Product JSON-LD block. Offers/sizes use the SAME PRINT_SIZES +
+// sizesForPhoto() gate the buy modal uses, so markup matches what is sellable.
+// Static /print/<slug> pages cover non-JS agents. Pricing is read, never changed.
+function applyProductSeo(photo) {
+  if (!photo) return;
+  var tags = (photo.tags || '').split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+  var cam = (typeof photoCamera === 'function') ? photoCamera(photo) : null;
+  var titleTags = tags.filter(function (t) { return t !== cam; }).slice(0, 3);
+  var title = titleTags.length ? titleTags.join(' · ') : 'Fine art print';
+  var img = (typeof thumbURL === 'function') ? thumbURL(photo.src, 1200, 80) : photo.src;
+
+  // Largest known dims: master if attached, else nothing (web file measured later).
+  var w = photo.masterW || null, h = photo.masterH || null;
+  var longestPx = (w && h) ? Math.max(w, h) : null;
+  var ratio = (w && h) ? (Math.max(w, h) / Math.min(w, h)) : null;
+  var offered = (typeof sizesForPhoto === 'function') ? sizesForPhoto(longestPx, ratio) : [];
+  var prices = offered.map(function (s) { return s.price; });
+  var lo = prices.length ? Math.min.apply(null, prices) : null;
+  var hi = prices.length ? Math.max.apply(null, prices) : null;
+  var avail = offered.length ? 'InStock' : 'PreOrder';
+
+  var desc = title + ' fine art print by Stuart Singleton.' +
+    (lo != null ? ' Prints from $' + Math.round(lo / 100) + ', printed on demand and shipped worldwide.' : ' Printed on demand and shipped worldwide.') +
+    ' Secure checkout.';
+
+  document.title = title + ', Fine Art Print | Stuart Singleton';
+  function meta(attr, key, val) {
+    var sel = '[' + attr + '="' + key + '"]';
+    var el = document.head.querySelector('meta' + sel);
+    if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
+    el.setAttribute('content', val);
+  }
+  meta('name', 'description', desc);
+  meta('property', 'og:type', 'product');
+  meta('property', 'og:title', title + ', Fine Art Print');
+  meta('property', 'og:description', desc);
+  meta('property', 'og:image', img);
+  meta('property', 'og:url', 'https://stuartsingleton.com/p?id=' + photo.id);
+  meta('name', 'twitter:card', 'summary_large_image');
+  meta('name', 'twitter:image', img);
+  if (lo != null) {
+    meta('property', 'product:price:amount', (lo / 100).toFixed(2));
+    meta('property', 'product:price:currency', 'USD');
+    meta('property', 'og:availability', avail === 'InStock' ? 'instock' : 'preorder');
+  }
+
+  var ld = {
+    '@context': 'https://schema.org',
+    '@type': ['VisualArtwork', 'Product'],
+    name: title + ', fine art print',
+    description: desc,
+    image: img,
+    url: 'https://stuartsingleton.com/p?id=' + photo.id,
+    artform: 'Photograph',
+    artMedium: 'Giclee fine art print',
+    creator: { '@type': 'Person', name: 'Stuart Singleton' },
+    creditText: 'Stuart Singleton',
+    keywords: tags.join(', ')
+  };
+  if (w && h) {
+    ld.width = { '@type': 'QuantitativeValue', value: w, unitCode: 'E37' };
+    ld.height = { '@type': 'QuantitativeValue', value: h, unitCode: 'E37' };
+  }
+  if (offered.length) {
+    ld.offers = {
+      '@type': 'AggregateOffer', priceCurrency: 'USD',
+      lowPrice: (lo / 100).toFixed(2), highPrice: (hi / 100).toFixed(2),
+      offerCount: offered.length,
+      availability: 'https://schema.org/' + avail,
+      offers: offered.map(function (s) {
+        return { '@type': 'Offer', sku: s.sku, price: (s.price / 100).toFixed(2),
+          priceCurrency: 'USD', availability: 'https://schema.org/' + avail,
+          name: title + ' fine art print, ' + s.label };
+      })
+    };
+  }
+  var old = document.getElementById('product-jsonld');
+  if (old) old.remove();
+  var tag = document.createElement('script');
+  tag.type = 'application/ld+json';
+  tag.id = 'product-jsonld';
+  tag.textContent = JSON.stringify(ld);
+  document.head.appendChild(tag);
 }
 
 // ══ URL ROUTING — direct /p product page (fast single-photo deep link) ══

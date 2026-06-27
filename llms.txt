@@ -1,0 +1,34 @@
+# Stuart Singleton
+
+> Stuart Singleton is a songwriter, producer, and photographer based in Nashville, Tennessee. This site sells his fine art photography as museum-quality prints, printed on demand and shipped worldwide.
+
+## About
+
+Stuart Singleton photographs cities, landscapes, and life on the road. The shop offers a curated set of his images as fine art prints. Every print is produced on demand through a professional print lab and shipped worldwide. Prices are all-in in USD with free shipping.
+
+## How prints and pricing work
+
+Prints are offered only in sizes that match each photo's true aspect ratio, so the image is never cropped. A size is offered only when the photo has enough resolution to print it sharply at a 200 DPI floor. This means smaller web-resolution photos offer smaller sizes, and full-resolution photos offer the full range up to 24x36 inches.
+
+Unframed fine art prints run from $29 to $115 depending on size. Framed prints (classic frame, fine art paper, mounted, motheye glaze) are $119 for 8x12 inches and $245 for 16x24 inches. All prices include worldwide shipping.
+
+Available unframed sizes include 4x6, 6x9, 8x12, 16x24, and 24x36 inches for 3:2 photos, and 6x8, 9x12, and 12x16 inches for 4:3 photos. Availability per photo is resolution-gated, so not every size appears for every image.
+
+## Shop and catalog
+
+- [Shop, all for-sale prints](https://stuartsingleton.com/shop)
+- [Machine-readable catalog feed (JSON)](https://stuartsingleton.com/catalog.json): every for-sale photo with its title, deep link, available sizes, price range, aspect ratio, and availability.
+
+Each photo also has its own product page at https://stuartsingleton.com/p?id=ID and a crawlable static page at https://stuartsingleton.com/print/SLUG that carries schema.org VisualArtwork and Product structured data with offers and pricing.
+
+## Flagship prints
+
+- [JFK, New York](https://stuartsingleton.com/print/jfk-new-york-hotels-352)
+- [Paris, France](https://stuartsingleton.com/print/europe-paris-france-350)
+- [Monte Carlo, Monaco](https://stuartsingleton.com/print/monte-carlo-monaco-europe-344)
+- [Saint-Jean-Cap-Ferrat, France](https://stuartsingleton.com/print/saint-jean-cap-ferrat-france-338)
+- [San Juan, Puerto Rico](https://stuartsingleton.com/print/puerto-rico-plants-san-juan-141)
+
+## Contact
+
+For commissions, licensing, or print questions, reach Stuart through the contact form at https://stuartsingleton.com.

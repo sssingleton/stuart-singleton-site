@@ -1,98 +1,39 @@
 #!/usr/bin/env node
 /**
  * generate-print-pages.js
- * ────────────────────────────────────────────────────────────────────────────
+ * ----------------------------------------------------------------------------
  * Builds one REAL static HTML page per for-sale photo at /print/<slug>.
  *
  * WHY static files (not just the /p?id= SPA route):
- *   - Pinterest, Etsy, iMessage, Facebook, Google read the OG/Twitter meta tags
- *     out of the RAW HTML before any JavaScript runs. The SPA can't give a crawler
- *     a per-photo preview image/title because index.html is one shared shell.
- *   - These static pages carry per-photo <title>, og:image, og:description so a
- *     shared link shows the actual photo + a real title. That's the whole point.
+ *   - Crawlers + AI agents read the OG/Twitter meta AND schema.org JSON-LD out
+ *     of the RAW HTML before any JavaScript runs. The SPA (/p?id=) is one shared
+ *     index.html shell, so it cannot give a non-JS agent per-photo markup.
+ *   - These static pages carry per-photo <title>, og:image, description, an
+ *     <h1>, alt text, AND a VisualArtwork + Product JSON-LD block with offers,
+ *     price, availability, and (when known) pixel dimensions. This is what makes
+ *     the catalog quotable by AI search.
  *
  * WHAT each page does for a human:
- *   - Paints the photo + title + "View print options" instantly (no SPA boot).
- *   - Then redirects into the proven /p?id=<id> SPA route, which runs the exact
- *     same openProductFast() buy flow that's already live. We do NOT reimplement
- *     checkout — we hand off to it. One source of truth for the buy logic.
+ *   - Paints the photo + title + price-from line instantly.
+ *   - Then redirects into the proven /p?id=<id> SPA buy flow. We do NOT
+ *     reimplement checkout. One source of truth for buy logic.
  *
- * SLUG: built from the photo's place/subject tags + id suffix, e.g.
- *   /print/versailles-night-france-14   (id suffix => zero collision risk)
+ * PRICING / SIZES come from catalog-data.js, which MIRRORS the live buy modal's
+ * PRINT_SIZES + MIN_PRINT_DPI(200) + sizesForPhoto() gate. What is marked up is
+ * exactly what is offered. Gate by pixels not inches. Masters stay private; only
+ * measured dimensions are exposed, never the master file.
  *
- * Run from the repo root:   node generate-print-pages.js
- * Output:                   ./print/<slug>.html   (one per for-sale photo)
- *                           ./print/index.json     (slug<->id map, for debugging)
+ * Copy contains NO em dashes (house rule).
  *
- * No npm install needed — uses the Supabase REST endpoint over plain fetch
- * (Node 18+ has global fetch).
+ * Run from repo root:   node generate-print-pages.js
+ * Output:               ./print/<slug>.html  +  ./print/index.json
  */
 
 const fs = require('fs');
 const path = require('path');
+const { fetchCatalog, SITE } = require('./catalog-data.js');
 
-// ── Config (same project + anon key the site uses) ──────────────────────────
-const SUPA_URL = 'https://zbcdeglxwrappriwpxwt.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY2RlZ2x4d3JhcHByaXdweHd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MzcyODUsImV4cCI6MjA4OTUxMzI4NX0.IMGxd2IIRvVWgA441aLFtH2VujrZgVRehv2Hb2qNEus';
-const SITE = 'https://stuartsingleton.com';
 const OUT_DIR = path.join(__dirname, 'print');
-
-// Tags that are descriptors, not places/subjects — kept OUT of the slug so the
-// URL reads like a place name, not a filter list.
-const SKIP_TAGS = new Set([
-  'color', 'black & white', 'b&w', 'day', 'night', 'outdoor', 'indoor',
-  'interior', 'exterior', 'dramatic', 'travel', 'nature', 'architecture',
-  'city', 'street', 'landscape', 'portrait',
-]);
-
-// ── helpers ─────────────────────────────────────────────────────────────────
-function slugify(s) {
-  return String(s)
-    .toLowerCase()
-    .normalize('NFKD').replace(/[̀-ͯ]/g, '') // strip accents
-    .replace(/&/g, ' and ')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-// Turn the comma tag string into a readable slug stem. Prefer place/subject
-// tags; fall back to whatever's there; always cap length, always end with -id.
-function slugForPhoto(photo) {
-  const raw = (photo.tags || '')
-    .split(',')
-    .map(t => t.trim())
-    .filter(Boolean);
-  const meaningful = raw.filter(t => !SKIP_TAGS.has(t.toLowerCase()));
-  const pick = (meaningful.length ? meaningful : raw).slice(0, 3);
-  let stem = slugify(pick.join('-'));
-  if (!stem) stem = 'print'; // photos with empty tags still get a valid slug
-  // Hard cap so URLs stay sane.
-  if (stem.length > 60) stem = stem.slice(0, 60).replace(/-+$/g, '');
-  return `${stem}-${photo.id}`;
-}
-
-// Supabase render-image resized URL (same transform thumbURL() uses on-site).
-function renderURL(src, width, quality) {
-  if (!src || typeof src !== 'string') return src;
-  const marker = '/storage/v1/object/public/';
-  const i = src.indexOf(marker);
-  if (i === -1) return src;
-  const rest = src.slice(i + marker.length);
-  const q = quality != null ? quality : 80;
-  return src.slice(0, i) + '/storage/v1/render/image/public/' + rest +
-    `?width=${width}&quality=${q}&resize=contain`;
-}
-
-function titleForPhoto(photo) {
-  const raw = (photo.tags || '').split(',').map(t => t.trim()).filter(Boolean);
-  const meaningful = raw.filter(t => !SKIP_TAGS.has(t.toLowerCase()));
-  const parts = (meaningful.length ? meaningful : raw).slice(0, 3);
-  if (!parts.length) return 'Fine Art Print';
-  // Title-case each tag.
-  return parts
-    .map(p => p.replace(/\b\w/g, c => c.toUpperCase()))
-    .join(' · ');
-}
 
 function esc(s) {
   return String(s == null ? '' : s)
@@ -100,15 +41,64 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
-// ── page template ───────────────────────────────────────────────────────────
-function pageHTML(photo, slug) {
-  const title = titleForPhoto(photo);
-  const fullTitle = `${title} — Fine Art Print | Stuart Singleton`;
-  const ogImg = renderURL(photo.src, 1200, 80);
-  const heroImg = renderURL(photo.src, 1000, 82);
-  const canonical = `${SITE}/print/${slug}`;
-  const spaTarget = `${SITE}/p?id=${photo.id}`;
-  const desc = `${title} — available as a museum-quality fine art print, printed on demand and shipped worldwide. Secure checkout. Photographed by Stuart Singleton.`;
+// schema.org JSON-LD: VisualArtwork wrapping a Product offer set. We use a
+// single Product node with an AggregateOffer (low/high price) so agents see the
+// real price range, plus the artwork metadata (artform, creator, dimensions).
+function jsonLd(item) {
+  const offers = item.offeredSizes.length ? {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    lowPrice: item.priceRangeUSD.min.toFixed(2),
+    highPrice: item.priceRangeUSD.max.toFixed(2),
+    offerCount: item.offeredSizes.length,
+    availability: `https://schema.org/${item.availability}`,
+    offers: item.offeredSizes.map(s => ({
+      '@type': 'Offer',
+      name: `${item.title} fine art print, ${s.label}${s.framed ? ' framed' : ''}`,
+      sku: s.sku,
+      price: s.priceUSD.toFixed(2),
+      priceCurrency: 'USD',
+      availability: `https://schema.org/${item.availability}`,
+    })),
+  } : undefined;
+
+  const artwork = {
+    '@context': 'https://schema.org',
+    '@type': ['VisualArtwork', 'Product'],
+    name: `${item.title}, fine art print`,
+    description: item.description,
+    image: item.ogImage,
+    url: item.printPage,
+    artform: 'Photograph',
+    artMedium: 'Giclee fine art print',
+    creator: { '@type': 'Person', name: 'Stuart Singleton' },
+    creditText: 'Stuart Singleton',
+    copyrightHolder: { '@type': 'Person', name: 'Stuart Singleton' },
+    keywords: item.tags.join(', '),
+  };
+  // Only assert dimensions we actually measured (a real master or preview).
+  if (item.pixelWidth && item.pixelHeight) {
+    artwork.width = { '@type': 'QuantitativeValue', value: item.pixelWidth, unitCode: 'E37' };  // E37 = pixel
+    artwork.height = { '@type': 'QuantitativeValue', value: item.pixelHeight, unitCode: 'E37' };
+  }
+  if (offers) artwork.offers = offers;
+  if (item.camera) artwork.creator.knowsAbout = item.camera;
+  return JSON.stringify(artwork);
+}
+
+function priceLine(item) {
+  if (!item.priceRangeUSD) return 'Print options';
+  const lo = Math.round(item.priceRangeUSD.min);
+  return `Prints from $${lo}`;
+}
+
+function pageHTML(item) {
+  const fullTitle = `${item.title}, Fine Art Print | Stuart Singleton`;
+  const canonical = item.printPage;
+  const spaTarget = item.pPage;
+  // Description: factual, no em dashes, includes price-from when known.
+  const priceBit = item.priceRangeUSD ? ` Prints from $${Math.round(item.priceRangeUSD.min)}, printed on demand and shipped worldwide.` : ' Printed on demand and shipped worldwide.';
+  const desc = `${item.description}.${priceBit} Secure checkout.`.replace(/\.\./g, '.');
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -134,25 +124,38 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="canonical" href="${esc(canonical)}">
 <meta name="description" content="${esc(desc)}">
 
-<!-- Open Graph (Pinterest / Facebook / iMessage) -->
+<!-- Open Graph (Pinterest / Facebook / iMessage / agents) -->
 <meta property="og:type" content="product">
-<meta property="og:title" content="${esc(title)} — Fine Art Print">
+<meta property="og:title" content="${esc(item.title)}, Fine Art Print">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:image" content="${esc(ogImg)}">
+<meta property="og:image" content="${esc(item.ogImage)}">
 <meta property="og:url" content="${esc(canonical)}">
 <meta property="og:site_name" content="Stuart Singleton">
+${item.priceRangeUSD ? `<meta property="product:price:amount" content="${item.priceRangeUSD.min.toFixed(2)}">
+<meta property="product:price:currency" content="USD">
+<meta property="og:availability" content="${item.availability === 'InStock' ? 'instock' : 'preorder'}">` : ''}
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${esc(title)} — Fine Art Print">
+<meta name="twitter:title" content="${esc(item.title)}, Fine Art Print">
 <meta name="twitter:description" content="${esc(desc)}">
-<meta name="twitter:image" content="${esc(ogImg)}">
+<meta name="twitter:image" content="${esc(item.ogImage)}">
 
-<!-- Hand off to the live SPA buy flow as soon as JS runs. The static shell
-     below is what crawlers + the first paint see; humans get redirected into
-     /p?id= which runs the proven openProductFast() checkout. -->
-<script>window.location.replace(${JSON.stringify(spaTarget)});</script>
-<meta http-equiv="refresh" content="0; url=${esc(spaTarget)}">
+<!-- schema.org structured data: VisualArtwork + Product (offers, price, dims) -->
+<script type="application/ld+json">${jsonLd(item)}</script>
+
+<!-- Hand off to the live SPA buy flow for HUMANS, without defeating crawlers.
+     We deliberately DO NOT use <meta http-equiv="refresh"> and we fire the JS
+     redirect only AFTER the body paints (on load, next tick). Crawlers and AI
+     agents that run no JS (or ignore JS redirects) read the full static page +
+     JSON-LD below; humans get bounced into /p?id= which runs the proven
+     openProductFast() checkout. -->
+<script>
+  // Defer so the static content is the document a crawler sees first.
+  window.addEventListener('load', function () {
+    setTimeout(function () { window.location.replace(${JSON.stringify(spaTarget)}); }, 120);
+  });
+</script>
 
 <style>
   :root { color-scheme: light; }
@@ -163,6 +166,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   img { max-width:100%; height:auto; border-radius:6px;
     box-shadow:0 8px 30px rgba(0,0,0,.12); }
   h1 { font-size:1.15rem; font-weight:600; margin:22px 0 6px; }
+  .price { color:#1a1a1a; font-size:.95rem; font-weight:600; margin:0 0 4px; }
   p { color:#777; font-size:.9rem; margin:0 0 18px; }
   a.cta { display:inline-block; background:#1a1a1a; color:#fff; text-decoration:none;
     padding:12px 26px; border-radius:30px; font-size:.92rem; font-weight:500; }
@@ -174,45 +178,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
   <div class="wrap">
-    <img src="${esc(heroImg)}" alt="${esc(title)} — fine art print by Stuart Singleton">
-    <h1>${esc(title)}</h1>
-    <p>Loading print options…</p>
+    <img src="${esc(item.heroImage)}" alt="${esc(item.description)}">
+    <h1>${esc(item.title)}</h1>
+    <div class="price">${esc(priceLine(item))}</div>
+    <p>Fine art print by Stuart Singleton. Loading print options.</p>
     <a class="cta" href="${esc(spaTarget)}">View print options</a>
   </div>
 </body>
 </html>`;
 }
 
-// ── main ────────────────────────────────────────────────────────────────────
 async function main() {
-  const url = `${SUPA_URL}/rest/v1/photos?select=id,tags,camera,src,mockup_url` +
-    `&for_sale=eq.true&hidden=eq.false&order=id`;
-  const res = await fetch(url, {
-    headers: { apikey: SUPA_KEY, authorization: `Bearer ${SUPA_KEY}` },
-  });
-  if (!res.ok) {
-    console.error('Supabase fetch failed:', res.status, await res.text());
-    process.exit(1);
-  }
-  const photos = await res.json();
-  console.log(`Fetched ${photos.length} for-sale photos.`);
+  const { items } = await fetchCatalog();
+  console.log(`Fetched ${items.length} for-sale photos.`);
 
-  // Fresh output dir so removed/unlisted photos don't leave stale pages behind.
-  fs.rmSync(OUT_DIR, { recursive: true, force: true });
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
   const map = {};
   const seen = new Set();
-  for (const photo of photos) {
-    const slug = slugForPhoto(photo); // id suffix guarantees uniqueness
-    if (seen.has(slug)) { console.warn('  ! duplicate slug (skipped):', slug); continue; }
-    seen.add(slug);
-    fs.writeFileSync(path.join(OUT_DIR, `${slug}.html`), pageHTML(photo, slug));
-    map[slug] = photo.id;
+  const wanted = new Set();
+  for (const item of items) {
+    if (seen.has(item.slug)) { console.warn('  ! duplicate slug (skipped):', item.slug); continue; }
+    seen.add(item.slug);
+    fs.writeFileSync(path.join(OUT_DIR, `${item.slug}.html`), pageHTML(item));
+    map[item.slug] = item.id;
+    wanted.add(`${item.slug}.html`);
   }
   fs.writeFileSync(path.join(OUT_DIR, 'index.json'), JSON.stringify(map, null, 2));
-  console.log(`Wrote ${Object.keys(map).length} pages to ${OUT_DIR}`);
-  console.log('Sample:', Object.keys(map).slice(0, 5).map(s => `/print/${s}`).join('\n        '));
+
+  // Prune stale pages for photos no longer for-sale, without wiping the dir
+  // (avoids EPERM on locked mounts and never leaves the site page-less mid-run).
+  let pruned = 0;
+  for (const f of fs.readdirSync(OUT_DIR)) {
+    if (f.endsWith('.html') && !wanted.has(f)) {
+      try { fs.unlinkSync(path.join(OUT_DIR, f)); pruned++; } catch (e) { console.warn('  ! could not prune', f); }
+    }
+  }
+  console.log(`Wrote ${Object.keys(map).length} pages to ${OUT_DIR}${pruned ? ` (pruned ${pruned} stale)` : ''}`);
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
