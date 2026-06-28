@@ -11,12 +11,12 @@
   "shop": "https://stuartsingleton.com/shop",
   "currency": "USD",
   "priceModel": "All-in pricing with free worldwide shipping. Unframed prints $29 to $115. Framed prints $119 to $245. A size is offered only when the photo has enough resolution to print it sharply at 200 DPI without cropping.",
-  "generatedAt": "2026-06-28T00:27:36.968Z",
+  "generatedAt": "2026-06-28T01:08:11.152Z",
   "count": 132,
   "products": [
     {
       "id": 352,
-      "title": "Jfk / New York / Hotels",
+      "title": "JFK / New York / Hotels",
       "description": "photograph of jfk, hotels in New York, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=352",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotels-352",
@@ -1353,8 +1353,8 @@
     },
     {
       "id": 194,
-      "title": "Washington Dc",
-      "description": "black and white photograph of washington dc in Washington Dc, by Stuart Singleton",
+      "title": "Washington DC",
+      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=194",
       "printPage": "https://stuartsingleton.com/print/washington-dc-194",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836594645.JPG?width=1200&quality=80&resize=contain",
@@ -2276,8 +2276,8 @@
     },
     {
       "id": 193,
-      "title": "Washington Dc",
-      "description": "black and white photograph of washington dc in Washington Dc, by Stuart Singleton",
+      "title": "Washington DC",
+      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=193",
       "printPage": "https://stuartsingleton.com/print/washington-dc-193",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836540652.JPG?width=1200&quality=80&resize=contain",
@@ -3439,7 +3439,7 @@
     },
     {
       "id": 121,
-      "title": "Jfk / New York / Hotels",
+      "title": "JFK / New York / Hotels",
       "description": "photograph of jfk, hotels in New York, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=121",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotels-121",
@@ -3730,7 +3730,7 @@
     },
     {
       "id": 117,
-      "title": "Jfk / New York / Hotels",
+      "title": "JFK / New York / Hotels",
       "description": "photograph of jfk, hotels in New York, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=117",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotels-117",
@@ -3773,7 +3773,7 @@
     },
     {
       "id": 116,
-      "title": "Jfk / New York / Hotels",
+      "title": "JFK / New York / Hotels",
       "description": "photograph of jfk, hotels in New York, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=116",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotels-116",
@@ -3815,7 +3815,7 @@
     },
     {
       "id": 115,
-      "title": "Jfk / New York / Hotels",
+      "title": "JFK / New York / Hotels",
       "description": "photograph of jfk, hotels in New York, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=115",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotels-115",
@@ -3900,7 +3900,7 @@
     },
     {
       "id": 113,
-      "title": "Jfk / New York / Hotels",
+      "title": "JFK / New York / Hotels",
       "description": "photograph of jfk, hotels in New York, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=113",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotels-113",
@@ -3942,7 +3942,7 @@
     },
     {
       "id": 112,
-      "title": "Jfk / New York / Hotels",
+      "title": "JFK / New York / Hotels",
       "description": "photograph of jfk, hotels in New York, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=112",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotels-112",
@@ -4069,7 +4069,7 @@
     },
     {
       "id": 109,
-      "title": "Jfk / New York / Hotels",
+      "title": "JFK / New York / Hotels",
       "description": "photograph of jfk, hotels in New York, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=109",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotels-109",
@@ -5648,8 +5648,8 @@
     },
     {
       "id": 69,
-      "title": "Washington Dc",
-      "description": "black and white photograph of washington dc in Washington Dc, by Stuart Singleton",
+      "title": "Washington DC",
+      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton",
       "url": "https://stuartsingleton.com/p?id=69",
       "printPage": "https://stuartsingleton.com/print/washington-dc-69",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774624034573.jpg?width=1200&quality=80&resize=contain",

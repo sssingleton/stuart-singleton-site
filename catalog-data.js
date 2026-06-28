@@ -81,12 +81,27 @@ function slugForPhoto(photo) {
   return `${stem}-${photo.id}`;
 }
 
+// Tokens that should render fully uppercase, not title-cased (JFK -> "JFK", not "Jfk").
+const ACRONYMS = new Set([
+  'jfk', 'nyc', 'usa', 'us', 'uk', 'la', 'sf', 'dc', 'uae', 'nasa', 'ufo',
+]);
+
+// Title-case a tag, but uppercase any whole word that is a known acronym
+// (JFK -> "JFK", not "Jfk"). Handles words separated by spaces or hyphens.
+function titleCasePart(part) {
+  return String(part).split(/(\s+|-)/).map(token => (
+    ACRONYMS.has(token.toLowerCase())
+      ? token.toUpperCase()
+      : token.replace(/\b\w/g, c => c.toUpperCase())
+  )).join('');
+}
+
 function titleForPhoto(photo) {
   const raw = tagsArray(photo);
   const meaningful = raw.filter(t => !SKIP_TAGS.has(t.toLowerCase()));
   const parts = (meaningful.length ? meaningful : raw).slice(0, 3);
   if (!parts.length) return 'Fine Art Print';
-  return parts.map(p => p.replace(/\b\w/g, c => c.toUpperCase())).join(' / ');
+  return parts.map(titleCasePart).join(' / ');
 }
 
 // Known location / subject / mood / medium vocab, used to build a natural
@@ -106,7 +121,9 @@ function classifyTags(photo) {
   return { locations, moods, media, subjects, raw };
 }
 
-function tc(s) { return String(s).replace(/\b\w/g, c => c.toUpperCase()); }
+// Title-case, with acronym awareness (JFK/DC/NYC stay uppercase). Shares the
+// same ACRONYMS set as titleForPhoto so titles and descriptions stay consistent.
+function tc(s) { return titleCasePart(s); }
 
 // Descriptive alt text / description built from metadata. No em dashes.
 function describePhoto(photo) {
