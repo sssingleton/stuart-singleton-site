@@ -3,7 +3,13 @@
     { "source": "/whoami", "destination": "/index.html" },
     { "source": "/print-success", "destination": "/index.html" },
     { "source": "/print/:slug", "destination": "/print/:slug.html" },
+
+    { "source": "/shop", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/shop.html" },
     { "source": "/shop", "destination": "/index.html" },
+
+    { "source": "/photos", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/photos.html" },
+    { "source": "/photos", "destination": "/index.html" },
+
     { "source": "/p", "destination": "/index.html" },
     { "source": "/mr.manager", "destination": "/index.html" }
   ]

@@ -19,13 +19,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('config', 'G-Y7P9FGW6PT');
 </script>
 <title>Stuart Singleton</title>
-<meta name="description" content="Stuart Singleton — Songwriter, Producer, Nashville TN">
+<meta name="description" content="Stuart Singleton — Nashville, TN. Photography, music, and fine-art prints.">
 <meta property="og:title" content="Stuart Singleton">
-<meta property="og:description" content="Songwriter · Producer · Nashville TN">
+<meta property="og:description" content="Photography, music, and fine-art prints · Nashville, TN">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://stuartsingleton.com">
+<meta property="og:site_name" content="Stuart Singleton">
+<meta property="og:image" content="https://stuartsingleton.com/og-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Stuart Singleton — Nashville, TN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stuart Singleton">
+<meta name="twitter:description" content="Photography, music, and fine-art prints · Nashville, TN">
+<meta name="twitter:image" content="https://stuartsingleton.com/og-home.jpg">
 <meta name="p:domain_verify" content="66fb68147c12c81c7d3a002166b6fd8b"/>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23050505'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='20' fill='white' font-style='italic'>S</text></svg>">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#050505">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
@@ -1057,6 +1070,95 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </form>
   </div>
 </div>
+<!-- CART STYLES -->
+<style>
+  /* Floating cart button — appears once the cart has items */
+  #cart-fab {
+    position: fixed; right: 22px; bottom: 22px; z-index: 940;
+    display: none; align-items: center; gap: 9px;
+    background: #0d0d0d; color: #f2efe4; border: 1px solid #2a2a2a;
+    font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    padding: 12px 16px; border-radius: 40px; cursor: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35); transition: transform .18s, border-color .2s;
+  }
+  #cart-fab.show { display: flex; }
+  #cart-fab:hover { transform: translateY(-2px); border-color: #6a655c; }
+  #cart-fab .cart-fab-count {
+    background: #f2efe4; color: #0d0d0d; font-size: 10px; min-width: 18px; height: 18px;
+    border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; padding: 0 5px;
+  }
+  #cart-fab.bump { animation: cartBump .4s ease; }
+  @keyframes cartBump { 0%{transform:scale(1)} 40%{transform:scale(1.12)} 100%{transform:scale(1)} }
+
+  #cart-modal {
+    position: fixed; inset: 0; z-index: 960;
+    background: rgba(20,18,15,.55); backdrop-filter: blur(3px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity .3s;
+  }
+  #cart-modal.open { opacity: 1; pointer-events: all; }
+  .cart-inner {
+    width: min(520px, 94vw); border: 1px solid #e2dfd7; background: #fff; border-radius: 2px;
+    font-family: var(--mono); max-height: 92vh; display: flex; flex-direction: column;
+    box-shadow: 0 24px 70px rgba(0,0,0,.22);
+  }
+  .cart-head {
+    padding: 18px 22px; border-bottom: 1px solid #ece9e2;
+    display: flex; justify-content: space-between; align-items: center; flex: 0 0 auto;
+  }
+  .cart-head span { font-size: 9px; letter-spacing: .2em; color: #908b82; text-transform: uppercase; }
+  .cart-head button { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; background: none; border: 1px solid #d8d5cd; color: #908b82; padding: 4px 10px; cursor: none; transition: color .2s, border-color .2s; }
+  .cart-head button:hover { color: #1a1a1a; border-color: #b3aea3; }
+  .cart-lines { overflow-y: auto; padding: 8px 22px; }
+  .cart-empty { padding: 40px 22px; text-align: center; color: #b0aaa0; font-size: 11px; letter-spacing: .06em; line-height: 1.9; }
+  .cart-line { display: flex; gap: 13px; align-items: center; padding: 15px 0; border-bottom: 1px solid #f0eee8; }
+  .cart-line:last-child { border-bottom: none; }
+  .cart-line img { width: 50px; height: 50px; object-fit: cover; border: 1px solid #e2dfd7; flex: 0 0 auto; background: #f6f5f2; }
+  .cart-line-info { flex: 1 1 auto; min-width: 0; }
+  .cart-line-title { font-size: 11px; color: #1a1a1a; letter-spacing: .04em; margin-bottom: 3px; }
+  .cart-line-meta { font-size: 9px; color: #a09a90; letter-spacing: .08em; text-transform: uppercase; }
+  .cart-line-right { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; flex: 0 0 auto; }
+  .cart-line-price { font-size: 11px; color: #1a1a1a; }
+  .cart-qty { display: flex; align-items: center; gap: 8px; }
+  .cart-qty button { border: 1px solid #d8d5cd; background: #fff; color: #6a655c; font-family: var(--mono); font-size: 12px; width: 22px; height: 22px; line-height: 1; cursor: none; transition: border-color .2s, color .2s; }
+  .cart-qty button:hover { border-color: #b3aea3; color: #1a1a1a; }
+  .cart-qty span { font-size: 11px; color: #1a1a1a; min-width: 16px; text-align: center; }
+  .cart-remove { font-size: 8px !important; letter-spacing: .1em; color: #c0392b !important; border: none !important; background: none !important; padding: 2px !important; cursor: none; text-transform: uppercase; }
+  .cart-foot { padding: 18px 22px; border-top: 1px solid #ece9e2; flex: 0 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .cart-subtotal { display: flex; justify-content: space-between; align-items: baseline; font-size: 11px; color: #1a1a1a; letter-spacing: .06em; }
+  .cart-subtotal strong { font-size: 15px; }
+  .print-addcart-btn {
+    width: 100%; padding: 13px; background: #fff; color: #1a1a1a;
+    border: 1px solid #1a1a1a; font-family: var(--mono); font-size: 10px;
+    letter-spacing: .18em; text-transform: uppercase; cursor: none;
+    transition: background .2s, color .2s, opacity .2s;
+  }
+  .print-addcart-btn:hover { background: #1a1a1a; color: #fff; }
+  .print-addcart-btn:disabled { opacity: .35; pointer-events: none; }
+</style>
+
+<!-- CART FLOATING BUTTON -->
+<button id="cart-fab" onclick="openCart()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
+  <span>Cart</span><span class="cart-fab-count" id="cart-fab-count">0</span>
+</button>
+
+<!-- CART MODAL -->
+<div id="cart-modal">
+  <div class="cart-inner">
+    <div class="cart-head">
+      <span>// your cart</span>
+      <button onclick="closeCart()">✕ close</button>
+    </div>
+    <div class="cart-lines" id="cart-lines"></div>
+    <div class="cart-foot" id="cart-foot" style="display:none;">
+      <div class="cart-subtotal"><span>Subtotal · <span style="color:#3a7a3a">free shipping</span></span><strong id="cart-subtotal-amt">$0</strong></div>
+      <div class="print-error" id="cart-error"></div>
+      <button class="print-checkout-btn" id="cart-checkout-btn" onclick="checkoutCart()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Proceed to Checkout →</button>
+      <p class="print-note" style="margin:0;">Printed on demand via Prodigi · Shipped worldwide · Secure checkout via Stripe</p>
+    </div>
+  </div>
+</div>
+
 <!-- PRINT MODAL -->
 <div id="print-modal">
   <div class="print-modal-inner">
@@ -1110,8 +1212,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- error -->
       <div class="print-error" id="print-error"></div>
       <!-- cta -->
+      <button class="print-addcart-btn" id="print-addcart-btn" disabled onclick="addToCart(this)" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
+        Add to Cart
+      </button>
       <button class="print-checkout-btn" id="print-checkout-btn" onclick="submitPrintOrder()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
-        Proceed to Checkout →
+        Buy It Now →
       </button>
       <p class="print-note">Printed on demand via Prodigi · Shipped worldwide · Secure checkout via Stripe</p>
     </div>
@@ -3626,6 +3731,36 @@ function applyProductSeo(photo) {
   }
 })();
 
+// ══ URL ROUTING — direct /photos (gallery) access ══
+// Cold direct-load of /photos reveals the gallery (non-shop). Mirrors the /shop
+// cold-load reveal so a shared /photos link isn't a dead end / stuck-invisible page.
+(function() {
+  if (window.location.pathname !== '/photos') return;
+  var openGallery = function () {
+    try { navigate('photos'); } catch (e) {}
+    photosReady.then(function () {
+      var landing = document.getElementById('landing');
+      if (landing) { landing.classList.add('hidden', 'gone'); }
+      var page = document.getElementById('photos-page');
+      if (page) {
+        page.classList.remove('gone', 'hidden');
+        page.classList.add('page-enter');
+        page.style.opacity = '1';
+        page.style.transform = 'none';
+        page.style.pointerEvents = 'auto';
+      }
+      try { setShopMode(false); } catch (e) {}
+      try { renderPhotos(); } catch (e) {}
+      try { addHover('#photos-page .back-btn, #photos-page a'); } catch (e) {}
+    });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(openGallery, 50); });
+  } else {
+    setTimeout(openGallery, 50);
+  }
+})();
+
 // ══ URL ROUTING — direct /whoami access ══
 (function() {
   const path = window.location.pathname;
@@ -3763,6 +3898,7 @@ function openPrintModal(photoId) {
   document.getElementById('print-copies').value = 1;
   document.getElementById('print-total-row').textContent = '';
   document.getElementById('print-checkout-btn').disabled = true;
+  { const _ac = document.getElementById('print-addcart-btn'); if (_ac) { _ac.disabled = true; _ac.textContent = 'Add to Cart'; } }
 
   // Reset frame section
   document.getElementById('print-frame-section').style.display = 'none';
@@ -4043,6 +4179,7 @@ function selectSize(btn) {
   const isFramed = btn.dataset.framed === 'true';
   document.getElementById('print-frame-section').style.display = isFramed ? 'block' : 'none';
   document.getElementById('print-checkout-btn').disabled = false;
+  { const _ac = document.getElementById('print-addcart-btn'); if (_ac) { _ac.disabled = false; _ac.textContent = 'Add to Cart'; } }
   renderPrintPreview();
   updatePrintTotal();
 }
@@ -4100,13 +4237,141 @@ async function submitPrintOrder() {
   } catch (err) {
     errEl.textContent = err.message || 'Something went wrong. Please try again.';
     btn.disabled = false;
-    btn.textContent = 'Proceed to Checkout →';
+    btn.textContent = 'Buy It Now →';
   }
 }
+
+// ══════════════════════════════════════════════════════════════════════════
+// ══ SHOPPING CART (multi-photo checkout) ══
+// Parallel path to Buy-It-Now (submitPrintOrder). Cart items are collected on
+// the client and sent as { items:[...] } to create-checkout-session, which
+// builds ONE Stripe session with multiple line items and ONE Prodigi order.
+// Backward-compatible: Buy-It-Now still posts the single-item shape.
+// ══════════════════════════════════════════════════════════════════════════
+var CART = [];
+var CART_KEY = 'sss_cart_v1';
+
+function cartLoad() {
+  try { var raw = localStorage.getItem(CART_KEY); if (raw) CART = JSON.parse(raw) || []; } catch (e) { CART = []; }
+  if (!Array.isArray(CART)) CART = [];
+}
+function cartSave() { try { localStorage.setItem(CART_KEY, JSON.stringify(CART)); } catch (e) {} }
+function cartCount() { return CART.reduce(function (n, it) { return n + (it.copies || 1); }, 0); }
+function cartSubtotalCents() { return CART.reduce(function (s, it) { return s + (it.priceCents || 0) * (it.copies || 1); }, 0); }
+function cartMoney(cents) { return (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }); }
+
+function updateCartFab() {
+  var fab = document.getElementById('cart-fab');
+  var cnt = document.getElementById('cart-fab-count');
+  if (!fab) return;
+  var n = cartCount();
+  if (cnt) cnt.textContent = n;
+  fab.classList.toggle('show', n > 0);
+}
+
+// Identity of a line (same photo+size+frame+finish) so a repeat add bumps qty.
+function cartLineKey(it) { return [it.photoId, it.sku, it.frameColor || '', it.variant || 'print-master'].join('|'); }
+
+function addToCart(btn) {
+  if (!_printPhotoId || !_printSku) return;
+  var copies = parseInt(document.getElementById('print-copies').value || 1, 10);
+  var size = (typeof PRINT_SIZES !== 'undefined') ? PRINT_SIZES.find(function (s) { return s.sku === _printSku; }) : null;
+  var isFramed = _printSku.toUpperCase().indexOf('GLOBAL-CFPM') === 0;
+  var item = {
+    photoId: _printPhotoId,
+    sku: _printSku,
+    frameColor: isFramed ? _printFrameColor : null,
+    variant: _printVariant || 'print-master',
+    copies: copies,
+    priceCents: _printPriceCents,
+    sizeLabel: size ? size.label : _printSku,
+    thumb: _printPhotoSrc
+  };
+  var key = cartLineKey(item);
+  var existing = CART.find(function (it) { return cartLineKey(it) === key; });
+  if (existing) { existing.copies = Math.min(20, (existing.copies || 1) + copies); }
+  else { CART.push(item); }
+  cartSave();
+  updateCartFab();
+  var fab = document.getElementById('cart-fab');
+  if (fab) { fab.classList.remove('bump'); void fab.offsetWidth; fab.classList.add('bump'); }
+  if (btn) { btn.textContent = '✓ Added to cart'; setTimeout(function () { if (btn) btn.textContent = 'Add to Cart'; }, 1400); }
+}
+
+function removeCartItem(idx) { CART.splice(idx, 1); cartSave(); updateCartFab(); renderCart(); }
+function changeCartQty(idx, delta) {
+  if (!CART[idx]) return;
+  CART[idx].copies = Math.max(1, Math.min(20, (CART[idx].copies || 1) + delta));
+  cartSave(); updateCartFab(); renderCart();
+}
+
+function renderCart() {
+  var lines = document.getElementById('cart-lines');
+  var foot = document.getElementById('cart-foot');
+  if (!lines) return;
+  if (!CART.length) {
+    lines.innerHTML = '<div class="cart-empty">Your cart is empty.<br>Add prints from any photo in the shop.</div>';
+    if (foot) foot.style.display = 'none';
+    return;
+  }
+  lines.innerHTML = CART.map(function (it, i) {
+    var finish = it.frameColor ? (it.frameColor + ' frame') : (it.variant === 'bordered' ? 'white border' : 'fine-art paper');
+    var thumb = (typeof thumbURL === 'function') ? thumbURL(it.thumb, 120, 70) : it.thumb;
+    return '<div class="cart-line">'
+      + '<img src="' + thumb + '" alt="" onerror="this.onerror=null;this.src=\'' + it.thumb + '\'">'
+      + '<div class="cart-line-info"><div class="cart-line-title">' + it.sizeLabel + '</div>'
+      + '<div class="cart-line-meta">' + finish + '</div></div>'
+      + '<div class="cart-line-right"><div class="cart-line-price">' + cartMoney(it.priceCents * it.copies) + '</div>'
+      + '<div class="cart-qty"><button onclick="changeCartQty(' + i + ',-1)">−</button><span>' + it.copies + '</span><button onclick="changeCartQty(' + i + ',1)">+</button></div>'
+      + '<button class="cart-remove" onclick="removeCartItem(' + i + ')">remove</button></div>'
+      + '</div>';
+  }).join('');
+  document.getElementById('cart-subtotal-amt').textContent = cartMoney(cartSubtotalCents());
+  if (foot) foot.style.display = 'flex';
+  try { addHover('.cart-qty button, .cart-remove, #cart-checkout-btn'); } catch (e) {}
+}
+
+function openCart() { renderCart(); var e = document.getElementById('cart-error'); if (e) e.textContent = ''; document.getElementById('cart-modal').classList.add('open'); }
+function closeCart() { document.getElementById('cart-modal').classList.remove('open'); }
+
+async function checkoutCart() {
+  if (!CART.length) return;
+  var btn = document.getElementById('cart-checkout-btn');
+  var errEl = document.getElementById('cart-error');
+  errEl.textContent = '';
+  btn.disabled = true; btn.textContent = 'Redirecting…';
+  try {
+    var res = await fetch(SUPA_EDGE + '/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY },
+      body: JSON.stringify({
+        items: CART.map(function (it) { return { photoId: it.photoId, sku: it.sku, frameColor: it.frameColor, variant: it.variant, copies: it.copies }; }),
+        successUrl: window.location.origin + '/print-success',
+        cancelUrl: window.location.origin + '/shop'
+      })
+    });
+    var data = await res.json();
+    if (!res.ok || !data.url) { throw new Error(data.error || 'Could not create checkout session'); }
+    // Cart is cleared on the success page after payment, not here (so a cancelled
+    // checkout keeps the cart intact).
+    window.location.href = data.url;
+  } catch (err) {
+    errEl.textContent = err.message || 'Something went wrong. Please try again.';
+    btn.disabled = false; btn.textContent = 'Proceed to Checkout →';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  var cm = document.getElementById('cart-modal');
+  if (cm) cm.addEventListener('click', function (e) { if (e.target === cm) closeCart(); });
+  cartLoad(); updateCartFab();
+});
 
 // ══ PRINT SUCCESS PAGE ══
 (function() {
   if (window.location.pathname === '/print-success') {
+    // Payment succeeded — empty the cart so it doesn't carry over.
+    try { localStorage.removeItem('sss_cart_v1'); } catch (e) {}
     const landing = document.getElementById('landing');
     landing.classList.add('hidden');
     setTimeout(() => { landing.classList.add('gone'); }, 100);
