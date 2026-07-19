@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/whoami", "destination": "/index.html" },
+    { "source": "/prints", "destination": "/prints.html" },
     { "source": "/print-success", "destination": "/index.html" },
     { "source": "/print/:slug", "destination": "/print/:slug.html" },
 
