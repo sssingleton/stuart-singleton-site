@@ -27,8 +27,9 @@ const today = new Date().toISOString().slice(0, 10);
 
 // Top-level public routes worth indexing (priority is a hint, not a ranking).
 const topRoutes = [
-  { loc: `${SITE}/`,     priority: '1.0', changefreq: 'weekly'  },
-  { loc: `${SITE}/shop`, priority: '0.9', changefreq: 'weekly'  },
+  { loc: `${SITE}/`,       priority: '1.0', changefreq: 'weekly'  },
+  { loc: `${SITE}/shop`,   priority: '0.9', changefreq: 'weekly'  },
+  { loc: `${SITE}/photos`, priority: '0.8', changefreq: 'weekly'  },
 ];
 
 // Per-photo print pages from the slug map.
@@ -56,11 +57,20 @@ const sitemap =
 
 fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), sitemap);
 
+// NOTE (2026-07-17): never emit `Disallow: /p` — robots rules are PREFIX
+// matches, so it blocked /print/*, /photos, and /p (all 132 product pages
+// uncrawlable). This template previously clobbered the cf37e75 robots fix on
+// every regen. Keep the explicit Allows in sync with the cf37e75 intent.
 const robots =
   `User-agent: *\n` +
   `Allow: /\n` +
-  `Disallow: /mr.manager\n` +
-  `Disallow: /p\n\n` +
+  `Allow: /shop\n` +
+  `Allow: /photos\n` +
+  `Allow: /p\n` +
+  `Allow: /print/\n` +
+  `Allow: /catalog.json\n` +
+  `Allow: /llms.txt\n` +
+  `Disallow: /mr.manager\n\n` +
   `Sitemap: ${SITE}/sitemap.xml\n`;
 
 fs.writeFileSync(path.join(__dirname, 'robots.txt'), robots);

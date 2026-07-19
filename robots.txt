@@ -1,6 +1,11 @@
 User-agent: *
 Allow: /
+Allow: /shop
+Allow: /photos
+Allow: /p
+Allow: /print/
+Allow: /catalog.json
+Allow: /llms.txt
 Disallow: /mr.manager
-Disallow: /p
 
 Sitemap: https://stuartsingleton.com/sitemap.xml

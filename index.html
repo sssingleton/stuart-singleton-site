@@ -18,8 +18,51 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('js', new Date());
   gtag('config', 'G-Y7P9FGW6PT');
 </script>
-<title>Stuart Singleton</title>
+<title>Stuart Singleton — Photographer, Songwriter & Producer | Nashville, TN</title>
 <meta name="description" content="Stuart Singleton — Nashville, TN. Photography, music, and fine-art prints.">
+<link rel="canonical" href="https://stuartsingleton.com/">
+<script>
+/* This file is a shared SPA shell (/, /shop, /photos, /whoami, /p, /mr.manager).
+   Correct the canonical per-route so /shop etc. don't claim to be duplicates of /.
+   On /p the canonical is REMOVED — the static /print/<slug> pages are canonical. */
+(function () {
+  var link = document.querySelector('link[rel="canonical"]');
+  if (!link) return;
+  var p = location.pathname.replace(/\/+$/, '') || '/';
+  if (p === '/p' || p === '/mr.manager' || p === '/print-success') { link.remove(); return; }
+  if (p !== '/') link.setAttribute('href', 'https://stuartsingleton.com' + p);
+})();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://stuartsingleton.com/#person",
+      "name": "Stuart Singleton",
+      "url": "https://stuartsingleton.com/",
+      "jobTitle": ["Photographer", "Songwriter", "Producer"],
+      "address": { "@type": "PostalAddress", "addressLocality": "Nashville", "addressRegion": "TN", "addressCountry": "US" },
+      "sameAs": [
+        "https://www.instagram.com/stuartsingleton/",
+        "https://www.instagram.com/stuartsingleton.jpg/",
+        "https://www.instagram.com/stuartsingleton.wav/",
+        "https://open.spotify.com/playlist/5xpDsfdcCrFmEcV4BAGtkv",
+        "https://credits.muso.ai/profile/9e6a5347-f8c0-46e9-a289-d02982ded67b",
+        "https://stuartsingleton.myportfolio.com"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://stuartsingleton.com/#website",
+      "url": "https://stuartsingleton.com/",
+      "name": "Stuart Singleton",
+      "publisher": { "@id": "https://stuartsingleton.com/#person" }
+    }
+  ]
+}
+</script>
 <meta property="og:title" content="Stuart Singleton">
 <meta property="og:description" content="Photography, music, and fine-art prints · Nashville, TN">
 <meta property="og:type" content="website">
