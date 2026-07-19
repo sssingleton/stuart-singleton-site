@@ -635,7 +635,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #matrix-canvas { position: fixed; inset: 0; opacity: .06; pointer-events: none; z-index: 0; }
   .lab-eyebrow { position: relative; z-index: 1; font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: #0d3318; text-transform: uppercase; margin-bottom: 12px; }
   .lab-hero { position: relative; z-index: 1; font-family: var(--display); font-size: clamp(68px,13vw,144px); color: #4cff6a; line-height: .88; letter-spacing: .02em; text-shadow: 0 0 60px rgba(76,255,106,.25); margin-bottom: 6px; }
-  .lab-sub { position: relative; z-index: 1; font-family: var(--mono); font-size: 10px; color: #1e5228; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 52px; }
+  .lab-sub { position: relative; z-index: 1; font-family: var(--mono); font-size: 10px; color: #1e5228; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 10px; }
+  .lab-note { position: relative; z-index: 1; font-family: var(--mono); font-size: 10px; color: #2a8040; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 52px; }
+  .lab-note a { color: #2a8040; text-decoration: underline; text-underline-offset: 3px; }
+  .lab-note a:hover { color: #4fbf63; }
+  .lab-tag-beta { color: #eaffea; background: #123c1c; border-color: #1a5c28; }
   .lab-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 1px; width: 100%; max-width: 800px; outline: 1px solid #071a0c; }
   .lab-card { background: #010f05; padding: 32px 28px 28px; cursor: none; transition: background .28s; position: relative; overflow: hidden; text-decoration: none; display: block; border-top: 1px solid #071a0c; }
   .lab-card::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: rgba(76,255,106,.15); top: -2px; transition: top .6s cubic-bezier(.16,1,.3,1); }
@@ -1440,40 +1444,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="lab-eyebrow">Stuart Singleton</div>
       <div class="lab-hero">LABS</div>
       <div class="lab-sub">// experiments · tools · things that exist</div>
+      <div class="lab-note">// status: built, not fully tested — found a bug? <a href="mailto:stuartssingleton@gmail.com?subject=Labs%20bug%20report">report an issue →</a></div>
       <div class="lab-grid">
         <a class="lab-card" href="https://film-lab.stuartsingleton.com/" target="_blank" rel="noopener">
           <div class="lab-card-num">PROJ_001</div>
           <div class="lab-card-title">FILM LAB</div>
           <div class="lab-card-desc">Choose your film stock. Apply analog looks to digital photos — grain, tone, and soul.</div>
-          <div class="lab-card-tags"><span class="lab-tag">Photography</span><span class="lab-tag">Film</span><span class="lab-tag">Lovable</span></div>
+          <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">Photography</span><span class="lab-tag">Film</span></div>
+          <span class="lab-arrow">↗</span>
+        </a>
+        <a class="lab-card" href="https://halation.stuartsingleton.com/" target="_blank" rel="noopener">
+          <div class="lab-card-num">PROJ_002</div>
+          <div class="lab-card-title">HALATION</div>
+          <div class="lab-card-desc">Film-look camera. Shoot or drop a photo, swap film stocks, develop, save the roll.</div>
+          <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">Camera</span><span class="lab-tag">Film Engine</span></div>
           <span class="lab-arrow">↗</span>
         </a>
         <a class="lab-card" href="https://preset-alchemist.stuartsingleton.com/" target="_blank" rel="noopener">
-          <div class="lab-card-num">PROJ_002</div>
+          <div class="lab-card-num">PROJ_003</div>
           <div class="lab-card-title">PRESET ALCHEMIST</div>
           <div class="lab-card-desc">AI-powered Lightroom preset generator. Describe a mood, get a preset.</div>
-          <div class="lab-card-tags"><span class="lab-tag">AI</span><span class="lab-tag">Lightroom</span><span class="lab-tag">Lovable</span></div>
-          <span class="lab-arrow">↗</span>
-        </a>
-        <a class="lab-card" href="https://stuarts-presets.stuartsingleton.com/" target="_blank" rel="noopener">
-          <div class="lab-card-num">PROJ_003</div>
-          <div class="lab-card-title">STUART'S PRESETS</div>
-          <div class="lab-card-desc">Curated Lightroom preset packs built from real film scans and studio sessions.</div>
-          <div class="lab-card-tags"><span class="lab-tag">Presets</span><span class="lab-tag">Lightroom</span><span class="lab-tag">Lovable</span></div>
+          <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">AI</span><span class="lab-tag">Lightroom</span></div>
           <span class="lab-arrow">↗</span>
         </a>
         <a class="lab-card" href="https://hashtag-engine.stuartsingleton.com/" target="_blank" rel="noopener">
           <div class="lab-card-num">PROJ_004</div>
           <div class="lab-card-title">HASHTAG ENGINE</div>
           <div class="lab-card-desc">AI-powered hashtag generator. Bring your own API key to this party.</div>
-          <div class="lab-card-tags"><span class="lab-tag">AI</span><span class="lab-tag">Social</span><span class="lab-tag">Tools</span></div>
+          <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">AI</span><span class="lab-tag">Social</span></div>
           <span class="lab-arrow">↗</span>
         </a>
         <a class="lab-card" href="https://skills.stuartsingleton.com/" target="_blank" rel="noopener">
           <div class="lab-card-num">PROJ_005</div>
           <div class="lab-card-title">STUART'S SKILLS</div>
           <div class="lab-card-desc">Custom plugin collection for Claude. 8 handcrafted skills across music, productivity, and design.</div>
-          <div class="lab-card-tags"><span class="lab-tag">AI</span><span class="lab-tag">Claude</span><span class="lab-tag">Plugins</span></div>
+          <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">Claude</span><span class="lab-tag">Plugins</span></div>
           <span class="lab-arrow">↗</span>
         </a>
       </div>
