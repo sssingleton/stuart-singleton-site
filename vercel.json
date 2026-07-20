@@ -1,5 +1,11 @@
 {
+  "redirects": [
+    { "source": "/S137devhub", "destination": "/S137devhub/", "permanent": false }
+  ],
   "rewrites": [
+    { "source": "/S137devhub/", "destination": "https://s137-dev-hub.vercel.app/" },
+    { "source": "/S137devhub/:path*", "destination": "https://s137-dev-hub.vercel.app/:path*" },
+
     { "source": "/whoami", "destination": "/index.html" },
     { "source": "/prints", "destination": "/prints.html" },
     { "source": "/print-success", "destination": "/index.html" },

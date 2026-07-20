@@ -7,5 +7,6 @@ Allow: /print/
 Allow: /catalog.json
 Allow: /llms.txt
 Disallow: /mr.manager
+Disallow: /S137devhub
 
 Sitemap: https://stuartsingleton.com/sitemap.xml
