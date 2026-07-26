@@ -639,7 +639,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .lab-note { position: relative; z-index: 1; font-family: var(--mono); font-size: 10px; color: #2a8040; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 52px; }
   .lab-note a { color: #2a8040; text-decoration: underline; text-underline-offset: 3px; }
   .lab-note a:hover { color: #4fbf63; }
+  .lab-section-label { position: relative; z-index: 1; font-family: var(--mono); font-size: 11px; color: #4cff6a; letter-spacing: .2em; text-transform: uppercase; margin: 64px 0 4px; text-shadow: 0 0 24px rgba(76,255,106,.22); }
+  .lab-section-label:first-of-type { margin-top: 8px; }
+  .lab-section-sub { position: relative; z-index: 1; font-family: var(--mono); font-size: 10px; color: #2a8040; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 28px; }
+  .lab-section-sub a { color: #2a8040; text-decoration: underline; text-underline-offset: 3px; }
+  .lab-section-sub a:hover { color: #4fbf63; }
   .lab-tag-beta { color: #eaffea; background: #123c1c; border-color: #1a5c28; }
+  .lab-tag-live { color: #eaffea; background: #0d2b3c; border-color: #1a4a5c; }
   .lab-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 1px; width: 100%; max-width: 800px; outline: 1px solid #071a0c; }
   .lab-card { background: #010f05; padding: 32px 28px 28px; cursor: none; transition: background .28s; position: relative; overflow: hidden; text-decoration: none; display: block; border-top: 1px solid #071a0c; }
   .lab-card::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: rgba(76,255,106,.15); top: -2px; transition: top .6s cubic-bezier(.16,1,.3,1); }
@@ -1329,7 +1335,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="choices">
       <button class="choice-btn" onclick="navigate('music')"><span><span class="prefix">01 /</span> music</span></button>
       <button class="choice-btn" onclick="navigate('photos')"><span><span class="prefix">02 /</span> photos</span></button>
-      <button class="choice-btn" onclick="navigate('lab')"><span><span class="prefix">03 /</span> labs</span></button>
+      <button class="choice-btn" onclick="navigate('lab')"><span><span class="prefix">03 /</span> code</span></button>
     </div>
     <div class="term-line" style="animation-delay:2.1s"><span class="blink"></span></div>
     <div class="bottom-links">
@@ -1438,47 +1444,68 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="page-inner">
     <div class="page-nav">
       <button class="back-btn" onclick="goBack()">← back</button>
-      <span style="color:#0d3318">/</span><span>labs</span>
+      <span style="color:#0d3318">/</span><span>code</span>
     </div>
     <div class="page-content">
       <div class="lab-eyebrow">Stuart Singleton</div>
-      <div class="lab-hero">LABS</div>
-      <div class="lab-sub">// experiments · tools · things that exist</div>
-      <div class="lab-note">// status: built, not fully tested — found a bug? <a href="mailto:stuartssingleton@gmail.com?subject=Labs%20bug%20report">report an issue →</a></div>
+      <div class="lab-hero">CODE</div>
+      <div class="lab-sub">// experiments · tools · sites I've built</div>
+
+      <div class="lab-section-label">// Labs</div>
+      <div class="lab-section-sub">// experiments — built, not fully tested — found a bug? <a href="mailto:stuartssingleton@gmail.com?subject=Labs%20bug%20report">report an issue →</a></div>
       <div class="lab-grid">
         <a class="lab-card" href="https://film-lab.stuartsingleton.com/" target="_blank" rel="noopener">
-          <div class="lab-card-num">PROJ_001</div>
+          <div class="lab-card-num">LAB_001</div>
           <div class="lab-card-title">FILM LAB</div>
           <div class="lab-card-desc">Choose your film stock. Apply analog looks to digital photos — grain, tone, and soul.</div>
           <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">Photography</span><span class="lab-tag">Film</span></div>
           <span class="lab-arrow">↗</span>
         </a>
         <a class="lab-card" href="https://halation.stuartsingleton.com/" target="_blank" rel="noopener">
-          <div class="lab-card-num">PROJ_002</div>
+          <div class="lab-card-num">LAB_002</div>
           <div class="lab-card-title">HALATION</div>
           <div class="lab-card-desc">Film-look camera. Shoot or drop a photo, swap film stocks, develop, save the roll.</div>
           <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">Camera</span><span class="lab-tag">Film Engine</span></div>
           <span class="lab-arrow">↗</span>
         </a>
         <a class="lab-card" href="https://preset-alchemist.stuartsingleton.com/" target="_blank" rel="noopener">
-          <div class="lab-card-num">PROJ_003</div>
+          <div class="lab-card-num">LAB_003</div>
           <div class="lab-card-title">PRESET ALCHEMIST</div>
           <div class="lab-card-desc">AI-powered Lightroom preset generator. Describe a mood, get a preset.</div>
           <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">AI</span><span class="lab-tag">Lightroom</span></div>
           <span class="lab-arrow">↗</span>
         </a>
-        <a class="lab-card" href="https://hashtag-engine.stuartsingleton.com/" target="_blank" rel="noopener">
-          <div class="lab-card-num">PROJ_004</div>
-          <div class="lab-card-title">HASHTAG ENGINE</div>
-          <div class="lab-card-desc">AI-powered hashtag generator. Bring your own API key to this party.</div>
-          <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">AI</span><span class="lab-tag">Social</span></div>
-          <span class="lab-arrow">↗</span>
-        </a>
         <a class="lab-card" href="https://skills.stuartsingleton.com/" target="_blank" rel="noopener">
-          <div class="lab-card-num">PROJ_005</div>
+          <div class="lab-card-num">LAB_004</div>
           <div class="lab-card-title">STUART'S SKILLS</div>
           <div class="lab-card-desc">Custom plugin collection for Claude. 8 handcrafted skills across music, productivity, and design.</div>
           <div class="lab-card-tags"><span class="lab-tag lab-tag-beta">Beta</span><span class="lab-tag">Claude</span><span class="lab-tag">Plugins</span></div>
+          <span class="lab-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="lab-section-label">// Websites</div>
+      <div class="lab-section-sub">// sites designed &amp; built end to end</div>
+      <div class="lab-grid">
+        <a class="lab-card" href="https://onethreesevenmusic.com/" target="_blank" rel="noopener">
+          <div class="lab-card-num">WEB_001</div>
+          <div class="lab-card-title">ONE THREE SEVEN</div>
+          <div class="lab-card-desc">Music, games, and merch from the 137 collective — a browser arcade, drops, and store.</div>
+          <div class="lab-card-tags"><span class="lab-tag lab-tag-live">Live</span><span class="lab-tag">Music</span><span class="lab-tag">Arcade</span></div>
+          <span class="lab-arrow">↗</span>
+        </a>
+        <a class="lab-card" href="https://thecakerecords.com/" target="_blank" rel="noopener">
+          <div class="lab-card-num">WEB_002</div>
+          <div class="lab-card-title">THE CAKE RECORDS</div>
+          <div class="lab-card-desc">Record label site — roster, releases, and the story behind the label.</div>
+          <div class="lab-card-tags"><span class="lab-tag lab-tag-live">Live</span><span class="lab-tag">Music</span><span class="lab-tag">Label</span></div>
+          <span class="lab-arrow">↗</span>
+        </a>
+        <a class="lab-card" href="https://stuartsingleton.com/" target="_blank" rel="noopener">
+          <div class="lab-card-num">WEB_003</div>
+          <div class="lab-card-title">STUARTSINGLETON.COM</div>
+          <div class="lab-card-desc">The site you're on right now. Portfolio, print shop, and this Code page — hand-built.</div>
+          <div class="lab-card-tags"><span class="lab-tag lab-tag-live">Live</span><span class="lab-tag">You Are Here</span><span class="lab-tag">Shop</span></div>
           <span class="lab-arrow">↗</span>
         </a>
       </div>
