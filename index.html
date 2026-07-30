@@ -133,6 +133,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     #cursor { display: none; }
     html, body { cursor: auto; }
     button, a { cursor: pointer; }
+    /* Touch devices have no :hover, so the gallery's Buy Print / Request a print
+       badges stayed opacity:0 + pointer-events:none forever — invisible AND
+       untappable on every phone. Reveal them unconditionally here. */
+    .photo-buy-btn, .photo-request-btn { opacity: 1; pointer-events: auto; }
   }
 
   /* ABSTRACT PARTICLES (cursor-reactive) */
@@ -2835,6 +2839,7 @@ document.addEventListener('keydown', e => {
   if (document.getElementById('admin-overlay').classList.contains('active')) return;
   const tag = document.activeElement && document.activeElement.tagName;
   if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+  if (!e.key) return;   // autofill / password-manager events arrive with no .key
   adminBuffer += e.key.toLowerCase();
   adminBuffer = adminBuffer.slice(-5);
   if (adminBuffer === 'admin') openAdmin();
