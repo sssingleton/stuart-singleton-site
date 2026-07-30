@@ -70,7 +70,7 @@ function jsonLd(item) {
     '@context': 'https://schema.org',
     '@type': ['VisualArtwork', 'Product'],
     name: `${item.title}, fine art print`,
-    description: item.description,
+    description: item.sentence || item.description,
     image: item.ogImage,
     url: item.printPage,
     artform: 'Photograph',
@@ -145,7 +145,7 @@ function aboutBlock(item) {
     ? ` The source file measures ${item.pixelWidth} by ${item.pixelHeight} pixels, so every offered size prints at 200 DPI or sharper.`
     : '';
   return `<h2>About this print</h2>
-    <p>${esc(item.description)}. Produced as a giclee print on archival fine art paper. Sizes are offered only at the photo's native aspect ratio, so the image is never cropped.${d}</p>
+    <p>${esc(item.sentence || item.description)}. Produced as a giclee print on archival fine art paper. Sizes are offered only at the photo's native aspect ratio, so the image is never cropped.${d}</p>
     <p>Every print is made on demand by a professional print lab and shipped worldwide. Prices include shipping. Secure checkout via Stripe.</p>`;
 }
 
@@ -166,13 +166,31 @@ function priceLine(item) {
   return `Prints from $${lo}`;
 }
 
+// Google truncates titles around 60 characters. Tag-stacked names like
+// "Saint-Paul-de-Vence / Europe / Food & Drink" already blow that budget, and a
+// clipped "| Stuart Sing..." is worse than no brand suffix at all — the byline
+// is in the description and the JSON-LD either way.
+function serpTitle(title) {
+  const withBrand = `${title}, Fine Art Print | Stuart Singleton`;
+  return withBrand.length <= 62 ? withBrand : `${title}, Fine Art Print`;
+}
+
+// Hard clamp at a word boundary so no description ships over the snippet limit.
+function clampDesc(s, max = 158) {
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,.;:]$/, '') + '.';
+}
+
 function pageHTML(item) {
-  const fullTitle = `${item.title}, Fine Art Print | Stuart Singleton`;
+  const fullTitle = serpTitle(item.title);
   const canonical = item.printPage;
   const spaTarget = item.pPage;
   // Description: factual, no em dashes, includes price-from when known.
-  const priceBit = item.priceRangeUSD ? ` Prints from $${Math.round(item.priceRangeUSD.min)}, printed on demand and shipped worldwide.` : ' Printed on demand and shipped worldwide.';
-  const desc = `${item.description}.${priceBit} Secure checkout.`.replace(/\.\./g, '.');
+  // Uses item.sentence (properly cased) NOT item.description (image alt text) —
+  // Google prints this verbatim in the SERP, so it has to read like a sentence.
+  const priceBit = item.priceRangeUSD ? ` Archival giclee prints from $${Math.round(item.priceRangeUSD.min)}, printed on demand and shipped worldwide.` : ' Printed on demand and shipped worldwide.';
+  const desc = clampDesc(`${item.sentence || item.description}.${priceBit}`.replace(/\.\./g, '.'));
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -331,7 +349,7 @@ ${links}
   const faqHtml = FAQ.map(([q, a]) =>
     `    <h3>${esc(q)}</h3>\n    <p>${esc(a)}</p>`).join('\n');
 
-  const desc = `Browse all ${items.length} fine art photography prints by Stuart Singleton. Cities, landscapes, and life on the road, printed on archival paper and shipped worldwide from $29.`;
+  const desc = `Browse all ${items.length} fine art photography prints by Stuart Singleton: cities, landscapes and life on the road. Archival paper, shipped worldwide, from $29.`;
 
   return `<!DOCTYPE html>
 <html lang="en">

@@ -62,6 +62,12 @@ fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), sitemap);
 // matches, so it blocked /print/*, /photos, and /p (all 132 product pages
 // uncrawlable). This template previously clobbered the cf37e75 robots fix on
 // every regen. Keep the explicit Allows in sync with the cf37e75 intent.
+//
+// NOTE (2026-07-29): `Disallow: /S137devhub` was added to robots.txt by hand in
+// 772a72f and this template silently dropped it again on the next regen — the
+// EXACT failure mode the 2026-07-17 note above describes. Anything hand-edited
+// into robots.txt has to be added HERE or it lives until the next `node
+// generate-sitemap.js`. Every Disallow below must stay prefix-safe.
 const robots =
   `User-agent: *\n` +
   `Allow: /\n` +
@@ -71,7 +77,8 @@ const robots =
   `Allow: /print/\n` +
   `Allow: /catalog.json\n` +
   `Allow: /llms.txt\n` +
-  `Disallow: /mr.manager\n\n` +
+  `Disallow: /mr.manager\n` +
+  `Disallow: /S137devhub\n\n` +
   `Sitemap: ${SITE}/sitemap.xml\n`;
 
 fs.writeFileSync(path.join(__dirname, 'robots.txt'), robots);

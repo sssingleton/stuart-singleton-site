@@ -86,14 +86,27 @@ const ACRONYMS = new Set([
   'jfk', 'nyc', 'usa', 'us', 'uk', 'la', 'sf', 'dc', 'uae', 'nasa', 'ufo',
 ]);
 
+// Connectors that stay lowercase unless they lead the phrase, so place names
+// read the way they are actually written: "Beaulieu-sur-Mer", not
+// "Beaulieu-Sur-Mer"; "Saint-Paul-de-Vence", not "Saint-Paul-De-Vence".
+// 'la' is deliberately NOT here — ACRONYMS already claims it for Los Angeles.
+const MINOR_WORDS = new Set([
+  'sur', 'de', 'du', 'des', 'le', 'les', 'et', 'and', 'of', 'the', 'van', 'von', 'da', 'di',
+]);
+
 // Title-case a tag, but uppercase any whole word that is a known acronym
 // (JFK -> "JFK", not "Jfk"). Handles words separated by spaces or hyphens.
 function titleCasePart(part) {
-  return String(part).split(/(\s+|-)/).map(token => (
-    ACRONYMS.has(token.toLowerCase())
-      ? token.toUpperCase()
-      : token.replace(/\b\w/g, c => c.toUpperCase())
-  )).join('');
+  let seenWord = false;
+  return String(part).split(/(\s+|-)/).map(token => {
+    if (!token || /^(\s+|-)$/.test(token)) return token;
+    const lower = token.toLowerCase();
+    const isFirst = !seenWord;
+    seenWord = true;
+    if (ACRONYMS.has(lower)) return token.toUpperCase();
+    if (!isFirst && MINOR_WORDS.has(lower)) return lower;
+    return token.replace(/\b\w/g, c => c.toUpperCase());
+  }).join('');
 }
 
 function titleForPhoto(photo) {
@@ -133,9 +146,19 @@ function describePhoto(photo) {
   const where = c.locations.length ? ` in ${c.locations.map(tc).join(', ')}` : '';
   const medium = c.media.length ? (c.media.join(' ').toLowerCase().includes('b') && !c.media.join(' ').toLowerCase().includes('color') ? 'black and white ' : '') : '';
   const mood = c.moods.length ? `${c.moods.map(m => m.toLowerCase()).join(', ')} ` : '';
-  // Alt text: short, concrete, no marketing.
+  // Alt text: short, concrete, no marketing. Stays lowercase-subject on purpose
+  // (it describes the image, it is not a sentence).
   const alt = `${medium}${mood}photograph of ${subject.toLowerCase()}${where}, by Stuart Singleton`.replace(/\s+/g, ' ').trim();
-  return { subject, where, medium, mood, alt };
+  // Sentence: the SAME facts, but properly cased, for anywhere a HUMAN reads it
+  // (meta description, og:description, page copy, JSON-LD). Google prints meta
+  // descriptions verbatim, and "black and white photograph of abingdon" in a
+  // SERP reads like a bug.
+  // Cap the subject list at 3 so the meta description stays inside Google's
+  // ~160-char snippet. The full list still lives in alt text and keywords.
+  const subjectShort = c.subjects.length ? c.subjects.slice(0, 3).map(tc).join(', ') : subject;
+  const sentenceRaw = `${medium}${mood}photograph of ${subjectShort}${where}, by Stuart Singleton`.replace(/\s+/g, ' ').trim();
+  const sentence = sentenceRaw.charAt(0).toUpperCase() + sentenceRaw.slice(1);
+  return { subject, where, medium, mood, alt, sentence };
 }
 
 function renderURL(src, width, quality) {
@@ -202,7 +225,8 @@ async function fetchCatalog() {
       id: p.id,
       slug,
       title: titleForPhoto(p),
-      description: desc.alt,
+      description: desc.alt,          // image alt text
+      sentence: desc.sentence,        // human-facing, properly cased
       tags: tagsArray(p),
       camera: p.camera || null,
       src: p.src,

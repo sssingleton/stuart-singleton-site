@@ -6,7 +6,6 @@
     { "source": "/S137devhub/", "destination": "https://s137-dev-hub.vercel.app/" },
     { "source": "/S137devhub/:path*", "destination": "https://s137-dev-hub.vercel.app/:path*" },
 
-    { "source": "/whoami", "destination": "/index.html" },
     { "source": "/prints", "destination": "/prints.html" },
     { "source": "/print-success", "destination": "/index.html" },
     { "source": "/print/:slug", "destination": "/print/:slug.html" },
@@ -16,6 +15,9 @@
 
     { "source": "/photos", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/photos.html" },
     { "source": "/photos", "destination": "/index.html" },
+
+    { "source": "/whoami", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/whoami.html" },
+    { "source": "/whoami", "destination": "/index.html" },
 
     { "source": "/p", "destination": "/index.html" },
     { "source": "/mr.manager", "destination": "/index.html" }

@@ -18,8 +18,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('js', new Date());
   gtag('config', 'G-Y7P9FGW6PT');
 </script>
-<title>Stuart Singleton — Photographer, Songwriter & Producer | Nashville, TN</title>
-<meta name="description" content="Stuart Singleton — Nashville, TN. Photography, music, and fine-art prints.">
+<title>Stuart Singleton — Nashville Photographer & Music Producer</title>
+<meta name="description" content="Photography, music, and code by Stuart Singleton in Nashville, TN. Browse the gallery, hear songs he wrote and produced, and order fine art prints from $29.">
 <link rel="canonical" href="https://stuartsingleton.com/">
 <script>
 /* This file is a shared SPA shell (/, /shop, /photos, /whoami, /p, /mr.manager).
@@ -42,7 +42,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       "@id": "https://stuartsingleton.com/#person",
       "name": "Stuart Singleton",
       "url": "https://stuartsingleton.com/",
-      "jobTitle": ["Photographer", "Songwriter", "Producer"],
+      "jobTitle": ["Photographer", "Songwriter", "Record Producer", "Software Developer"],
+      "description": "Nashville-based photographer, songwriter and producer who also builds software. Sells archival fine art prints of his photography worldwide.",
+      "knowsAbout": ["Photography", "Fine art printing", "Songwriting", "Music production", "Web development"],
       "address": { "@type": "PostalAddress", "addressLocality": "Nashville", "addressRegion": "TN", "addressCountry": "US" },
       "sameAs": [
         "https://www.instagram.com/stuartsingleton/",
@@ -63,19 +65,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   ]
 }
 </script>
-<meta property="og:title" content="Stuart Singleton">
-<meta property="og:description" content="Photography, music, and fine-art prints · Nashville, TN">
+<!-- SHARE PREVIEW
+     The card is a motion recreation of this page's boot sequence. Frame 1 of the
+     GIF is the FINISHED card, so scrapers that only read one frame (LinkedIn,
+     Facebook, X, Google) still get a complete, designed image; Discord and other
+     GIF-aware clients play the reboot. og:video gives iMessage/Facebook the mp4.
+     Filenames are versioned (-v2) on purpose: unfurl caches key on URL, so a new
+     name is the only reliable way to retire the old card without begging each
+     platform's scraper to re-crawl. -->
+<meta property="og:title" content="Stuart Singleton — Photography, Music & Code">
+<meta property="og:description" content="songwriter · producer · builder — Nashville, TN. Browse the gallery, hear the songs, and order fine art prints from $29.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://stuartsingleton.com">
+<meta property="og:url" content="https://stuartsingleton.com/">
 <meta property="og:site_name" content="Stuart Singleton">
-<meta property="og:image" content="https://stuartsingleton.com/og-home.jpg">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://stuartsingleton.com/og-home-v2.gif">
+<meta property="og:image:type" content="image/gif">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Stuart Singleton — Nashville, TN">
+<meta property="og:image:alt" content="Terminal boot sequence reading songwriter, producer, builder, then the STUART SINGLETON wordmark and a menu of music, photos and code">
+<meta property="og:image" content="https://stuartsingleton.com/og-home-v2.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:video" content="https://stuartsingleton.com/og-home-v2.mp4">
+<meta property="og:video:secure_url" content="https://stuartsingleton.com/og-home-v2.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1200">
+<meta property="og:video:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Stuart Singleton">
-<meta name="twitter:description" content="Photography, music, and fine-art prints · Nashville, TN">
-<meta name="twitter:image" content="https://stuartsingleton.com/og-home.jpg">
+<meta name="twitter:title" content="Stuart Singleton — Photography, Music & Code">
+<meta name="twitter:description" content="songwriter · producer · builder — Nashville, TN. Browse the gallery, hear the songs, and order fine art prints from $29.">
+<meta name="twitter:image" content="https://stuartsingleton.com/og-home-v2.jpg">
+<meta name="twitter:image:alt" content="Stuart Singleton — Nashville, TN">
 <meta name="p:domain_verify" content="66fb68147c12c81c7d3a002166b6fd8b"/>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -2192,6 +2214,7 @@ function setShopMode(on) {
   if (window.location.pathname !== targetPath) {
     history.replaceState({ page: shopMode ? 'shop' : 'photos' }, '', targetPath);
   }
+  if (typeof setRouteMeta === 'function') setRouteMeta(targetPath);
 }
 
 
@@ -3525,6 +3548,7 @@ function navigateWhoami() {
 
   // Update URL
   history.pushState({ page: 'whoami' }, '', '/whoami');
+  if (typeof setRouteMeta === 'function') setRouteMeta('/whoami');
 }
 
 // ══ WHOAMI — BIO TOGGLE ══
@@ -3575,6 +3599,7 @@ goBack = function() {
   setTimeout(()=>{landing.style.zIndex='';},800);
   // Reset URL
   history.pushState({ page: 'home' }, '', '/');
+  if (typeof setRouteMeta === 'function') setRouteMeta('/');
 };
 
 // ══ FAST SINGLE-PHOTO DEEP LINK ══
@@ -3837,6 +3862,43 @@ function applyProductSeo(photo) {
   }
 })();
 
+// ══ PER-ROUTE TITLE + DESCRIPTION ══
+// /, /shop, /photos and /whoami are all served from this one index.html, so
+// without this every route handed Google the SAME <title> and description and
+// they competed as duplicates. Googlebot renders JS, so setting them on the
+// initial paint is what gets indexed. /p, /print-success and /mr.manager are
+// deliberately excluded: /p writes its own product meta (see openProductFast),
+// and the other two are noindex-by-nature (canonical is stripped in the head).
+const ROUTE_META = {
+  '/': [
+    'Stuart Singleton — Nashville Photographer & Music Producer',
+    'Photography, music, and code by Stuart Singleton in Nashville, TN. Browse the gallery, hear songs he wrote and produced, and order fine art prints from $29.'
+  ],
+  '/shop': [
+    'Buy Fine Art Photography Prints | Stuart Singleton',
+    'Shop archival giclee prints of Stuart Singleton’s photography. Framed and unframed, from $29, printed on demand and shipped worldwide with free shipping.'
+  ],
+  '/photos': [
+    'Photography Gallery | Stuart Singleton',
+    'The photo archive of Stuart Singleton — Nashville, Brentwood, Europe and the road between. Filter by place, subject and camera, and order any frame as a print.'
+  ],
+  '/whoami': [
+    'About Stuart Singleton — Photographer, Producer & Builder',
+    'Who Stuart Singleton is: a Nashville songwriter, producer and photographer who builds software. Career timeline, credits, and the story behind the work.'
+  ]
+};
+
+function setRouteMeta(path) {
+  const p = String(path || location.pathname).replace(/\/+$/, '') || '/';
+  const m = ROUTE_META[p];
+  if (!m) return;                       // unknown or self-managing route: leave it alone
+  document.title = m[0];
+  let el = document.head.querySelector('meta[name="description"]');
+  if (!el) { el = document.createElement('meta'); el.setAttribute('name', 'description'); document.head.appendChild(el); }
+  el.setAttribute('content', m[1]);
+}
+setRouteMeta(location.pathname);
+
 // ══ URL ROUTING — direct /whoami access ══
 (function() {
   const path = window.location.pathname;
@@ -3865,6 +3927,7 @@ function applyProductSeo(photo) {
 
 // Handle browser back/forward
 window.addEventListener('popstate', (e) => {
+  if (typeof setRouteMeta === 'function') setRouteMeta(location.pathname);
   if (e.state && e.state.page === 'whoami') {
     // Forward to whoami
     const landing = document.getElementById('landing');
