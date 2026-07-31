@@ -4117,6 +4117,15 @@ function buildSizeGrid(sizes, note) {
     </button>`;
   }).join('') + (note ? `<div class="print-size-note">${note}</div>` : '');
   addHover('.print-size-btn,.print-frame-btn,.print-checkout-btn');
+  // Pre-select the smallest (cheapest) size. Buy It Now / Add to Cart start
+  // disabled and only selectSize() enables them, so with nothing selected a
+  // first-time visitor clicked a real-looking BUY IT NOW button and got total
+  // silence (:disabled is opacity .35 + pointer-events:none — no error, no
+  // feedback). PRINT_SIZES is ordered cheapest-first and sizesForPhoto()
+  // preserves that order, so the first button is always the entry price.
+  // They can still change size; they just can't hit a dead button.
+  const firstSize = grid.querySelector('.print-size-btn');
+  if (firstSize) selectSize(firstSize);
 }
 
 function measurePhotoAndBuildSizes(src, photo) {
