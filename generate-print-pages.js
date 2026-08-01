@@ -267,6 +267,19 @@ ${item.priceRangeUSD ? `<meta property="product:price:amount" content="${item.pr
   ul.related a { color:#1a1a1a; }
   footer { margin-top:34px; padding-top:16px; border-top:1px solid #eee; font-size:.82rem; color:#999; }
   footer a { color:#777; }
+  /* Cart hand-off. These pages deliberately do NOT reimplement checkout — the
+     CTA hands off to the SPA buy flow. But the cart lives in localStorage under
+     the same origin, so if a visitor already has prints in it we can at least
+     show them and link back. Without this a visitor who arrives here from search
+     has no indication a cart exists at all. */
+  a.cartlink { position:fixed; right:18px; bottom:18px; z-index:50;
+    background:#1a1a1a; color:#fff; text-decoration:none; padding:11px 18px;
+    border-radius:30px; font-size:.85rem; font-weight:500;
+    box-shadow:0 8px 26px rgba(0,0,0,.22); }
+  a.cartlink[hidden] { display:none; }
+  a.cartlink b { display:inline-block; min-width:18px; height:18px; line-height:18px;
+    text-align:center; background:#fff; color:#1a1a1a; border-radius:9px;
+    font-size:.74rem; font-weight:600; margin:0 2px; }
 </style>
 </head>
 <body>
@@ -281,6 +294,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="price">${esc(priceLine(item))}, shipping included</div>
     ${sizesTable(item)}
     <a class="cta" href="${esc(spaTarget)}">View print options and buy</a>
+    <p class="muted" style="margin:2px 0 0;font-size:.85rem;">Ordering more than one? Add each print to your cart in the shop and check out once.</p>
     ${aboutBlock(item)}
     ${relatedBlock(item.related)}
     <footer>
@@ -288,6 +302,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="/prints">All prints</a> · <a href="/shop">Shop</a>
     </footer>
   </main>
+<a class="cartlink" id="cartlink" href="/shop?cart=1" hidden>Your cart <b id="cartlink-n">0</b> →</a>
+<script>
+(function(){
+  try{
+    var raw = localStorage.getItem('sss_cart_v1');
+    if (!raw) return;
+    var c = JSON.parse(raw);
+    if (!Array.isArray(c) || !c.length) return;
+    var n = c.reduce(function(t,i){ return t + (i.copies || 1); }, 0);
+    document.getElementById('cartlink-n').textContent = n;
+    document.getElementById('cartlink').hidden = false;
+  }catch(e){}
+})();
+</script>
 </body>
 </html>`;
 }
@@ -388,6 +416,19 @@ ${links}
   .lead a { font-weight:500; }
   footer { margin-top:38px; padding-top:16px; border-top:1px solid #eee; font-size:.82rem; color:#999; }
   footer a { color:#777; }
+  /* Cart hand-off. These pages deliberately do NOT reimplement checkout — the
+     CTA hands off to the SPA buy flow. But the cart lives in localStorage under
+     the same origin, so if a visitor already has prints in it we can at least
+     show them and link back. Without this a visitor who arrives here from search
+     has no indication a cart exists at all. */
+  a.cartlink { position:fixed; right:18px; bottom:18px; z-index:50;
+    background:#1a1a1a; color:#fff; text-decoration:none; padding:11px 18px;
+    border-radius:30px; font-size:.85rem; font-weight:500;
+    box-shadow:0 8px 26px rgba(0,0,0,.22); }
+  a.cartlink[hidden] { display:none; }
+  a.cartlink b { display:inline-block; min-width:18px; height:18px; line-height:18px;
+    text-align:center; background:#fff; color:#1a1a1a; border-radius:9px;
+    font-size:.74rem; font-weight:600; margin:0 2px; }
 </style>
 </head>
 <body>
@@ -404,6 +445,20 @@ ${faqHtml}
       <a href="/shop">Shop</a> · <a href="/catalog.json">Catalog feed</a> · <a href="/llms.txt">llms.txt</a>
     </footer>
   </main>
+<a class="cartlink" id="cartlink" href="/shop?cart=1" hidden>Your cart <b id="cartlink-n">0</b> →</a>
+<script>
+(function(){
+  try{
+    var raw = localStorage.getItem('sss_cart_v1');
+    if (!raw) return;
+    var c = JSON.parse(raw);
+    if (!Array.isArray(c) || !c.length) return;
+    var n = c.reduce(function(t,i){ return t + (i.copies || 1); }, 0);
+    document.getElementById('cartlink-n').textContent = n;
+    document.getElementById('cartlink').hidden = false;
+  }catch(e){}
+})();
+</script>
 </body>
 </html>`;
 }
