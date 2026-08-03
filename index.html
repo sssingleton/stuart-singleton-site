@@ -1226,6 +1226,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
   .print-addcart-btn:hover { background: #1a1a1a; color: #fff; }
   .print-addcart-btn:disabled { opacity: .35; pointer-events: none; }
+
+  /* Framed prints ship US + GB only. Prodigi routes frames long-haul via DHL
+     Express ($64 to AU, $103 for a 16x24), which costs more than the frame is
+     worth, so CA + AU are blocked server-side in create-checkout-session.
+     Rather than let someone abroad discover that at the Stripe address step,
+     say it here and give them a way to ask. */
+  .ship-limit-note {
+    margin: 10px 0 0; padding: 9px 11px; border: 1px solid #e6e3db; background: #faf9f6;
+    font-family: var(--mono); font-size: 8.5px; line-height: 1.75;
+    letter-spacing: .09em; color: #8d8880;
+  }
+  .ship-limit-note button {
+    font-family: var(--mono); font-size: 8.5px; letter-spacing: .12em;
+    background: none; border: none; padding: 0; cursor: none;
+    color: #1a1a1a; border-bottom: 1px solid #c9c4ba; transition: border-color .2s;
+  }
+  .ship-limit-note button:hover { border-color: #1a1a1a; }
 </style>
 
 <!-- CART FLOATING BUTTON -->
@@ -1243,6 +1260,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="cart-lines" id="cart-lines"></div>
     <div class="cart-foot" id="cart-foot" style="display:none;">
       <div class="cart-subtotal"><span>Subtotal · <span style="color:#3a7a3a">free shipping</span></span><strong id="cart-subtotal-amt">$0</strong></div>
+      <p class="ship-limit-note" id="cart-ship-note" style="display:none;">
+        Your cart has a framed print, which ships to the US and UK only.
+        Somewhere else? <button type="button" onclick="askAboutShipping('framed')" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Message me</button>
+        and I'll work it out with you.
+      </p>
       <div class="print-error" id="cart-error"></div>
       <button class="print-checkout-btn" id="cart-checkout-btn" onclick="checkoutCart()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Proceed to Checkout →</button>
       <p class="print-note" style="margin:0;">Printed on demand via Prodigi · Shipped worldwide · Secure checkout via Stripe</p>
@@ -1280,6 +1302,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <button class="print-frame-btn" data-color="white" onclick="selectFrame(this)">White</button>
           <button class="print-frame-btn" data-color="natural" onclick="selectFrame(this)">Natural</button>
         </div>
+        <p class="ship-limit-note">
+          Framed prints ship to the US and UK only — couriers charge more than the frame
+          is worth anywhere else. Somewhere else and you really want one?
+          <button type="button" onclick="askAboutShipping('framed')" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Message me</button>
+          and I'll work it out with you. Unframed prints ship worldwide.
+        </p>
       </div>
       <!-- border finish (shown only when a white-border asset exists) -->
       <div id="print-border-section" style="display:none">
@@ -4505,8 +4533,35 @@ function renderCart() {
       + '</div>';
   }).join('');
   document.getElementById('cart-subtotal-amt').textContent = cartMoney(cartSubtotalCents());
+  // Framed lines restrict the WHOLE order to US/GB (create-checkout-session filters
+  // allowed_countries on anyFramed), so say so before the Stripe address step.
+  var shipNote = document.getElementById('cart-ship-note');
+  if (shipNote) {
+    var hasFramed = CART.some(function (it) { return String(it.sku || '').toUpperCase().indexOf('GLOBAL-CFPM') === 0; });
+    shipNote.style.display = hasFramed ? 'block' : 'none';
+  }
   if (foot) foot.style.display = 'flex';
   try { addHover('.cart-qty button, .cart-remove, #cart-checkout-btn'); } catch (e) {}
+}
+
+// Hand a blocked-country buyer to the contact form with the ask pre-written.
+// #contact-modal is z-900 and both #print-modal (950) and #cart-modal (960) sit
+// ABOVE it, so opening contact without closing them puts the form behind a scrim.
+function askAboutShipping(kind) {
+  try { closePrintModal(); } catch (e) {}
+  try { closeCart(); } catch (e) {}
+  try { openContact(); } catch (e) {}
+  try {
+    var f = document.forms['contact'];
+    if (f && f.message && !f.message.value) {
+      f.message.value = kind === 'framed'
+        ? "Hi Stuart — I'd like a framed print but I'm outside the US/UK. Which photo and size: "
+        : "Hi Stuart — a question about shipping a print: ";
+      setTimeout(function () {
+        try { f.message.focus(); f.message.setSelectionRange(f.message.value.length, f.message.value.length); } catch (e) {}
+      }, 320);
+    }
+  } catch (e) {}
 }
 
 function openCart() { renderCart(); var e = document.getElementById('cart-error'); if (e) e.textContent = ''; document.getElementById('cart-modal').classList.add('open'); }

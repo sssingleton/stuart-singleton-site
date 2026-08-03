@@ -1,6 +1,13 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
+// ⚠️⚠️ DEPLOY NOTE — verify_jwt MUST be FALSE on this function.
+// The storefront calls it anonymously with only an `apikey` header and NO
+// Authorization header. The Supabase MCP deploy tool DEFAULTS verify_jwt to true,
+// which returns 401 UNAUTHORIZED_NO_AUTH_HEADER and takes down ALL checkout —
+// cart and Buy It Now alike. This happened on 2026-08-03 (v25, 81s outage).
+// Always pass verify_jwt: false explicitly.
+
 // ─────────────────────────────────────────────────────────────────────────────
 // create-checkout-session v24 — MULTI-ITEM CART + backward-compatible single item
 //
@@ -105,7 +112,14 @@ function sizeAllowed(
   return { ok: true };
 }
 
-const FRAMED_BLOCKED_COUNTRIES = ["CA"];
+// Countries where a FRAMED print cannot be shipped economically. Prodigi routes
+// frames long-haul via DHL Express, which swamps the baked-in free shipping:
+//   CA — 8×12 ships $59.35 → 9.5% margin, 16×24 ships $94.53 → 8.1%  (blocked 2026-06-13)
+//   AU — 8×12 ships $64.03 → 3.5% margin, 16×24 ships $103.31 → 4.4% (blocked 2026-08-03)
+// Both figures are live Prodigi /v4.0/quotes, not estimates. Paper prints are
+// healthy in every market (40–72%) and stay available everywhere.
+// Framed therefore ships US + GB only: US 34%, GB 42–50%.
+const FRAMED_BLOCKED_COUNTRIES = ["CA", "AU"];
 
 // deno-lint-ignore no-explicit-any
 async function masterDims(supabase: any, photoId: number | string): Promise<{ long: number | null; short: number | null }> {
