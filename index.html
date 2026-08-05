@@ -1747,6 +1747,23 @@ function thumbURL(src, width, quality) {
 function thumbSrcset(src, widths) {
   return widths.map(function(w){ return thumbURL(src, w, 62) + ' ' + w + 'w'; }).join(', ');
 }
+// ── INTRINSIC SIZE ──
+// Without width/height the browser cannot reserve a box before the image loads.
+// The masonry uses CSS `columns`, which balances every column across the whole
+// list, so each late-resolving height re-lays out the entire grid and the
+// scroll container clamps scrollTop — that is the mobile jump-to-top. Emitting
+// the real dimensions lets the ratio be known at parse time. CSS keeps
+// width:100%; height:auto, so these attributes only supply the aspect ratio.
+function dimAttrs(p) {
+  var w = p && p.img_w, h = p && p.img_h;
+  if (!w || !h) return '';
+  return ' width="' + w + '" height="' + h + '"';
+}
+// Fall back to a smaller transform, never the raw original. A failed transform
+// used to drop a full-resolution file (up to 7728px) into a 180px column.
+function thumbFallback(src) {
+  return String(thumbURL(src, 960, 70)).replace(/"/g, '&quot;');
+}
 
 // ══ TRACKS ══
 const TRACKS = [
@@ -2018,7 +2035,7 @@ function renderPhotos() {
         : `<button class="photo-request-btn" onclick="event.stopPropagation();openRequestModal('${p.id}')">Request a print</button>`;
       const itemClick = p.for_sale ? `openPrintModal('${p.id}')` : `openRequestModal('${p.id}')`;
       visible.push(`<div class="photo-item ${p.span||''}" onclick="${itemClick}">
-      <img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 760])}" sizes="(max-width:600px) 48vw, 200px" alt="${tags[0]||''}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${p.src}'">
+      <img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 760])}" sizes="(max-width:600px) 48vw, 200px"${dimAttrs(p)} alt="${tags[0]||''}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${thumbFallback(p.src)}'">
       <div class="photo-item-label">${tags.join(' · ')}</div>
       ${badge}
     </div>`);
@@ -2178,7 +2195,7 @@ function renderShop() {
     // (good for SEO + shareable links); the page itself redirects into the buy
     // flow. The Buy button still opens the in-app modal directly for a fast path.
     const printURL = printPageURL(p.id);
-    const imgInner = `<img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 700])}" sizes="(max-width:600px) 46vw, 240px" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${p.src}'">`;
+    const imgInner = `<img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 700])}" sizes="(max-width:600px) 46vw, 240px"${dimAttrs(p)} alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${thumbFallback(p.src)}'">`;
     const imgWrap = printURL
       ? `<a class="shop-card-imglink" href="${printURL}" onclick="event.preventDefault();event.stopPropagation();openPrintModal('${p.id}');"><div class="shop-card-imgwrap">${imgInner}</div></a>`
       : `<div class="shop-card-imgwrap">${imgInner}</div>`;
