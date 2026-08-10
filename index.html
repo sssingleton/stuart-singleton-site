@@ -1645,7 +1645,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="bk-note">Give me as many as work and I'll take the first one I can. One is fine if the date is fixed.</div>
             <div id="bk-slots">
               <div class="bk-slot">
-                <div class="bk-cell"><span class="bk-label">First choice</span><input type="date" name="d0" required></div>
+                <div class="bk-cell"><span class="bk-label">First choice</span><input type="date" name="d0" required></div><!-- min set at runtime, see chooseService -->
                 <div class="bk-cell"><span class="bk-label">Time</span><input type="time" name="t0" value="14:00"></div>
               </div>
             </div>
@@ -1682,7 +1682,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <h4>6. Rescheduling and cancellation</h4>
               <p>Either side may reschedule once at no cost with 48 hours' notice, retainer intact. If you cancel or don't show, the retainer is retained. Weather or anything outside either side's control reschedules at no cost. Stuart may end a session on an unsafe set.</p>
               <h4>7. Accepting online</h4>
-              <p>Checking the box below has the same effect as signing. The complete text of this agreement exactly as shown here, your name and email, and the date, time and IP of acceptance are recorded. <b>Ask for a copy at any time and it will be sent to you.</b> <b>Online acceptance doesn't grant likeness rights for anyone</b>, those come from the release signed at the shoot. Submitting a request is not a booking. Stuart confirms the date before any payment is requested.</p>
+              <p>Checking the box below has the same effect as signing. The complete text of this agreement exactly as shown here, your name and email, and the date, time and IP of acceptance are recorded, and a copy is emailed to you. <b>Online acceptance doesn't grant likeness rights for anyone</b>, those come from the release signed at the shoot. Submitting a request is not a booking. Stuart confirms the date before any payment is requested.</p>
               <h4>8. The necessary part</h4>
               <p>Stuart's liability is limited to amounts actually paid, with indirect and lost-profit damages excluded. If he can't deliver, the remedy is a reshoot or a refund, your choice. You confirm you can grant permission for everyone appearing and that no permit or clearance is needed unless you've said otherwise, and you'll cover Stuart if that turns out untrue. Unpaid balances accrue 1.5% a month or the Tennessee maximum, whichever is less, plus collection costs. Governed by Tennessee law, venue in Davidson County.</p>
             </div>
@@ -2528,15 +2528,33 @@ function chooseService(key, ev) {
   const people = document.querySelector('#bk-form input[name="people"]');
   if (people) people.value = cfg.people;
 
+  // Past dates are not selectable. Applied on every open so a tab left sitting
+  // overnight cannot offer yesterday.
+  const today = bookingToday();
+  document.querySelectorAll('#bk-form input[type="date"]').forEach(function (el) {
+    el.setAttribute('min', today);
+    if (el.value && el.value < today) el.value = '';
+  });
+
   wireBookingForm();
   try { addHover('#svc-form-wrap button, #svc-form-wrap label'); } catch (e) {}
   wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// Today in the browser's own timezone. toISOString() would shift the date across
+// midnight for anyone west of UTC, which is everyone here.
+function bookingToday() {
+  const n = new Date();
+  const p = v => String(v).padStart(2, '0');
+  return n.getFullYear() + '-' + p(n.getMonth() + 1) + '-' + p(n.getDate());
+}
+
 function bookingCollectSlots(d) {
   const out = [];
+  const today = bookingToday();
   for (let i = 0; i < BOOKING_MAX_SLOTS; i++) {
-    if (d['d' + i]) out.push({ date: d['d' + i], time: d['t' + i] || null });
+    // A past date is never a real request — drop it rather than sending it on.
+    if (d['d' + i] && d['d' + i] >= today) out.push({ date: d['d' + i], time: d['t' + i] || null });
   }
   return out;
 }
@@ -2579,7 +2597,7 @@ function wireBookingForm() {
     const div = document.createElement('div');
     div.className = 'bk-slot';
     div.innerHTML = '<div class="bk-cell"><span class="bk-label">' + LABELS[bookingSlots] + '</span>'
-      + '<input type="date" name="d' + bookingSlots + '"></div>'
+      + '<input type="date" name="d' + bookingSlots + '" min="' + bookingToday() + '"></div>'
       + '<div class="bk-cell"><span class="bk-label">Time</span>'
       + '<input type="time" name="t' + bookingSlots + '" value="14:00"></div>';
     slotWrap.appendChild(div);
@@ -2617,7 +2635,10 @@ function wireBookingForm() {
     const d = Object.fromEntries(new FormData(form).entries());
     const picks = bookingCollectSlots(d);
     out.style.display = 'block';
-    if (!picks.length) { out.textContent = 'Give me at least one date that works before you send.'; return; }
+    if (!picks.length) {
+      out.textContent = 'Give me at least one date that works — and it has to be in the future.';
+      return;
+    }
 
     let text = '';
     if (needsAgreement) {
@@ -2643,6 +2664,8 @@ function wireBookingForm() {
       ? ((crypto && crypto.randomUUID) ? crypto.randomUUID() : null)
       : null;
 
+    const bookingId = (crypto && crypto.randomUUID) ? crypto.randomUUID() : null;
+
     const first = needsAgreement && acceptanceId
       ? post('agreement_acceptances', { id: acceptanceId, name: d.name, email: d.email, agreement_text: text })
       : Promise.resolve(null);
@@ -2652,6 +2675,7 @@ function wireBookingForm() {
     first
       .then(function () {
         return post('bookings', {
+          id: bookingId,
           service: bookingSvc.service,
           name: d.name,
           email: d.email,
@@ -2669,6 +2693,16 @@ function wireBookingForm() {
         });
       })
       .then(function () {
+        // Fire the confirmation emails. Deliberately not awaited into the success
+        // path and deliberately never rethrown: the request is already saved, and a
+        // mail outage must not tell someone their booking failed when it didn't.
+        if (bookingId) {
+          fetch(SUPA_URL + '/functions/v1/send-booking-emails', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY },
+            body: JSON.stringify({ booking_id: bookingId })
+          }).catch(function () {});
+        }
         form.style.display = 'none';
         out.textContent = 'Request sent.\n\nI\'ll come back to you within a day and confirm which of '
           + 'your dates works — starting with ' + picks[0].date + '. Nothing has been charged.\n\n'
@@ -2676,9 +2710,8 @@ function wireBookingForm() {
               ? 'If it works, I\'ll send a retainer link. The retainer is what secures the date.\n\n'
               : '')
           + (needsAgreement
-              ? 'Your acceptance of the agreement is on file, timestamped. Want a copy? Reply to my\n'
-                + 'email or write to hello@stuartsingleton.com and I\'ll send it over.'
-              : 'Nothing to sign for a call.');
+              ? 'A copy of the agreement you accepted is on its way to ' + d.email + '.'
+              : 'Nothing to sign for a call — check your email for a confirmation.');
       })
       .catch(function (err) {
         send.disabled = false;
