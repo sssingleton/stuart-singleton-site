@@ -1654,6 +1654,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <div class="bk-full" style="margin-top:14px;"><span class="bk-label">What are we shooting</span><textarea name="brief" required placeholder="a single, an EP, new lineup..."></textarea></div>
 
+            <div id="bk-agreement-block">
             <div class="bk-sec">Shoot agreement</div>
             <div class="bk-doc" id="bk-doc">
               <h4>1. What you get</h4>
@@ -1689,6 +1690,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="bk-agree" id="bk-agree-row">
               <input type="checkbox" id="bk-agree" disabled>
               <label for="bk-agree">I have read and agree to the shoot agreement, and I confirm I'm authorised to accept it for everyone named above.</label>
+            </div>
             </div>
 
             <div class="bk-foot">
@@ -2464,9 +2466,11 @@ const BOOKING_SERVICES = {
   call: {
     id: 'svc-call', service: 'call', label: 'Free 15-min call',
     total: 0, people: 1,
-    clause1: 'Fifteen minutes on the phone or a video call, no charge and no obligation. '
-      + 'Nothing below about retainers, delivery or licensing applies until you book an actual shoot.',
-    terms: 'No cost, no retainer.<br>I\'ll confirm a time by email.'
+    // A free phone call is not a shoot. No agreement, no acceptance row — making
+    // someone accept a shoot contract to talk for fifteen minutes is friction on
+    // the one thing that has to be frictionless.
+    noAgreement: true,
+    terms: 'No cost, no retainer, nothing to sign.<br>I\'ll confirm a time by email.'
   },
   portrait: {
     id: 'svc-portrait', service: 'portrait', label: 'Portrait session',
@@ -2508,9 +2512,17 @@ function chooseService(key, ev) {
   const title = document.getElementById('bk-sec-title');
   if (title) title.textContent = cfg.label + ' — your details';
   const c1 = document.getElementById('bk-clause1');
-  if (c1) c1.innerHTML = cfg.clause1;
+  if (c1 && cfg.clause1) c1.innerHTML = cfg.clause1;
   const terms = document.getElementById('bk-terms');
   if (terms) terms.innerHTML = cfg.terms;
+
+  // The free call carries no agreement at all, so the whole block comes out and
+  // the send button is live immediately.
+  const block = document.getElementById('bk-agreement-block');
+  const send = document.getElementById('bk-send');
+  const agreeCb = document.getElementById('bk-agree');
+  if (block) block.style.display = cfg.noAgreement ? 'none' : 'block';
+  if (send) send.disabled = cfg.noAgreement ? false : !(agreeCb && agreeCb.checked);
 
   const people = document.querySelector('#bk-form input[name="people"]');
   if (people) people.value = cfg.people;
@@ -2597,32 +2609,47 @@ function wireBookingForm() {
 
   send.addEventListener('click', function (e) {
     e.preventDefault();
-    if (!form.reportValidity() || !cb.checked || !bookingSvc) return;
+    const needsAgreement = !bookingSvc || !bookingSvc.noAgreement;
+    if (!form.reportValidity() || !bookingSvc) return;
+    if (needsAgreement && !cb.checked) return;
 
     const d = Object.fromEntries(new FormData(form).entries());
     const picks = bookingCollectSlots(d);
     out.style.display = 'block';
     if (!picks.length) { out.textContent = 'Give me at least one date that works before you send.'; return; }
 
-    // §7 records the agreement "exactly as shown here", so read it from the DOM at
-    // submit rather than from a stored copy that can drift out of sync.
-    const text = (doc.innerText || doc.textContent || '').replace(/\s+\n/g, '\n').trim();
-    if (text.length < 500) {
-      out.textContent = 'Could not capture the agreement text. Nothing was sent — please reload and try again.';
-      return;
+    let text = '';
+    if (needsAgreement) {
+      // §7 records the agreement "exactly as shown here", so read it from the DOM at
+      // submit rather than from a stored copy that can drift out of sync.
+      text = (doc.innerText || doc.textContent || '').replace(/\s+\n/g, '\n').trim();
+      if (text.length < 500) {
+        out.textContent = 'Could not capture the agreement text. Nothing was sent — please reload and try again.';
+        return;
+      }
     }
 
     send.disabled = true;
     send.textContent = 'Sending…';
     out.textContent = 'Sending your request…';
 
+    // The id is generated here rather than read back from the insert. Asking
+    // PostgREST for the row (Prefer: return=representation) makes it add RETURNING,
+    // and under RLS an INSERT ... RETURNING needs a SELECT policy — which this
+    // table deliberately does not have. Supplying the uuid keeps the link without
+    // opening every acceptance to anonymous reads.
+    const acceptanceId = needsAgreement
+      ? ((crypto && crypto.randomUUID) ? crypto.randomUUID() : null)
+      : null;
+
+    const first = needsAgreement && acceptanceId
+      ? post('agreement_acceptances', { id: acceptanceId, name: d.name, email: d.email, agreement_text: text })
+      : Promise.resolve(null);
+
     // Acceptance first. An orphan acceptance is harmless; a booking with no
     // acceptance behind it is a shoot with no agreement.
-    post('agreement_acceptances', {
-      name: d.name, email: d.email, agreement_text: text
-    }, 'return=representation')
-      .then(function (rows) {
-        const acceptanceId = (rows && rows[0] && rows[0].id) || null;
+    first
+      .then(function () {
         return post('bookings', {
           service: bookingSvc.service,
           name: d.name,
@@ -2647,7 +2674,9 @@ function wireBookingForm() {
           + (bookingSvc.total
               ? 'If it works, I\'ll send a retainer link. The retainer is what secures the date.\n\n'
               : '')
-          + 'A copy of the agreement you accepted is on its way to ' + d.email + '.';
+          + (needsAgreement
+              ? 'A copy of the agreement you accepted is on its way to ' + d.email + '.'
+              : 'Nothing to sign for a call — I\'ll just email you a time.');
       })
       .catch(function (err) {
         send.disabled = false;
@@ -3883,6 +3912,16 @@ function navigate(dest) {
 
 // ══ GO BACK ══
 function goBack() {
+  // Back steps out of the current mode before it leaves the page. From Shop or
+  // Book that means returning to the gallery, not all the way home — leaving the
+  // site's photo world entirely is one step further than "back" implies.
+  const pp0 = document.getElementById('photos-page');
+  if (pp0 && !pp0.classList.contains('gone') && photoMode !== 'gallery') {
+    setPhotoMode('gallery');
+    const inner = pp0.querySelector('.page-inner');
+    if (inner) inner.scrollTop = 0;
+    return;
+  }
   closeYT();
   ['music-page','photos-page','lab-page'].forEach(id=>{
     const el=document.getElementById(id);
