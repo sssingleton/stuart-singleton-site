@@ -30,7 +30,6 @@ const topRoutes = [
   { loc: `${SITE}/`,       priority: '1.0', changefreq: 'weekly'  },
   { loc: `${SITE}/shop`,   priority: '0.9', changefreq: 'weekly'  },
   { loc: `${SITE}/photos`, priority: '0.8', changefreq: 'weekly'  },
-  { loc: `${SITE}/book`,   priority: '0.9', changefreq: 'monthly' },
   { loc: `${SITE}/prints`, priority: '0.9', changefreq: 'weekly'  },
 ];
 
@@ -74,7 +73,6 @@ const robots =
   `Allow: /\n` +
   `Allow: /shop\n` +
   `Allow: /photos\n` +
-  `Allow: /book\n` +
   `Allow: /p\n` +
   `Allow: /print/\n` +
   `Allow: /catalog.json\n` +

@@ -22,7 +22,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="description" content="Photography, music, and code by Stuart Singleton in Nashville, TN. Browse the gallery, hear songs he wrote and produced, and order fine art prints from $29.">
 <link rel="canonical" href="https://stuartsingleton.com/">
 <script>
-/* This file is a shared SPA shell (/, /shop, /photos, /book, /whoami, /p, /mr.manager).
+/* This file is a shared SPA shell (/, /shop, /photos, /whoami, /p, /mr.manager).
    Correct the canonical per-route so /shop etc. don't claim to be duplicates of /.
    On /p the canonical is REMOVED — the static /print/<slug> pages are canonical. */
 (function () {
@@ -414,82 +414,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #photos-page.shop-on .pm-btn.active { border-color: #1a1a1a; color: #1a1a1a; }
   #photos-page.shop-on .photos-ig { color: #908b82; }
   #photos-page.shop-on .photo-links { display: none; }
-
-  /* ===== BOOKING (third mode) =====
-     Booking is commerce, so it lives in the SAME warm-paper world as the shop —
-     not the near-black gallery. These rules mirror .shop-on exactly. */
-  #photos-page.book-on { background: #f6f5f2; }
-  #photos-page.book-on .page-nav { background: #f6f5f2; color: #999; }
-  #photos-page.book-on .back-btn { color: #999; }
-  #photos-page.book-on .back-btn:hover { color: #111; }
-  #photos-page.book-on .photos-eyebrow { color: #9a948a; }
-  #photos-page.book-on .photos-hero { color: #1a1a1a; }
-  #photos-page.book-on .photos-sub { color: #8a857c; }
-  #photos-page.book-on .pm-btn { border-color: #d8d5cd; color: #908b82; }
-  #photos-page.book-on .pm-btn:hover { border-color: #b3aea3; color: #4a4640; }
-  #photos-page.book-on .pm-btn.active { border-color: #1a1a1a; color: #1a1a1a; }
-  #photos-page.book-on .photos-ig { color: #908b82; }
-  #photos-page.book-on .photo-links { display: none; }
-
-  /* service cards — same anatomy as .lab-card, paper palette.
-     gap:1px + per-card border-top is what makes the seams read as hairline rules. */
-  .svc-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 1px; width: 100%; max-width: 800px; outline: 1px solid #d8d5cd; }
-  .svc-card { background: #f6f5f2; padding: 32px 28px 28px; cursor: none; transition: background .28s; position: relative; overflow: hidden; text-decoration: none; display: block; border-top: 1px solid #d8d5cd; }
-  .svc-card::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: rgba(26,26,26,.12); top: -2px; transition: top .6s cubic-bezier(.16,1,.3,1); }
-  .svc-card:hover::after { top: 110%; }
-  .svc-card:hover { background: #efeee9; }
-  .svc-card:hover .svc-card-title { color: #1a1a1a; }
-  .svc-card-num { font-family: var(--mono); font-size: 9px; color: #b3aea3; letter-spacing: .18em; margin-bottom: 20px; text-transform: uppercase; }
-  .svc-card-price { float: right; font-family: var(--mono); font-size: 9px; color: #8a857c; letter-spacing: .14em; }
-  .svc-card-title { font-family: var(--display); font-size: 32px; color: #4a4640; letter-spacing: .03em; line-height: 1; margin-bottom: 12px; transition: color .28s; }
-  .svc-card-desc { font-family: var(--mono); font-size: 10px; color: #8a857c; line-height: 1.7; letter-spacing: .04em; }
-  .svc-card-tags { margin-top: 24px; display: flex; gap: 6px; flex-wrap: wrap; }
-  .svc-tag { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: #b3aea3; border: 1px solid #d8d5cd; padding: 3px 8px; transition: all .2s; }
-  .svc-card:hover .svc-tag { border-color: #b3aea3; color: #6a655e; }
-  /* the ONE filled tag among outlined siblings — how the free call leads without a new accent colour */
-  .svc-tag-lead { color: #f6f5f2; background: #1a1a1a; border-color: #1a1a1a; }
-  .svc-card:hover .svc-tag-lead { color: #f6f5f2; border-color: #1a1a1a; }
-  .svc-arrow { position: absolute; bottom: 28px; right: 28px; font-family: var(--mono); font-size: 14px; color: #b3aea3; transition: color .28s, transform .28s; }
-  .svc-card:hover .svc-arrow { color: #1a1a1a; transform: translate(3px,-3px); }
-  .svc-note { font-family: var(--mono); font-size: 10px; color: #8a857c; line-height: 1.8; letter-spacing: .04em; margin-top: 30px; max-width: 800px; }
-  .svc-note a { color: #4a4640; text-decoration: underline; text-underline-offset: 3px; }
-  .svc-note a:hover { color: #1a1a1a; }
-  .svc-card.svc-active { background: #efeee9; }
-  .svc-card.svc-active .svc-card-title { color: #1a1a1a; }
-
-  /* ===== REQUEST FORM (opens under the cards once a service is picked) ===== */
-  #svc-form-wrap { max-width: 800px; margin-top: 34px; }
-  .bk-sec { font-family: var(--mono); font-size: 10px; color: #8a857c; letter-spacing: .18em; text-transform: uppercase; margin: 30px 0 10px; }
-  .bk-note { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: #b3aea3; text-transform: uppercase; margin: -4px 0 12px; line-height: 1.7; }
-  .bk-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1px; outline: 1px solid #d8d5cd; background: #d8d5cd; }
-  .bk-cell { background: #f6f5f2; padding: 14px 16px; }
-  .bk-full { background: #f6f5f2; padding: 14px 16px; outline: 1px solid #d8d5cd; margin-top: 1px; }
-  .bk-label { font-family: var(--mono); font-size: 9px; color: #b3aea3; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 8px; display: block; }
-  #svc-form-wrap input, #svc-form-wrap textarea { width: 100%; background: transparent; border: none; outline: none; font-family: var(--sans); font-size: 13px; color: #1a1a1a; padding: 0; }
-  #svc-form-wrap textarea { resize: vertical; min-height: 52px; line-height: 1.6; }
-  #svc-form-wrap input::placeholder, #svc-form-wrap textarea::placeholder { color: #c9c4ba; }
-  .bk-slot { display: grid; grid-template-columns: 2fr 1fr; gap: 1px; margin-bottom: 1px; outline: 1px solid #d8d5cd; }
-  .bk-add { font-family: var(--mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; background: transparent; border: 1px dashed #d8d5cd; color: #b3aea3; padding: 9px 14px; margin-top: 10px; width: 100%; cursor: none; transition: all .2s; }
-  .bk-add:hover { border-color: #b3aea3; color: #4a4640; }
-  .bk-add[disabled] { opacity: .4; }
-  .bk-flex { display: flex; align-items: center; gap: 9px; margin-top: 14px; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: #8a857c; text-transform: uppercase; cursor: none; }
-  .bk-flex input { width: 14px; height: 14px; flex: 0 0 14px; accent-color: #1a1a1a; }
-  .bk-doc { max-height: 260px; overflow-y: auto; border: 1px solid #d8d5cd; padding: 20px 22px; background: #fbfaf8; font-family: var(--sans); font-size: 12px; line-height: 1.75; color: #4a4640; }
-  .bk-doc h4 { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #1a1a1a; margin: 18px 0 6px; }
-  .bk-doc h4:first-child { margin-top: 0; }
-  .bk-doc p, .bk-doc li { margin: 0 0 8px; }
-  .bk-doc ul { margin: 0 0 8px; padding-left: 18px; }
-  .bk-hint { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; color: #b3aea3; text-transform: uppercase; margin-top: 8px; transition: opacity .3s; }
-  .bk-hint.done { color: #4a4640; }
-  .bk-agree { display: flex; gap: 11px; align-items: flex-start; margin-top: 18px; opacity: .4; transition: opacity .3s; font-size: 12px; line-height: 1.6; color: #4a4640; }
-  .bk-agree.on { opacity: 1; }
-  .bk-agree input { width: 15px; height: 15px; flex: 0 0 15px; margin-top: 2px; accent-color: #1a1a1a; }
-  .bk-foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 24px; flex-wrap: wrap; }
-  .bk-terms { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: #8a857c; text-transform: uppercase; line-height: 1.8; }
-  .bk-send { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 12px 22px; background: transparent; border: 1px solid #d8d5cd; color: #b3aea3; cursor: none; transition: all .2s; }
-  .bk-send:not([disabled]) { border-color: #1a1a1a; color: #1a1a1a; }
-  .bk-send:not([disabled]):hover { background: #1a1a1a; color: #f6f5f2; }
-  .bk-out { font-family: var(--mono); font-size: 11px; line-height: 1.9; color: #4a4640; white-space: pre-wrap; border-top: 1px solid #d8d5cd; margin-top: 24px; padding-top: 20px; display: none; }
 
   /* product grid */
   .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 22px; width: 100%; }
@@ -1050,9 +974,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .choices { flex-direction: column; }
     .photo-masonry { grid-template-columns: repeat(2,1fr); grid-auto-rows: 140px; }
     .lab-grid { grid-template-columns: 1fr; }
-    .svc-grid { grid-template-columns: 1fr; }
-    /* the toggle row is 3 buttons now, not 2 — let it wrap rather than overflow */
-    .photos-mode-toggle { flex-wrap: wrap; }
     #sphere-container { width: 60px; height: 60px; top: 16px; right: 16px; }
     .tl-item { flex-direction: column; gap: 4px; }
     .tl-year { min-width: auto; }
@@ -1540,9 +1461,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- GALLERY / SHOP TOGGLE -->
       <div class="photos-mode-toggle">
-        <button class="pm-btn" id="pm-gallery" onclick="setPhotoMode('gallery')">Gallery</button>
-        <button class="pm-btn" id="pm-shop" onclick="setPhotoMode('shop')">Shop Prints</button>
-        <button class="pm-btn" id="pm-book" onclick="setPhotoMode('book')">Book a Shoot</button>
+        <button class="pm-btn" id="pm-gallery" onclick="setShopMode(false)">Gallery</button>
+        <button class="pm-btn" id="pm-shop" onclick="setShopMode(true)">Shop Prints</button>
       </div>
 
       <!-- CAMERA SUB-SECTIONS (gallery only) -->
@@ -1567,138 +1487,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- PRODUCT GRID (shop view) -->
       <div class="shop-grid" id="shop-grid" style="display:none;"></div>
-
-      <!-- BOOKING (book view) — picking a card opens the request form below -->
-      <div id="booking-wrap" style="display:none;">
-        <div class="svc-grid">
-
-          <a class="svc-card" id="svc-call" href="#" target="_blank" rel="noopener">
-            <div class="svc-card-num">SVC_001<span class="svc-card-price">FREE</span></div>
-            <div class="svc-card-title">15-MIN CALL</div>
-            <div class="svc-card-desc">
-              Fifteen minutes, no pitch. Tell me what you're shooting and I'll tell you what it
-              costs and whether I'm the right person for it. If I'm not, I'll say so.
-            </div>
-            <div class="svc-card-tags">
-              <span class="svc-tag svc-tag-lead">No cost</span>
-              <span class="svc-tag">15 min</span>
-              <span class="svc-tag">Start here</span>
-            </div>
-            <span class="svc-arrow">→</span>
-          </a>
-
-          <a class="svc-card" id="svc-portrait" href="#" target="_blank" rel="noopener">
-            <div class="svc-card-num">SVC_002<span class="svc-card-price">$200</span></div>
-            <div class="svc-card-title">PORTRAIT</div>
-            <div class="svc-card-desc">
-              One hour, one location, at least 12 finished images. Editing is included and never
-              quoted separately. Web and print sizes with full usage rights, back to you in seven
-              days or less.
-            </div>
-            <div class="svc-card-tags">
-              <span class="svc-tag">1 hour</span>
-              <span class="svc-tag">12+ images</span>
-              <span class="svc-tag">Editing included</span>
-            </div>
-            <span class="svc-arrow">→</span>
-          </a>
-
-          <a class="svc-card" id="svc-band" href="#" target="_blank" rel="noopener">
-            <div class="svc-card-num">SVC_003<span class="svc-card-price">$300</span></div>
-            <div class="svc-card-title">BAND PRESS</div>
-            <div class="svc-card-desc">
-              Ninety minutes, one or two locations, at least 12 finished images. I don't
-              over-polish. You'll look like yourself on a good night. Full usage rights for press,
-              streaming and socials, back in seven days or less.
-            </div>
-            <div class="svc-card-tags">
-              <span class="svc-tag">90 min</span>
-              <span class="svc-tag">12+ images</span>
-              <span class="svc-tag">Press rights</span>
-            </div>
-            <span class="svc-arrow">→</span>
-          </a>
-
-        </div>
-
-        <div class="svc-note">
-          Live shows and commercial work are quoted case by case — start with the call.<br>
-          Rush 48-hour delivery +$100 · extra edited images $20 each · travel inside Davidson County
-          included, outside is $0.60/mi.<br>
-          Nashville based. No payment now — I'll send an invoice once we lock the date.
-          Questions: <a href="mailto:hello@stuartsingleton.com">hello@stuartsingleton.com</a>
-        </div>
-
-        <!-- REQUEST FORM — revealed when a service card is chosen -->
-        <div id="svc-form-wrap" style="display:none;">
-          <form id="bk-form" autocomplete="on">
-            <div class="bk-sec" id="bk-sec-title">Your details</div>
-            <div class="bk-grid">
-              <div class="bk-cell"><span class="bk-label">Band / name</span><input name="name" required placeholder="who's shooting"></div>
-              <div class="bk-cell"><span class="bk-label">Email</span><input type="email" name="email" required placeholder="you@band.com"></div>
-              <div class="bk-cell"><span class="bk-label">Phone</span><input name="phone" placeholder="optional"></div>
-              <div class="bk-cell"><span class="bk-label">How many people</span><input type="number" name="people" min="1" value="1"></div>
-            </div>
-            <div class="bk-full"><span class="bk-label">Location idea</span><input name="loc" placeholder="or leave it to me"></div>
-
-            <div class="bk-sec">When works for you</div>
-            <div class="bk-note">Give me as many as work and I'll take the first one I can. One is fine if the date is fixed.</div>
-            <div id="bk-slots">
-              <div class="bk-slot">
-                <div class="bk-cell"><span class="bk-label">First choice</span><input type="date" name="d0" required></div>
-                <div class="bk-cell"><span class="bk-label">Time</span><input type="time" name="t0" value="14:00"></div>
-              </div>
-            </div>
-            <button type="button" class="bk-add" id="bk-add">+ add another option</button>
-            <label class="bk-flex"><input type="checkbox" name="flexible"> I'm flexible — these are a guide, not a rule</label>
-
-            <div class="bk-full" style="margin-top:14px;"><span class="bk-label">What are we shooting</span><textarea name="brief" required placeholder="a single, an EP, new lineup..."></textarea></div>
-
-            <div class="bk-sec">Shoot agreement</div>
-            <div class="bk-doc" id="bk-doc">
-              <h4>1. What you get</h4>
-              <p id="bk-clause1"></p>
-              <h4>2. What it costs and when it's due</h4>
-              <p><b>A non-refundable retainer of 50% secures the date. The date is not held until the retainer clears.</b> Until then it stays available to anyone else. The balance is due on delivery.</p>
-              <p>The retainer is earned on receipt and is not refundable if you cancel. It isn't a penalty. It covers the date being taken off the calendar and other work turned away for it, a loss that is hard to price in advance, so this is a reasonable estimate of it.</p>
-              <p>Two things that are not cancellation: rescheduling once with 48 hours' notice to a date within 90 days (the retainer carries over), and Stuart cancelling or being unable to shoot (refunded in full).</p>
-              <p>Travel inside Davidson County included; outside is $0.60/mi.</p>
-              <h4>3. Who owns the photographs</h4>
-              <p>Stuart owns the copyright in every image, as author under 17 U.S.C. § 201(a). This is not work made for hire. You receive the licence in Section 4, not ownership.</p>
-              <h4>4. What you can do with them</h4>
-              <p>A non-exclusive, worldwide, perpetual, royalty-free licence for press and publicity, social media and your own website, streaming and DSP artwork, and release packaging for your own work.</p>
-              <p>Not included, and reserved to Stuart:</p>
-              <ul>
-                <li>any use that promotes someone other than you, and any use you're paid for. Handing a photo to a magazine, festival, label or publicist so they can promote <b>you</b> is included and costs nothing. Wider rights are quoted per project, so send them to Stuart rather than turning them down;</li>
-                <li>use as training data for any AI or machine-learning system, and any synthetic derivative;</li>
-                <li>altering an image beyond cropping and minor adjustment without written okay.</li>
-              </ul>
-              <p>Credit, "Photo by Stuart Singleton", where the format reasonably allows.</p>
-              <h4>5. What Stuart can do with them</h4>
-              <p>Everyone appearing who <b>signs the release at the shoot</b> grants Stuart the right to use their name, likeness and image for his portfolio and social media, self-promotion, <b>sale as fine-art prints</b>, and inclusion in <b>photography books and exhibitions</b>. Anyone who doesn't sign is portfolio-only, never prints, books or advertising.</p>
-              <p>If there's an image you'd rather he didn't publish or sell, say so in writing within 14 days of delivery and it's withheld. Silence is agreement.</p>
-              <h4>6. Rescheduling and cancellation</h4>
-              <p>Either side may reschedule once at no cost with 48 hours' notice, retainer intact. If you cancel or don't show, the retainer is retained. Weather or anything outside either side's control reschedules at no cost. Stuart may end a session on an unsafe set.</p>
-              <h4>7. Accepting online</h4>
-              <p>Checking the box below has the same effect as signing. The complete text of this agreement exactly as shown here, your name and email, and the date, time and IP of acceptance are recorded and emailed to you. <b>Online acceptance doesn't grant likeness rights for anyone</b>, those come from the release signed at the shoot. Submitting a request is not a booking. Stuart confirms the date before any payment is requested.</p>
-              <h4>8. The necessary part</h4>
-              <p>Stuart's liability is limited to amounts actually paid, with indirect and lost-profit damages excluded. If he can't deliver, the remedy is a reshoot or a refund, your choice. You confirm you can grant permission for everyone appearing and that no permit or clearance is needed unless you've said otherwise, and you'll cover Stuart if that turns out untrue. Unpaid balances accrue 1.5% a month or the Tennessee maximum, whichever is less, plus collection costs. Governed by Tennessee law, venue in Davidson County.</p>
-            </div>
-            <div class="bk-hint" id="bk-hint">Scroll to the end of the agreement to continue ↓</div>
-
-            <div class="bk-agree" id="bk-agree-row">
-              <input type="checkbox" id="bk-agree" disabled>
-              <label for="bk-agree">I have read and agree to the shoot agreement, and I confirm I'm authorised to accept it for everyone named above.</label>
-            </div>
-
-            <div class="bk-foot">
-              <div class="bk-terms" id="bk-terms"></div>
-              <button type="button" class="bk-send" id="bk-send" disabled>Send request →</button>
-            </div>
-          </form>
-          <div class="bk-out" id="bk-out"></div>
-        </div>
-      </div>
 
       <!-- PORTFOLIO LINKS -->
       <div class="photo-links">
@@ -2454,232 +2242,8 @@ function toggleTag(tag) {
   renderPhotos();
 }
 
-// ══ BOOKING REQUEST FORM ══
-// Google appointment schedules need a paid Workspace tier, so there are no external
-// links. The client proposes dates, Stuart picks one. This matches what the page
-// already was per decision 220 — a request, with no availability check behind it.
-const BOOKING_MAX_SLOTS = 10;
-
-const BOOKING_SERVICES = {
-  call: {
-    id: 'svc-call', service: 'call', label: 'Free 15-min call',
-    total: 0, people: 1,
-    clause1: 'Fifteen minutes on the phone or a video call, no charge and no obligation. '
-      + 'Nothing below about retainers, delivery or licensing applies until you book an actual shoot.',
-    terms: 'No cost, no retainer.<br>I\'ll confirm a time by email.'
-  },
-  portrait: {
-    id: 'svc-portrait', service: 'portrait', label: 'Portrait session',
-    total: 20000, people: 1,
-    clause1: 'One hour, one location, and <b>at least 12 finished images</b> edited and '
-      + 'color-corrected, in web and print sizes, back to you in <b>seven days or less</b>. '
-      + 'Editing is included and never billed separately. Images are selected by Stuart from the full take.',
-    terms: 'Retainer <b>$100</b> · balance $100 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
-  },
-  band: {
-    id: 'svc-band', service: 'band', label: 'Band press photos',
-    total: 30000, people: 4,
-    clause1: '90 minutes, one or two locations, and <b>at least 12 finished images</b> edited and '
-      + 'color-corrected, in web and print sizes, back to you in <b>seven days or less</b>. '
-      + 'Editing is included and never billed separately. Images are selected by Stuart from the full take.',
-    terms: 'Retainer <b>$150</b> · balance $150 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
-  }
-};
-
-let bookingSvc = null;
-let bookingSlots = 1;
-let bookingWired = false;
-
-function chooseService(key, ev) {
-  if (ev) ev.preventDefault();
-  const cfg = BOOKING_SERVICES[key];
-  if (!cfg) return;
-  bookingSvc = cfg;
-
-  Object.keys(BOOKING_SERVICES).forEach(function (k) {
-    const el = document.getElementById(BOOKING_SERVICES[k].id);
-    if (el) el.classList.toggle('svc-active', k === key);
-  });
-
-  const wrap = document.getElementById('svc-form-wrap');
-  if (!wrap) return;
-  wrap.style.display = 'block';
-
-  const title = document.getElementById('bk-sec-title');
-  if (title) title.textContent = cfg.label + ' — your details';
-  const c1 = document.getElementById('bk-clause1');
-  if (c1) c1.innerHTML = cfg.clause1;
-  const terms = document.getElementById('bk-terms');
-  if (terms) terms.innerHTML = cfg.terms;
-
-  const people = document.querySelector('#bk-form input[name="people"]');
-  if (people) people.value = cfg.people;
-
-  wireBookingForm();
-  try { addHover('#svc-form-wrap button, #svc-form-wrap label'); } catch (e) {}
-  wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function bookingCollectSlots(d) {
-  const out = [];
-  for (let i = 0; i < BOOKING_MAX_SLOTS; i++) {
-    if (d['d' + i]) out.push({ date: d['d' + i], time: d['t' + i] || null });
-  }
-  return out;
-}
-
-function wireBookingForm() {
-  if (bookingWired) return;
-  bookingWired = true;
-
-  const doc = document.getElementById('bk-doc');
-  const hint = document.getElementById('bk-hint');
-  const row = document.getElementById('bk-agree-row');
-  const cb = document.getElementById('bk-agree');
-  const send = document.getElementById('bk-send');
-  const form = document.getElementById('bk-form');
-  const out = document.getElementById('bk-out');
-  const addBtn = document.getElementById('bk-add');
-  const slotWrap = document.getElementById('bk-slots');
-  const LABELS = ['First choice','Second choice','Third choice','Fourth','Fifth','Sixth',
-                  'Seventh','Eighth','Ninth','Tenth'];
-  let read = false;
-
-  // Scroll gate: conspicuous notice plus affirmative assent is what makes clickwrap
-  // enforceable. The checkbox stays disabled until the agreement is read to the end.
-  function checkScroll() {
-    if (read) return;
-    if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 8) {
-      read = true;
-      cb.disabled = false;
-      row.classList.add('on');
-      hint.textContent = 'Agreement read in full ✓';
-      hint.classList.add('done');
-    }
-  }
-  doc.addEventListener('scroll', checkScroll);
-  if (doc.scrollHeight <= doc.clientHeight + 8) checkScroll();
-  cb.addEventListener('change', function () { send.disabled = !cb.checked; });
-
-  addBtn.addEventListener('click', function () {
-    if (bookingSlots >= BOOKING_MAX_SLOTS) return;
-    const div = document.createElement('div');
-    div.className = 'bk-slot';
-    div.innerHTML = '<div class="bk-cell"><span class="bk-label">' + LABELS[bookingSlots] + '</span>'
-      + '<input type="date" name="d' + bookingSlots + '"></div>'
-      + '<div class="bk-cell"><span class="bk-label">Time</span>'
-      + '<input type="time" name="t' + bookingSlots + '" value="14:00"></div>';
-    slotWrap.appendChild(div);
-    bookingSlots++;
-    if (bookingSlots >= BOOKING_MAX_SLOTS) {
-      addBtn.disabled = true;
-      addBtn.textContent = 'that is plenty to work with';
-    }
-  });
-
-  form.addEventListener('submit', function (e) { e.preventDefault(); });
-
-  function post(table, body, prefer) {
-    return fetch(SUPA_URL + '/rest/v1/' + table, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-        'Prefer': prefer || 'return=minimal'
-      },
-      body: JSON.stringify(body)
-    }).then(function (r) {
-      if (!r.ok) return r.text().then(function (t) { throw new Error(t || ('HTTP ' + r.status)); });
-      return (prefer && prefer.indexOf('representation') > -1) ? r.json() : null;
-    });
-  }
-
-  send.addEventListener('click', function (e) {
-    e.preventDefault();
-    if (!form.reportValidity() || !cb.checked || !bookingSvc) return;
-
-    const d = Object.fromEntries(new FormData(form).entries());
-    const picks = bookingCollectSlots(d);
-    out.style.display = 'block';
-    if (!picks.length) { out.textContent = 'Give me at least one date that works before you send.'; return; }
-
-    // §7 records the agreement "exactly as shown here", so read it from the DOM at
-    // submit rather than from a stored copy that can drift out of sync.
-    const text = (doc.innerText || doc.textContent || '').replace(/\s+\n/g, '\n').trim();
-    if (text.length < 500) {
-      out.textContent = 'Could not capture the agreement text. Nothing was sent — please reload and try again.';
-      return;
-    }
-
-    send.disabled = true;
-    send.textContent = 'Sending…';
-    out.textContent = 'Sending your request…';
-
-    // Acceptance first. An orphan acceptance is harmless; a booking with no
-    // acceptance behind it is a shoot with no agreement.
-    post('agreement_acceptances', {
-      name: d.name, email: d.email, agreement_text: text
-    }, 'return=representation')
-      .then(function (rows) {
-        const acceptanceId = (rows && rows[0] && rows[0].id) || null;
-        return post('bookings', {
-          service: bookingSvc.service,
-          name: d.name,
-          email: d.email,
-          phone: d.phone || null,
-          preferred_slots: picks,
-          date_flexible: !!d.flexible,
-          requested_date: picks[0].date,
-          requested_time: picks[0].time,
-          what_shooting: d.brief || null,
-          location: d.loc || null,
-          notes: d.people ? d.people + ' people' : null,
-          quoted_total_cents: bookingSvc.total || null,
-          retainer_cents: bookingSvc.total ? Math.round(bookingSvc.total / 2) : null,
-          acceptance_id: acceptanceId
-        });
-      })
-      .then(function () {
-        form.style.display = 'none';
-        out.textContent = 'Request sent.\n\nI\'ll come back to you within a day and confirm which of '
-          + 'your dates works — starting with ' + picks[0].date + '. Nothing has been charged.\n\n'
-          + (bookingSvc.total
-              ? 'If it works, I\'ll send a retainer link. The retainer is what secures the date.\n\n'
-              : '')
-          + 'A copy of the agreement you accepted is on its way to ' + d.email + '.';
-      })
-      .catch(function (err) {
-        send.disabled = false;
-        send.textContent = 'Send request →';
-        out.textContent = 'That didn\'t send.\n\n' + String(err.message || err)
-          + '\n\nNothing was charged. Email hello@stuartsingleton.com and I\'ll sort it out.';
-      });
-  });
-}
-
-function wireBookingLinks() {
-  const map = { 'svc-call': 'call', 'svc-portrait': 'portrait', 'svc-band': 'band' };
-  Object.keys(map).forEach(function (id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.setAttribute('href', '#');
-    el.removeAttribute('target');
-    el.onclick = function (e) { chooseService(map[id], e); };
-  });
-}
-
-// ══ PHOTO PAGE MODES — gallery | shop | book ══
-// Booking is a THIRD mode on this page, not a new page: same .screen shell, same
-// .page-nav, same hero block, same toggle row. setShopMode() is kept as a thin
-// wrapper because the routers, deep links and cold-load paths all still call it.
-let photoMode = 'gallery';
-
-function setPhotoMode(mode) {
-  photoMode = (mode === 'shop' || mode === 'book') ? mode : 'gallery';
-  const isShop = photoMode === 'shop';
-  const isBook = photoMode === 'book';
-  shopMode = isShop;                    // other code reads this; book mode is NOT shop
+function setShopMode(on) {
+  shopMode = !!on;
   // Entering the shop should reveal the (possibly empty) cart control.
   try { updateCartFab(); } catch (e) {}
   const page = document.getElementById('photos-page');
@@ -2687,55 +2251,34 @@ function setPhotoMode(mode) {
   const sub = document.getElementById('photos-locations');
   const gBtn = document.getElementById('pm-gallery');
   const sBtn = document.getElementById('pm-shop');
-  const bBtn = document.getElementById('pm-book');
   const masonry = document.getElementById('photo-masonry');
   const grid = document.getElementById('shop-grid');
   const head = document.getElementById('shop-head');
   const filters = document.getElementById('shop-filters');
   const tagCloud = document.getElementById('tag-cloud');
   const camFilter = document.getElementById('camera-filter');
-  const booking = document.getElementById('booking-wrap');
-  const empty = document.getElementById('shop-empty');
-  // Both commerce modes wear the warm-paper theme; only the gallery is near-black.
-  if (page) page.classList.toggle('shop-on', isShop);
-  if (page) page.classList.toggle('book-on', isBook);
-  if (gBtn) gBtn.classList.toggle('active', photoMode === 'gallery');
-  if (sBtn) sBtn.classList.toggle('active', isShop);
-  if (bBtn) bBtn.classList.toggle('active', isBook);
-  if (hero) hero.textContent = isShop ? 'SHOP' : isBook ? 'BOOK' : 'PHOTOS';
-  if (sub) sub.textContent = isShop
-    ? 'fine-art prints · shipped worldwide'
-    : isBook
-      ? 'bands · portraits · live shows · nashville'
-      : 'nashville · brentwood · on the road';
-  if (masonry) masonry.style.display = (isShop || isBook) ? 'none' : '';
-  if (grid) grid.style.display = isShop ? 'grid' : 'none';
-  if (head) head.style.display = isShop ? 'block' : 'none';
-  if (filters) filters.style.display = isShop ? 'flex' : 'none';
-  if (booking) booking.style.display = isBook ? 'block' : 'none';
-  // the shop's empty-state belongs to the shop only — it must not survive into booking
-  if (empty && isBook) empty.style.display = 'none';
-  // tag cloud + camera tabs are gallery chrome — hide them in shop AND booking
-  if (tagCloud) tagCloud.style.display = (isShop || isBook) ? 'none' : '';
-  if (camFilter) camFilter.style.display = (isShop || isBook) ? 'none' : 'flex';
-  if (isBook) {
-    wireBookingLinks();
-    try { addHover('#booking-wrap a'); } catch (e) {}
-  } else {
-    renderCameraFilter();
-    renderTagCloud();
-    renderPhotos();
-  }
-  // Keep the URL honest so /shop and /book are shareable
-  const targetPath = isShop ? '/shop' : isBook ? '/book' : '/photos';
+  if (page) page.classList.toggle('shop-on', shopMode);
+  if (gBtn) gBtn.classList.toggle('active', !shopMode);
+  if (sBtn) sBtn.classList.toggle('active', shopMode);
+  if (hero) hero.textContent = shopMode ? 'SHOP' : 'PHOTOS';
+  if (sub) sub.textContent = shopMode ? 'fine-art prints · shipped worldwide' : 'nashville · brentwood · on the road';
+  if (masonry) masonry.style.display = shopMode ? 'none' : '';
+  if (grid) grid.style.display = shopMode ? 'grid' : 'none';
+  if (head) head.style.display = shopMode ? 'block' : 'none';
+  if (filters) filters.style.display = shopMode ? 'flex' : 'none';
+  // tag cloud + camera tabs are gallery chrome — hide them in the shop
+  if (tagCloud) tagCloud.style.display = shopMode ? 'none' : '';
+  if (camFilter) camFilter.style.display = shopMode ? 'none' : 'flex';
+  renderCameraFilter();
+  renderTagCloud();
+  renderPhotos();
+  // Keep the URL honest so /shop is shareable
+  const targetPath = shopMode ? '/shop' : '/photos';
   if (window.location.pathname !== targetPath) {
-    history.replaceState({ page: isShop ? 'shop' : isBook ? 'book' : 'photos' }, '', targetPath);
+    history.replaceState({ page: shopMode ? 'shop' : 'photos' }, '', targetPath);
   }
   if (typeof setRouteMeta === 'function') setRouteMeta(targetPath);
 }
-
-// Back-compat wrapper. Everything that predates booking still calls this.
-function setShopMode(on) { setPhotoMode(on ? 'shop' : 'gallery'); }
 
 
 // == ADMIN PHOTO MANAGER ==
@@ -3891,14 +3434,7 @@ function goBack() {
     setTimeout(()=>{el.classList.add('gone');const inner=el.querySelector('.page-inner');if(inner)inner.scrollTop=0;},720);
   });
   stopMatrix();
-  // Leaving the photos page drops any commerce mode, so a later return starts clean.
-  if (shopMode || photoMode !== 'gallery') {
-    shopMode = false; photoMode = 'gallery';
-    const pp = document.getElementById('photos-page');
-    if (pp) { pp.classList.remove('shop-on', 'book-on'); }
-    const bw = document.getElementById('booking-wrap');
-    if (bw) { bw.style.display = 'none'; }
-  }
+  if (shopMode) { shopMode = false; }
   const landing=document.getElementById('landing');
   landing.classList.remove('hidden','gone'); landing.style.zIndex='3';
   setTimeout(()=>{landing.style.zIndex='';},800);
@@ -4121,14 +3657,7 @@ goBack = function() {
     setTimeout(()=>{el.classList.add('gone');const inner=el.querySelector('.page-inner');if(inner)inner.scrollTop=0;},720);
   });
   stopMatrix();
-  // Leaving the photos page drops any commerce mode, so a later return starts clean.
-  if (shopMode || photoMode !== 'gallery') {
-    shopMode = false; photoMode = 'gallery';
-    const pp = document.getElementById('photos-page');
-    if (pp) { pp.classList.remove('shop-on', 'book-on'); }
-    const bw = document.getElementById('booking-wrap');
-    if (bw) { bw.style.display = 'none'; }
-  }
+  if (shopMode) { shopMode = false; }
   const landing=document.getElementById('landing');
   landing.classList.remove('hidden','gone'); landing.style.zIndex='3';
   setTimeout(()=>{landing.style.zIndex='';},800);
@@ -4397,35 +3926,6 @@ function applyProductSeo(photo) {
   }
 })();
 
-// ══ URL ROUTING — direct /book access ══
-// Mirrors the /photos cold-load reveal exactly. This is the link that goes in Facebook
-// posts, Instagram bio and email signature, so a cold load has to paint, not hang.
-(function() {
-  if (window.location.pathname !== '/book') return;
-  var openBooking = function () {
-    try { navigate('photos'); } catch (e) {}
-    photosReady.then(function () {
-      var landing = document.getElementById('landing');
-      if (landing) { landing.classList.add('hidden', 'gone'); }
-      var page = document.getElementById('photos-page');
-      if (page) {
-        page.classList.remove('gone', 'hidden');
-        page.classList.add('page-enter');
-        page.style.opacity = '1';
-        page.style.transform = 'none';
-        page.style.pointerEvents = 'auto';
-      }
-      try { setPhotoMode('book'); } catch (e) {}
-      try { addHover('#photos-page .back-btn, #photos-page a'); } catch (e) {}
-    });
-  };
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { setTimeout(openBooking, 50); });
-  } else {
-    setTimeout(openBooking, 50);
-  }
-})();
-
 // ══ PER-ROUTE TITLE + DESCRIPTION ══
 // /, /shop, /photos and /whoami are all served from this one index.html, so
 // without this every route handed Google the SAME <title> and description and
@@ -4445,10 +3945,6 @@ const ROUTE_META = {
   '/photos': [
     'Photography Gallery | Stuart Singleton',
     'The photo archive of Stuart Singleton — Nashville, Brentwood, Europe and the road between. Filter by place, subject and camera, and order any frame as a print.'
-  ],
-  '/book': [
-    'Book a Photo Shoot in Nashville | Stuart Singleton',
-    'Book Stuart Singleton for band press photos ($300), portraits and headshots ($200), or live shows in Nashville. At least 12 finished images, editing included, back in seven days or less. Start with a free 15-minute call.'
   ],
   '/whoami': [
     'About Stuart Singleton — Photographer, Producer & Builder',

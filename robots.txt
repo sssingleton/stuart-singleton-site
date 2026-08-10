@@ -2,7 +2,6 @@ User-agent: *
 Allow: /
 Allow: /shop
 Allow: /photos
-Allow: /book
 Allow: /p
 Allow: /print/
 Allow: /catalog.json
