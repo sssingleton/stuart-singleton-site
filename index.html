@@ -441,6 +441,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .svc-card:hover .svc-card-title { color: #1a1a1a; }
   .svc-card-num { font-family: var(--mono); font-size: 9px; color: #b3aea3; letter-spacing: .18em; margin-bottom: 20px; text-transform: uppercase; }
   .svc-card-price { float: right; font-family: var(--mono); font-size: 9px; color: #8a857c; letter-spacing: .14em; }
+  .svc-was { text-decoration: line-through; color: #c4bfb6; margin-right: 6px; }
+  .svc-now { color: #1a1a1a; }
   .svc-card-title { font-family: var(--display); font-size: 32px; color: #4a4640; letter-spacing: .03em; line-height: 1; margin-bottom: 12px; transition: color .28s; }
   .svc-card-desc { font-family: var(--mono); font-size: 10px; color: #8a857c; line-height: 1.7; letter-spacing: .04em; }
   .svc-card-tags { margin-top: 24px; display: flex; gap: 6px; flex-wrap: wrap; }
@@ -1588,7 +1590,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </a>
 
           <a class="svc-card" id="svc-portrait" href="#" target="_blank" rel="noopener">
-            <div class="svc-card-num">SVC_002<span class="svc-card-price">$200</span></div>
+            <div class="svc-card-num">SVC_002<span class="svc-card-price"><span class="svc-was">$300</span><span class="svc-now">$222</span></span></div>
             <div class="svc-card-title">PORTRAIT</div>
             <div class="svc-card-desc">
               One hour, one location, at least 12 finished images. Editing is included and never
@@ -1604,7 +1606,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </a>
 
           <a class="svc-card" id="svc-band" href="#" target="_blank" rel="noopener">
-            <div class="svc-card-num">SVC_003<span class="svc-card-price">$300</span></div>
+            <div class="svc-card-num">SVC_003<span class="svc-card-price"><span class="svc-was">$400</span><span class="svc-now">$333</span></span></div>
             <div class="svc-card-title">BAND PRESS</div>
             <div class="svc-card-desc">
               Ninety minutes, one or two locations, at least 12 finished images. I don't
@@ -2475,19 +2477,23 @@ const BOOKING_SERVICES = {
   },
   portrait: {
     id: 'svc-portrait', service: 'portrait', label: 'Portrait session',
-    total: 20000, people: 1,
+    // On sale from $300. Retainer is set explicitly rather than halved, because
+    // half of an odd sale price lands on cents nobody wants on an invoice.
+    total: 22200, retainer: 11100, listPrice: 30000, people: 1,
     clause1: 'One hour, one location, and <b>at least 12 finished images</b> edited and '
       + 'color-corrected, in web and print sizes, back to you in <b>seven days or less</b>. '
       + 'Editing is included and never billed separately. Images are selected by Stuart from the full take.',
-    terms: 'Retainer <b>$100</b> · balance $100 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
+    terms: '<b>$222</b> <span style="text-decoration:line-through;color:#c4bfb6">$300</span> · retainer $111, balance $111 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
   },
   band: {
     id: 'svc-band', service: 'band', label: 'Band press photos',
-    total: 30000, people: 4,
+    // On sale from $400. $166.50 is exactly half of $333 — rounded up to $167 so
+    // the retainer link and the balance are both whole dollars.
+    total: 33300, retainer: 16700, listPrice: 40000, people: 4,
     clause1: '90 minutes, one or two locations, and <b>at least 12 finished images</b> edited and '
       + 'color-corrected, in web and print sizes, back to you in <b>seven days or less</b>. '
       + 'Editing is included and never billed separately. Images are selected by Stuart from the full take.',
-    terms: 'Retainer <b>$150</b> · balance $150 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
+    terms: '<b>$333</b> <span style="text-decoration:line-through;color:#c4bfb6">$400</span> · retainer $167, balance $166 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
   }
 };
 
@@ -2688,7 +2694,7 @@ function wireBookingForm() {
           location: d.loc || null,
           notes: d.people ? d.people + ' people' : null,
           quoted_total_cents: bookingSvc.total || null,
-          retainer_cents: bookingSvc.total ? Math.round(bookingSvc.total / 2) : null,
+          retainer_cents: bookingSvc.retainer || (bookingSvc.total ? Math.round(bookingSvc.total / 2) : null),
           acceptance_id: acceptanceId
         });
       })
@@ -4522,7 +4528,7 @@ const ROUTE_META = {
   ],
   '/book': [
     'Book a Photo Shoot in Nashville | Stuart Singleton',
-    'Book Stuart Singleton for band press photos ($300), portraits and headshots ($200), or live shows in Nashville. At least 12 finished images, editing included, back in seven days or less. Start with a free 15-minute call.'
+    'Book Stuart Singleton for band press photos ($333, was $400), portraits and headshots ($222, was $300), or live shows in Nashville. At least 12 finished images, editing included, back in seven days or less. Start with a free 15-minute call.'
   ],
   '/whoami': [
     'About Stuart Singleton — Photographer, Producer & Builder',
