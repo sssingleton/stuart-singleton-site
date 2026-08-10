@@ -1676,12 +1676,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </ul>
               <p>Credit, "Photo by Stuart Singleton", where the format reasonably allows.</p>
               <h4>5. What Stuart can do with them</h4>
-              <p>Everyone appearing who <b>signs the release at the shoot</b> grants Stuart the right to use their name, likeness and image for his portfolio and social media, self-promotion, <b>sale as fine-art prints</b>, and inclusion in <b>photography books and exhibitions</b>. Anyone who doesn't sign is portfolio-only, never prints, books or advertising.</p>
-              <p>If there's an image you'd rather he didn't publish or sell, say so in writing within 14 days of delivery and it's withheld. Silence is agreement.</p>
+              <p>Everyone appearing who <b>signs the release at the shoot</b> grants Stuart the right to use their name, likeness and image <b>to show and promote his own photography work</b> — his portfolio, website and social media, advertising and pitch materials for his photography services, and entry into awards or features about his work.</p>
+              <p><b>He doesn't sell these images.</b> They're not offered as prints, not licensed to anyone else, and not put in any book, product or exhibition that's for sale. Any of that would need your separate written permission and would be worked out at the time.</p>
+              <p>Anyone who doesn't sign isn't used at all — those frames stay in his private archive. And if there's an image you'd rather he didn't publish, say so in writing within 14 days of delivery and it's withheld. Silence is agreement.</p>
               <h4>6. Rescheduling and cancellation</h4>
               <p>Either side may reschedule once at no cost with 48 hours' notice, retainer intact. If you cancel or don't show, the retainer is retained. Weather or anything outside either side's control reschedules at no cost. Stuart may end a session on an unsafe set.</p>
               <h4>7. Accepting online</h4>
-              <p>Checking the box below has the same effect as signing. The complete text of this agreement exactly as shown here, your name and email, and the date, time and IP of acceptance are recorded and emailed to you. <b>Online acceptance doesn't grant likeness rights for anyone</b>, those come from the release signed at the shoot. Submitting a request is not a booking. Stuart confirms the date before any payment is requested.</p>
+              <p>Checking the box below has the same effect as signing. The complete text of this agreement exactly as shown here, your name and email, and the date, time and IP of acceptance are recorded. <b>Ask for a copy at any time and it will be sent to you.</b> <b>Online acceptance doesn't grant likeness rights for anyone</b>, those come from the release signed at the shoot. Submitting a request is not a booking. Stuart confirms the date before any payment is requested.</p>
               <h4>8. The necessary part</h4>
               <p>Stuart's liability is limited to amounts actually paid, with indirect and lost-profit damages excluded. If he can't deliver, the remedy is a reshoot or a refund, your choice. You confirm you can grant permission for everyone appearing and that no permit or clearance is needed unless you've said otherwise, and you'll cover Stuart if that turns out untrue. Unpaid balances accrue 1.5% a month or the Tennessee maximum, whichever is less, plus collection costs. Governed by Tennessee law, venue in Davidson County.</p>
             </div>
@@ -2675,8 +2676,9 @@ function wireBookingForm() {
               ? 'If it works, I\'ll send a retainer link. The retainer is what secures the date.\n\n'
               : '')
           + (needsAgreement
-              ? 'A copy of the agreement you accepted is on its way to ' + d.email + '.'
-              : 'Nothing to sign for a call — I\'ll just email you a time.');
+              ? 'Your acceptance of the agreement is on file, timestamped. Want a copy? Reply to my\n'
+                + 'email or write to hello@stuartsingleton.com and I\'ll send it over.'
+              : 'Nothing to sign for a call.');
       })
       .catch(function (err) {
         send.disabled = false;
