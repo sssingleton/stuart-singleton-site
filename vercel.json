@@ -16,6 +16,8 @@
     { "source": "/photos", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/photos.html" },
     { "source": "/photos", "destination": "/index.html" },
 
+    { "source": "/book", "destination": "/index.html" },
+
     { "source": "/whoami", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/whoami.html" },
     { "source": "/whoami", "destination": "/index.html" },
 
