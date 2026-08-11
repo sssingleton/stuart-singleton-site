@@ -10,6 +10,15 @@ Pulled/deployed 2026-06-15 via Supabase MCP (project zbcdeglxwrappriwpxwt).
 - generate-bordered — one-shot helper (list/upslot/row/reset). Used to generate
   41 ratio-preserving white-border variants. Safe to retire.
 
+- send-booking-emails **v2** — deployed 2026-08-10. Branding only: the client
+  and owner emails now use the /book paper palette (#f6f5f2 sheet on #efeee9,
+  #d8d5cd hairlines, Bebas hero, Share Tech Mono labels, DM Sans body) in a
+  table layout that survives Outlook. Data, guards, idempotency and send order
+  are unchanged from v1. `verify_jwt` stays OFF.
+  - `send-booking-emails.v1.ts` — pre-branding snapshot, restorable as-is.
+  - `send-booking-emails.v2.ts` — what is live now.
+  - Previews: `_booking_build/email-preview-{client,owner,call}.html`.
+
 ⚠️ These deployed fns are the source of truth; pull via MCP get_edge_function
 before any redeploy. stripe-webhook.v20.ts in this folder is the PRE-borders
 snapshot (kept for diff).
