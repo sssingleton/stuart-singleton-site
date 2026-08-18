@@ -1368,7 +1368,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="cart-foot" id="cart-foot" style="display:none;">
       <div class="cart-subtotal"><span>Subtotal · <span style="color:#3a7a3a">free shipping</span></span><strong id="cart-subtotal-amt">$0</strong></div>
       <p class="ship-limit-note" id="cart-ship-note" style="display:none;">
-        Your cart has a framed print, which ships to the US and UK only.
+        Your cart has a framed print, which ships across the US, UK and Europe but not
+        to Canada, Australia, New Zealand, Japan or Iceland.
         Somewhere else? <button type="button" onclick="askAboutShipping('framed')" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Message me</button>
         and I'll work it out with you.
       </p>
@@ -1410,10 +1411,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <button class="print-frame-btn" data-color="natural" onclick="selectFrame(this)">Natural</button>
         </div>
         <p class="ship-limit-note">
-          Framed prints ship to the US and UK only — couriers charge more than the frame
-          is worth anywhere else. Somewhere else and you really want one?
+          Framed prints ship across the US, UK and Europe, but not to Canada, Australia,
+          New Zealand, Japan or Iceland — couriers charge more to fly a frame there than
+          the frame is worth. One of those and you really want one?
           <button type="button" onclick="askAboutShipping('framed')" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Message me</button>
-          and I'll work it out with you. Unframed prints ship worldwide.
+          and I'll work it out with you. Unframed prints ship to every country listed at checkout.
         </p>
       </div>
       <!-- border finish (shown only when a white-border asset exists) -->
@@ -3993,10 +3995,17 @@ function navigate(dest) {
   if (dest==='music') {
     const tr=document.getElementById('music-transition'); tr.classList.add('active'); showPage('music-page',500);
     setTimeout(()=>{tr.classList.remove('active');tr.classList.add('done');},510); setTimeout(()=>tr.classList.remove('done'),1100);
-  } else if (dest==='photos' || dest==='shop') {
+  } else if (dest==='photos' || dest==='shop' || dest==='book') {
     const tr=document.getElementById('photos-transition'); tr.classList.add('active'); showPage('photos-page',500);
     setTimeout(()=>{tr.classList.remove('active');tr.classList.add('done');},510); setTimeout(()=>tr.classList.remove('done'),1100);
-    setTimeout(()=>setShopMode(dest==='shop'), 520);
+    // This timer is the last word on which mode the photos page lands in, so it has
+    // to know about every mode. It used to only understand shop-vs-gallery, which
+    // meant a /book cold load (which called navigate('photos')) had its booking mode
+    // silently overwritten with the gallery 520ms later — and because the deep-link
+    // handler waits on photosReady, whichever finished last won. On a fast connection
+    // photos arrived first, so /book lost the race, rewrote the URL to /photos and
+    // showed the gallery to someone who clicked "book a shoot".
+    setTimeout(()=>setPhotoMode(dest==='shop' ? 'shop' : dest==='book' ? 'book' : 'gallery'), 520);
   } else if (dest==='lab') {
     const tr=document.getElementById('lab-transition'); let f=0;
     const flash=()=>{tr.classList.add('active');setTimeout(()=>{tr.classList.remove('active');if(++f<3){setTimeout(flash,80);return;}setTimeout(()=>{landing.classList.add('hidden');const page=document.getElementById('lab-page');page.classList.remove('gone');startMatrix();requestAnimationFrame(()=>requestAnimationFrame(()=>{page.classList.remove('hidden');page.classList.add('page-enter');}));},100);},55);};
@@ -4536,7 +4545,8 @@ function applyProductSeo(photo) {
 (function() {
   if (window.location.pathname !== '/book') return;
   var openBooking = function () {
-    try { navigate('photos'); } catch (e) {}
+    // navigate('book'), not navigate('photos') — see the mode timer in navigate().
+    try { navigate('book'); } catch (e) {}
     photosReady.then(function () {
       var landing = document.getElementById('landing');
       if (landing) { landing.classList.add('hidden', 'gone'); }

@@ -247,7 +247,79 @@ async function fetchCatalog() {
     };
   });
 
+  numberDuplicateTitles(items);
+
   return { site: SITE, items, generatedAt: new Date().toISOString() };
+}
+
+// titleForPhoto() names a photo from its first three meaningful tags, so any two
+// photos shot in the same place with the same tags get byte-identical titles AND
+// descriptions. Measured 2026-08-18: 96 of 144 print pages collided, in 32 groups,
+// with "Paris / Europe / France" and "JFK / New York / Hotels" eight deep each.
+// Google picks one page per group and suppresses the rest, so two thirds of the
+// catalog was competing with itself.
+//
+// Fine art numbers its editions, so the fix is the convention rather than an
+// invention: the first photo in a colliding group keeps the bare title, the rest
+// become "No. 2", "No. 3". Ordered by photo id so the numbering is stable across
+// regenerations — a title must never shuffle between two builds.
+//
+// Slugs are deliberately untouched. They already carry the photo id
+// (beaulieu-sur-mer-europe-france-345), so every URL and canonical stays exactly
+// as indexed today: no redirects, no churn, only the title and description move.
+function numberDuplicateTitles(items) {
+  // Pass 1 — titles.
+  numberBy(items, it => it.title, (it, n) => {
+    it.seriesNo = n;
+    it.title += ` No. ${n}`;
+    // The description is generated from the same tags and collides identically,
+    // so it has to carry the number too or the SERP snippet is still a duplicate.
+    if (it.sentence) it.sentence += ` No. ${n}`;
+    if (it.description) it.description += ` No. ${n}`;
+  });
+
+  // Pass 2 — descriptions that STILL collide.
+  // Titles and descriptions are built from the same tags by different rules, so
+  // they do not collide in lockstep: "Dark / Nashville" and "Nashville / Dark" are
+  // two distinct titles that both describe as "Photograph of Dark in Nashville".
+  // Pass 1 never sees those because the titles already differ. Measured after
+  // pass 1: 0 duplicate titles, 11 duplicate descriptions still standing.
+  //
+  // 🔴 This is a uniqueness sweep, NOT another group-and-number pass, and the
+  // difference is load-bearing. Grouping here collided with pass 1's own output:
+  // an item numbered "No. 2" by its title group and a different item numbered
+  // "No. 2" by its description group ended up byte-identical, which left 6
+  // duplicates behind while appearing to work. Checking each result against
+  // everything already emitted is the only version that actually terminates unique.
+  const seen = new Set();
+  for (const it of [...items].sort((a, b) => Number(a.id) - Number(b.id))) {
+    const base = it.sentence || it.description;
+    if (!base) continue;
+    if (!seen.has(base)) { seen.add(base); continue; }
+    let n = 2;
+    while (seen.has(`${base} No. ${n}`)) n++;
+    seen.add(`${base} No. ${n}`);
+    if (it.sentence) it.sentence += ` No. ${n}`;
+    if (it.description) it.description += ` No. ${n}`;
+  }
+}
+
+// Groups by `key`, and for any group of 2+ leaves the first alone and calls
+// `mark` on the rest with 2, 3, ... Sorted by photo id so numbering is stable
+// across regenerations — a title must never shuffle between two builds.
+function numberBy(items, key, mark) {
+  const groups = new Map();
+  for (const it of items) {
+    const k = key(it);
+    if (!k) continue;
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(it);
+  }
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+    group.sort((a, b) => Number(a.id) - Number(b.id));
+    group.forEach((it, i) => { if (i > 0) mark(it, i + 1); });
+  }
 }
 
 module.exports = {
