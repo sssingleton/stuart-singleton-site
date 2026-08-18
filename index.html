@@ -117,15 +117,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --sans: 'DM Sans', sans-serif;
     --pad: clamp(36px, 7vw, 72px);
   }
-  /* overscroll-behavior-y: none kills pull-to-refresh and the document rubber-band.
-     Nothing is lost: the document never scrolls here — every page scrolls inside its
-     own .page-inner — so the only thing the document's overscroll could do was fire
-     the browser's refresh gesture. It became obvious once the booking agreement moved
-     into a sheet: that took ~2,700px out of the page, so the top is now easy to reach
-     and a pull up at the top reloaded the page mid-form.
-     Note this is deliberately NOT a fix for the pinned URL bar, which is a known and
-     accepted trade of the page-transition animation. */
-  html, body { width: 100%; height: 100%; overflow: hidden; overscroll-behavior-y: none; background: #050505; color: #fff; cursor: none; }
+  /* 🔴 DO NOT add overscroll-behavior here to kill pull-to-refresh.
+     Tried 2026-08-18 (`overscroll-behavior-y: none` here + `contain` on .page-inner)
+     and it stopped scrolling entirely on Stuart's iPhone. It tested clean headlessly —
+     the computed values were right on all five routes and programmatic scrolling still
+     worked — because a scroll set via scrollTop is not a touch gesture, which is the
+     only thing that was actually broken. Reverted the same day.
+     Pull-to-refresh is the lesser bug and it is staying until there is a fix that can
+     be tried on a real phone before it ships. */
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #050505; color: #fff; cursor: none; }
 
   /* CURSOR */
   #cursor {
@@ -282,10 +282,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     overflow-y: auto; overflow-x: hidden;
     display: flex; flex-direction: column;
     -webkit-overflow-scrolling: touch;
-    /* Belt to the body's braces: stop a flick past the top or bottom of a page from
-       chaining out to the document at all, rather than relying on the document to
-       refuse it afterwards. */
-    overscroll-behavior-y: contain;
+    /* 🔴 No overscroll-behavior here either — see the note on html, body.
+       `contain` alongside -webkit-overflow-scrolling: touch is the combination that
+       killed touch scrolling on iOS. */
     scrollbar-width: none;
   }
   .page-inner::-webkit-scrollbar { display: none; }
@@ -2774,6 +2773,11 @@ function wireBookingForm() {
   let lockedEl = null, lockedPrev = '';
   function openSheet() {
     if (!sheet) return;
+    // Idempotent. Without this guard a second open before a close would capture
+    // 'hidden' as the value to restore, and closing would then put the page back
+    // into a locked state permanently — indistinguishable, from the outside, from
+    // "the page won't scroll".
+    if (sheet.classList.contains('open')) return;
     lockedEl = document.querySelector('#photos-page .page-inner');
     if (lockedEl) { lockedPrev = lockedEl.style.overflowY; lockedEl.style.overflowY = 'hidden'; }
     sheet.classList.add('open');
