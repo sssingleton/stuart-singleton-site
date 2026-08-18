@@ -117,7 +117,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --sans: 'DM Sans', sans-serif;
     --pad: clamp(36px, 7vw, 72px);
   }
-  html, body { width: 100%; height: 100%; overflow: hidden; background: #050505; color: #fff; cursor: none; }
+  /* ONE VARIABLE — pull-to-refresh, attempt 2 of 2 (2026-08-18).
+     Attempt 1 (c8faa96) changed TWO things at once: `none` here AND `contain` on
+     .page-inner. Scrolling broke, and because both moved together there was no way to
+     tell which did it, so both were reverted and the fix went with the bug.
+     This is `contain`, not `none`, and ONLY on html/body — .page-inner is deliberately
+     untouched, so this cannot interact with its -webkit-overflow-scrolling: touch.
+     `contain` blocks the gesture chaining out to the browser (which is what fires the
+     refresh) while still permitting normal scrolling inside the page.
+     🔴 If scrolling breaks again, this single line is the whole change — delete it. */
+  html, body { width: 100%; height: 100%; overflow: hidden; overscroll-behavior-y: contain; background: #050505; color: #fff; cursor: none; }
 
   /* CURSOR */
   #cursor {
