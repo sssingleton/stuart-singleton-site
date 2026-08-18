@@ -117,14 +117,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --sans: 'DM Sans', sans-serif;
     --pad: clamp(36px, 7vw, 72px);
   }
-  /* 🔴 DO NOT add overscroll-behavior here to kill pull-to-refresh.
-     Tried 2026-08-18 (`overscroll-behavior-y: none` here + `contain` on .page-inner)
-     and it stopped scrolling entirely on Stuart's iPhone. It tested clean headlessly —
-     the computed values were right on all five routes and programmatic scrolling still
-     worked — because a scroll set via scrollTop is not a touch gesture, which is the
-     only thing that was actually broken. Reverted the same day.
-     Pull-to-refresh is the lesser bug and it is staying until there is a fix that can
-     be tried on a real phone before it ships. */
   html, body { width: 100%; height: 100%; overflow: hidden; background: #050505; color: #fff; cursor: none; }
 
   /* CURSOR */
@@ -282,9 +274,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     overflow-y: auto; overflow-x: hidden;
     display: flex; flex-direction: column;
     -webkit-overflow-scrolling: touch;
-    /* 🔴 No overscroll-behavior here either — see the note on html, body.
-       `contain` alongside -webkit-overflow-scrolling: touch is the combination that
-       killed touch scrolling on iOS. */
     scrollbar-width: none;
   }
   .page-inner::-webkit-scrollbar { display: none; }
@@ -487,79 +476,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bk-add[disabled] { opacity: .4; }
   .bk-flex { display: flex; align-items: center; gap: 9px; margin-top: 14px; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: #8a857c; text-transform: uppercase; cursor: none; }
   .bk-flex input { width: 14px; height: 14px; flex: 0 0 14px; accent-color: #1a1a1a; }
-  /* The agreement no longer scrolls itself — it sits at natural height inside
-     #agreement-sheet, and the SHEET is the scroller. One scrolling thing, at every
-     width. The old 260px box was unusable on a phone and, once the media query fixed
-     portrait only, still came back in landscape at 67% of the screen. */
-  .bk-doc { font-family: var(--sans); font-size: 14px; line-height: 1.8; color: #4a4640; }
+  /* Nested scroller. overscroll-behavior:contain stops the gesture handing off to
+     .page-inner the instant this box bottoms out, which is what made the page feel
+     like it was fighting back. Unwrapped entirely on phones — see the 600px block. */
+  .bk-doc { max-height: 260px; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; border: 1px solid #d8d5cd; padding: 20px 22px; background: #fbfaf8; font-family: var(--sans); font-size: 12px; line-height: 1.75; color: #4a4640; }
   #bk-doc-end { height: 1px; }
-
-  /* summary + entry point, shown in the form where the box used to be */
-  .bk-preface { font-family: var(--sans); font-size: 13px; line-height: 1.7; color: #4a4640; border: 1px solid #d8d5cd; border-bottom: none; background: #fbfaf8; padding: 18px 20px 14px; }
-  .bk-preface p { margin: 0 0 10px; }
-  .bk-preface ul { margin: 0 0 10px; padding-left: 18px; }
-  .bk-preface li { margin: 0 0 7px; }
-  .bk-preface-note { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #b3aea3; margin: 12px 0 0 !important; }
-  .bk-open-doc { display: block; width: 100%; font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 17px 20px; background: #f6f5f2; border: 1px solid #1a1a1a; color: #1a1a1a; cursor: none; transition: background .2s, color .2s; }
-  .bk-open-doc:hover { background: #1a1a1a; color: #f6f5f2; }
-  .bk-agree-status { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #b3aea3; margin-top: 10px; }
-  .bk-agree-status.done { color: #3a7a3a; }
-
-  /* ── THE SHEET ──
-     Fixed to the viewport, so the page behind it cannot scroll and there is exactly
-     one scroller on screen: .sheet-body. overscroll-behavior:contain stops a flick at
-     the end of the text from chaining into whatever is underneath. */
-  #agreement-sheet {
-    position: fixed; inset: 0; z-index: 970;
-    background: #f6f5f2; display: flex; flex-direction: column;
-    opacity: 0; pointer-events: none; transition: opacity .22s;
-  }
-  #agreement-sheet.open { opacity: 1; pointer-events: auto; }
-  .sheet-head {
-    flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; padding: 18px 22px; border-bottom: 1px solid #d8d5cd; background: #f6f5f2;
-    font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #1a1a1a;
-  }
-  .sheet-head button {
-    font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
-    background: none; border: none; color: #8a857c; cursor: none; padding: 8px 0; transition: color .2s;
-  }
-  .sheet-head button:hover { color: #1a1a1a; }
-  .sheet-body {
-    flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
-    padding: 24px 22px 32px;
-  }
-  .sheet-foot {
-    flex: 0 0 auto; border-top: 1px solid #d8d5cd; background: #f6f5f2; padding: 16px 22px;
-    padding-bottom: calc(16px + env(safe-area-inset-bottom));
-  }
-  .sheet-foot .bk-hint { margin: 0 0 10px; }
-  .sheet-foot .bk-agree { margin-top: 0; }
-  .sheet-accept {
-    display: block; width: 100%; margin-top: 14px;
-    font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
-    padding: 17px 20px; background: transparent; border: 1px solid #d8d5cd; color: #b3aea3; cursor: none; transition: all .2s;
-  }
-  .sheet-accept:not([disabled]) { border-color: #1a1a1a; color: #1a1a1a; }
-  .sheet-accept:not([disabled]):hover { background: #1a1a1a; color: #f6f5f2; }
-
-  /* Short viewports — a phone held sideways is ~390px tall, and at the default
-     paddings the head and foot ate 197px of it, leaving under 200px to read a
-     two-page contract through. Trim the chrome so the text keeps the screen.
-     The tap targets stay above 44px; only the padding around them shrinks. */
-  @media (max-height: 520px) {
-    .sheet-head { padding: 12px 18px; }
-    .sheet-body { padding: 16px 18px 22px; }
-    .sheet-foot { padding: 10px 18px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
-    .sheet-foot .bk-hint { margin-bottom: 6px; }
-    .sheet-foot .bk-agree { font-size: 11px; line-height: 1.45; }
-    /* min-height, not padding — trimming padding to reclaim vertical space took this
-       to 41px, under the 44px touch minimum, on the exact screen it was meant to help. */
-    .sheet-accept { margin-top: 9px; padding: 13px 20px; min-height: 46px; }
-    /* Once the gate is open the instruction has done its job and the checkbox
-       label repeats it — reclaim the line rather than scrolling past it. */
-    .sheet-foot .bk-hint.done { display: none; }
-  }
   .bk-doc h4 { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #1a1a1a; margin: 18px 0 6px; }
   .bk-doc h4:first-child { margin-top: 0; }
   .bk-doc p, .bk-doc li { margin: 0 0 8px; }
@@ -1152,13 +1073,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .shop-card-buy { padding: 9px 0; }            /* taller tap target */
     .shop-head { margin-bottom: 22px; padding-bottom: 16px; }
 
-    /* ── BOOKING on mobile ──
-       The agreement's own scroll box is gone at every width now (see #agreement-sheet),
-       so there is no .bk-doc override here any more. Un-nesting it only under 600px was
-       the bug in the first fix: a phone in landscape is 844px wide, so it took the
-       desktop path and got a 260px box inside a 390px-tall screen.
+    /* ── BOOKING on mobile: the agreement stops being a nested scroller ──
+       Measured on a 390x664 phone: the 260px window held 2,395px of contract,
+       so 39% of the screen was a peephole needing about ten separate flicks,
+       and iOS locks a touch gesture to whichever scroller it starts on. The
+       page under it could not move while your thumb was over it, and the
+       momentum died at the box's end instead of carrying on. That is the whole
+       "scroll is weird" report. Let the agreement flow in the page instead —
+       one scroller, working momentum, and a contract that is more conspicuous
+       rather than less, which is the direction clickwrap wants anyway. */
+    .bk-doc { max-height: none; overflow: visible; font-size: 13px; line-height: 1.8; padding: 22px 18px; }
 
-       Tap targets. The checkbox was 15px and it is the one control standing
+    /* Tap targets. The checkbox was 15px and it is the one control standing
        between a reader and a booking. */
     .bk-agree { align-items: center; gap: 14px; margin-top: 20px; }
     .bk-agree input { width: 24px; height: 24px; flex: 0 0 24px; margin-top: 0; }
@@ -1430,22 +1356,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <button id="cart-fab" onclick="openCart()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
   <span>Cart</span><span class="cart-fab-count" id="cart-fab-count">0</span>
 </button>
-
-<!-- SHOOT AGREEMENT SHEET
-     Lives at body level on purpose. #photos-page animates `transform` on its children,
-     and a transformed ancestor makes position:fixed resolve against that ancestor
-     instead of the viewport, which would put this sheet back inside the very scroller
-     it exists to escape. #bk-doc, #bk-hint and #bk-agree-row are MOVED in here at wire
-     time rather than duplicated, so every existing reference (and the innerText capture
-     that is the legal record) keeps pointing at the same nodes. -->
-<div id="agreement-sheet" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="agreement-sheet-title">
-  <div class="sheet-head">
-    <span id="agreement-sheet-title">Shoot agreement</span>
-    <button type="button" id="agreement-sheet-close" aria-label="Close agreement" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Close ✕</button>
-  </div>
-  <div class="sheet-body" id="agreement-sheet-body"></div>
-  <div class="sheet-foot" id="agreement-sheet-foot"></div>
-</div>
 
 <!-- CART MODAL -->
 <div id="cart-modal">
@@ -1776,25 +1686,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <div id="bk-agreement-block">
             <div class="bk-sec">Shoot agreement</div>
-            <!-- The agreement itself lives in #agreement-sheet at the bottom of <body>, not here.
-                 A scroll box nested inside the page scroller is unusable on a phone: iOS locks the
-                 gesture to whichever scroller it starts on, so the page cannot move while a thumb
-                 is over the contract and the momentum dies at the box's end. Un-nesting it inline
-                 fixed portrait and left landscape and tablets untouched, where the box came back at
-                 67% of a 390px-tall screen. A sheet is the only shape where exactly one thing
-                 scrolls at every width. -->
-            <div class="bk-preface">
-              <p>The full agreement is two pages. The short version, which the agreement says properly:</p>
-              <ul>
-                <li><b>A 50% retainer secures the date</b>, and the date is not held until it clears. It is not refundable if you cancel, because the date comes off the calendar.</li>
-                <li><b>Rescheduling once with 48 hours' notice is not cancelling</b> and the retainer carries over. If Stuart cancels, it is refunded in full.</li>
-                <li><b>Stuart owns the copyright; you get a broad licence</b> for press, socials, your site, streaming art and your own release packaging.</li>
-                <li><b>He does not sell your photos.</b> They promote his own work only, and only for people who sign the release at the shoot.</li>
-              </ul>
-              <p class="bk-preface-note">Read it in full before you can send the request. It takes a minute.</p>
-            </div>
-            <button type="button" class="bk-open-doc" id="bk-open-doc">Read the full agreement →</button>
-            <div class="bk-agree-status" id="bk-agree-status">Not read yet</div>
             <div class="bk-doc" id="bk-doc">
               <h4>1. What you get</h4>
               <p id="bk-clause1"></p>
@@ -2719,7 +2610,6 @@ function wireBookingForm() {
   const LABELS = ['First choice','Second choice','Third choice','Fourth','Fifth','Sixth',
                   'Seventh','Eighth','Ninth','Tenth'];
   let read = false;
-  let acceptedAgreementText = null;
 
   // Scroll gate: conspicuous notice plus affirmative assent is what makes clickwrap
   // enforceable. The checkbox stays disabled until the agreement is read to the end.
@@ -2730,95 +2620,14 @@ function wireBookingForm() {
     row.classList.add('on');
     hint.textContent = 'Agreement read in full ✓';
     hint.classList.add('done');
-    const acceptBtn = document.getElementById('bk-accept');
-    if (acceptBtn) { acceptBtn.disabled = false; acceptBtn.textContent = 'I agree — close and continue'; }
-    // Capture the text while the sheet is open and rendered. innerText depends on
-    // layout, so reading it from a closed sheet would return a differently-shaped
-    // string than the one on screen — and the stored text is the legal record.
-    try {
-      const el = document.getElementById('bk-doc');
-      const t = (el.innerText || el.textContent || '').replace(/\s+\n/g, '\n').trim();
-      if (t.length > 400) acceptedAgreementText = t;
-    } catch (e) {}
-    if (typeof syncStatus === 'function') syncStatus();
   }
 
-  // ── Move the agreement into the sheet ──
-  // Moved, not copied. Every reference above (doc, hint, row, cb) keeps pointing at
-  // the same nodes, and so does the innerText capture at submit that IS the legal
-  // record — a duplicate would risk storing text the reader never saw.
-  const sheet = document.getElementById('agreement-sheet');
-  const sheetBody = document.getElementById('agreement-sheet-body');
-  const sheetFoot = document.getElementById('agreement-sheet-foot');
-  const openBtn = document.getElementById('bk-open-doc');
-  const status = document.getElementById('bk-agree-status');
-  const accept = document.createElement('button');
-  accept.type = 'button';
-  accept.className = 'sheet-accept';
-  accept.id = 'bk-accept';
-  accept.disabled = true;
-  accept.textContent = 'Read to the end to continue';
-
-  if (sheetBody && sheetFoot) {
-    sheetBody.appendChild(doc);      // the contract
-    sheetFoot.appendChild(hint);     // "scroll to the end…"
-    sheetFoot.appendChild(row);      // the checkbox + its label
-    sheetFoot.appendChild(accept);
-  }
-
-  // The page behind must not scroll while the sheet is open. Everything scrolls
-  // inside .page-inner here rather than the document, so locking the document
-  // would do nothing — lock that element instead, and restore exactly what was
-  // there rather than assuming a value.
-  let lockedEl = null, lockedPrev = '';
-  function openSheet() {
-    if (!sheet) return;
-    // Idempotent. Without this guard a second open before a close would capture
-    // 'hidden' as the value to restore, and closing would then put the page back
-    // into a locked state permanently — indistinguishable, from the outside, from
-    // "the page won't scroll".
-    if (sheet.classList.contains('open')) return;
-    lockedEl = document.querySelector('#photos-page .page-inner');
-    if (lockedEl) { lockedPrev = lockedEl.style.overflowY; lockedEl.style.overflowY = 'hidden'; }
-    sheet.classList.add('open');
-    sheet.setAttribute('aria-hidden', 'false');
-    sheetBody.scrollTop = 0;         // always start at clause 1, never mid-contract
-    try { accept.focus({ preventScroll: true }); } catch (e) {}
-  }
-  function closeSheet() {
-    if (!sheet) return;
-    sheet.classList.remove('open');
-    sheet.setAttribute('aria-hidden', 'true');
-    if (lockedEl) { lockedEl.style.overflowY = lockedPrev; lockedEl = null; }
-  }
-  if (openBtn) openBtn.addEventListener('click', openSheet);
-  const closeBtn = document.getElementById('agreement-sheet-close');
-  if (closeBtn) closeBtn.addEventListener('click', closeSheet);
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && sheet && sheet.classList.contains('open')) closeSheet();
-  });
-
-  // Accepting happens inside the sheet, next to the text, which is the stronger
-  // position for a clickwrap than a checkbox on a form whose contract is hidden.
-  accept.addEventListener('click', function () {
-    if (accept.disabled) return;
-    cb.checked = true;
-    cb.dispatchEvent(new Event('change'));
-    closeSheet();
-  });
-
-  function syncStatus() {
-    if (!status) return;
-    status.textContent = cb.checked ? 'Agreement accepted ✓' : (read ? 'Read. Not accepted yet.' : 'Not read yet');
-    status.classList.toggle('done', !!cb.checked);
-  }
-  cb.addEventListener('change', syncStatus);
-
-  // The gate watches a 1px sentinel at the end of the agreement rather than any
-  // element's scrollTop. IntersectionObserver clips against every ancestor between
-  // target and root, so it answers "has the end been reached" no matter which
-  // element is doing the scrolling — which is what let the box, the inline layout
-  // and now the sheet all share one implementation.
+  // The gate watches a sentinel at the end of the agreement rather than the box's
+  // own scrollTop, because on phones there is no box — the agreement flows inline
+  // and the page is the only scroller. IntersectionObserver clips against every
+  // ancestor between target and root, so the same observer answers "has the end
+  // been reached" for the desktop 260px window and the mobile full-flow layout
+  // without needing to know which one is live.
   const docEnd = document.getElementById('bk-doc-end');
   const canObserve = !!(docEnd && 'IntersectionObserver' in window);
   if (canObserve) {
@@ -2826,28 +2635,22 @@ function wireBookingForm() {
       for (const e of entries) {
         if (e.isIntersecting) { markRead(); io.disconnect(); return; }
       }
-    }, { root: sheetBody || null, threshold: 0 });
+    }, { threshold: 0 });
     io.observe(docEnd);
   }
 
-  // Fallback for browsers without IntersectionObserver. The sheet body is the
-  // scroller now, so the scroll test has to watch that, not the document.
+  // Kept as the fallback for browsers without IntersectionObserver, and it still
+  // fires first for the desktop box on a fast flick to the bottom.
   function checkScroll() {
     if (read) return;
-    const s = sheetBody || doc;
-    if (s.scrollTop + s.clientHeight >= s.scrollHeight - 8) markRead();
+    if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 8) markRead();
   }
-  if (sheetBody) sheetBody.addEventListener('scroll', checkScroll);
   doc.addEventListener('scroll', checkScroll);
-  // Only shortcut the gate when there is no observer AND the whole agreement is
-  // genuinely visible without scrolling — on a very tall window, say. Measured
-  // against the sheet body, because that is the scroller. Without the !canObserve
-  // guard this hands the gate out for free the moment the box stops scrolling,
-  // which is exactly what it did when the box was first unwrapped.
-  if (!canObserve) {
-    const s = sheetBody || doc;
-    if (s.scrollHeight <= s.clientHeight + 8) markRead();
-  }
+  // When the agreement is not its own scroller — every phone now, and any window
+  // tall enough to show it whole — there is no scroll event coming and this line
+  // would hand out the gate for free. Only shortcut it when there is no observer
+  // to do the work, otherwise the reader is locked out of their own booking.
+  if (!canObserve && doc.scrollHeight <= doc.clientHeight + 8) markRead();
   cb.addEventListener('change', function () { send.disabled = !cb.checked; });
 
   addBtn.addEventListener('click', function () {
@@ -2900,14 +2703,9 @@ function wireBookingForm() {
 
     let text = '';
     if (needsAgreement) {
-      // §7 records the agreement "exactly as shown here". Prefer the copy captured at
-      // the moment the reader reached the end of it, because that is literally what was
-      // on their screen when they assented. Falling back to a live DOM read keeps the
-      // old behaviour, but note innerText is layout-dependent: with the sheet closed it
-      // degrades toward textContent and loses the paragraph breaks, so the captured
-      // copy is the more faithful record, not just the more convenient one.
-      text = acceptedAgreementText
-        || (doc.innerText || doc.textContent || '').replace(/\s+\n/g, '\n').trim();
+      // §7 records the agreement "exactly as shown here", so read it from the DOM at
+      // submit rather than from a stored copy that can drift out of sync.
+      text = (doc.innerText || doc.textContent || '').replace(/\s+\n/g, '\n').trim();
       if (text.length < 500) {
         out.textContent = 'Could not capture the agreement text. Nothing was sent — please reload and try again.';
         return;
