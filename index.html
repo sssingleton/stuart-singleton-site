@@ -476,7 +476,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bk-add[disabled] { opacity: .4; }
   .bk-flex { display: flex; align-items: center; gap: 9px; margin-top: 14px; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: #8a857c; text-transform: uppercase; cursor: none; }
   .bk-flex input { width: 14px; height: 14px; flex: 0 0 14px; accent-color: #1a1a1a; }
-  .bk-doc { max-height: 260px; overflow-y: auto; border: 1px solid #d8d5cd; padding: 20px 22px; background: #fbfaf8; font-family: var(--sans); font-size: 12px; line-height: 1.75; color: #4a4640; }
+  /* Nested scroller. overscroll-behavior:contain stops the gesture handing off to
+     .page-inner the instant this box bottoms out, which is what made the page feel
+     like it was fighting back. Unwrapped entirely on phones — see the 600px block. */
+  .bk-doc { max-height: 260px; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; border: 1px solid #d8d5cd; padding: 20px 22px; background: #fbfaf8; font-family: var(--sans); font-size: 12px; line-height: 1.75; color: #4a4640; }
+  #bk-doc-end { height: 1px; }
   .bk-doc h4 { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #1a1a1a; margin: 18px 0 6px; }
   .bk-doc h4:first-child { margin-top: 0; }
   .bk-doc p, .bk-doc li { margin: 0 0 8px; }
@@ -1068,6 +1072,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .shop-card-price { font-size: 12px; }
     .shop-card-buy { padding: 9px 0; }            /* taller tap target */
     .shop-head { margin-bottom: 22px; padding-bottom: 16px; }
+
+    /* ── BOOKING on mobile: the agreement stops being a nested scroller ──
+       Measured on a 390x664 phone: the 260px window held 2,395px of contract,
+       so 39% of the screen was a peephole needing about ten separate flicks,
+       and iOS locks a touch gesture to whichever scroller it starts on. The
+       page under it could not move while your thumb was over it, and the
+       momentum died at the box's end instead of carrying on. That is the whole
+       "scroll is weird" report. Let the agreement flow in the page instead —
+       one scroller, working momentum, and a contract that is more conspicuous
+       rather than less, which is the direction clickwrap wants anyway. */
+    .bk-doc { max-height: none; overflow: visible; font-size: 13px; line-height: 1.8; padding: 22px 18px; }
+
+    /* Tap targets. The checkbox was 15px and it is the one control standing
+       between a reader and a booking. */
+    .bk-agree { align-items: center; gap: 14px; margin-top: 20px; }
+    .bk-agree input { width: 24px; height: 24px; flex: 0 0 24px; margin-top: 0; }
+    .bk-agree label { padding: 10px 0; }
+    .bk-flex { padding: 10px 0; gap: 12px; }
+    .bk-flex input { width: 20px; height: 20px; flex: 0 0 20px; }
+    .bk-add { padding: 16px 14px; min-height: 46px; }
+    .bk-foot { flex-direction: column; align-items: stretch; gap: 16px; }
+    .bk-send { width: 100%; padding: 17px 22px; }
 
     /* ── PRINT / REQUEST modal on mobile ── */
     #print-modal, #request-modal { align-items: stretch; }
@@ -1687,6 +1713,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <p>Checking the box below has the same effect as signing. The complete text of this agreement exactly as shown here, your name and email, and the date, time and IP of acceptance are recorded, and a copy is emailed to you. <b>Online acceptance doesn't grant likeness rights for anyone</b>, those come from the release signed at the shoot. Submitting a request is not a booking. Stuart confirms the date before any payment is requested.</p>
               <h4>8. The necessary part</h4>
               <p>Stuart's liability is limited to amounts actually paid, with indirect and lost-profit damages excluded. If he can't deliver, the remedy is a reshoot or a refund, your choice. You confirm you can grant permission for everyone appearing and that no permit or clearance is needed unless you've said otherwise, and you'll cover Stuart if that turns out untrue. Unpaid balances accrue 1.5% a month or the Tennessee maximum, whichever is less, plus collection costs. Governed by Tennessee law, venue in Davidson County.</p>
+              <div id="bk-doc-end" aria-hidden="true"></div>
             </div>
             <div class="bk-hint" id="bk-hint">Scroll to the end of the agreement to continue ↓</div>
 
@@ -2584,18 +2611,44 @@ function wireBookingForm() {
 
   // Scroll gate: conspicuous notice plus affirmative assent is what makes clickwrap
   // enforceable. The checkbox stays disabled until the agreement is read to the end.
+  function markRead() {
+    if (read) return;
+    read = true;
+    cb.disabled = false;
+    row.classList.add('on');
+    hint.textContent = 'Agreement read in full ✓';
+    hint.classList.add('done');
+  }
+
+  // The gate watches a sentinel at the end of the agreement rather than the box's
+  // own scrollTop, because on phones there is no box — the agreement flows inline
+  // and the page is the only scroller. IntersectionObserver clips against every
+  // ancestor between target and root, so the same observer answers "has the end
+  // been reached" for the desktop 260px window and the mobile full-flow layout
+  // without needing to know which one is live.
+  const docEnd = document.getElementById('bk-doc-end');
+  const canObserve = !!(docEnd && 'IntersectionObserver' in window);
+  if (canObserve) {
+    const io = new IntersectionObserver(function (entries) {
+      for (const e of entries) {
+        if (e.isIntersecting) { markRead(); io.disconnect(); return; }
+      }
+    }, { threshold: 0 });
+    io.observe(docEnd);
+  }
+
+  // Kept as the fallback for browsers without IntersectionObserver, and it still
+  // fires first for the desktop box on a fast flick to the bottom.
   function checkScroll() {
     if (read) return;
-    if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 8) {
-      read = true;
-      cb.disabled = false;
-      row.classList.add('on');
-      hint.textContent = 'Agreement read in full ✓';
-      hint.classList.add('done');
-    }
+    if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 8) markRead();
   }
   doc.addEventListener('scroll', checkScroll);
-  if (doc.scrollHeight <= doc.clientHeight + 8) checkScroll();
+  // When the agreement is not its own scroller — every phone now, and any window
+  // tall enough to show it whole — there is no scroll event coming and this line
+  // would hand out the gate for free. Only shortcut it when there is no observer
+  // to do the work, otherwise the reader is locked out of their own booking.
+  if (!canObserve && doc.scrollHeight <= doc.clientHeight + 8) markRead();
   cb.addEventListener('change', function () { send.disabled = !cb.checked; });
 
   addBtn.addEventListener('click', function () {
