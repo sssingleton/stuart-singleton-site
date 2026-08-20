@@ -503,7 +503,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Nested scroller. overscroll-behavior:contain stops the gesture handing off to
      .page-inner the instant this box bottoms out, which is what made the page feel
      like it was fighting back. Unwrapped entirely on phones — see the 600px block. */
-  .bk-doc { max-height: 260px; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; border: 1px solid #d8d5cd; padding: 20px 22px; background: #fbfaf8; font-family: var(--sans); font-size: 12px; line-height: 1.75; color: #4a4640; }
+  /* 🔴 NOT a scroller, at any width. The 260px window with its own overflow was the
+     original nested-scroller bug (264, 267) and every attempt to make it behave on
+     iOS failed. It is now plain page flow, hidden behind #bk-expand until asked for.
+     Do not reintroduce max-height/overflow here. */
+  .bk-doc { border: 1px solid #d8d5cd; border-top: none; padding: 22px; background: #fbfaf8; font-family: var(--sans); font-size: 12px; line-height: 1.75; color: #4a4640; }
+  [hidden] { display: none !important; }
+
+  /* The disclosure control. Reads as one bordered unit with the agreement it opens. */
+  .bk-expand {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    width: 100%; text-align: left;
+    font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+    background: #fbfaf8; border: 1px solid #d8d5cd; color: #4a4640;
+    padding: 16px 18px; min-height: 48px; cursor: none; transition: background .2s, color .2s, border-color .2s;
+  }
+  .bk-expand:hover { border-color: #1a1a1a; color: #1a1a1a; }
+  .bk-expand .bk-expand-chev { transition: transform .3s cubic-bezier(.16,1,.3,1); }
+  .bk-expand[aria-expanded="true"] { color: #b3aea3; cursor: default; }
+  .bk-expand[aria-expanded="true"] .bk-expand-chev { transform: rotate(180deg); }
+  .bk-doc-open { animation: bkReveal .45s cubic-bezier(.16,1,.3,1); }
+  @keyframes bkReveal { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .bk-doc-open { animation: none; } }
   #bk-doc-end { height: 1px; }
   .bk-doc h4 { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #1a1a1a; margin: 18px 0 6px; }
   .bk-doc h4:first-child { margin-top: 0; }
@@ -1117,7 +1138,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        "scroll is weird" report. Let the agreement flow in the page instead —
        one scroller, working momentum, and a contract that is more conspicuous
        rather than less, which is the direction clickwrap wants anyway. */
-    .bk-doc { max-height: none; overflow: visible; font-size: 13px; line-height: 1.8; padding: 22px 18px; }
+    /* Typography only. The un-nesting this rule used to do is now unconditional. */
+    .bk-doc { font-size: 13px; line-height: 1.8; padding: 22px 18px; }
 
     /* Tap targets. The checkbox was 15px and it is the one control standing
        between a reader and a booking. */
@@ -1722,7 +1744,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <div id="bk-agreement-block">
             <div class="bk-sec">Shoot agreement</div>
-            <div class="bk-doc" id="bk-doc">
+            <button type="button" class="bk-expand" id="bk-expand" aria-expanded="false" aria-controls="bk-doc">
+              <span id="bk-expand-label">Read the full agreement</span>
+              <span class="bk-expand-chev" aria-hidden="true">↓</span>
+            </button>
+            <div class="bk-doc" id="bk-doc" hidden>
               <h4>1. What you get</h4>
               <p id="bk-clause1"></p>
               <h4>2. What it costs and when it's due</h4>
@@ -1753,7 +1779,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <p>Stuart's liability is limited to amounts actually paid, with indirect and lost-profit damages excluded. If he can't deliver, the remedy is a reshoot or a refund, your choice. You confirm you can grant permission for everyone appearing and that no permit or clearance is needed unless you've said otherwise, and you'll cover Stuart if that turns out untrue. Unpaid balances accrue 1.5% a month or the Tennessee maximum, whichever is less, plus collection costs. Governed by Tennessee law, venue in Davidson County.</p>
               <div id="bk-doc-end" aria-hidden="true"></div>
             </div>
-            <div class="bk-hint" id="bk-hint">Scroll to the end of the agreement to continue ↓</div>
+            <div class="bk-hint" id="bk-hint">Open the agreement and read it through to continue</div>
 
             <div class="bk-agree" id="bk-agree-row">
               <input type="checkbox" id="bk-agree" disabled>
@@ -2689,25 +2715,62 @@ function wireBookingForm() {
   const slotWrap = document.getElementById('bk-slots');
   const LABELS = ['First choice','Second choice','Third choice','Fourth','Fifth','Sixth',
                   'Seventh','Eighth','Ninth','Tenth'];
+  const expandBtn = document.getElementById('bk-expand');
+  const expandLabel = document.getElementById('bk-expand-label');
   let read = false;
+  let expanded = false;
+
+  // 🔴 The legal record, captured the moment the reader reaches the end — while the
+  // agreement is expanded and rendered. `innerText` is layout-dependent and returns
+  // EMPTY for a hidden element, so reading it at submit (as this used to) would come
+  // back blank if the agreement were ever collapsed again, tripping the <500 guard
+  // and killing a real booking. Captured here, used as the fallback at submit.
+  let capturedText = '';
 
   // Scroll gate: conspicuous notice plus affirmative assent is what makes clickwrap
-  // enforceable. The checkbox stays disabled until the agreement is read to the end.
+  // enforceable. The checkbox stays disabled until the agreement has been EXPANDED
+  // and then read to the end.
   function markRead() {
-    if (read) return;
+    // 🔴 Load-bearing. Every previous layout change to this block has found a new way
+    // to hand out the gate for free — 264 opened it by un-nesting the scroller. A
+    // collapsed agreement has zero height and clips its own sentinel, so several
+    // paths below can look "satisfied" while nothing has been shown to anyone.
+    // Nothing opens this gate before the reader has opened the agreement.
+    if (!expanded || read) return;
     read = true;
+    capturedText = (doc.innerText || doc.textContent || '').replace(/\s+\n/g, '\n').trim();
     cb.disabled = false;
     row.classList.add('on');
     hint.textContent = 'Agreement read in full ✓';
     hint.classList.add('done');
   }
 
-  // The gate watches a sentinel at the end of the agreement rather than the box's
-  // own scrollTop, because on phones there is no box — the agreement flows inline
-  // and the page is the only scroller. IntersectionObserver clips against every
-  // ancestor between target and root, so the same observer answers "has the end
-  // been reached" for the desktop 260px window and the mobile full-flow layout
-  // without needing to know which one is live.
+  // One-way on purpose. Re-collapsing would blank `innerText` and re-open the
+  // question of what the reader actually saw; there is no user need for it, since
+  // the checkbox and Send sit directly below the end of the text.
+  function expandAgreement() {
+    if (expanded) return;
+    expanded = true;
+    doc.hidden = false;
+    doc.classList.add('bk-doc-open');
+    expandBtn.setAttribute('aria-expanded', 'true');
+    expandBtn.disabled = true;
+    if (expandLabel) expandLabel.textContent = 'Agreement open';
+    hint.textContent = 'Scroll to the end of the agreement to continue ↓';
+    // Only now can the agreement be measured. If it fits on screen whole — a tall
+    // desktop window — the reader has genuinely seen all of it and the observer may
+    // not fire, so settle it on the next frame once layout has run.
+    requestAnimationFrame(function () {
+      if (!canObserve && doc.scrollHeight <= doc.clientHeight + 8) markRead();
+    });
+  }
+  expandBtn.addEventListener('click', expandAgreement);
+
+  // The gate watches a sentinel at the end of the agreement rather than any
+  // element's scrollTop. There is no box any more at any width — the agreement is
+  // plain page flow and `.page-inner` is the only scroller. A hidden agreement
+  // clips its own sentinel, so the observer reports "not intersecting" while
+  // collapsed and needs no separate collapsed-state branch.
   const docEnd = document.getElementById('bk-doc-end');
   const canObserve = !!(docEnd && 'IntersectionObserver' in window);
   if (canObserve) {
@@ -2719,18 +2782,21 @@ function wireBookingForm() {
     io.observe(docEnd);
   }
 
-  // Kept as the fallback for browsers without IntersectionObserver, and it still
-  // fires first for the desktop box on a fast flick to the bottom.
-  function checkScroll() {
-    if (read) return;
-    if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 8) markRead();
+  // Fallback for browsers without IntersectionObserver. The agreement no longer
+  // scrolls itself, so watch the page scroller and ask whether the sentinel has
+  // come into view. Only armed once expanded; `markRead` refuses regardless.
+  if (!canObserve) {
+    const pageScroller = doc.closest('.page-inner');
+    (pageScroller || window).addEventListener('scroll', function () {
+      if (read || !expanded) return;
+      const r = docEnd.getBoundingClientRect();
+      if (r.top <= (window.innerHeight || 0) + 8) markRead();
+    }, { passive: true });
   }
-  doc.addEventListener('scroll', checkScroll);
-  // When the agreement is not its own scroller — every phone now, and any window
-  // tall enough to show it whole — there is no scroll event coming and this line
-  // would hand out the gate for free. Only shortcut it when there is no observer
-  // to do the work, otherwise the reader is locked out of their own booking.
-  if (!canObserve && doc.scrollHeight <= doc.clientHeight + 8) markRead();
+  // 🔴 The old wire-time shortcut ("if it all fits, mark it read") is GONE from here
+  // on purpose. Collapsed, the agreement measures 0 ≤ 0, so it would have fired
+  // instantly on every load and handed out the gate before anyone saw a word. That
+  // check now lives in expandAgreement(), after the text is actually on screen.
   cb.addEventListener('change', function () { send.disabled = !cb.checked; });
 
   addBtn.addEventListener('click', function () {
@@ -2786,6 +2852,11 @@ function wireBookingForm() {
       // §7 records the agreement "exactly as shown here", so read it from the DOM at
       // submit rather than from a stored copy that can drift out of sync.
       text = (doc.innerText || doc.textContent || '').replace(/\s+\n/g, '\n').trim();
+      // …but `innerText` is layout-dependent and goes EMPTY the moment the agreement
+      // is not rendered. Fall back to the copy captured at the instant the reader
+      // reached the end, which is the more faithful record anyway — it is what was
+      // on their screen. Never let a rendering detail spike a real booking.
+      if (text.length < 500 && capturedText.length >= 500) text = capturedText;
       if (text.length < 500) {
         out.textContent = 'Could not capture the agreement text. Nothing was sent — please reload and try again.';
         return;
