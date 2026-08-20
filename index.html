@@ -486,7 +486,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bk-cell { background: #f6f5f2; padding: 14px 16px; }
   .bk-full { background: #f6f5f2; padding: 14px 16px; outline: 1px solid #d8d5cd; margin-top: 1px; }
   .bk-label { font-family: var(--mono); font-size: 9px; color: #b3aea3; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 8px; display: block; }
-  #svc-form-wrap input, #svc-form-wrap textarea { width: 100%; background: transparent; border: none; outline: none; font-family: var(--sans); font-size: 13px; color: #1a1a1a; padding: 0; }
+  /* 🔴 :not([type=checkbox]) is load-bearing — this is the root cause of the unreadable
+     agree row on iOS.
+     This is an ID selector, so `width: 100%` outranked `.bk-agree input { width: 15px }`
+     and every other class-level sizing on the checkboxes. They were only ever held to
+     size by their flex-basis, which is a different property the cascade could not
+     override — so the moment flex was not governing the row, a checkbox expanded to the
+     full width of the form and shouldered the label into a one-word column at the far
+     right. That is exactly what the phone was showing.
+     Text inputs still want width: 100%. Checkboxes never did. */
+  #svc-form-wrap input:not([type="checkbox"]), #svc-form-wrap textarea { width: 100%; background: transparent; border: none; outline: none; font-family: var(--sans); font-size: 13px; color: #1a1a1a; padding: 0; }
+  #svc-form-wrap input[type="checkbox"] { background: transparent; border: none; outline: none; padding: 0; }
   #svc-form-wrap textarea { resize: vertical; min-height: 52px; line-height: 1.6; }
   #svc-form-wrap input::placeholder, #svc-form-wrap textarea::placeholder { color: #c9c4ba; }
   .bk-slot { display: grid; grid-template-columns: 2fr 1fr; gap: 1px; margin-bottom: 1px; outline: 1px solid #d8d5cd; }
@@ -506,9 +516,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bk-doc ul { margin: 0 0 8px; padding-left: 18px; }
   .bk-hint { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; color: #b3aea3; text-transform: uppercase; margin-top: 8px; transition: opacity .3s; }
   .bk-hint.done { color: #4a4640; }
-  .bk-agree { display: flex; gap: 11px; align-items: flex-start; margin-top: 18px; opacity: .4; transition: opacity .3s; font-size: 12px; line-height: 1.6; color: #4a4640; }
+  /* NOT flex, deliberately.
+     As a flex row this rendered on Stuart's iPhone as a one-word-wide column of text
+     jammed against the right edge, running off screen and unreadable, with a dead gap
+     where the label should be. Chromium renders the identical markup correctly at the
+     same viewport — before and after — so it is a Safari flex-sizing difference that
+     cannot be reproduced or verified here.
+     Rather than tune flex values blind against a browser that is not available, this
+     row now has no sizing negotiation at all: the checkbox is taken out of flow and
+     the label is an ordinary block that fills the width. There is nothing left for a
+     layout engine to disagree about. */
+  .bk-agree { position: relative; padding-left: 26px; margin-top: 18px; opacity: .4; transition: opacity .3s; font-size: 12px; line-height: 1.6; color: #4a4640; }
   .bk-agree.on { opacity: 1; }
-  .bk-agree input { width: 15px; height: 15px; flex: 0 0 15px; margin-top: 2px; accent-color: #1a1a1a; }
+  .bk-agree input { position: absolute; left: 0; top: 2px; width: 15px; height: 15px; accent-color: #1a1a1a; }
+  .bk-agree label { display: block; }
   .bk-foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 24px; flex-wrap: wrap; }
   .bk-terms { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: #8a857c; text-transform: uppercase; line-height: 1.8; }
   .bk-send { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 12px 22px; background: transparent; border: 1px solid #d8d5cd; color: #b3aea3; cursor: none; transition: all .2s; }
@@ -1105,9 +1126,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* Tap targets. The checkbox was 15px and it is the one control standing
        between a reader and a booking. */
-    .bk-agree { align-items: center; gap: 14px; margin-top: 20px; }
-    .bk-agree input { width: 24px; height: 24px; flex: 0 0 24px; margin-top: 0; }
-    .bk-agree label { padding: 10px 0; }
+    /* Same no-flex row, just a bigger checkbox and more room for it. */
+    .bk-agree { padding-left: 38px; margin-top: 20px; }
+    .bk-agree input { width: 24px; height: 24px; top: 0; }
+    .bk-agree label { padding: 6px 0; }
     .bk-flex { padding: 10px 0; gap: 12px; }
     .bk-flex input { width: 20px; height: 20px; flex: 0 0 20px; }
     .bk-add { padding: 16px 14px; min-height: 46px; }
