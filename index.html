@@ -282,7 +282,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position: absolute; inset: 0;
     overflow-y: auto; overflow-x: hidden;
     display: flex; flex-direction: column;
-    -webkit-overflow-scrolling: touch;
+    /* ONE VARIABLE — pull-to-refresh, attempt 3. `-webkit-overflow-scrolling: touch`
+       was removed from here.
+       Why: attempt 2 put `overscroll-behavior-y: contain` on html/body and did nothing,
+       which makes sense in hindsight — the document has `overflow: hidden`, so it has
+       no scroll port for that property to apply to. The element actually overscrolling
+       is this one. And this one carried the legacy webkit property, which hands
+       scrolling to a separate native layer that ignores overscroll-behavior outright.
+       That is the most likely reason every attempt so far was swallowed.
+       Safe to delete: momentum scrolling has been the default on iOS since 13, and
+       this property has been deprecated for years.
+       🔴 If scrolling regresses, re-add exactly this one line. */
     scrollbar-width: none;
   }
   .page-inner::-webkit-scrollbar { display: none; }
