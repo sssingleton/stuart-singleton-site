@@ -117,15 +117,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --sans: 'DM Sans', sans-serif;
     --pad: clamp(36px, 7vw, 72px);
   }
-  /* ONE VARIABLE — pull-to-refresh, attempt 2 of 2 (2026-08-18).
-     Attempt 1 (c8faa96) changed TWO things at once: `none` here AND `contain` on
-     .page-inner. Scrolling broke, and because both moved together there was no way to
-     tell which did it, so both were reverted and the fix went with the bug.
-     This is `contain`, not `none`, and ONLY on html/body — .page-inner is deliberately
-     untouched, so this cannot interact with its -webkit-overflow-scrolling: touch.
-     `contain` blocks the gesture chaining out to the browser (which is what fires the
-     refresh) while still permitting normal scrolling inside the page.
-     🔴 If scrolling breaks again, this single line is the whole change — delete it. */
+  /* pull-to-refresh, attempt 2 — kept, but it is NOT the fix.
+     `contain` here is a no-op on this site: `overflow: hidden` means the document has
+     no scroll port for overscroll-behavior to apply to. Left in place because it is
+     harmless and correct-in-principle if the layout ever changes.
+     🔑 The actual fix is the touchmove guard in JS (`preventPullToRefresh`). Three
+     CSS attempts failed before it; do not reach for a fourth. */
   html, body { width: 100%; height: 100%; overflow: hidden; overscroll-behavior-y: contain; background: #050505; color: #fff; cursor: none; }
 
   /* CURSOR */
@@ -282,17 +279,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position: absolute; inset: 0;
     overflow-y: auto; overflow-x: hidden;
     display: flex; flex-direction: column;
-    /* ONE VARIABLE — pull-to-refresh, attempt 3. `-webkit-overflow-scrolling: touch`
-       was removed from here.
-       Why: attempt 2 put `overscroll-behavior-y: contain` on html/body and did nothing,
-       which makes sense in hindsight — the document has `overflow: hidden`, so it has
-       no scroll port for that property to apply to. The element actually overscrolling
-       is this one. And this one carried the legacy webkit property, which hands
-       scrolling to a separate native layer that ignores overscroll-behavior outright.
-       That is the most likely reason every attempt so far was swallowed.
-       Safe to delete: momentum scrolling has been the default on iOS since 13, and
-       this property has been deprecated for years.
-       🔴 If scrolling regresses, re-add exactly this one line. */
+    /* This is the scroller for every page.
+       🔴 `-webkit-overflow-scrolling: touch` RESTORED. a563f0c removed it on the
+       theory that momentum is the iOS default since 13, and wrote its own rollback
+       condition into the comment: "if scrolling regresses, re-add exactly this one
+       line." Scrolling regressed. Honouring that, no argument.
+       Deliberately carries NO `overscroll-behavior` — that is the variable behind
+       "can't scroll up at all" (c8faa96). Pull-to-refresh is handled in JS.
+       Leave both of these alone. */
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
   .page-inner::-webkit-scrollbar { display: none; }
@@ -2008,6 +2003,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ══ PULL-TO-REFRESH GUARD — attempt 5. No preventDefault. Nothing cancelable. ══
+//
+// Attempt 4 was a touchmove guard that called preventDefault on down-at-top.
+// Its branch logic was correct and it was still wrong, because of an iOS rule
+// the design didn't account for: 🔴 preventDefault on a touchmove is STICKY
+// FOR THE ENTIRE GESTURE. Cancel one event and Safari abandons scrolling for
+// the whole touch — "disarming" afterwards restores nothing. A fingertip
+// almost always rolls a few px DOWN as it lands before a swipe up, so at the
+// top of a page (where every session starts) that first jittered move got
+// cancelled and the intended scroll-down died with it. Any design built on
+// preventDefault can block scrolling no matter how careful its branches.
+// This one cannot: it never cancels an event and both listeners are passive.
+//
+// How it works instead: iOS decides who owns a pan at TOUCHSTART. If the
+// scroller under the finger can move, the gesture belongs to it and its edges
+// rubber-band; the chrome's pull-to-refresh fires only when the gesture
+// belongs to the page itself. So never let a scroller sit at exactly 0 when a
+// finger lands: nudge scrollTop to 1. One invisible pixel, and the scroller —
+// not the chrome — owns every gesture that starts on it.
+(function preventPullToRefresh() {
+  // Nearest ancestor that can actually scroll.
+  function scrollerFor(node) {
+    for (let el = node; el && el !== document.body; el = el.parentElement) {
+      if (!(el instanceof Element)) continue;
+      const oy = getComputedStyle(el).overflowY;
+      if ((oy === 'auto' || oy === 'scroll') && el.scrollHeight > el.clientHeight) return el;
+    }
+    return null;
+  }
+  document.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;         // pinch/zoom is never ours
+    const el = scrollerFor(e.target);
+    if (el && el.scrollTop <= 0) el.scrollTop = 1;
+  }, { passive: true });
+})();
+
 // ══ SUPABASE ══
 const SUPA_URL = 'https://zbcdeglxwrappriwpxwt.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY2RlZ2x4d3JhcHByaXdweHd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MzcyODUsImV4cCI6MjA4OTUxMzI4NX0.IMGxd2IIRvVWgA441aLFtH2VujrZgVRehv2Hb2qNEus';
