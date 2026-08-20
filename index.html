@@ -117,13 +117,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --sans: 'DM Sans', sans-serif;
     --pad: clamp(36px, 7vw, 72px);
   }
-  /* pull-to-refresh, attempt 2 — kept, but it is NOT the fix.
-     `contain` here is a no-op on this site: `overflow: hidden` means the document has
-     no scroll port for overscroll-behavior to apply to. Left in place because it is
-     harmless and correct-in-principle if the layout ever changes.
-     🔑 The actual fix is the touchmove guard in JS (`preventPullToRefresh`). Three
-     CSS attempts failed before it; do not reach for a fourth. */
-  html, body { width: 100%; height: 100%; overflow: hidden; overscroll-behavior-y: contain; background: #050505; color: #fff; cursor: none; }
+  /* 🔴 THE DOCUMENT IS THE SCROLLER. Do not put `overflow: hidden` back here.
+     For two months this was `height: 100%; overflow: hidden`, with every page
+     scrolling inside its own absolutely-positioned `.page-inner`. That single
+     choice caused all of it: the document was never a scroll port, so it sat
+     permanently at position 0 and iOS always had a pull-to-refresh to offer no
+     matter what any element did — which is why four `overscroll-behavior`
+     attempts were no-ops, why momentum needed a deprecated `-webkit` property,
+     and why the URL bar never collapsed (iOS only auto-hides chrome for the
+     ROOT scroller). Seven patches failed before the cause was addressed.
+     `overscroll-behavior-y: contain` now has an actual scroll port to apply to,
+     so it does real work here instead of nothing. See Decision 273. */
+  html, body { width: 100%; min-height: 100%; overscroll-behavior-y: contain; background: #050505; color: #fff; cursor: none; }
 
   /* CURSOR */
   #cursor {
@@ -180,12 +185,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* SCREENS */
   .screen {
-    position: fixed; inset: 0;
+    position: relative;            /* was fixed inset:0 — now in document flow */
+    min-height: 100dvh;
     display: flex; flex-direction: column;
     transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1);
     z-index: 1;
   }
-  .screen.hidden { opacity: 0; pointer-events: none; transform: scale(1.025); z-index: 0; }
+  /* An outgoing screen goes BACK to fixed for the 720ms it spends fading. That
+     keeps the crossfade exactly as it was — old page held over the viewport,
+     new page already in flow underneath — without the outgoing page adding a
+     second viewport of height to the document while it leaves. */
+  .screen.hidden { position: fixed; inset: 0; opacity: 0; pointer-events: none; transform: scale(1.025); z-index: 0; }
   .screen.gone { display: none; }
 
   /* LANDING */
@@ -276,18 +286,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* SHARED PAGE STRUCTURE */
   .page-inner {
-    position: absolute; inset: 0;
-    overflow-y: auto; overflow-x: hidden;
+    position: relative;            /* was absolute inset:0 */
+    flex: 1;
     display: flex; flex-direction: column;
-    /* This is the scroller for every page.
-       🔴 `-webkit-overflow-scrolling: touch` RESTORED. a563f0c removed it on the
-       theory that momentum is the iOS default since 13, and wrote its own rollback
-       condition into the comment: "if scrolling regresses, re-add exactly this one
-       line." Scrolling regressed. Honouring that, no argument.
-       Deliberately carries NO `overscroll-behavior` — that is the variable behind
-       "can't scroll up at all" (c8faa96). Pull-to-refresh is handled in JS.
-       Leave both of these alone. */
-    -webkit-overflow-scrolling: touch;
+    /* 🔴 NOT a scroller any more, and must not become one again. The document
+       scrolls now, so this needs no `overflow`, no `overscroll-behavior`, and no
+       `-webkit-overflow-scrolling` — that last one only ever existed to give an
+       inner scroller the momentum the root scroller has natively. */
     scrollbar-width: none;
   }
   .page-inner::-webkit-scrollbar { display: none; }
@@ -328,7 +333,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* MUSIC PAGE */
-  #music-page { background: #f6f5f2; padding:0; overflow:hidden; }
+  #music-page { background: #f6f5f2; padding:0; }  /* no `overflow: hidden` — it made this a clipping context and killed the sticky nav once the document became the scroller. Do not re-add; `overflow-x: hidden` is NOT a substitute (it forces overflow-y to auto and recreates the inner scroller). */
   #music-page::before {
     content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
@@ -395,7 +400,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #yt-modal-close:hover { color: #fff; }
 
   /* PHOTOS PAGE */
-  #photos-page { background: #070707; padding:0; overflow:hidden; }
+  #photos-page { background: #070707; padding:0; }  /* no `overflow: hidden` — it made this a clipping context and killed the sticky nav once the document became the scroller. Do not re-add; `overflow-x: hidden` is NOT a substitute (it forces overflow-y to auto and recreates the inner scroller). */
   #photos-page .page-nav { background: #070707; color: #2a2a2a; }
   #photos-page .back-btn { color: #444; }
   #photos-page .back-btn:hover { color: #fff; }
@@ -792,7 +797,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .photos-ig:hover { color: #fff; border-color: #444; }
 
   /* LAB PAGE */
-  #lab-page { background: #010f05; padding:0; overflow:hidden; }
+  #lab-page { background: #010f05; padding:0; }
   #lab-page .page-nav { background: #010f05; color: #1a4d2a; }
   #lab-page .back-btn { color: #2a6b3a; }
   #lab-page .back-btn:hover { color: #4cff6a; }
@@ -2769,8 +2774,7 @@ function wireBookingForm() {
   // scrolls itself, so watch the page scroller and ask whether the sentinel has
   // come into view. Only armed once expanded; `markRead` refuses regardless.
   if (!canObserve) {
-    const pageScroller = doc.closest('.page-inner');
-    (pageScroller || window).addEventListener('scroll', function () {
+    window.addEventListener('scroll', function () {
       if (read || !expanded) return;
       const r = docEnd.getBoundingClientRect();
       if (r.top <= (window.innerHeight || 0) + 8) markRead();
@@ -4123,7 +4127,7 @@ function navigate(dest) {
       landing.classList.add('hidden');
       const page = document.getElementById(id);
       page.classList.remove('gone');
-      requestAnimationFrame(() => requestAnimationFrame(() => { page.classList.remove('hidden'); page.classList.add('page-enter'); }));
+      requestAnimationFrame(() => requestAnimationFrame(() => { page.classList.remove('hidden'); page.classList.add('page-enter'); window.scrollTo(0, 0); }));
     }, delay);
   };
   if (dest==='music') {
@@ -4142,7 +4146,7 @@ function navigate(dest) {
     setTimeout(()=>setPhotoMode(dest==='shop' ? 'shop' : dest==='book' ? 'book' : 'gallery'), 520);
   } else if (dest==='lab') {
     const tr=document.getElementById('lab-transition'); let f=0;
-    const flash=()=>{tr.classList.add('active');setTimeout(()=>{tr.classList.remove('active');if(++f<3){setTimeout(flash,80);return;}setTimeout(()=>{landing.classList.add('hidden');const page=document.getElementById('lab-page');page.classList.remove('gone');startMatrix();requestAnimationFrame(()=>requestAnimationFrame(()=>{page.classList.remove('hidden');page.classList.add('page-enter');}));},100);},55);};
+    const flash=()=>{tr.classList.add('active');setTimeout(()=>{tr.classList.remove('active');if(++f<3){setTimeout(flash,80);return;}setTimeout(()=>{landing.classList.add('hidden');const page=document.getElementById('lab-page');page.classList.remove('gone');startMatrix();requestAnimationFrame(()=>requestAnimationFrame(()=>{page.classList.remove('hidden');page.classList.add('page-enter'); window.scrollTo(0, 0);}));},100);},55);};
     flash();
   }
 }
@@ -4164,7 +4168,7 @@ function goBack() {
     const el=document.getElementById(id);
     if(el.classList.contains('gone')) return;
     el.classList.remove('page-enter'); el.classList.add('hidden');
-    setTimeout(()=>{el.classList.add('gone');const inner=el.querySelector('.page-inner');if(inner)inner.scrollTop=0;},720);
+    setTimeout(()=>{el.classList.add('gone');},720);  // document scrolls now; reset happens via window.scrollTo on entry
   });
   stopMatrix();
   // Leaving the photos page drops any commerce mode, so a later return starts clean.
@@ -4335,7 +4339,7 @@ function navigateWhoami() {
     page.classList.remove('gone');
     requestAnimationFrame(() => requestAnimationFrame(() => {
       page.classList.remove('hidden');
-      page.classList.add('page-enter');
+      page.classList.add('page-enter'); window.scrollTo(0, 0);
       // Start timeline scroll reveal
       observeTimeline();
       // Add hover listeners
@@ -4382,7 +4386,7 @@ function observeTimeline() {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15, root: document.querySelector('#whoami-page .page-inner') });
+  }, { threshold: 0.15 });  // root = viewport; .page-inner is no longer a scroll port
   items.forEach(item => observer.observe(item));
 }
 
@@ -4394,7 +4398,7 @@ goBack = function() {
     const el=document.getElementById(id);
     if(el.classList.contains('gone')) return;
     el.classList.remove('page-enter'); el.classList.add('hidden');
-    setTimeout(()=>{el.classList.add('gone');const inner=el.querySelector('.page-inner');if(inner)inner.scrollTop=0;},720);
+    setTimeout(()=>{el.classList.add('gone');},720);  // document scrolls now; reset happens via window.scrollTo on entry
   });
   stopMatrix();
   // Leaving the photos page drops any commerce mode, so a later return starts clean.
@@ -4427,7 +4431,7 @@ async function openProductFast(photoId) {
   var page = document.getElementById('photos-page');
   if (page) {
     page.classList.remove('gone', 'hidden');
-    page.classList.add('page-enter');
+    page.classList.add('page-enter'); window.scrollTo(0, 0);
     page.style.opacity = '1';
     page.style.transform = 'none';
     page.style.pointerEvents = 'auto';
@@ -4622,7 +4626,7 @@ function applyProductSeo(photo) {
         var page = document.getElementById('photos-page');
         if (page) {
           page.classList.remove('gone', 'hidden');
-          page.classList.add('page-enter');
+          page.classList.add('page-enter'); window.scrollTo(0, 0);
           page.style.opacity = '1';
           page.style.transform = 'none';
           page.style.pointerEvents = 'auto';
@@ -4656,7 +4660,7 @@ function applyProductSeo(photo) {
       var page = document.getElementById('photos-page');
       if (page) {
         page.classList.remove('gone', 'hidden');
-        page.classList.add('page-enter');
+        page.classList.add('page-enter'); window.scrollTo(0, 0);
         page.style.opacity = '1';
         page.style.transform = 'none';
         page.style.pointerEvents = 'auto';
@@ -4687,7 +4691,7 @@ function applyProductSeo(photo) {
       var page = document.getElementById('photos-page');
       if (page) {
         page.classList.remove('gone', 'hidden');
-        page.classList.add('page-enter');
+        page.classList.add('page-enter'); window.scrollTo(0, 0);
         page.style.opacity = '1';
         page.style.transform = 'none';
         page.style.pointerEvents = 'auto';
@@ -4762,7 +4766,7 @@ setRouteMeta(location.pathname);
       page.classList.remove('gone');
       requestAnimationFrame(() => requestAnimationFrame(() => {
         page.classList.remove('hidden');
-        page.classList.add('page-enter');
+        page.classList.add('page-enter'); window.scrollTo(0, 0);
         observeTimeline();
         addHover('#whoami-page .back-btn, #whoami-page a, .whoami-read-more');
       }));
@@ -4779,7 +4783,7 @@ window.addEventListener('popstate', (e) => {
     landing.classList.add('hidden');
     const page = document.getElementById('whoami-page');
     page.classList.remove('gone','hidden');
-    page.classList.add('page-enter');
+    page.classList.add('page-enter'); window.scrollTo(0, 0);
     observeTimeline();
   } else {
     // Back to landing
