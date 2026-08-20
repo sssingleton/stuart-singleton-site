@@ -1413,6 +1413,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     color: #1a1a1a; border-bottom: 1px solid #c9c4ba; transition: border-color .2s;
   }
   .ship-limit-note button:hover { border-color: #1a1a1a; }
+
+  /* ══ TOUCH: KILL HOVER ANIMATIONS ══════════════════════════════════════════
+     🔴 THIS BLOCK MUST STAY LAST. An identical block was first written inside the
+     `@media (hover: none)` guard at the top of this stylesheet and did nothing —
+     the rules it overrides (`.shop-card-imgwrap img` ~L593, `.photo-item img`
+     ~L667) come LATER at equal specificity, so they won the cascade. Same trap as
+     `#svc-form-wrap input` beating `.bk-agree input`. Position is the fix.
+
+     Why it exists: "touch devices have no :hover" is only half true — iOS APPLIES
+     :hover on touch and holds it until you tap elsewhere. A finger landing on a
+     photo to scroll kicks off `transform: scale(1.04)` over 600ms and
+     `filter: grayscale(0%)` over 400ms on a full-width image, mid-gesture; lift,
+     touch the next one, and the first animates all the way back. Every swipe
+     animates two large images.
+     🔑 `filter` is the expensive half — it repaints the whole layer every frame and
+     defeats plain layer promotion, competing with the scroll for the exact frames
+     the scroll needs.
+     Kills the ANIMATION, not the look: the static grayscale composites once and
+     costs nothing, so mobile renders identically. Desktop is untouched. */
+  @media (hover: none), (pointer: coarse) {
+    .photo-item img { transition: none; }
+    .photo-item:hover img { transform: none; filter: grayscale(15%); }
+    .shop-card-imgwrap img { transition: none; }
+    .shop-card:hover .shop-card-imgwrap img { transform: none; }
+    .shop-card:hover { box-shadow: none; transform: none; }
+  }
 </style>
 
 <!-- CART FLOATING BUTTON -->
