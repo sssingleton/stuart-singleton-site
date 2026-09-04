@@ -11,9 +11,953 @@
   "shop": "https://stuartsingleton.com/shop",
   "currency": "USD",
   "priceModel": "All-in pricing with free worldwide shipping. Unframed prints $29 to $115. Framed prints $119 to $245. A size is offered only when the photo has enough resolution to print it sharply at 200 DPI without cropping.",
-  "generatedAt": "2026-08-18T17:46:52.673Z",
-  "count": 144,
+  "generatedAt": "2026-09-03T19:11:11.148Z",
+  "count": 158,
   "products": [
+    {
+      "id": 388,
+      "title": "Eze / Europe / Plants No. 5",
+      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 5",
+      "url": "https://stuartsingleton.com/p?id=388",
+      "printPage": "https://stuartsingleton.com/print/eze-europe-plants-388",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788459462697.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "eze",
+        "europe",
+        "day",
+        "color",
+        "travel",
+        "plants",
+        "outdoor",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 387,
+      "title": "Eze / Europe / Plants No. 4",
+      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 4",
+      "url": "https://stuartsingleton.com/p?id=387",
+      "printPage": "https://stuartsingleton.com/print/eze-europe-plants-387",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788375043565.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "eze",
+        "europe",
+        "day",
+        "color",
+        "travel",
+        "plants",
+        "outdoor",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 386,
+      "title": "Eze / Europe / Plants No. 3",
+      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 3",
+      "url": "https://stuartsingleton.com/p?id=386",
+      "printPage": "https://stuartsingleton.com/print/eze-europe-plants-386",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788373528573.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "eze",
+        "europe",
+        "day",
+        "color",
+        "travel",
+        "plants",
+        "outdoor",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 385,
+      "title": "Eze / Europe / Plants No. 2",
+      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 2",
+      "url": "https://stuartsingleton.com/p?id=385",
+      "printPage": "https://stuartsingleton.com/print/eze-europe-plants-385",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788297583422.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "eze",
+        "europe",
+        "day",
+        "color",
+        "travel",
+        "plants",
+        "outdoor",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "4670:7005",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4670,
+      "pixelHeight": 7005,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 384,
+      "title": "Eze / Europe / Plants",
+      "description": "photograph of eze, europe, plants in France, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=384",
+      "printPage": "https://stuartsingleton.com/print/eze-europe-plants-384",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788297319991.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "eze",
+        "europe",
+        "day",
+        "color",
+        "travel",
+        "plants",
+        "outdoor",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 383,
+      "title": "Monaco / Monte Carlo / Sky No. 3",
+      "description": "photograph of sky, europe in Monaco, Monte Carlo, by Stuart Singleton No. 3",
+      "url": "https://stuartsingleton.com/p?id=383",
+      "printPage": "https://stuartsingleton.com/print/monaco-monte-carlo-sky-383",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788297146727.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "color",
+        "day",
+        "monaco",
+        "monte carlo",
+        "travel",
+        "sky",
+        "europe"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7728:5152",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7728,
+      "pixelHeight": 5152,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 382,
+      "title": "Monaco / Monte Carlo / Sky No. 2",
+      "description": "photograph of sky, europe in Monaco, Monte Carlo, by Stuart Singleton No. 2",
+      "url": "https://stuartsingleton.com/p?id=382",
+      "printPage": "https://stuartsingleton.com/print/monaco-monte-carlo-sky-382",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788296790631.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "color",
+        "day",
+        "monaco",
+        "monte carlo",
+        "travel",
+        "sky",
+        "europe"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7728:5152",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7728,
+      "pixelHeight": 5152,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 380,
+      "title": "Cars / Virginia No. 3",
+      "description": "black and white photograph of cars, virginia, by Stuart Singleton No. 3",
+      "url": "https://stuartsingleton.com/p?id=380",
+      "printPage": "https://stuartsingleton.com/print/cars-virginia-380",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1788292011530.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "day",
+        "cars",
+        "travel",
+        "outdoor",
+        "virginia",
+        "nature"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 379,
+      "title": "Cars / Virginia No. 2",
+      "description": "black and white photograph of cars, virginia, by Stuart Singleton No. 2",
+      "url": "https://stuartsingleton.com/p?id=379",
+      "printPage": "https://stuartsingleton.com/print/cars-virginia-379",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1788291971369.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "day",
+        "cars",
+        "travel",
+        "outdoor",
+        "virginia",
+        "nature"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 378,
+      "title": "Cars",
+      "description": "black and white photograph of cars, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=378",
+      "printPage": "https://stuartsingleton.com/print/cars-378",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1788291896051.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "cars",
+        "day",
+        "nature",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 377,
+      "title": "Cars / Virginia",
+      "description": "black and white photograph of cars, virginia, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=377",
+      "printPage": "https://stuartsingleton.com/print/cars-virginia-377",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1788291863329.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "day",
+        "cars",
+        "travel",
+        "outdoor",
+        "virginia",
+        "nature"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 374,
+      "title": "Puerto Rico / Hotel / San Juan",
+      "description": "photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=374",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-hotel-san-juan-374",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788285528165.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "color",
+        "architecture",
+        "travel",
+        "city",
+        "puerto rico",
+        "outdoor",
+        "hotel",
+        "san juan"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7593:5062",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7593,
+      "pixelHeight": 5062,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 372,
+      "title": "Europe / France / Beaulieu-sur-Mer",
+      "description": "photograph of europe, beaulieu-sur-mer in France, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=372",
+      "printPage": "https://stuartsingleton.com/print/europe-france-beaulieu-sur-mer-372",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1786977775709.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "color",
+        "day",
+        "europe",
+        "france",
+        "outdoor",
+        "travel",
+        "beaulieu-sur-mer",
+        "nature"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7662:5108",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7662,
+      "pixelHeight": 5108,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 371,
+      "title": "Puerto Rico / San Juan No. 5",
+      "description": "photograph of puerto rico, san juan in Puerto Rico, San Juan, by Stuart Singleton No. 5",
+      "url": "https://stuartsingleton.com/p?id=371",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-371",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1786976642708.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "color",
+        "day",
+        "travel",
+        "puerto rico",
+        "san juan",
+        "outdoor"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7728:5152",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7728,
+      "pixelHeight": 5152,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
     {
       "id": 370,
       "title": "Beaulieu / Europe / France",
@@ -2082,454 +3026,22 @@
       ]
     },
     {
-      "id": 177,
-      "title": "Puerto Rico / San Juan No. 4",
-      "description": "black and white photograph of puerto rico, san juan in Puerto Rico, San Juan, by Stuart Singleton No. 4",
-      "url": "https://stuartsingleton.com/p?id=177",
-      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
+      "id": 210,
+      "title": "France / Europe / Paris No. 5",
+      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 5",
+      "url": "https://stuartsingleton.com/p?id=210",
+      "printPage": "https://stuartsingleton.com/print/france-europe-paris-210",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837662818.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "black & white",
-        "city",
+        "travel",
         "day",
-        "outdoor",
-        "puerto rico",
-        "san juan",
-        "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 179,
-      "title": "Hotel / Puerto Rico / San Juan No. 2",
-      "description": "black and white photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton No. 2",
-      "url": "https://stuartsingleton.com/p?id=179",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-179",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835940660.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "city",
-        "hotel",
-        "night",
-        "outdoor",
-        "travel",
-        "puerto rico",
-        "san juan"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 194,
-      "title": "Washington DC No. 3",
-      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton No. 3",
-      "url": "https://stuartsingleton.com/p?id=194",
-      "printPage": "https://stuartsingleton.com/print/washington-dc-194",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836594645.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "city",
-        "washington dc",
-        "travel",
-        "day"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 196,
-      "title": "Sky / Trees / France",
-      "description": "photograph of sky, trees, beaulieu, hotel, europe in France, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=196",
-      "printPage": "https://stuartsingleton.com/print/sky-trees-france-196",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836765947.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "color",
-        "sky",
-        "trees",
-        "travel",
         "france",
-        "beaulieu",
-        "outdoor",
-        "night",
-        "hotel",
-        "europe"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 178,
-      "title": "Hotel / Puerto Rico / San Juan",
-      "description": "black and white photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=178",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-178",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835914027.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
+        "europe",
         "black & white",
-        "city",
-        "hotel",
-        "night",
-        "outdoor",
-        "travel",
-        "puerto rico",
-        "san juan"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 180,
-      "title": "Hotel / Puerto Rico / San Juan No. 3",
-      "description": "black and white photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton No. 3",
-      "url": "https://stuartsingleton.com/p?id=180",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-180",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835959539.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "city",
-        "hotel",
-        "night",
-        "outdoor",
-        "travel",
-        "puerto rico",
-        "san juan"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 182,
-      "title": "Ethereal / Nashville",
-      "description": "black and white photograph of ethereal in Nashville, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=182",
-      "printPage": "https://stuartsingleton.com/print/ethereal-nashville-182",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836142339.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "black & white",
-        "ethereal",
-        "nashville",
-        "night",
+        "paris",
         "outdoor"
       ],
       "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 191,
-      "title": "Franklin",
-      "description": "black and white photograph of franklin, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=191",
-      "printPage": "https://stuartsingleton.com/print/franklin-191",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836459218.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "franklin",
-        "night",
-        "outdoor",
-        "black & white"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 192,
-      "title": "Abingdon",
-      "description": "black and white photograph of abingdon, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=192",
-      "printPage": "https://stuartsingleton.com/print/abingdon-192",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836498790.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "abingdon",
-        "black & white",
-        "indoor",
-        "travel"
-      ],
-      "camera": "nomo",
       "aspectRatio": "4032:2688",
       "aspectRatioDecimal": 1.5,
       "pixelWidth": 4032,
@@ -2568,343 +3080,19 @@
       ]
     },
     {
-      "id": 193,
-      "title": "Washington DC No. 2",
-      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton No. 2",
-      "url": "https://stuartsingleton.com/p?id=193",
-      "printPage": "https://stuartsingleton.com/print/washington-dc-193",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836540652.JPG?width=1200&quality=80&resize=contain",
+      "id": 209,
+      "title": "France / Europe / Paris No. 4",
+      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 4 No. 2",
+      "url": "https://stuartsingleton.com/p?id=209",
+      "printPage": "https://stuartsingleton.com/print/france-europe-paris-209",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837625278.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "washington dc",
-        "black & white",
-        "city",
+        "travel",
         "day",
-        "outdoor",
-        "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 172,
-      "title": "Nashville No. 4",
-      "description": "black and white photograph of nashville in Nashville, by Stuart Singleton No. 4",
-      "url": "https://stuartsingleton.com/p?id=172",
-      "printPage": "https://stuartsingleton.com/print/nashville-172",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "city",
-        "day",
-        "black & white",
-        "nashville",
-        "outdoor"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 171,
-      "title": "Nashville No. 3",
-      "description": "black and white photograph of nashville in Nashville, by Stuart Singleton No. 3",
-      "url": "https://stuartsingleton.com/p?id=171",
-      "printPage": "https://stuartsingleton.com/print/nashville-171",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "city",
-        "nashville",
-        "black & white",
-        "outdoor",
-        "night"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 204,
-      "title": "Europe / France / Paris No. 4",
-      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 4",
-      "url": "https://stuartsingleton.com/p?id=204",
-      "printPage": "https://stuartsingleton.com/print/europe-france-paris-204",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837265928.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "europe",
         "france",
-        "paris",
-        "outdoor",
-        "travel",
-        "city"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 206,
-      "title": "Paris / Europe / France No. 4",
-      "description": "photograph of europe in Paris, France, by Stuart Singleton No. 4",
-      "url": "https://stuartsingleton.com/p?id=206",
-      "printPage": "https://stuartsingleton.com/print/paris-europe-france-206",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837338160.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "paris",
-        "night",
-        "architecture",
-        "color",
-        "outdoor",
         "europe",
-        "france",
-        "black & white"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 205,
-      "title": "Paris / Europe / France No. 3",
-      "description": "photograph of europe in Paris, France, by Stuart Singleton No. 3",
-      "url": "https://stuartsingleton.com/p?id=205",
-      "printPage": "https://stuartsingleton.com/print/paris-europe-france-205",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837313969.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "paris",
-        "night",
-        "city",
-        "architecture",
-        "color",
-        "outdoor",
-        "europe",
-        "france"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 207,
-      "title": "Europe / France / Hotel",
-      "description": "black and white photograph of europe, hotel in France, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=207",
-      "printPage": "https://stuartsingleton.com/print/europe-france-hotel-207",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837448491.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
         "black & white",
-        "europe",
-        "france",
-        "day",
-        "hotel",
-        "travel",
+        "paris",
         "outdoor"
       ],
       "camera": "nomo",
@@ -3001,80 +3189,28 @@
       ]
     },
     {
-      "id": 209,
-      "title": "France / Europe / Paris No. 4",
-      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 4 No. 2",
-      "url": "https://stuartsingleton.com/p?id=209",
-      "printPage": "https://stuartsingleton.com/print/france-europe-paris-209",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837625278.JPG?width=1200&quality=80&resize=contain",
+      "id": 205,
+      "title": "Paris / Europe / France No. 3",
+      "description": "photograph of europe in Paris, France, by Stuart Singleton No. 3",
+      "url": "https://stuartsingleton.com/p?id=205",
+      "printPage": "https://stuartsingleton.com/print/paris-europe-france-205",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837313969.JPG?width=1200&quality=80&resize=contain",
       "tags": [
         "travel",
-        "day",
-        "france",
-        "europe",
-        "black & white",
         "paris",
-        "outdoor"
+        "night",
+        "city",
+        "architecture",
+        "color",
+        "outdoor",
+        "europe",
+        "france"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
       "aspectRatioDecimal": 1.5,
       "pixelWidth": 2688,
       "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 210,
-      "title": "France / Europe / Paris No. 5",
-      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 5",
-      "url": "https://stuartsingleton.com/p?id=210",
-      "printPage": "https://stuartsingleton.com/print/france-europe-paris-210",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837662818.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "day",
-        "france",
-        "europe",
-        "black & white",
-        "paris",
-        "outdoor"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
       "availability": "InStock",
       "printReady": true,
       "priceRangeUSD": {
@@ -3573,6 +3709,163 @@
       ]
     },
     {
+      "id": 171,
+      "title": "Nashville No. 3",
+      "description": "black and white photograph of nashville in Nashville, by Stuart Singleton No. 3",
+      "url": "https://stuartsingleton.com/p?id=171",
+      "printPage": "https://stuartsingleton.com/print/nashville-171",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
+        "nashville",
+        "black & white",
+        "outdoor",
+        "night"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 172,
+      "title": "Nashville No. 4",
+      "description": "black and white photograph of nashville in Nashville, by Stuart Singleton No. 4",
+      "url": "https://stuartsingleton.com/p?id=172",
+      "printPage": "https://stuartsingleton.com/print/nashville-172",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
+        "day",
+        "black & white",
+        "nashville",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 193,
+      "title": "Washington DC No. 2",
+      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton No. 2",
+      "url": "https://stuartsingleton.com/p?id=193",
+      "printPage": "https://stuartsingleton.com/print/washington-dc-193",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836540652.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "washington dc",
+        "black & white",
+        "city",
+        "day",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
       "id": 333,
       "title": "Versailles / France / Hotel",
       "description": "photograph of hotel, garden in Versailles, France, by Stuart Singleton",
@@ -3607,6 +3900,108 @@
           "label": "6x8in",
           "framed": false,
           "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 192,
+      "title": "Abingdon",
+      "description": "black and white photograph of abingdon, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=192",
+      "printPage": "https://stuartsingleton.com/print/abingdon-192",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836498790.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "abingdon",
+        "black & white",
+        "indoor",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 191,
+      "title": "Franklin",
+      "description": "black and white photograph of franklin, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=191",
+      "printPage": "https://stuartsingleton.com/print/franklin-191",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836459218.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "franklin",
+        "night",
+        "outdoor",
+        "black & white"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
         }
       ]
     },
@@ -3646,6 +4041,555 @@
           "label": "6x8in",
           "framed": false,
           "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 182,
+      "title": "Ethereal / Nashville",
+      "description": "black and white photograph of ethereal in Nashville, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=182",
+      "printPage": "https://stuartsingleton.com/print/ethereal-nashville-182",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836142339.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "ethereal",
+        "nashville",
+        "night",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 180,
+      "title": "Hotel / Puerto Rico / San Juan No. 3",
+      "description": "black and white photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton No. 3",
+      "url": "https://stuartsingleton.com/p?id=180",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-180",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835959539.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "black & white",
+        "city",
+        "hotel",
+        "night",
+        "outdoor",
+        "travel",
+        "puerto rico",
+        "san juan"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 178,
+      "title": "Hotel / Puerto Rico / San Juan",
+      "description": "black and white photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=178",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-178",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835914027.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "black & white",
+        "city",
+        "hotel",
+        "night",
+        "outdoor",
+        "travel",
+        "puerto rico",
+        "san juan"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 196,
+      "title": "Sky / Trees / France",
+      "description": "photograph of sky, trees, beaulieu, hotel, europe in France, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=196",
+      "printPage": "https://stuartsingleton.com/print/sky-trees-france-196",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836765947.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "color",
+        "sky",
+        "trees",
+        "travel",
+        "france",
+        "beaulieu",
+        "outdoor",
+        "night",
+        "hotel",
+        "europe"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 194,
+      "title": "Washington DC No. 3",
+      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton No. 3",
+      "url": "https://stuartsingleton.com/p?id=194",
+      "printPage": "https://stuartsingleton.com/print/washington-dc-194",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836594645.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "black & white",
+        "city",
+        "washington dc",
+        "travel",
+        "day"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 179,
+      "title": "Hotel / Puerto Rico / San Juan No. 2",
+      "description": "black and white photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton No. 2",
+      "url": "https://stuartsingleton.com/p?id=179",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-179",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835940660.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "black & white",
+        "city",
+        "hotel",
+        "night",
+        "outdoor",
+        "travel",
+        "puerto rico",
+        "san juan"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 177,
+      "title": "Puerto Rico / San Juan No. 4",
+      "description": "black and white photograph of puerto rico, san juan in Puerto Rico, San Juan, by Stuart Singleton No. 4",
+      "url": "https://stuartsingleton.com/p?id=177",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "city",
+        "day",
+        "outdoor",
+        "puerto rico",
+        "san juan",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 207,
+      "title": "Europe / France / Hotel",
+      "description": "black and white photograph of europe, hotel in France, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=207",
+      "printPage": "https://stuartsingleton.com/print/europe-france-hotel-207",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837448491.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "europe",
+        "france",
+        "day",
+        "hotel",
+        "travel",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 206,
+      "title": "Paris / Europe / France No. 4",
+      "description": "photograph of europe in Paris, France, by Stuart Singleton No. 4",
+      "url": "https://stuartsingleton.com/p?id=206",
+      "printPage": "https://stuartsingleton.com/print/paris-europe-france-206",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837338160.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "paris",
+        "night",
+        "architecture",
+        "color",
+        "outdoor",
+        "europe",
+        "france",
+        "black & white"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 204,
+      "title": "Europe / France / Paris No. 4",
+      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 4",
+      "url": "https://stuartsingleton.com/p?id=204",
+      "printPage": "https://stuartsingleton.com/print/europe-france-paris-204",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837265928.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "black & white",
+        "europe",
+        "france",
+        "paris",
+        "outdoor",
+        "travel",
+        "city"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
         }
       ]
     },

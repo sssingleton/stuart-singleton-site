@@ -18,6 +18,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('js', new Date());
   gtag('config', 'G-Y7P9FGW6PT');
 </script>
+<!-- Vercel Web Analytics (enable in Vercel → Project → Analytics). va() queue lets ssTrack mirror custom events. -->
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <title>Stuart Singleton — Nashville Photographer & Music Producer</title>
 <meta name="description" content="Photography, music, and code by Stuart Singleton in Nashville, TN. Browse the gallery, hear songs he wrote and produced, and order fine art prints from $29.">
 <link rel="canonical" href="https://stuartsingleton.com/">
@@ -43,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       "name": "Stuart Singleton",
       "url": "https://stuartsingleton.com/",
       "jobTitle": ["Photographer", "Songwriter", "Record Producer", "Software Developer"],
-      "description": "Nashville-based photographer, songwriter and producer who also builds software. Sells archival fine art prints of his photography worldwide.",
+      "description": "Nashville-based photographer, songwriter and producer who also builds software. Sells archival fine art prints of his photography, shipped free to 35 countries across North America, Europe, Australia, New Zealand and Japan.",
       "knowsAbout": ["Photography", "Fine art printing", "Songwriting", "Music production", "Web development"],
       "address": { "@type": "PostalAddress", "addressLocality": "Nashville", "addressRegion": "TN", "addressCountry": "US" },
       "sameAs": [
@@ -594,6 +597,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .shop-head-title { font-family: var(--sans); font-size: clamp(20px,3vw,28px); font-weight: 600; color: #1a1a1a; letter-spacing: .01em; }
   .shop-head-count { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: #b0aaa0; }
   .shop-head-sub { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #908b82; margin-top: 8px; }
+  .shop-ship-link { font: inherit; letter-spacing: inherit; text-transform: inherit; background: none; border: none; padding: 0; cursor: none; color: #1a1a1a; border-bottom: 1px solid #c9c4ba; }
+  .shop-ship-link:hover { border-color: #1a1a1a; }
 
   /* shop filter bar */
   .shop-filters { margin-bottom: 34px; display: flex; flex-direction: column; gap: 14px; }
@@ -1204,6 +1209,72 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .dash-filter-btn{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;background:transparent;border:1px solid #1c1c1c;color:#444;cursor:none;transition:color .2s,border-color .2s}
   .dash-filter-btn:hover{color:#888;border-color:#444}
   .dash-filter-btn.active{border-color:#fff;color:#fff}
+
+  /* ANALYTICS (admin) — an instrument readout, not a SaaS dashboard: one type
+     size family, hairline rules, white-on-black bars, numerals do the talking. */
+  .an-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .an-range{display:flex;gap:6px}
+  .an-live{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#444;display:flex;align-items:center;gap:8px}
+  .an-live b{color:#fff;font-weight:400}
+  .an-live i{width:6px;height:6px;border-radius:50%;background:#2a2a2a;display:inline-block}
+  .an-live.on i{background:#7dff9a;box-shadow:0 0 0 0 rgba(125,255,154,.6);animation:anPulse 2s ease-out infinite}
+  @keyframes anPulse{0%{box-shadow:0 0 0 0 rgba(125,255,154,.55)}100%{box-shadow:0 0 0 8px rgba(125,255,154,0)}}
+  .an-kpis{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #1a1a1a;border-left:1px solid #1a1a1a;margin-bottom:18px}
+  @media (min-width:1300px){.an-kpis{grid-template-columns:repeat(8,1fr)}}
+  .an-kpi{padding:12px 12px 10px;border-right:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;min-width:0}
+  .an-kpi label{display:block;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#444;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .an-kpi .v{font-size:22px;color:#fff;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+  .an-kpi .d{font-size:8px;letter-spacing:.1em;color:#333;margin-top:6px;white-space:nowrap}
+  .an-kpi .d.up{color:#7dff9a}.an-kpi .d.dn{color:#c44}
+  .an-chart{position:relative;height:120px;border-bottom:1px solid #1a1a1a;margin-bottom:6px}
+  .an-chart svg{width:100%;height:100%;display:block}
+  .an-chart .bar{fill:#fff;fill-opacity:.22;transition:fill-opacity .15s}
+  .an-chart .bar.shop{fill:#fff;fill-opacity:.7}
+  .an-chart g:hover .bar{fill-opacity:.55}
+  .an-chart g:hover .bar.shop{fill-opacity:1}
+  .an-chart .order{fill:#7dff9a}
+  .an-chart .hit{fill:transparent}
+  .an-axis{display:flex;justify-content:space-between;font-size:8px;letter-spacing:.12em;color:#333;text-transform:uppercase;margin-bottom:18px}
+  .an-legend{display:flex;gap:16px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#444;margin-bottom:8px}
+  .an-legend span::before{content:'';display:inline-block;width:8px;height:8px;margin-right:6px;vertical-align:-1px;background:#fff;opacity:.22}
+  .an-legend span.shop::before{opacity:.7}
+  .an-legend span.ord::before{background:#7dff9a;opacity:1;border-radius:50%}
+  .an-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:18px}
+  @media (max-width:1100px){.an-grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:700px){.an-grid{grid-template-columns:1fr}}
+  .an-sub{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#444;margin-bottom:8px;display:flex;justify-content:space-between}
+  .an-sub em{font-style:normal;color:#2a2a2a}
+  .an-rows{display:flex;flex-direction:column;gap:2px}
+  .an-row{position:relative;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:10px;padding:5px 6px;color:#999;overflow:hidden;min-width:0}
+  .an-row::before{content:'';position:absolute;inset:0;width:var(--w,0%);background:#fff;opacity:.06;pointer-events:none}
+  .an-row span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative}
+  .an-row b{font-weight:400;color:#fff;font-variant-numeric:tabular-nums;position:relative;flex-shrink:0}
+  .an-row small{color:#444;margin-left:6px}
+  .an-empty{font-size:9px;color:#2a2a2a;letter-spacing:.1em;padding:6px}
+  .an-livelist{display:flex;flex-direction:column;gap:2px;margin-bottom:18px}
+  .an-visitor{display:grid;grid-template-columns:44px 28px 1fr auto;gap:10px;align-items:center;font-size:10px;color:#888;padding:6px;border-bottom:1px solid #111}
+  .an-visitor .ago{color:#7dff9a;font-variant-numeric:tabular-nums}
+  .an-visitor .cc{color:#fff;letter-spacing:.1em}
+  .an-visitor .where{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .an-visitor .where i{font-style:normal;color:#444}
+  .an-visitor .what{color:#555;white-space:nowrap}
+  .an-visitor .what b{color:#fff;font-weight:400}
+  .an-photos{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+  .an-photo{display:grid;grid-template-columns:36px 1fr repeat(5,44px) 64px;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid #111;font-size:10px;color:#666}
+  .an-photo.hdr{color:#333;font-size:8px;letter-spacing:.15em;text-transform:uppercase;border-bottom:1px solid #1a1a1a}
+  .an-photo img{width:36px;height:36px;object-fit:cover;background:#111;display:block}
+  .an-photo .id{color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .an-photo .id small{color:#333;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .an-photo .n{text-align:right;font-variant-numeric:tabular-nums;color:#888}
+  .an-photo .n.zero{color:#222}
+  .an-photo .n.hot{color:#fff}
+  .an-photo .rev{text-align:right;color:#7dff9a;font-variant-numeric:tabular-nums}
+  .an-photo .rev.zero{color:#222}
+  @media (max-width:700px){.an-photo{grid-template-columns:36px 1fr repeat(3,36px) 56px}.an-photo .n:nth-child(4),.an-photo .n:nth-child(6){display:none}}
+  .an-note{font-size:9px;color:#333;letter-spacing:.08em;line-height:1.6;margin-top:6px}
+  .an-note a{color:#666;text-decoration:none;border-bottom:1px solid #222}
+  .an-vercel{border:1px solid #1a1a1a;padding:12px 14px;margin-top:4px}
+  .an-vercel .an-sub{margin-bottom:10px}
   .dash-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #111}
   .dash-thumb{width:44px;height:44px;object-fit:cover;background:#111;flex-shrink:0}
   .dash-info{flex:1;font-size:9px;color:#555;letter-spacing:.04em;line-height:1.7;overflow:hidden;min-width:0}
@@ -1322,6 +1393,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- CART STYLES -->
 <style>
   /* Floating cart button — appears once the cart has items */
+  /* In-app-browser bar: Instagram/Facebook/Threads webviews have no Apple Pay / Google Pay.
+     Shown on shop surfaces only; sits above the cart FAB; dismiss remembered per tab. */
+  #iab-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 945; display: none; align-items: center; justify-content: center; gap: 14px;
+    padding: 11px 14px calc(11px + env(safe-area-inset-bottom)); background: #0d0d0d; color: #f2efe4; border-top: 1px solid #2a2a2a;
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; }
+  #iab-bar.on { display: flex; }
+  #iab-bar a { color: #f2efe4; text-decoration: none; border-bottom: 1px solid #555; white-space: nowrap; }
+  #iab-bar button { background: none; border: none; color: #666; font-family: var(--mono); font-size: 11px; cursor: none; padding: 0 2px; }
+  body.iab-bar-on #cart-fab { bottom: 64px; }
   #cart-fab {
     position: fixed; right: 22px; bottom: 22px; z-index: 940;
     display: none; align-items: center; gap: 9px;
@@ -1413,6 +1493,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     color: #1a1a1a; border-bottom: 1px solid #c9c4ba; transition: border-color .2s;
   }
   .ship-limit-note button:hover { border-color: #1a1a1a; }
+  /* Pre-Stripe ship status: what the buyer's country gets, said before the address form. */
+  .ship-status { margin: 10px 0 0; font-family: var(--mono); font-size: 8.5px; letter-spacing: .09em; line-height: 1.75; color: #8d8880; min-height: 14px; }
+  .ship-status.ok { color: #3a7a3a; }
+  .ship-status.warn { color: #8a6a1a; }
+  .ship-status.no { color: #a33; }
+  .ship-status button, .ship-status a { font-family: var(--mono); font-size: 8.5px; letter-spacing: .12em; background: none; border: none; padding: 0; cursor: none; color: #1a1a1a; border-bottom: 1px solid #c9c4ba; text-decoration: none; }
+  .ship-status button:hover, .ship-status a:hover { border-color: #1a1a1a; }
+  /* WHERE WE SHIP modal */
+  #ship-modal { position: fixed; inset: 0; z-index: 970; background: rgba(20,18,15,.55); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; }
+  #ship-modal.open { opacity: 1; pointer-events: all; }
+  .ship-inner { width: min(560px, 94vw); max-height: 88vh; overflow-y: auto; background: #fff; border: 1px solid #e2dfd7; border-radius: 2px; font-family: var(--mono); box-shadow: 0 24px 70px rgba(0,0,0,.22); padding: 22px 24px 26px; color: #1a1a1a; }
+  .ship-inner h3 { font-family: var(--mono); font-weight: 400; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: #6a655c; margin: 0 0 14px; display: flex; justify-content: space-between; align-items: center; }
+  .ship-inner h3 button { font-family: var(--mono); font-size: 9px; letter-spacing: .15em; text-transform: uppercase; background: none; border: none; color: #8d8880; cursor: none; }
+  .ship-inner h3 button:hover { color: #1a1a1a; }
+  .ship-region { margin: 0 0 14px; }
+  .ship-region b { display: block; font-weight: 400; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #8d8880; margin-bottom: 6px; }
+  .ship-region span { display: inline-block; font-size: 10px; letter-spacing: .04em; padding: 3px 8px; margin: 0 4px 4px 0; border: 1px solid #e6e3db; color: #1a1a1a; }
+  .ship-region span.paper { color: #8d8880; border-style: dashed; }
+  .ship-key { font-size: 8.5px; letter-spacing: .09em; line-height: 1.8; color: #8d8880; border-top: 1px solid #ece9e2; padding-top: 12px; margin-top: 4px; }
+  .ship-key i { display: inline-block; width: 9px; height: 9px; border: 1px solid #e6e3db; vertical-align: -1px; margin-right: 5px; }
+  .ship-key i.paper { border-style: dashed; }
+  .ship-key button { font-family: var(--mono); font-size: 8.5px; letter-spacing: .12em; background: none; border: none; padding: 0; cursor: none; color: #1a1a1a; border-bottom: 1px solid #c9c4ba; }
+  .print-note button { font-family: var(--mono); font-size: 8px; letter-spacing: .1em; background: none; border: none; padding: 0; cursor: none; color: #8d8880; border-bottom: 1px solid #d8d5cd; }
+  .print-note button:hover { color: #1a1a1a; border-color: #1a1a1a; }
 
   /* ══ TOUCH: KILL HOVER ANIMATIONS ══════════════════════════════════════════
      🔴 THIS BLOCK MUST STAY LAST. An identical block was first written inside the
@@ -1442,6 +1546,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </style>
 
 <!-- CART FLOATING BUTTON -->
+<div id="iab-bar"><span>Buying a print?</span><a id="iab-bar-link" href="#" onclick="try{ssTrack('open_in_safari',{m:{from:'bar'}})}catch(e){}">Open in Safari for Apple Pay →</a><button type="button" onclick="hideIabBar(true)" aria-label="dismiss">✕</button></div>
 <button id="cart-fab" onclick="openCart()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
   <span>Cart</span><span class="cart-fab-count" id="cart-fab-count">0</span>
 </button>
@@ -1462,9 +1567,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         Somewhere else? <button type="button" onclick="askAboutShipping('framed')" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Message me</button>
         and I'll work it out with you.
       </p>
+      <div class="ship-status" id="cart-ship-status"></div>
       <div class="print-error" id="cart-error"></div>
       <button class="print-checkout-btn" id="cart-checkout-btn" onclick="checkoutCart()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Proceed to Checkout →</button>
-      <p class="print-note" style="margin:0;">Printed on demand via Prodigi · Shipped worldwide · Secure checkout via Stripe</p>
+      <p class="print-note" style="margin:0;">Printed on demand via Prodigi · Free shipping to <button type="button" onclick="openShipModal()">35 countries</button> · Secure checkout via Stripe</p>
     </div>
   </div>
 </div>
@@ -1507,6 +1613,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           and I'll work it out with you. Unframed prints ship to every country listed at checkout.
         </p>
       </div>
+      <div class="ship-status" id="print-ship-status"></div>
       <!-- border finish (shown only when a white-border asset exists) -->
       <div id="print-border-section" style="display:none">
         <span class="print-label">Finish</span>
@@ -1535,8 +1642,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <button class="print-checkout-btn" id="print-checkout-btn" onclick="submitPrintOrder()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
         Buy It Now →
       </button>
-      <p class="print-note">Printed on demand via Prodigi · Shipped worldwide · Secure checkout via Stripe</p>
+      <p class="print-note">Printed on demand via Prodigi · Free shipping to <button type="button" onclick="openShipModal()">35 countries</button> · Secure checkout via Stripe</p>
     </div>
+  </div>
+</div>
+
+<!-- WHERE WE SHIP -->
+<div id="ship-modal" onclick="if(event.target===this)closeShipModal()">
+  <div class="ship-inner">
+    <h3>Where prints ship <button type="button" onclick="closeShipModal()">✕ close</button></h3>
+    <div id="ship-modal-body"></div>
+    <div class="ship-key"><i></i>paper + framed &nbsp; <i class="paper"></i>paper only (frames cost more to fly there than they're worth) &nbsp;·&nbsp; Shipping is free everywhere on the list. Somewhere else? <button type="button" onclick="closeShipModal();askAboutShipping('country')">Message me</button> — I'll get a quote.</div>
   </div>
 </div>
 
@@ -2093,6 +2209,69 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const { createClient } = supabase;
 const sb = createClient(SUPA_URL, SUPA_KEY);
 
+// ══ FIRST-PARTY ANALYTICS ══
+// ssTrack(event, {id, m}) → POST /api/track (Vercel edge fn stamps country/city,
+// writes Supabase `site_events`) + a mirrored Vercel Web Analytics custom event.
+// page_view fires automatically on every URL change (pushState/replaceState/popstate),
+// deduped by path, so /shop → /photos → /book each count once. Stuart's own
+// browser opts out the moment he signs into /mr.manager (localStorage ss_admin).
+// Read side = the Analytics panel in /mr.manager (admin-gated RPCs).
+const ssTrack = (function () {
+  var IDLE = 30 * 60 * 1000;
+  var sid = null, lastPath = null;
+  function rnd() { try { var a = new Uint8Array(12); crypto.getRandomValues(a); return Array.from(a, function (b) { return ('0' + b.toString(16)).slice(-2); }).join(''); } catch (e) { return String(Date.now()) + Math.random().toString(16).slice(2); } }
+  function session() {
+    var now = Date.now();
+    try {
+      var t = +localStorage.getItem('ss_sid_t') || 0;
+      sid = localStorage.getItem('ss_sid');
+      if (!sid || now - t > IDLE) { sid = rnd(); localStorage.setItem('ss_sid', sid); }
+      localStorage.setItem('ss_sid_t', String(now));
+    } catch (e) { if (!sid) sid = rnd(); }
+    return sid;
+  }
+  function optedOut() { try { return localStorage.getItem('ss_admin') === '1'; } catch (e) { return false; } }
+  function device() {
+    var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    var w = Math.min(window.innerWidth, window.innerHeight);
+    return coarse ? (w < 600 ? 'mobile' : 'tablet') : 'desktop';
+  }
+  function send(event, opts) {
+    if (optedOut()) return;
+    var p = location.pathname;
+    if (p === '/mr.manager') return;
+    opts = opts || {};
+    var payload = { s: session(), e: event, p: p, d: device(), r: document.referrer ? document.referrer.slice(0, 200) : null };
+    if (opts.id != null) payload.id = opts.id;
+    if (opts.m) payload.m = opts.m;
+    var body = JSON.stringify(payload);
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon('/api/track', new Blob([body], { type: 'application/json' }))) return;
+    } catch (e) {}
+    try { fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }).catch(function () {}); } catch (e) {}
+  }
+  function pageView() {
+    var p = location.pathname;
+    if (p === lastPath) return;
+    lastPath = p;
+    send('page_view');
+    // GA4 only ever saw the first load of this SPA; give it every route too.
+    try { if (typeof gtag === 'function') gtag('event', 'page_view', { page_path: p + location.search, page_location: location.href }); } catch (e) {}
+  }
+  function track(event, opts) {
+    send(event, opts);
+    // Mirror into Vercel Web Analytics as a custom event (pageviews it tracks itself).
+    try { if (window.va) window.va('event', { name: event, data: opts && opts.id != null ? { photo: String(opts.id) } : {} }); } catch (e) {}
+  }
+  ['pushState', 'replaceState'].forEach(function (k) {
+    var orig = history[k];
+    history[k] = function () { var r = orig.apply(this, arguments); setTimeout(pageView, 0); return r; };
+  });
+  window.addEventListener('popstate', function () { setTimeout(pageView, 0); });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', pageView); else pageView();
+  return track;
+})();
+
 // ══ RESPONSIVE IMAGES ══
 // Supabase serves on-the-fly resized JPEGs from /render/image/. A full-res
 // original is ~400KB+; a 480px copy is ~35KB. We serve small copies for grid
@@ -2541,7 +2720,7 @@ function renderShop() {
   if (headEl) {
     headEl.innerHTML = forSaleCount
       ? `<div class="shop-head-row"><span class="shop-head-title">Fine-Art Prints</span><span class="shop-head-count">${forSaleCount} available</span></div>
-         <div class="shop-head-sub">Museum-quality giclée prints &amp; framed editions · printed on demand · shipped worldwide</div>`
+         <div class="shop-head-sub">Museum-quality giclée prints &amp; framed editions · printed on demand · free shipping to <button type="button" class="shop-ship-link" onclick="openShipModal()">35 countries</button></div>`
       : '';
   }
   const cards = [];
@@ -2971,6 +3150,7 @@ function setPhotoMode(mode) {
   shopMode = isShop;                    // other code reads this; book mode is NOT shop
   // Entering the shop should reveal the (possibly empty) cart control.
   try { updateCartFab(); } catch (e) {}
+  try { if (isShop) showIabBar('/shop'); else hideIabBar(false); } catch (e) {}
   const page = document.getElementById('photos-page');
   const hero = document.getElementById('photos-hero');
   const sub = document.getElementById('photos-locations');
@@ -2993,7 +3173,7 @@ function setPhotoMode(mode) {
   if (bBtn) bBtn.classList.toggle('active', isBook);
   if (hero) hero.textContent = isShop ? 'SHOP' : isBook ? 'BOOK' : 'PHOTOS';
   if (sub) sub.textContent = isShop
-    ? 'fine-art prints · shipped worldwide'
+    ? 'fine-art prints · ships to 35 countries'
     : isBook
       ? 'bands · portraits · live shows · nashville'
       : 'nashville · brentwood · on the road';
@@ -3707,6 +3887,34 @@ function getAdminPanelHTML(fullpage) {
         </div>
         <div id="admin-photo-list" style="display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto;"></div>
       </div>` + colsSplit + `
+      <div class="admin-section" id="an-section">
+        <div class="admin-section-title">Analytics</div>
+        <div class="an-head">
+          <div class="an-range dash-filters" id="an-range">
+            <button class="dash-filter-btn" data-days="7" onclick="setAnalyticsRange(7)">7 days</button>
+            <button class="dash-filter-btn active" data-days="30" onclick="setAnalyticsRange(30)">30 days</button>
+            <button class="dash-filter-btn" data-days="90" onclick="setAnalyticsRange(90)">90 days</button>
+          </div>
+          <div class="an-live" id="an-live"><i></i><span><b id="an-live-n">0</b> on the site now</span></div>
+        </div>
+        <div class="an-kpis" id="an-kpis"></div>
+        <div class="an-legend"><span>pageviews</span><span class="shop">shop views</span><span class="ord">order day</span></div>
+        <div class="an-chart" id="an-chart"></div>
+        <div class="an-axis" id="an-axis"></div>
+        <div class="an-sub">On the site now <em id="an-live-note">last 5 minutes</em></div>
+        <div class="an-livelist" id="an-livelist"><div class="an-empty">nobody right now</div></div>
+        <div class="an-sub">Shop funnel by photo <em>views → buy modal → cart → checkout → paid</em></div>
+        <div class="an-photos" id="an-photos"></div>
+        <div class="an-grid" style="margin-top:18px">
+          <div><div class="an-sub">Countries <em>visitors</em></div><div class="an-rows" id="an-country"></div></div>
+          <div><div class="an-sub">Referrers <em>visitors</em></div><div class="an-rows" id="an-referrer"></div></div>
+          <div><div class="an-sub">Pages <em>pageviews</em></div><div class="an-rows" id="an-path"></div></div>
+        </div>
+        <div class="an-sub">Turned away by country <em>told "we don't ship there" before Stripe</em></div>
+        <div class="an-rows" id="an-blocked" style="margin-bottom:18px"></div>
+        <div class="an-vercel" id="an-vercel"><div class="an-sub">Vercel Web Analytics <em id="an-vercel-note">loading…</em></div><div class="an-grid" id="an-vercel-grid" style="margin-bottom:0"></div></div>
+        <div class="an-note" id="an-note"></div>
+      </div>
       <div class="admin-section">
         <div class="admin-section-title">Print Requests <span id="request-count" style="color:#2a2a2a;"></span></div>
         <div id="admin-request-list" style="display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;"></div>
@@ -3732,6 +3940,181 @@ function showAdminPanel() {
   addHover('#admin-camera-picker .cam-btn');
   loadAdminPhotos();
   loadPrintRequests();
+  loadAnalytics();
+}
+
+// ══ ADMIN ANALYTICS ══
+// Reads: admin-gated RPCs on Supabase (site_events + print_orders) and the
+// `vercel-analytics` edge fn (proxy for Vercel Web Analytics). Writes: none.
+var _anDays = 30, _anLiveTimer = null;
+function setAnalyticsRange(days) {
+  _anDays = days;
+  document.querySelectorAll('#an-range .dash-filter-btn').forEach(function (b) { b.classList.toggle('active', +b.dataset.days === days); });
+  loadAnalytics();
+}
+function anFmt(n) { n = +n || 0; return n >= 10000 ? (n / 1000).toFixed(1) + 'k' : String(n); }
+function anMoney(c) { return '$' + ((+c || 0) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
+function anEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function anAgo(ts) { var s = Math.max(0, (Date.now() - new Date(ts).getTime()) / 1000); return s < 60 ? Math.round(s) + 's' : Math.round(s / 60) + 'm'; }
+function anDelta(cur, prev) {
+  if (!prev) return cur ? '<span class="d up">new</span>' : '<span class="d">—</span>';
+  var pct = Math.round(((cur - prev) / prev) * 100);
+  if (!pct) return '<span class="d">= prior</span>';
+  return '<span class="d ' + (pct > 0 ? 'up' : 'dn') + '">' + (pct > 0 ? '▲' : '▼') + ' ' + Math.abs(pct) + '% vs prior</span>';
+}
+function anRows(el, rows, key, valueKey, labelFn) {
+  if (!el) return;
+  if (!rows || !rows.length) { el.innerHTML = '<div class="an-empty">no data yet</div>'; return; }
+  var max = Math.max.apply(null, rows.map(function (r) { return +r[valueKey] || 0; })) || 1;
+  el.innerHTML = rows.map(function (r) {
+    var v = +r[valueKey] || 0;
+    return '<div class="an-row" style="--w:' + Math.round(v / max * 100) + '%"><span>' + anEsc(labelFn ? labelFn(r[key]) : r[key]) + '</span><b>' + anFmt(v) + '</b></div>';
+  }).join('');
+}
+function anCountry(cc) {
+  if (!cc || cc === '(none)') return '(unknown)';
+  try { var dn = new Intl.DisplayNames(['en'], { type: 'region' }); return dn.of(cc) + ' · ' + cc; } catch (e) { return cc; }
+}
+function anRef(r) {
+  if (!r || r === '(none)') return 'direct / none';
+  try { return new URL(r).hostname.replace(/^www\./, ''); } catch (e) { return r; }
+}
+function renderAnalyticsChart(daily) {
+  var host = document.getElementById('an-chart'), axis = document.getElementById('an-axis');
+  if (!host) return;
+  if (!daily || !daily.length) { host.innerHTML = '<div class="an-empty">no traffic recorded yet</div>'; if (axis) axis.innerHTML = ''; return; }
+  var W = 1000, H = 120, n = daily.length, gap = n > 45 ? 1 : 3, bw = (W - gap * (n - 1)) / n;
+  var max = Math.max.apply(null, daily.map(function (d) { return +d.pageviews || 0; })) || 1;
+  var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">';
+  daily.forEach(function (d, i) {
+    var x = i * (bw + gap);
+    var pv = +d.pageviews || 0, sv = +d.shop_views || 0;
+    var hPv = pv / max * (H - 10), hSv = sv / max * (H - 10);
+    var label = d.day + ' · ' + pv + ' views · ' + (d.visitors || 0) + ' visitors · ' + sv + ' shop · ' + (d.buy_modals || 0) + ' buy modals · ' + (d.orders || 0) + ' orders' + (d.revenue_cents ? ' · ' + anMoney(d.revenue_cents) : '');
+    svg += '<g><title>' + anEsc(label) + '</title>';
+    svg += '<rect class="hit" x="' + x + '" y="0" width="' + bw + '" height="' + H + '"/>';
+    svg += '<rect class="bar" x="' + x + '" y="' + (H - hPv) + '" width="' + bw + '" height="' + hPv + '"/>';
+    svg += '<rect class="bar shop" x="' + x + '" y="' + (H - hSv) + '" width="' + bw + '" height="' + hSv + '"/>';
+    if (+d.orders > 0) svg += '<circle class="order" cx="' + (x + bw / 2) + '" cy="4" r="3"/>';
+    svg += '</g>';
+  });
+  host.innerHTML = svg + '</svg>';
+  var fmt = function (s) { var d = new Date(s + 'T00:00:00'); return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); };
+  if (axis) axis.innerHTML = '<span>' + fmt(daily[0].day) + '</span><span>peak ' + max + '/day</span><span>' + fmt(daily[n - 1].day) + '</span>';
+}
+function renderAnalyticsLive(rows) {
+  var el = document.getElementById('an-livelist'), badge = document.getElementById('an-live'), n = document.getElementById('an-live-n');
+  if (!el) return;
+  rows = rows || [];
+  if (n) n.textContent = rows.length;
+  if (badge) badge.classList.toggle('on', rows.length > 0);
+  if (!rows.length) { el.innerHTML = '<div class="an-empty">nobody right now</div>'; return; }
+  el.innerHTML = rows.slice(0, 12).map(function (r) {
+    var where = (r.city ? anEsc(r.city) + ' ' : '') + '<i>' + anEsc(r.device || '') + '</i>';
+    var what = r.photo_id ? 'photo <b>#' + r.photo_id + '</b>' : '<b>' + anEsc(r.path || '/') + '</b>';
+    if (r.last_event && r.last_event !== 'page_view') what += ' <i style="color:#7dff9a;font-style:normal">' + anEsc(r.last_event.replace(/_/g, ' ')) + '</i>';
+    return '<div class="an-visitor"><span class="ago">' + anAgo(r.last_seen) + ' ago</span><span class="cc">' + anEsc(r.country || '??') + '</span><span class="where">' + where + '</span><span class="what">' + what + '</span></div>';
+  }).join('');
+}
+function renderAnalyticsPhotos(rows) {
+  var el = document.getElementById('an-photos');
+  if (!el) return;
+  rows = (rows || []).filter(function (r) { return (+r.views || 0) + (+r.orders || 0) > 0; });
+  if (!rows.length) { el.innerHTML = '<div class="an-empty">no shop activity in this window</div>'; return; }
+  var cell = function (v, hot) { v = +v || 0; return '<span class="n' + (v ? (hot ? ' hot' : '') : ' zero') + '">' + anFmt(v) + '</span>'; };
+  var html = '<div class="an-photo hdr"><span></span><span>photo</span><span class="n">views</span><span class="n">modal</span><span class="n">cart</span><span class="n">chkout</span><span class="n">paid</span><span class="n">revenue</span></div>';
+  html += rows.map(function (r) {
+    var tags = r.tags ? String(r.tags).replace(/[\[\]"]/g, '').split(',').slice(0, 4).join(', ') : '';
+    return '<div class="an-photo">' +
+      '<img src="' + anEsc(thumbURL(r.src, 96, 50) || '') + '" loading="lazy" onerror="this.style.visibility=\'hidden\'">' +
+      '<span class="id">#' + r.photo_id + (r.for_sale === false ? ' <i style="color:#c44;font-style:normal">not for sale</i>' : '') + '<small>' + anEsc(tags) + '</small></span>' +
+      cell(r.views) + cell(r.buy_modals) + cell(r.add_to_carts) + cell(r.checkouts) + cell(r.orders, true) +
+      '<span class="rev' + (+r.revenue_cents ? '' : ' zero') + '">' + anMoney(r.revenue_cents) + '</span></div>';
+  }).join('');
+  el.innerHTML = html;
+}
+async function loadAnalyticsLive() {
+  try { var r = await sb.rpc('analytics_live'); if (!r.error) renderAnalyticsLive(r.data); } catch (e) {}
+}
+async function loadAnalytics() {
+  if (!document.getElementById('an-section')) return;
+  var days = _anDays;
+  var note = document.getElementById('an-note');
+  try {
+    var res = await Promise.all([
+      sb.rpc('analytics_totals', { days: days }),
+      sb.rpc('analytics_daily', { days: days }),
+      sb.rpc('analytics_photos', { days: days, lim: 15 }),
+      sb.rpc('analytics_breakdown', { dim: 'country', days: days, lim: 8 }),
+      sb.rpc('analytics_breakdown', { dim: 'referrer', days: days, lim: 8 }),
+      sb.rpc('analytics_breakdown', { dim: 'path', days: days, lim: 8 }),
+      sb.rpc('analytics_live'),
+      sb.rpc('analytics_blocked', { days: days })
+    ]);
+    var err = res.find(function (r) { return r.error; });
+    if (err) throw err.error;
+    var t = (res[0].data && res[0].data[0]) || {};
+    var kp = document.getElementById('an-kpis');
+    if (kp) {
+      var k = function (label, v, d) { return '<div class="an-kpi"><label>' + label + '</label><div class="v">' + v + '</div>' + (d || '') + '</div>'; };
+      kp.innerHTML =
+        k('Visitors', anFmt(t.visitors), anDelta(+t.visitors, +t.prev_visitors)) +
+        k('Pageviews', anFmt(t.pageviews), anDelta(+t.pageviews, +t.prev_pageviews)) +
+        k('Shop visitors', anFmt(t.shop_visitors), '<span class="d">' + (t.visitors ? Math.round(t.shop_visitors / t.visitors * 100) : 0) + '% of visitors</span>') +
+        k('Buy modals', anFmt(t.buy_modals), '<span class="d">' + (t.shop_visitors ? Math.round(t.buy_modals / t.shop_visitors * 100) : 0) + '% of shop</span>') +
+        k('Add to cart', anFmt(t.add_to_carts), '<span class="d">' + (t.buy_modals ? Math.round(t.add_to_carts / t.buy_modals * 100) : 0) + '% of modals</span>') +
+        k('Checkouts', anFmt(t.checkouts), '<span class="d">' + (t.buy_modals ? Math.round(t.checkouts / t.buy_modals * 100) : 0) + '% of modals</span>') +
+        k('Paid orders', anFmt(t.orders), anDelta(+t.orders, +t.prev_orders)) +
+        k('Revenue', anMoney(t.revenue_cents), anDelta(+t.revenue_cents, +t.prev_revenue_cents));
+    }
+    renderAnalyticsChart(res[1].data);
+    renderAnalyticsPhotos(res[2].data);
+    anRows(document.getElementById('an-country'), res[3].data, 'key', 'visitors', anCountry);
+    anRows(document.getElementById('an-referrer'), res[4].data, 'key', 'visitors', anRef);
+    anRows(document.getElementById('an-path'), res[5].data, 'key', 'pageviews');
+    renderAnalyticsLive(res[6].data);
+    var blocked = (res[7].data || []).map(function (r) { return { key: anCountry(r.country) + (r.kind === 'ship_paper_only' ? ' · framed only' : ''), v: +r.sessions }; });
+    var bl = document.getElementById('an-blocked');
+    if (bl) { if (blocked.length) anRows(bl, blocked, 'key', 'v'); else bl.innerHTML = '<div class="an-empty">nobody turned away — every buyer so far was in a shipped country</div>'; }
+    if (note) note.innerHTML = 'First-party events via <a href="/api/track" target="_blank">/api/track</a> → <code>site_events</code>; paid orders from <code>print_orders</code>. Your own browser is excluded once signed in here. Bots are recorded but never counted.';
+  } catch (e) {
+    if (note) note.innerHTML = '<span style="color:#c44">analytics error: ' + anEsc(e.message || e) + '</span>';
+  }
+  if (_anLiveTimer) clearInterval(_anLiveTimer);
+  _anLiveTimer = setInterval(function () {
+    if (!document.getElementById('an-livelist') || !document.getElementById('admin-overlay').classList.contains('active')) { clearInterval(_anLiveTimer); _anLiveTimer = null; return; }
+    loadAnalyticsLive();
+  }, 30000);
+  loadVercelAnalytics(days);
+}
+async function loadVercelAnalytics(days) {
+  var grid = document.getElementById('an-vercel-grid'), vnote = document.getElementById('an-vercel-note');
+  if (!grid) return;
+  try {
+    var session = (await sb.auth.getSession()).data.session;
+    var until = new Date(), since = new Date(Date.now() - days * 864e5);
+    var iso = function (d) { return d.toISOString().slice(0, 10); };
+    var call = function (body) {
+      return fetch(SUPA_EDGE + '/vercel-analytics', { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + (session ? session.access_token : SUPA_KEY) }, body: JSON.stringify(Object.assign({ since: iso(since), until: iso(until) }, body)) })
+        .then(function (r) { return r.json().then(function (j) { j._status = r.status; return j; }); });
+    };
+    var total = await call({ mode: 'count' });
+    if (total._status === 501 || total.setup) { vnote.textContent = 'not connected'; grid.innerHTML = '<div class="an-note" style="grid-column:1/-1;margin:0">Enable Web Analytics on the Vercel project, create a read token at vercel.com/account/tokens, then add it as the <code>VERCEL_TOKEN</code> secret on the Supabase <code>vercel-analytics</code> function.</div>'; return; }
+    if (total._status !== 200) throw new Error(total.error || ('HTTP ' + total._status));
+    var rest = await Promise.all([
+      call({ mode: 'aggregate', by: ['country'], limit: 8 }),
+      call({ mode: 'aggregate', by: ['referrerHostname'], limit: 8 }),
+      call({ mode: 'aggregate', by: ['requestPath'], limit: 8 })
+    ]);
+    vnote.textContent = anFmt(total.data && total.data.visitors) + ' visitors · ' + anFmt(total.data && total.data.pageviews) + ' pageviews · ' + days + 'd';
+    var toRows = function (j) { return (j.data || []).map(function (r) { var keys = Object.keys(r).filter(function (k) { return k !== 'count' && k !== 'visitors' && k !== 'pageviews'; }); return { key: r[keys[0]], v: r.visitors || r.count || r.pageviews || 0 }; }); };
+    grid.innerHTML = '<div><div class="an-sub">Countries</div><div class="an-rows" id="an-v-c"></div></div><div><div class="an-sub">Referrers</div><div class="an-rows" id="an-v-r"></div></div><div><div class="an-sub">Pages</div><div class="an-rows" id="an-v-p"></div></div>';
+    anRows(document.getElementById('an-v-c'), toRows(rest[0]), 'key', 'v', anCountry);
+    anRows(document.getElementById('an-v-r'), toRows(rest[1]), 'key', 'v', function (h) { return h || 'direct'; });
+    anRows(document.getElementById('an-v-p'), toRows(rest[2]), 'key', 'v');
+  } catch (e) {
+    if (vnote) vnote.textContent = 'error: ' + (e.message || e);
+  }
 }
 
 async function loadPrintRequests() {
@@ -3818,6 +4201,7 @@ async function openAdmin(fullpage) {
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
     adminAuthed = true;
+    try { localStorage.setItem('ss_admin', '1'); } catch (e) {}
     showAdminPanel();
   } else {
     setTimeout(() => document.getElementById('admin-password').focus(), 100);
@@ -3847,6 +4231,7 @@ async function adminLogin() {
     return;
   }
   adminAuthed = true;
+  try { localStorage.setItem('ss_admin', '1'); } catch (e) {}  // this browser is Stuart's — stop counting it
   showAdminPanel();
 }
 async function adminLogout() {
@@ -4530,7 +4915,7 @@ function applyProductSeo(photo) {
   var avail = offered.length ? 'InStock' : 'PreOrder';
 
   var desc = title + ' fine art print by Stuart Singleton.' +
-    (lo != null ? ' Prints from $' + Math.round(lo / 100) + ', printed on demand and shipped worldwide.' : ' Printed on demand and shipped worldwide.') +
+    (lo != null ? ' Prints from $' + Math.round(lo / 100) + ', printed on demand, free shipping to 35 countries.' : ' Printed on demand, free shipping to 35 countries.') +
     ' Secure checkout.';
 
   document.title = title + ', Fine Art Print | Stuart Singleton';
@@ -4599,6 +4984,7 @@ function applyProductSeo(photo) {
   if (window.location.pathname !== '/p') return;
   var pid = null;
   try { pid = new URLSearchParams(window.location.search).get('id'); } catch (e) {}
+  try { showIabBar('/p' + (pid ? '?id=' + pid : '')); } catch (e) {}
   var go = function () {
     if (!pid) { try { navigate('shop'); } catch (e) {} return; }
     openProductFast(pid);
@@ -4747,7 +5133,7 @@ const ROUTE_META = {
   ],
   '/shop': [
     'Buy Fine Art Photography Prints | Stuart Singleton',
-    'Shop archival giclee prints of Stuart Singleton’s photography. Framed and unframed, from $29, printed on demand and shipped worldwide with free shipping.'
+    'Shop archival giclee prints of Stuart Singleton’s photography. Framed and unframed, from $29, printed on demand with free shipping to 35 countries.'
   ],
   '/photos': [
     'Photography Gallery | Stuart Singleton',
@@ -4827,7 +5213,7 @@ const SUPA_EDGE = 'https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1';
 // auto-orients the asset, so one SKU serves both portrait and landscape.
 // Prices are ALL-IN with FREE shipping (shipping cost is baked into the price,
 // not added at checkout). Validated against live Prodigi cost + Stripe fees:
-// every size holds 45–70% margin worldwide. Framed ships free to US/UK/AU only
+// every size holds 45–70% margin in the 35 shipped countries. Framed ships to US/UK/EU only (allowlist in create-checkout-session v27)
 // (Canada framed is blocked server-side — Prodigi's framed-CA shipping is ~$94).
 // FRAMED SKUs are the VERIFIED Prodigi product GLOBAL-CFPM-MOTH-[size]: Classic
 // Frame, EMA 200gsm Fine Art Print, Mounted/Matted, Motheye Glaze, snow-white
@@ -4887,9 +5273,105 @@ let _printFrameMockups = { black: null, white: null, natural: null }; // per-col
 let _printVariant = 'print-master';
 let _printHasBordered = false;
 
+// ══ WHERE WE SHIP ══
+// MIRRORS create-checkout-session v27 (PAPER_COUNTRIES / FRAMED_COUNTRIES). The edge
+// fn is the enforcer; this copy exists so the buyer hears it HERE, before Stripe's
+// address form — which is where blocked-country buyers used to silently die.
+// Keep the two lists in sync by hand; a mismatch shows as a buyer told "yes" who
+// then can't pick their country.
+var SHIP_PAPER = ['US','CA','AU','NZ','JP','GB','IE','FR','DE','NL','BE','LU','ES','PT','IT','AT','CH','DK','SE','NO','FI','IS','PL','CZ','SK','HU','SI','HR','RO','BG','GR','EE','LV','LT','MT'];
+var SHIP_FRAMED = ['US','GB','IE','FR','DE','NL','BE','LU','ES','PT','IT','AT','CH','DK','SE','NO','FI','PL','CZ','SK','HU','SI','HR','RO','BG','GR','EE','LV','LT','MT'];
+var SHIP_REGIONS = [
+  ['North America', ['US','CA']],
+  ['United Kingdom & Ireland', ['GB','IE']],
+  ['Europe', ['FR','DE','NL','BE','LU','ES','PT','IT','AT','CH','DK','SE','NO','FI','IS','PL','CZ','SK','HU','SI','HR','RO','BG','GR','EE','LV','LT','MT']],
+  ['Pacific & Asia', ['AU','NZ','JP']],
+];
+function shipCountryName(cc) { try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(cc) || cc; } catch (e) { return cc; } }
+window._ssGeo = null;
+var _ssGeoPromise = null;
+function ssGeo() {
+  if (window._ssGeo) return Promise.resolve(window._ssGeo);
+  if (_ssGeoPromise) return _ssGeoPromise;
+  _ssGeoPromise = fetch('/api/geo', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (g) { window._ssGeo = (g && g.country) ? g : { country: null }; return window._ssGeo; })
+    .catch(function () { window._ssGeo = { country: null }; return window._ssGeo; });
+  return _ssGeoPromise;
+}
+// In-app browsers (Instagram / Facebook / Threads) have no Apple Pay and a cramped
+// Stripe page — the Aug 28 framed-print buyer bounced from exactly there. Offer Safari.
+function inAppBrowser() { var ua = navigator.userAgent || ''; return /Instagram|FBAN|FBAV|FB_IAB|Barcelona/i.test(ua); }
+function safariHref(path) { return 'x-safari-https://stuartsingleton.com' + (path || (location.pathname + location.search)); }
+// Android in-app webviews: an intent:// URL hands the page to Chrome (Google Pay lives there).
+function externalHref(path) {
+  var p = path || (location.pathname + location.search);
+  if (/Android/i.test(navigator.userAgent || '')) return 'intent://stuartsingleton.com' + p + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fstuartsingleton.com' + encodeURIComponent(p) + ';end';
+  return safariHref(p);
+}
+function showIabBar(path) {
+  if (!inAppBrowser()) return;
+  try { if (sessionStorage.getItem('iab_bar_off') === '1') return; } catch (e) {}
+  var bar = document.getElementById('iab-bar'), a = document.getElementById('iab-bar-link');
+  if (!bar || !a) return;
+  a.href = externalHref(path);
+  a.textContent = /Android/i.test(navigator.userAgent || '') ? 'Open in Chrome for Google Pay →' : 'Open in Safari for Apple Pay →';
+  bar.classList.add('on'); document.body.classList.add('iab-bar-on');
+}
+function hideIabBar(remember) {
+  var bar = document.getElementById('iab-bar');
+  if (bar) bar.classList.remove('on');
+  document.body.classList.remove('iab-bar-on');
+  if (remember) { try { sessionStorage.setItem('iab_bar_off', '1'); } catch (e) {} }
+}
+var _shipBlockedLogged = {};
+function renderShipStatus(elId, framed, photoId) {
+  var el = document.getElementById(elId);
+  if (!el) return;
+  el.className = 'ship-status'; el.innerHTML = '';
+  ssGeo().then(function (g) {
+    var cc = g && g.country;
+    var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent || '');
+    var safari = (inAppBrowser() && (ios || /Android/i.test(navigator.userAgent || '')))
+      ? ' &nbsp;·&nbsp; <a href="' + externalHref(photoId ? '/p?id=' + photoId : '/shop?cart=1') + '" onclick="try{ssTrack(\'open_in_safari\',{id:' + (photoId || 'null') + '})}catch(e){}">' + (/Android/i.test(navigator.userAgent || '') ? 'Open in Chrome for Google Pay →' : 'Open in Safari for Apple Pay →') + '</a>'
+      : '';
+    if (!cc) { el.innerHTML = 'Free shipping to <button type="button" onclick="openShipModal()">35 countries</button>' + safari; return; }
+    var name = shipCountryName(cc);
+    var key = cc + ':' + (framed ? 'f' : 'p');
+    if (SHIP_PAPER.indexOf(cc) === -1) {
+      el.className = 'ship-status no';
+      el.innerHTML = 'Not shipping to ' + name + ' yet. <button type="button" onclick="askAboutShipping(\'country\')">Message me</button> and I\'ll get you a quote. <button type="button" onclick="openShipModal()">Where we ship</button>';
+      if (!_shipBlockedLogged[key]) { _shipBlockedLogged[key] = 1; try { ssTrack('ship_blocked', { id: photoId, m: { country: cc, framed: !!framed } }); } catch (e) {} }
+      return;
+    }
+    if (framed && SHIP_FRAMED.indexOf(cc) === -1) {
+      el.className = 'ship-status warn';
+      el.innerHTML = 'Paper prints ship free to ' + name + ' — framed ones don\'t (couriers charge more to fly a frame there than it\'s worth). Pick an unframed size, or <button type="button" onclick="askAboutShipping(\'framed\')">message me</button>.' + safari;
+      if (!_shipBlockedLogged[key]) { _shipBlockedLogged[key] = 1; try { ssTrack('ship_paper_only', { id: photoId, m: { country: cc } }); } catch (e) {} }
+      return;
+    }
+    el.className = 'ship-status ok';
+    el.innerHTML = '✓ Ships free to ' + name + (framed ? ', framed or unframed' : '') + '.' + safari;
+  });
+}
+function openShipModal() {
+  var body = document.getElementById('ship-modal-body');
+  if (body && !body.innerHTML) {
+    body.innerHTML = SHIP_REGIONS.map(function (r) {
+      return '<div class="ship-region"><b>' + r[0] + '</b>' + r[1].map(function (cc) {
+        return '<span class="' + (SHIP_FRAMED.indexOf(cc) === -1 ? 'paper' : '') + '" title="' + (SHIP_FRAMED.indexOf(cc) === -1 ? 'paper prints only' : 'paper + framed') + '">' + shipCountryName(cc) + '</span>';
+      }).join('') + '</div>';
+    }).join('');
+  }
+  document.getElementById('ship-modal').classList.add('open');
+  try { addHover('#ship-modal button'); } catch (e) {}
+}
+function closeShipModal() { document.getElementById('ship-modal').classList.remove('open'); }
+
 function openPrintModal(photoId) {
   const photo = PHOTOS.find(p => String(p.id) === String(photoId));
   if (!photo) return;
+  try { ssTrack('buy_modal', { id: photo.id }); } catch (e) {}
+  try { renderShipStatus('print-ship-status', false, photo.id); } catch (e) {}
   _printPhotoId = photoId;
   _printSku = null;
   _printFrameColor = 'black';
@@ -5125,6 +5607,7 @@ let _requestPhotoSrc = '';
 function openRequestModal(photoId) {
   const photo = PHOTOS.find(p => String(p.id) === String(photoId));
   if (!photo) return;
+  try { ssTrack('request_print', { id: photo.id }); } catch (e) {}
   _requestPhotoId = photoId;
   _requestPhotoSrc = photo.src || '';
   document.getElementById('request-modal-photo').src = _requestPhotoSrc;
@@ -5201,6 +5684,7 @@ function selectSize(btn) {
   _printPriceCents = parseInt(btn.dataset.price, 10);
   const isFramed = btn.dataset.framed === 'true';
   document.getElementById('print-frame-section').style.display = isFramed ? 'block' : 'none';
+  try { renderShipStatus('print-ship-status', isFramed, _printPhotoId); } catch (e) {}
   document.getElementById('print-checkout-btn').disabled = false;
   { const _ac = document.getElementById('print-addcart-btn'); if (_ac) { _ac.disabled = false; _ac.textContent = 'Add to Cart'; } }
   renderPrintPreview();
@@ -5231,6 +5715,7 @@ function updatePrintTotal() {
 
 async function submitPrintOrder() {
   if (!_printPhotoId || !_printSku) return;
+  try { ssTrack('checkout_start', { id: _printPhotoId, m: { sku: _printSku, cents: _printPriceCents, items: 1 } }); } catch (e) {}
   const copies = parseInt(document.getElementById('print-copies').value || 1, 10);
   const btn = document.getElementById('print-checkout-btn');
   const errEl = document.getElementById('print-error');
@@ -5301,6 +5786,7 @@ function cartLineKey(it) { return [it.photoId, it.sku, it.frameColor || '', it.v
 
 function addToCart(btn) {
   if (!_printPhotoId || !_printSku) return;
+  try { ssTrack('add_to_cart', { id: _printPhotoId, m: { sku: _printSku, cents: _printPriceCents } }); } catch (e) {}
   var copies = parseInt(document.getElementById('print-copies').value || 1, 10);
   var size = (typeof PRINT_SIZES !== 'undefined') ? PRINT_SIZES.find(function (s) { return s.sku === _printSku; }) : null;
   var isFramed = _printSku.toUpperCase().indexOf('GLOBAL-CFPM') === 0;
@@ -5367,6 +5853,7 @@ function renderCart() {
   if (shipNote) {
     var hasFramed = CART.some(function (it) { return String(it.sku || '').toUpperCase().indexOf('GLOBAL-CFPM') === 0; });
     shipNote.style.display = hasFramed ? 'block' : 'none';
+    try { renderShipStatus('cart-ship-status', hasFramed, CART[0] && CART[0].photoId); } catch (e) {}
   }
   if (foot) foot.style.display = 'flex';
   try { addHover('.cart-qty button, .cart-remove, #cart-checkout-btn'); } catch (e) {}
@@ -5382,8 +5869,11 @@ function askAboutShipping(kind) {
   try {
     var f = document.forms['contact'];
     if (f && f.message && !f.message.value) {
+      var cc = (window._ssGeo && window._ssGeo.country) ? ' (' + shipCountryName(window._ssGeo.country) + ')' : '';
       f.message.value = kind === 'framed'
-        ? "Hi Stuart — I'd like a framed print but I'm outside the US/UK. Which photo and size: "
+        ? "Hi Stuart — I'd like a framed print but I'm outside the US/UK" + cc + ". Which photo and size: "
+        : kind === 'country'
+        ? "Hi Stuart — I'm in" + (cc ? cc.replace(' (', ' ').replace(')', '') : " a country you don't ship to yet") + " and would like a print. Which photo and size: "
         : "Hi Stuart — a question about shipping a print: ";
       setTimeout(function () {
         try { f.message.focus(); f.message.setSelectionRange(f.message.value.length, f.message.value.length); } catch (e) {}
@@ -5392,11 +5882,12 @@ function askAboutShipping(kind) {
   } catch (e) {}
 }
 
-function openCart() { renderCart(); var e = document.getElementById('cart-error'); if (e) e.textContent = ''; document.getElementById('cart-modal').classList.add('open'); }
+function openCart() { try { ssTrack('cart_open'); } catch (e) {} renderCart(); var e = document.getElementById('cart-error'); if (e) e.textContent = ''; document.getElementById('cart-modal').classList.add('open'); }
 function closeCart() { document.getElementById('cart-modal').classList.remove('open'); }
 
 async function checkoutCart() {
   if (!CART.length) return;
+  try { ssTrack('checkout_start', { id: CART[0].photoId, m: { items: CART.length, photos: CART.map(function (it) { return it.photoId; }) } }); } catch (e) {}
   var btn = document.getElementById('cart-checkout-btn');
   var errEl = document.getElementById('cart-error');
   errEl.textContent = '';

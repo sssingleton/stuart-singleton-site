@@ -80,7 +80,8 @@ const robots =
   `Allow: /catalog.json\n` +
   `Allow: /llms.txt\n` +
   `Disallow: /mr.manager\n` +
-  `Disallow: /S137devhub\n\n` +
+  `Disallow: /S137devhub\n` +
+  `Disallow: /api/\n\n` +
   `Sitemap: ${SITE}/sitemap.xml\n`;
 
 fs.writeFileSync(path.join(__dirname, 'robots.txt'), robots);

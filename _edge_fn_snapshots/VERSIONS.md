@@ -22,3 +22,17 @@ Pulled/deployed 2026-06-15 via Supabase MCP (project zbcdeglxwrappriwpxwt).
 ⚠️ These deployed fns are the source of truth; pull via MCP get_edge_function
 before any redeploy. stripe-webhook.v20.ts in this folder is the PRE-borders
 snapshot (kept for diff).
+
+## vercel-analytics — v1 deployed 2026-09-03 (`verify_jwt: true`)
+Admin-only proxy for the Vercel Web Analytics API, backing the Analytics
+panel in /mr.manager. Checks `public.is_site_admin()` with the caller's JWT,
+then forwards a whitelisted query to api.vercel.com with `VERCEL_TOKEN`
+(Supabase secret — never in the client). Returns 501 `{setup:true}` until the
+secret is set. Snapshot: `vercel-analytics.v1.ts`.
+
+## stripe-webhook — v24 deployed 2026-09-03 (`verify_jwt: false`, unchanged)
+Adaptive Pricing turned on in Stripe the same day. DB `amount_total` stays USD
+(written by create-checkout-session, never overwritten). v24 only appends the
+USD figure from `session.currency_conversion` to the buyer/owner email totals.
+Diff vs v23: `_edge_fn_snapshots/stripe-webhook.v24.patch.md`. Live check:
+bad signature → 400 (verification path intact).

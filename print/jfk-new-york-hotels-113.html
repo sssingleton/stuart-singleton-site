@@ -18,17 +18,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('js', new Date());
   gtag('config', 'G-Y7P9FGW6PT');
 </script>
+<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  function send(e,id){var o=Object.assign({e:e},base);if(id)o.id=id;var b=JSON.stringify(o);
+    try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}
+    try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}}
+  send('page_view');send('photo_view',113);
+  // In-app browsers (Instagram/Facebook/Threads) have no Apple Pay / Google Pay — offer the real browser.
+  if(/Instagram|FBAN|FBAV|FB_IAB|Barcelona/i.test(navigator.userAgent||'')){
+    try{ if(sessionStorage.getItem('iab_bar_off')==='1') return; }catch(e){}
+    var and=/Android/i.test(navigator.userAgent||''),p=location.pathname+location.search;
+    var href=and?'intent://stuartsingleton.com'+p+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fstuartsingleton.com'+encodeURIComponent(p)+';end':'x-safari-https://stuartsingleton.com'+p;
+    document.addEventListener('DOMContentLoaded',function(){
+      var b=document.createElement('div');
+      b.setAttribute('style','position:fixed;left:0;right:0;bottom:0;z-index:945;display:flex;align-items:center;justify-content:center;gap:14px;padding:11px 14px calc(11px + env(safe-area-inset-bottom));background:#0d0d0d;color:#f2efe4;border-top:1px solid #2a2a2a;font-family:ui-monospace,Menlo,monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase');
+      b.innerHTML='<span>Buying a print?</span><a style="color:#f2efe4;text-decoration:none;border-bottom:1px solid #555;white-space:nowrap" href="'+href+'">'+(and?'Open in Chrome for Google Pay →':'Open in Safari for Apple Pay →')+'</a><button type="button" style="background:none;border:none;color:#666;font-size:11px;padding:0 2px" aria-label="dismiss">✕</button>';
+      b.querySelector('a').addEventListener('click',function(){send('open_in_safari');});
+      b.querySelector('button').addEventListener('click',function(){b.remove();try{sessionStorage.setItem('iab_bar_off','1');}catch(e){}});
+      document.body.appendChild(b);
+    });
+  }
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <title>JFK / New York / Hotels No. 3, Fine Art Print</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="canonical" href="https://stuartsingleton.com/print/jfk-new-york-hotels-113">
-<meta name="description" content="Photograph of JFK, Hotels in New York, by Stuart Singleton No. 3. Archival giclee prints from $29, printed on demand and shipped worldwide.">
+<meta name="description" content="Photograph of JFK, Hotels in New York, by Stuart Singleton No. 3. Archival giclee prints from $29, printed on demand, free shipping to 35 countries.">
 
 <!-- Open Graph (Pinterest / Facebook / iMessage / agents) -->
 <meta property="og:type" content="product">
 <meta property="og:title" content="JFK / New York / Hotels No. 3, Fine Art Print">
-<meta property="og:description" content="Photograph of JFK, Hotels in New York, by Stuart Singleton No. 3. Archival giclee prints from $29, printed on demand and shipped worldwide.">
+<meta property="og:description" content="Photograph of JFK, Hotels in New York, by Stuart Singleton No. 3. Archival giclee prints from $29, printed on demand, free shipping to 35 countries.">
 <meta property="og:image" content="https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329873589.jpg?width=1200&amp;quality=80&amp;resize=contain">
 <meta property="og:url" content="https://stuartsingleton.com/print/jfk-new-york-hotels-113">
 <meta property="og:site_name" content="Stuart Singleton">
@@ -39,11 +70,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="JFK / New York / Hotels No. 3, Fine Art Print">
-<meta name="twitter:description" content="Photograph of JFK, Hotels in New York, by Stuart Singleton No. 3. Archival giclee prints from $29, printed on demand and shipped worldwide.">
+<meta name="twitter:description" content="Photograph of JFK, Hotels in New York, by Stuart Singleton No. 3. Archival giclee prints from $29, printed on demand, free shipping to 35 countries.">
 <meta name="twitter:image" content="https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329873589.jpg?width=1200&amp;quality=80&amp;resize=contain">
 
 <!-- schema.org structured data: VisualArtwork + Product (offers, price, dims) -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":["VisualArtwork","Product"],"name":"JFK / New York / Hotels No. 3, fine art print","description":"Photograph of JFK, Hotels in New York, by Stuart Singleton No. 3","image":"https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329873589.jpg?width=1200&quality=80&resize=contain","url":"https://stuartsingleton.com/print/jfk-new-york-hotels-113","artform":"Photograph","artMedium":"Giclee fine art print","creator":{"@type":"Person","name":"Stuart Singleton","knowsAbout":"fujifilm-xt5","@id":"https://stuartsingleton.com/#person","url":"https://stuartsingleton.com/"},"creditText":"Stuart Singleton","copyrightHolder":{"@type":"Person","name":"Stuart Singleton"},"keywords":"day, color, jfk, new york, outdoor, travel, hotels","width":{"@type":"QuantitativeValue","value":2048,"unitCode":"E37"},"height":{"@type":"QuantitativeValue","value":1365,"unitCode":"E37"},"offers":{"@type":"AggregateOffer","priceCurrency":"USD","lowPrice":"29.00","highPrice":"35.00","offerCount":2,"availability":"https://schema.org/InStock","offers":[{"@type":"Offer","name":"JFK / New York / Hotels No. 3 fine art print, 4x6in","sku":"GLOBAL-FAP-4X6","price":"29.00","priceCurrency":"USD","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"JFK / New York / Hotels No. 3 fine art print, 6x9in","sku":"GLOBAL-FAP-6X9","price":"35.00","priceCurrency":"USD","availability":"https://schema.org/InStock"}]},"dateModified":"2026-08-18"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["VisualArtwork","Product"],"name":"JFK / New York / Hotels No. 3, fine art print","description":"Photograph of JFK, Hotels in New York, by Stuart Singleton No. 3","image":"https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329873589.jpg?width=1200&quality=80&resize=contain","url":"https://stuartsingleton.com/print/jfk-new-york-hotels-113","artform":"Photograph","artMedium":"Giclee fine art print","creator":{"@type":"Person","name":"Stuart Singleton","knowsAbout":"fujifilm-xt5","@id":"https://stuartsingleton.com/#person","url":"https://stuartsingleton.com/"},"creditText":"Stuart Singleton","copyrightHolder":{"@type":"Person","name":"Stuart Singleton"},"keywords":"day, color, jfk, new york, outdoor, travel, hotels","width":{"@type":"QuantitativeValue","value":2048,"unitCode":"E37"},"height":{"@type":"QuantitativeValue","value":1365,"unitCode":"E37"},"offers":{"@type":"AggregateOffer","priceCurrency":"USD","lowPrice":"29.00","highPrice":"35.00","offerCount":2,"availability":"https://schema.org/InStock","offers":[{"@type":"Offer","name":"JFK / New York / Hotels No. 3 fine art print, 4x6in","sku":"GLOBAL-FAP-4X6","price":"29.00","priceCurrency":"USD","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"JFK / New York / Hotels No. 3 fine art print, 6x9in","sku":"GLOBAL-FAP-6X9","price":"35.00","priceCurrency":"USD","availability":"https://schema.org/InStock"}]},"dateModified":"2026-09-03"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://stuartsingleton.com/"},{"@type":"ListItem","position":2,"name":"Prints","item":"https://stuartsingleton.com/prints"},{"@type":"ListItem","position":3,"name":"JFK / New York / Hotels No. 3","item":"https://stuartsingleton.com/print/jfk-new-york-hotels-113"}]}</script>
 
 <style>
@@ -110,7 +141,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="muted" style="margin:2px 0 0;font-size:.85rem;">Ordering more than one? Add each print to your cart in the shop and check out once.</p>
     <h2>About this print</h2>
     <p>Photograph of JFK, Hotels in New York, by Stuart Singleton No. 3. Produced as a giclee print on archival fine art paper. Sizes are offered only at the photo's native aspect ratio, so the image is never cropped. The source file measures 2048 by 1365 pixels, so every offered size prints at 200 DPI or sharper.</p>
-    <p>Every print is made on demand by a professional print lab and shipped worldwide. Prices include shipping. Secure checkout via Stripe.</p>
+    <p>Every print is made on demand by a professional print lab. Free shipping to 35 countries across North America, the UK, Europe, Australia, New Zealand and Japan (framed prints: US, UK and Europe). Secure checkout via Stripe.</p>
     <h2>Related prints</h2>
     <ul class="related">
       <li><a href="/print/jfk-new-york-hotels-116">JFK / New York / Hotels No. 5, fine art print</a></li>

@@ -146,7 +146,7 @@ function aboutBlock(item) {
     : '';
   return `<h2>About this print</h2>
     <p>${esc(item.sentence || item.description)}. Produced as a giclee print on archival fine art paper. Sizes are offered only at the photo's native aspect ratio, so the image is never cropped.${d}</p>
-    <p>Every print is made on demand by a professional print lab and shipped worldwide. Prices include shipping. Secure checkout via Stripe.</p>`;
+    <p>Every print is made on demand by a professional print lab. Free shipping to 35 countries across North America, the UK, Europe, Australia, New Zealand and Japan (framed prints: US, UK and Europe). Secure checkout via Stripe.</p>`;
 }
 
 function relatedBlock(related) {
@@ -182,6 +182,43 @@ function clampDesc(s, max = 158) {
   return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,.;:]$/, '') + '.';
 }
 
+// First-party beacon shared with index.html's ssTrack (same /api/track edge fn,
+// same session id in localStorage, so a /print/* landing → /p buy flow is one
+// session). photoId = null on the hub. Bots are classed server-side.
+function beacon(photoId) {
+  return `<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  function send(e,id){var o=Object.assign({e:e},base);if(id)o.id=id;var b=JSON.stringify(o);
+    try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}
+    try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}}
+  send('page_view');${photoId ? `send('photo_view',${photoId});` : ''}
+  // In-app browsers (Instagram/Facebook/Threads) have no Apple Pay / Google Pay — offer the real browser.
+  if(/Instagram|FBAN|FBAV|FB_IAB|Barcelona/i.test(navigator.userAgent||'')){
+    try{ if(sessionStorage.getItem('iab_bar_off')==='1') return; }catch(e){}
+    var and=/Android/i.test(navigator.userAgent||''),p=location.pathname+location.search;
+    var href=and?'intent://stuartsingleton.com'+p+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fstuartsingleton.com'+encodeURIComponent(p)+';end':'x-safari-https://stuartsingleton.com'+p;
+    document.addEventListener('DOMContentLoaded',function(){
+      var b=document.createElement('div');
+      b.setAttribute('style','position:fixed;left:0;right:0;bottom:0;z-index:945;display:flex;align-items:center;justify-content:center;gap:14px;padding:11px 14px calc(11px + env(safe-area-inset-bottom));background:#0d0d0d;color:#f2efe4;border-top:1px solid #2a2a2a;font-family:ui-monospace,Menlo,monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase');
+      b.innerHTML='<span>Buying a print?</span><a style="color:#f2efe4;text-decoration:none;border-bottom:1px solid #555;white-space:nowrap" href="'+href+'">'+(and?'Open in Chrome for Google Pay →':'Open in Safari for Apple Pay →')+'</a><button type="button" style="background:none;border:none;color:#666;font-size:11px;padding:0 2px" aria-label="dismiss">✕</button>';
+      b.querySelector('a').addEventListener('click',function(){send('open_in_safari');});
+      b.querySelector('button').addEventListener('click',function(){b.remove();try{sessionStorage.setItem('iab_bar_off','1');}catch(e){}});
+      document.body.appendChild(b);
+    });
+  }
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>`;
+}
+
 function pageHTML(item) {
   const fullTitle = serpTitle(item.title);
   const canonical = item.printPage;
@@ -189,7 +226,7 @@ function pageHTML(item) {
   // Description: factual, no em dashes, includes price-from when known.
   // Uses item.sentence (properly cased) NOT item.description (image alt text) —
   // Google prints this verbatim in the SERP, so it has to read like a sentence.
-  const priceBit = item.priceRangeUSD ? ` Archival giclee prints from $${Math.round(item.priceRangeUSD.min)}, printed on demand and shipped worldwide.` : ' Printed on demand and shipped worldwide.';
+  const priceBit = item.priceRangeUSD ? ` Archival giclee prints from $${Math.round(item.priceRangeUSD.min)}, printed on demand, free shipping to 35 countries.` : ' Printed on demand, free shipping to 35 countries.';
   const desc = clampDesc(`${item.sentence || item.description}.${priceBit}`.replace(/\.\./g, '.'));
 
   return `<!DOCTYPE html>
@@ -212,6 +249,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('js', new Date());
   gtag('config', 'G-Y7P9FGW6PT');
 </script>
+${beacon(item.id)}
 <title>${esc(fullTitle)}</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -325,9 +363,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 // popular tags for keyword-rich H2s, with a FAQ + FAQPage JSON-LD.
 const FAQ = [
   ['How are the prints made?',
-   'Every print is a giclee print on archival fine art paper, produced on demand by a professional print lab and shipped worldwide. Framed options use a classic frame with the print mounted behind motheye glaze.'],
+   'Every print is a giclee print on archival fine art paper, produced on demand by a professional print lab and shipped free to 35 countries across North America, the UK, Europe, Australia, New Zealand and Japan. Framed options use a classic frame with the print mounted behind motheye glaze.'],
   ['How much do prints cost?',
-   'Unframed fine art prints run from $29 to $115 depending on size. Framed prints are $119 for 8x12 inches and $245 for 16x24 inches. All prices are in USD and include worldwide shipping.'],
+   'Unframed fine art prints run from $29 to $115 depending on size. Framed prints are $119 for 8x12 inches and $245 for 16x24 inches. All prices are in USD and include shipping to every country on the list (35 countries; framed prints ship to the US, UK and Europe).'],
   ['Why do some photos offer fewer sizes?',
    'A size is offered only when the photo has enough resolution to print sharply at a 200 DPI floor, and only at the photo’s native aspect ratio so the image is never cropped. Larger sizes appear as full-resolution files are added.'],
   ['How do I buy a print?',
@@ -377,7 +415,7 @@ ${links}
   const faqHtml = FAQ.map(([q, a]) =>
     `    <h3>${esc(q)}</h3>\n    <p>${esc(a)}</p>`).join('\n');
 
-  const desc = `Browse all ${items.length} fine art photography prints by Stuart Singleton: cities, landscapes and life on the road. Archival paper, shipped worldwide, from $29.`;
+  const desc = `Browse all ${items.length} fine art photography prints by Stuart Singleton: cities, landscapes and life on the road. Archival paper, free shipping to 35 countries, from $29.`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -391,6 +429,7 @@ ${links}
   gtag('js', new Date());
   gtag('config', 'G-Y7P9FGW6PT');
 </script>
+${beacon(null)}
 <title>Fine Art Photography Prints | Stuart Singleton</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${SITE}/prints">
