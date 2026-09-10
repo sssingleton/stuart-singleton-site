@@ -414,6 +414,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .pm-btn { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; padding: 7px 16px; background: transparent; border: 1px solid #1c1c1c; color: #555; cursor: none; transition: all .2s; }
   .pm-btn:hover { border-color: #444; color: #999; }
   .pm-btn.active { border-color: #fff; color: #fff; }
+  /* an <a> in the toggle row: box it like the <button>s (no underline, same line box) */
+  a.pm-btn-link { text-decoration: none; display: inline-flex; align-items: center; line-height: normal; }
 
   /* camera sub-section filter (appears under Gallery) */
   .camera-filter { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
@@ -1778,6 +1780,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="pm-btn" id="pm-gallery" onclick="setPhotoMode('gallery')">Gallery</button>
         <button class="pm-btn" id="pm-shop" onclick="setPhotoMode('shop')">Shop Prints</button>
         <button class="pm-btn" id="pm-book" onclick="setPhotoMode('book')">Book a Shoot</button>
+        <!-- Presets is a fourth "mode" that lives on its own app (stuarts-presets.*, same paper
+             look, own checkout — Decision 286). A link styled as the toggle, not a JS mode. -->
+        <a class="pm-btn pm-btn-link" id="pm-presets" href="https://stuarts-presets.stuartsingleton.com/" onclick="try{ssTrack('presets_click',{m:{from:photoMode}})}catch(e){}" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Presets ↗</a>
       </div>
 
       <!-- CAMERA SUB-SECTIONS (gallery only) -->
