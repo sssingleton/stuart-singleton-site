@@ -641,7 +641,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      CSS multi-column balances the whole list on every change, so appending a
      page of photos re-flowed everything. Now renderPhotos() deals items into
      N .photo-col flex columns by known aspect ratio (photos.img_w/img_h);
-     appending never moves what's already on screen. 2 columns on phones. */
+     appending never moves what's already on screen. 3 columns on phones. */
   .photo-masonry {
     display: flex; align-items: flex-start; gap: 2px;
     width: 100%; max-width: 100%;
@@ -1133,7 +1133,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   @media (max-width:600px) {
     .choices { flex-direction: column; }
-    /* .photo-masonry column count is set in JS (galleryColCount) — 2 on phones */
+    /* .photo-masonry column count is set in JS (galleryColCount) — 3 on phones */
     .lab-grid { grid-template-columns: 1fr; }
     .svc-grid { grid-template-columns: 1fr; }
     /* the toggle row is 3 buttons now, not 2 — let it wrap rather than overflow */
@@ -2594,9 +2594,9 @@ let galleryVisible = [];
 let galleryShown = 0;
 let galleryColH = [];
 let galleryObserver = null;
-function galleryPageSize() { return window.innerWidth <= 600 ? 24 : 48; }
+function galleryPageSize() { return window.innerWidth <= 600 ? 30 : 48; }
 function galleryColCount() {
-  if (window.innerWidth <= 600) return 2;
+  if (window.innerWidth <= 600) return 3;
   const m = document.getElementById('photo-masonry');
   const w = m ? m.clientWidth : window.innerWidth;
   return Math.max(2, Math.floor((w + 2) / 182)); // ~180px columns + 2px gap, like the old CSS
@@ -2608,10 +2608,26 @@ function photoItemHTML(p) {
     : `<button class="photo-request-btn" onclick="event.stopPropagation();openRequestModal('${p.id}')">Request a print</button>`;
   const itemClick = p.for_sale ? `openPrintModal('${p.id}')` : `openRequestModal('${p.id}')`;
   return `<div class="photo-item ${p.span||''}" onclick="${itemClick}">
-      <img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 760])}" sizes="(max-width:600px) 48vw, 200px"${dimAttrs(p)} alt="${tags[0]||''}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${thumbFallback(p.src)}'">
+      <img src="${thumbURL(p.src, 300, 62)}" srcset="${thumbSrcset(p.src, [200, 300, 480, 760])}" sizes="(max-width:600px) 32vw, 200px"${dimAttrs(p)} alt="${tags[0]||''}" loading="lazy" decoding="async" data-pid="${p.id}" onerror="thumbRetry(this)">
       <div class="photo-item-label">${tags.join(' · ')}</div>
       ${badge}
     </div>`;
+}
+// Staged recovery for a thumbnail that failed to load. The resize endpoint
+// occasionally refuses under burst load (many tiles at once on a phone), so a
+// blank retry after a beat fixes most of them. Then a larger transform, then —
+// only for photos whose original is already web-sized (img_w <= 2400, i.e. it
+// went through "Optimize web previews") — the untransformed file itself.
+// Never the raw original of a 5000px+ upload; that is 10–40MB.
+function thumbRetry(img) {
+  const n = (parseInt(img.dataset.retry || '0', 10) || 0) + 1;
+  img.dataset.retry = n;
+  const p = PHOTOS.find(x => String(x.id) === img.dataset.pid);
+  if (!p) return;
+  if (n === 1) { setTimeout(() => { img.srcset = ''; img.src = thumbURL(p.src, 300, 62) + '&r=1'; }, 1500 + Math.random() * 1500); return; }
+  if (n === 2) { img.srcset = ''; img.src = thumbURL(p.src, 960, 70); return; }
+  if (n === 3 && p.img_w && p.img_w <= 2400) { img.srcset = ''; img.src = p.src; return; }
+  img.onerror = null;
 }
 function photoRatio(p) {
   const w = p && p.img_w, h = p && p.img_h;
