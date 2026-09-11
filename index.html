@@ -637,19 +637,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .photo-tag.active { color: #fff; }
   .photo-tag.dimmed { opacity: 0.15; pointer-events: none; }
 
-  /* PHOTO GRID - CSS columns */
+  /* PHOTO GRID - JS-split masonry columns (replaced CSS `columns:` 2026-09-11).
+     CSS multi-column balances the whole list on every change, so appending a
+     page of photos re-flowed everything. Now renderPhotos() deals items into
+     N .photo-col flex columns by known aspect ratio (photos.img_w/img_h);
+     appending never moves what's already on screen. 2 columns on phones. */
   .photo-masonry {
-    columns: 180px;
-    column-gap: 2px;
-    width: 100%;
-    max-width: 100%;
+    display: flex; align-items: flex-start; gap: 2px;
+    width: 100%; max-width: 100%;
   }
+  .photo-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
   .photo-item {
     position: relative; overflow: hidden; cursor: none;
     background: #111;
     transition: opacity .4s;
-    display: inline-block; width: 100%; break-inside: avoid; margin-bottom: 2px; vertical-align: top;
+    display: block; width: 100%;
   }
+  .gallery-more { display: none; width: 100%; text-align: center; padding: 28px 0 8px; }
+  .gallery-more.on { display: block; }
+  .gallery-more button {
+    font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+    color: #777; background: none; border: 1px solid #222; padding: 12px 22px; min-height: 44px; cursor: none;
+  }
+  .gallery-more button:hover { color: #fff; border-color: #444; }
+  .gallery-more .gm-count { display: block; margin-top: 8px; font-size: 9px; color: #444; letter-spacing: .12em; }
   .photo-item.hidden-photo { opacity: 0; pointer-events: none; }
   .photo-item.span-2 { grid-column: span 2; }
   .photo-item.tall { grid-row: span 2; }
@@ -1122,7 +1133,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   @media (max-width:600px) {
     .choices { flex-direction: column; }
-    .photo-masonry { grid-template-columns: repeat(2,1fr); grid-auto-rows: 140px; }
+    /* .photo-masonry column count is set in JS (galleryColCount) — 2 on phones */
     .lab-grid { grid-template-columns: 1fr; }
     .svc-grid { grid-template-columns: 1fr; }
     /* the toggle row is 3 buttons now, not 2 — let it wrap rather than overflow */
@@ -1798,6 +1809,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- PHOTO MASONRY (gallery view) -->
       <div class="photo-masonry" id="photo-masonry"></div>
+      <div class="gallery-more" id="gallery-more"><button type="button" onclick="appendGalleryPage()">Load more</button><span class="gm-count" id="gm-count"></span></div>
 
       <!-- SHOP HEADER (shop view) -->
       <div class="shop-head" id="shop-head" style="display:none;"></div>
@@ -2570,40 +2582,115 @@ function priceHint(p) {
   try { return '$' + Math.round(PRINT_SIZES[0].price / 100); } catch (e) { return '$35'; }
 }
 
+// === GALLERY: paged, JS-split masonry ===
+// All ~360 photos used to render at once into a CSS multi-column grid — every
+// image that resolved re-balanced the whole thing and phones crawled. Now the
+// filtered set is kept in galleryVisible and dealt out a page at a time into
+// N equal-width columns, each new item going to the currently shortest column
+// (heights known up front from photos.img_w/img_h, so no measuring). Appending
+// a page never moves anything already on screen. A sentinel below the grid
+// auto-loads the next page; the button is the fallback.
+let galleryVisible = [];
+let galleryShown = 0;
+let galleryColH = [];
+let galleryObserver = null;
+function galleryPageSize() { return window.innerWidth <= 600 ? 24 : 48; }
+function galleryColCount() {
+  if (window.innerWidth <= 600) return 2;
+  const m = document.getElementById('photo-masonry');
+  const w = m ? m.clientWidth : window.innerWidth;
+  return Math.max(2, Math.floor((w + 2) / 182)); // ~180px columns + 2px gap, like the old CSS
+}
+function photoItemHTML(p) {
+  const tags = getTagsArray(p);
+  const badge = p.for_sale
+    ? `<button class="photo-buy-btn" onclick="event.stopPropagation();openPrintModal('${p.id}')">Buy Print</button>`
+    : `<button class="photo-request-btn" onclick="event.stopPropagation();openRequestModal('${p.id}')">Request a print</button>`;
+  const itemClick = p.for_sale ? `openPrintModal('${p.id}')` : `openRequestModal('${p.id}')`;
+  return `<div class="photo-item ${p.span||''}" onclick="${itemClick}">
+      <img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 760])}" sizes="(max-width:600px) 48vw, 200px"${dimAttrs(p)} alt="${tags[0]||''}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${thumbFallback(p.src)}'">
+      <div class="photo-item-label">${tags.join(' · ')}</div>
+      ${badge}
+    </div>`;
+}
+function photoRatio(p) {
+  const w = p && p.img_w, h = p && p.img_h;
+  return (w && h) ? h / w : 1;
+}
+function updateGalleryMore() {
+  const more = document.getElementById('gallery-more');
+  const cnt = document.getElementById('gm-count');
+  if (!more) return;
+  const total = galleryVisible.length;
+  more.classList.toggle('on', galleryShown < total);
+  if (cnt) cnt.textContent = galleryShown + ' of ' + total;
+}
+function dealGalleryItems(items) {
+  const masonry = document.getElementById('photo-masonry');
+  const cols = masonry ? masonry.querySelectorAll('.photo-col') : [];
+  if (!cols.length) return 0;
+  items.forEach(p => {
+    let k = 0;
+    for (let i = 1; i < galleryColH.length; i++) if (galleryColH[i] < galleryColH[k]) k = i;
+    cols[k].insertAdjacentHTML('beforeend', photoItemHTML(p));
+    galleryColH[k] += photoRatio(p);
+  });
+  addHover('.photo-buy-btn,.photo-request-btn');
+  return items.length;
+}
+function appendGalleryPage() {
+  galleryShown += dealGalleryItems(galleryVisible.slice(galleryShown, galleryShown + galleryPageSize()));
+  updateGalleryMore();
+}
+function layoutGallery() {
+  // (Re)build the columns and re-deal the already-shown items. Used on first
+  // render and when a resize changes the column count.
+  const masonry = document.getElementById('photo-masonry');
+  if (!masonry) return;
+  const n = galleryColCount();
+  masonry.innerHTML = Array.from({ length: n }, () => '<div class="photo-col"></div>').join('');
+  galleryColH = new Array(n).fill(0);
+  const keep = galleryShown;
+  galleryShown = 0;
+  if (keep > 0) {
+    galleryShown = dealGalleryItems(galleryVisible.slice(0, keep));
+    updateGalleryMore();
+  } else {
+    appendGalleryPage();
+  }
+  if (!galleryObserver && 'IntersectionObserver' in window) {
+    const more = document.getElementById('gallery-more');
+    if (more) {
+      galleryObserver = new IntersectionObserver(entries => {
+        if (entries.some(e => e.isIntersecting) && galleryShown < galleryVisible.length && !shopMode) appendGalleryPage();
+      }, { rootMargin: '800px 0px' });
+      galleryObserver.observe(more);
+    }
+  }
+}
+let galleryResizeT = null;
+window.addEventListener('resize', () => {
+  clearTimeout(galleryResizeT);
+  galleryResizeT = setTimeout(() => {
+    const masonry = document.getElementById('photo-masonry');
+    if (!masonry || !galleryVisible.length) return;
+    if (masonry.querySelectorAll('.photo-col').length !== galleryColCount()) layoutGallery();
+  }, 150);
+});
+
 function renderPhotos() {
   if (shopMode) { renderShop(); return; }
   const masonry = document.getElementById('photo-masonry');
   if (!masonry) return;
-  const visible = [];
-  PHOTOS.forEach(p => {
-    if (photoCamera(p) !== activeCamera) return; // separate galleries per camera
+  galleryVisible = PHOTOS.filter(p => {
+    if (photoCamera(p) !== activeCamera) return false; // separate galleries per camera
     const tags = getTagsArray(p);
-    const match = activeTags.size === 0 || [...activeTags].every(t => tags.includes(t));
-    if (match) {
-      const badge = p.for_sale
-        ? `<button class="photo-buy-btn" onclick="event.stopPropagation();openPrintModal('${p.id}')">Buy Print</button>`
-        : `<button class="photo-request-btn" onclick="event.stopPropagation();openRequestModal('${p.id}')">Request a print</button>`;
-      const itemClick = p.for_sale ? `openPrintModal('${p.id}')` : `openRequestModal('${p.id}')`;
-      visible.push(`<div class="photo-item ${p.span||''}" onclick="${itemClick}">
-      <img src="${thumbURL(p.src, 480, 62)}" srcset="${thumbSrcset(p.src, [300, 480, 760])}" sizes="(max-width:600px) 48vw, 200px"${dimAttrs(p)} alt="${tags[0]||''}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${thumbFallback(p.src)}'">
-      <div class="photo-item-label">${tags.join(' · ')}</div>
-      ${badge}
-    </div>`);
-    }
+    return activeTags.size === 0 || [...activeTags].every(t => tags.includes(t));
   });
-  masonry.innerHTML = visible.join('');
+  galleryShown = 0;
+  layoutGallery();
   const emptyEl = document.getElementById('shop-empty');
   if (emptyEl) emptyEl.style.display = 'none';
-  addHover('.photo-buy-btn,.photo-request-btn');
-  // Dynamically limit columns so filtered results don't bunch in left column
-  const count = visible.length;
-  if (activeTags.size > 0 && count <= 3) {
-    masonry.style.columnCount = Math.max(1, count);
-  } else if (activeTags.size > 0 && count <= 8) {
-    masonry.style.columnCount = Math.min(3, count);
-  } else {
-    masonry.style.columnCount = '';
-  }
 }
 
 // === SHOP FILTERS ===
@@ -3183,6 +3270,8 @@ function setPhotoMode(mode) {
       ? 'bands · portraits · live shows · nashville'
       : 'nashville · brentwood · on the road';
   if (masonry) masonry.style.display = (isShop || isBook) ? 'none' : '';
+  const gmore = document.getElementById('gallery-more');
+  if (gmore) gmore.style.display = (isShop || isBook) ? 'none' : '';
   if (grid) grid.style.display = isShop ? 'grid' : 'none';
   if (head) head.style.display = isShop ? 'block' : 'none';
   if (filters) filters.style.display = isShop ? 'flex' : 'none';
