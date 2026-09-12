@@ -624,10 +624,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .sf-label { min-width: 100%; margin-bottom: -4px; }
   }
 
-  /* TAG CLOUD */
-  .tag-cloud {
-    display: flex; flex-wrap: wrap; gap: 10px 14px;
-    max-width: 100%; margin-bottom: 48px; align-items: baseline;
+  /* TAG CLOUD — grouped rows (Look / Subject / Places / People). On phones the
+     rows collapse behind a single FILTER toggle; active tags stay visible as chips
+     so a collapsed cloud never hides a filter that is narrowing the grid. */
+  .tag-cloud { max-width: 100%; margin-bottom: 48px; }
+  .tag-groups { display: flex; flex-direction: column; gap: 14px; }
+  .tag-group { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: baseline; }
+  .tag-group-label {
+    font-family: var(--mono); font-size: 8px; letter-spacing: .2em; text-transform: uppercase;
+    color: #3a3a3a; min-width: 62px; line-height: 1; user-select: none;
   }
   .photo-tag {
     font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase;
@@ -636,6 +641,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .photo-tag.active { color: #fff; }
   .photo-tag.dimmed { opacity: 0.15; pointer-events: none; }
+  .tag-clear {
+    font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+    color: #555; background: none; border: none; padding: 0; cursor: none; line-height: 1;
+    text-decoration: underline; text-underline-offset: 3px; transition: color .2s;
+  }
+  .tag-clear:hover { color: #fff; }
+  /* toggle + active chips exist for touch devices only. Width alone cannot say
+     "this is a phone" (a phone in landscape is 844px wide), so the collapse also
+     keys on a coarse pointer up to tablet width. */
+  .tag-toggle, .tag-active-row { display: none; }
+  @media (max-width: 600px), (pointer: coarse) and (max-width: 1024px) {
+    .tag-cloud { margin-bottom: 28px; }
+    .tag-toggle {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+      color: #888; background: none; border: 1px solid #222; padding: 9px 12px; min-height: 36px;
+      cursor: none; line-height: 1;
+    }
+    .tag-toggle-count { color: #fff; }
+    .tag-toggle-caret { color: #555; font-size: 11px; }
+    .tag-cloud.open .tag-toggle { color: #fff; border-color: #444; }
+    .tag-active-row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; margin-top: 12px; }
+    .tag-active-row:empty { display: none; }
+    .tag-cloud.open .tag-active-row { display: none; }
+    .tag-groups { display: none; margin-top: 16px; gap: 16px; }
+    .tag-cloud.open .tag-groups { display: flex; }
+    .tag-group { gap: 12px 14px; }
+    .tag-group-label { min-width: 100%; margin-bottom: -2px; }
+    /* on glass, tap targets need height even when the type is small */
+    .tag-groups .photo-tag { padding: 4px 0; }
+  }
 
   /* PHOTO GRID - JS-split masonry columns (replaced CSS `columns:` 2026-09-11).
      CSS multi-column balances the whole list on every change, so appending a
@@ -1800,7 +1836,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="camera-filter" id="camera-filter"></div>
 
       <!-- TAG CLOUD -->
-      <div class="tag-cloud" id="tag-cloud"></div>
+      <div class="tag-cloud" id="tag-cloud">
+        <button class="tag-toggle" id="tag-toggle" type="button" onclick="toggleTagCloud()" aria-expanded="false" aria-controls="tag-groups">Filter<span class="tag-toggle-count" id="tag-toggle-count"></span><span class="tag-toggle-caret" id="tag-toggle-caret">+</span></button>
+        <div class="tag-active-row" id="tag-active-row"></div>
+        <div class="tag-groups" id="tag-groups"></div>
+      </div>
 
       <!-- SHOP EMPTY STATE -->
       <div id="shop-empty" style="display:none;font-size:10px;color:#444;letter-spacing:.1em;line-height:1.8;text-align:center;padding:30px 0;">
@@ -2509,25 +2549,69 @@ function tagScopePhotos() {
   if (activeCamera !== 'all') return PHOTOS.filter(p => photoCamera(p) === activeCamera);
   return PHOTOS;
 }
+// Tag groups. A tag not listed anywhere lands in "more" rather than being guessed
+// into people or places, so a new tag typed in the admin never mislabels itself.
+const TAG_GROUPS = [
+  { key: 'look', label: 'Look', tags: ['color','black & white','day','night','dark','ethereal','dramatic','long exposure','double exposure','abstract','psychedelic','neon','aerochrome','unedited','bts'] },
+  { key: 'subject', label: 'Subject', tags: ['outdoor','indoor','city','architecture','nature','portrait','self portrait','live music','stage','plants','trees','flowers','garden','sky','ocean','water','beach','snow','animals','wildlife','cats','dogs','hotel','interior','museum','restaurant','food & drink','fishmonger','cars','studio','wedding','holidays','graveyard'] },
+  { key: 'places', label: 'Places', tags: ['travel','europe','france','paris','versailles','monaco','monte carlo','eze','cannes','nice','beaulieu sur mer','villefranche sur mer','saint jean cap ferrat','saint paul de vence','london','tokyo','nashville','brentwood','franklin','kentucky','lexington','virginia','abingdon','washington dc','new york','jfk','atlanta','florida','destin','30A','puerto rico','san juan','los angeles'] },
+  { key: 'people', label: 'People', tags: ['brock taylor','luke lasso','chandler walters','jt loux','hew g.','chad jarvis','will newman','abby cates','nick brown','just_omalley','daniel tashian','stuart singleton','jackson dreyer','sloe jack','amanda shires','rory fisher','stacey kelleher','jesse welles','chase potter'] },
+  { key: 'more', label: 'More', tags: [] },
+];
+const TAG_GROUP_OF = {};
+TAG_GROUPS.forEach(g => g.tags.forEach(t => { TAG_GROUP_OF[t] = g.key; }));
+let tagCloudOpen = false;
+
+function tagButtonHtml(tag, count, maxCount) {
+  const size = 10 + Math.round((count/maxCount) * 4);
+  const active = activeTags.has(tag);
+  const compatible = activeTags.size === 0 || PHOTOS.some(p =>
+    getTagsArray(p).includes(tag) && [...activeTags].every(at => getTagsArray(p).includes(at))
+  );
+  const cls = active ? 'active' : (!compatible ? 'dimmed' : '');
+  return `<button class="photo-tag ${cls}" type="button" style="font-size:${size}px;" onclick="toggleTag('${tag}')">${tag}</button>`;
+}
 function renderTagCloud() {
   const scope = tagScopePhotos();
   const tagCount = {};
   scope.forEach(p => getTagsArray(p).forEach(t => { tagCount[t] = (tagCount[t]||0)+1; }));
   const maxCount = Math.max(1, ...Object.values(tagCount));
   const cloud = document.getElementById('tag-cloud');
-  if (!cloud) return;
-  cloud.innerHTML = Object.entries(tagCount)
-    .sort((a,b) => b[1]-a[1])
-    .map(([tag, count]) => {
-      const size = 10 + Math.round((count/maxCount) * 10);
-      const active = activeTags.has(tag);
-      const compatible = activeTags.size === 0 || PHOTOS.some(p =>
-        getTagsArray(p).includes(tag) && [...activeTags].every(at => getTagsArray(p).includes(at))
-      );
-      const cls = active ? 'active' : (!compatible ? 'dimmed' : '');
-      return `<button class="photo-tag ${cls}" style="font-size:${size}px;" onclick="toggleTag('${tag}')">${tag}</button>`;
-    }).join('');
-  addHover('.photo-tag');
+  const groupsEl = document.getElementById('tag-groups');
+  if (!cloud || !groupsEl) return;
+  const byGroup = {};
+  Object.entries(tagCount).sort((a,b) => b[1]-a[1]).forEach(([tag, count]) => {
+    const key = TAG_GROUP_OF[tag] || 'more';
+    (byGroup[key] = byGroup[key] || []).push([tag, count]);
+  });
+  const clearHtml = activeTags.size > 0
+    ? `<div class="tag-group"><span class="tag-group-label"></span><button class="tag-clear" type="button" onclick="clearTags()">Clear filters</button></div>`
+    : '';
+  groupsEl.innerHTML = TAG_GROUPS
+    .filter(g => byGroup[g.key] && byGroup[g.key].length)
+    .map(g => `<div class="tag-group"><span class="tag-group-label">${g.label}</span>${byGroup[g.key].map(([t,c]) => tagButtonHtml(t, c, maxCount)).join('')}</div>`)
+    .join('') + clearHtml;
+  // phone chrome: active chips while collapsed, count on the toggle
+  const activeRow = document.getElementById('tag-active-row');
+  if (activeRow) activeRow.innerHTML = [...activeTags]
+    .map(t => `<button class="photo-tag active" type="button" style="font-size:11px;" onclick="toggleTag('${t}')">${t} &times;</button>`).join('');
+  const countEl = document.getElementById('tag-toggle-count');
+  if (countEl) countEl.textContent = activeTags.size ? ` ${activeTags.size}` : '';
+  cloud.classList.toggle('open', tagCloudOpen);
+  const toggle = document.getElementById('tag-toggle');
+  if (toggle) toggle.setAttribute('aria-expanded', tagCloudOpen ? 'true' : 'false');
+  const caret = document.getElementById('tag-toggle-caret');
+  if (caret) caret.textContent = tagCloudOpen ? '\u2212' : '+';
+  addHover('.photo-tag, .tag-clear, .tag-toggle');
+}
+function toggleTagCloud() {
+  tagCloudOpen = !tagCloudOpen;
+  renderTagCloud();
+}
+function clearTags() {
+  activeTags.clear();
+  renderTagCloud();
+  renderPhotos();
 }
 
 let shopMode = false;
