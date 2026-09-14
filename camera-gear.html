@@ -42,18 +42,18 @@
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
-<title>Gear I Shoot With | Stuart Singleton</title>
-<meta name="description" content="The camera, lens, prism filters and bags Stuart Singleton uses for the photos on this site and in his reels. Every link goes to Amazon.">
+<title>Camera Gear I Shoot With | Stuart Singleton</title>
+<meta name="description" content="The camera, lens, prism filters and bags Stuart Singleton shoots with for the photos on this site and in his reels. Every link goes to Amazon.">
 <meta name="robots" content="noindex, follow">
-<link rel="canonical" href="https://stuartsingleton.com/gear">
+<link rel="canonical" href="https://stuartsingleton.com/camera-gear">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Gear I Shoot With | Stuart Singleton">
+<meta property="og:title" content="Camera Gear I Shoot With | Stuart Singleton">
 <meta property="og:description" content="The camera, lens, prism filters and bags behind the photos and reels.">
 <meta property="og:image" content="https://stuartsingleton.com/og-photos.jpg">
-<meta property="og:url" content="https://stuartsingleton.com/gear">
+<meta property="og:url" content="https://stuartsingleton.com/camera-gear">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
@@ -68,7 +68,7 @@
   .nav a:hover { color:#fff; }
   .nav .links { display:flex; gap:22px; }
   .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:#666; text-transform:uppercase; margin-bottom:12px; }
-  .hero { font-family:var(--display); font-size:clamp(60px,11vw,124px); line-height:.88; letter-spacing:.02em; margin:0 0 10px; }
+  .hero { font-family:var(--display); font-size:clamp(56px,10vw,112px); line-height:.86; letter-spacing:.02em; margin:0 0 10px; }
   .sub { font-size:11px; font-weight:400; color:#777; letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; }
   .lead { max-width:560px; font-size:14px; font-weight:300; line-height:1.65; color:#9a9a9a; margin:0 0 48px; }
   .lead a { color:#ccc; text-decoration:none; border-bottom:1px solid #333; }
@@ -105,8 +105,8 @@
     <div class="links"><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="https://stuarts-presets.stuartsingleton.com/">Presets ↗</a></div>
   </nav>
 
-  <div class="eyebrow">Products I use</div>
-  <h1 class="hero">GEAR</h1>
+  <div class="eyebrow">Products I use · Camera</div>
+  <h1 class="hero">CAMERA<br>GEAR</h1>
   <p class="sub">What's in the bag for the photos and reels</p>
   <p class="lead">Everything below is what I actually shoot with. The filters are how the light streaks, halos and doubled skylines in the <a href="/photos">gallery</a> happen in camera, not in post. Links open on Amazon.</p>
 
@@ -120,6 +120,7 @@
 </div>
 
 <script>
+// Camera gear. Audio gear gets its own page (audio-gear.html) with the same layout.
 // Add a product: one object per line. Group order and item order are as written.
 // url  = your amzn.to short link (carries the affiliate tag)
 // slug = short id for analytics (gear_click meta.item)
@@ -155,8 +156,8 @@ const GEAR = [
   root.innerHTML = html;
   root.addEventListener('click', function(e){
     var a = e.target.closest('a.item'); if(!a) return;
-    try{ gtag('event','gear_click',{item:a.dataset.slug}); }catch(x){}
-    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug}); }catch(x){}
+    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'camera'}); }catch(x){}
+    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'camera'}); }catch(x){}
   });
 })();
 </script>
