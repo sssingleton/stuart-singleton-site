@@ -14,7 +14,7 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 
 // Main site events, plus the presets storefront (stuarts-presets.*) which posts here
 // cross-origin with paths prefixed "presets:" — see src/lib/track.ts in that repo.
-const EVENTS = new Set(['page_view','photo_view','buy_modal','add_to_cart','checkout_start','request_print','booking_open','cart_open','ship_blocked','ship_paper_only','open_in_safari','presets_click','preset_view','preset_redeem','preset_download']);
+const EVENTS = new Set(['page_view','photo_view','buy_modal','add_to_cart','checkout_start','request_print','booking_open','cart_open','ship_blocked','ship_paper_only','open_in_safari','presets_click','preset_view','preset_redeem','preset_download','gear_click']);
 const BOT_RE = /bot|crawl|spider|slurp|facebookexternalhit|facebot|twitterbot|linkedinbot|pinterest|whatsapp|telegram|discord|slack|embedly|iframely|preview|headless|lighthouse|pagespeed|gtmetrix|curl|wget|python-requests|httpclient|go-http|java\/|okhttp|axios|node-fetch/i;
 
 function deviceOf(ua, hint) {

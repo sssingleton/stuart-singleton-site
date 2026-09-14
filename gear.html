@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7P9FGW6PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y7P9FGW6PT');
+</script>
+<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  function send(e,id){var o=Object.assign({e:e},base);if(id)o.id=id;var b=JSON.stringify(o);
+    try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}
+    try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}}
+  window.__ssSend=function(e,id,m){var o=Object.assign({e:e},base);if(id)o.id=id;if(m)o.m=m;var b=JSON.stringify(o);try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}};
+  send('page_view');
+  // In-app browsers (Instagram/Facebook/Threads) have no Apple Pay / Google Pay — offer the real browser.
+  if(/Instagram|FBAN|FBAV|FB_IAB|Barcelona/i.test(navigator.userAgent||'')){
+    try{ if(sessionStorage.getItem('iab_bar_off')==='1') return; }catch(e){}
+    var and=/Android/i.test(navigator.userAgent||''),p=location.pathname+location.search;
+    var href=and?'intent://stuartsingleton.com'+p+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fstuartsingleton.com'+encodeURIComponent(p)+';end':'x-safari-https://stuartsingleton.com'+p;
+    document.addEventListener('DOMContentLoaded',function(){
+      var b=document.createElement('div');
+      b.setAttribute('style','position:fixed;left:0;right:0;bottom:0;z-index:945;display:flex;align-items:center;justify-content:center;gap:14px;padding:11px 14px calc(11px + env(safe-area-inset-bottom));background:#0d0d0d;color:#f2efe4;border-top:1px solid #2a2a2a;font-family:ui-monospace,Menlo,monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase');
+      b.innerHTML='<span>Buying a print?</span><a style="color:#f2efe4;text-decoration:none;border-bottom:1px solid #555;white-space:nowrap" href="'+href+'">'+(and?'Open in Chrome for Google Pay →':'Open in Safari for Apple Pay →')+'</a><button type="button" style="background:none;border:none;color:#666;font-size:11px;padding:0 2px" aria-label="dismiss">✕</button>';
+      b.querySelector('a').addEventListener('click',function(){send('open_in_safari');});
+      b.querySelector('button').addEventListener('click',function(){b.remove();try{sessionStorage.setItem('iab_bar_off','1');}catch(e){}});
+      document.body.appendChild(b);
+    });
+  }
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<title>Gear I Shoot With | Stuart Singleton</title>
+<meta name="description" content="The camera, lens, prism filters and bags Stuart Singleton uses for the photos on this site and in his reels. Every link goes to Amazon.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://stuartsingleton.com/gear">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gear I Shoot With | Stuart Singleton">
+<meta property="og:description" content="The camera, lens, prism filters and bags behind the photos and reels.">
+<meta property="og:image" content="https://stuartsingleton.com/og-photos.jpg">
+<meta property="og:url" content="https://stuartsingleton.com/gear">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif; --pad:clamp(24px,6vw,64px); }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:#050505; color:#fff; min-height:100%; }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:1040px; margin:0 auto; padding:calc(var(--pad) * .9) var(--pad) 80px; }
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#666; margin-bottom:56px; }
+  .nav a { text-decoration:none; color:#888; transition:color .2s; }
+  .nav a:hover { color:#fff; }
+  .nav .links { display:flex; gap:22px; }
+  .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:#666; text-transform:uppercase; margin-bottom:12px; }
+  .hero { font-family:var(--display); font-size:clamp(60px,11vw,124px); line-height:.88; letter-spacing:.02em; margin:0 0 10px; }
+  .sub { font-size:11px; font-weight:400; color:#777; letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; }
+  .lead { max-width:560px; font-size:14px; font-weight:300; line-height:1.65; color:#9a9a9a; margin:0 0 48px; }
+  .lead a { color:#ccc; text-decoration:none; border-bottom:1px solid #333; }
+  .group { margin-bottom:48px; }
+  .group-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:6px; }
+  .group-h span:last-child { color:#333; }
+  .item { display:grid; grid-template-columns:28px 1fr auto; gap:0 18px; align-items:center; padding:20px 0; border-bottom:1px solid #111; text-decoration:none; color:inherit; }
+  .item:hover .t { color:#fff; }
+  .item:hover .cta { border-color:#fff; color:#fff; }
+  .num { font-family:var(--mono); font-size:10px; color:#3a3a3a; letter-spacing:.1em; }
+  .t { font-family:var(--display); font-size:clamp(22px,3vw,30px); letter-spacing:.03em; line-height:1; color:#d8d8d8; transition:color .2s; }
+  .d { font-size:12.5px; font-weight:300; color:#7c7c7c; line-height:1.55; margin-top:6px; max-width:560px; }
+  .cta { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; padding:8px 14px; border:1px solid #2a2a2a; color:#777; white-space:nowrap; transition:all .2s; }
+  .disclosure { margin-top:40px; padding-top:18px; border-top:1px solid #161616; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; line-height:1.8; color:#555; max-width:640px; }
+  .disclosure b { color:#777; font-weight:normal; }
+  footer { margin-top:56px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#3a3a3a; display:flex; gap:22px; flex-wrap:wrap; }
+  footer a { text-decoration:none; color:#555; }
+  footer a:hover { color:#fff; }
+  @media (max-width:600px) {
+    .nav { margin-bottom:40px; }
+    .item { grid-template-columns:1fr; gap:10px 0; padding:18px 0; }
+    .num { display:none; }
+    .cta { justify-self:start; padding:9px 14px; min-height:34px; display:inline-flex; align-items:center; }
+    .t { font-size:26px; }
+  }
+  /* iOS applies :hover on touch; keep touch surfaces static. */
+  @media (hover:none) { .item:hover .t { color:#d8d8d8; } .item:hover .cta { border-color:#2a2a2a; color:#777; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a href="/">Stuart Singleton</a>
+    <div class="links"><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="https://stuarts-presets.stuartsingleton.com/">Presets ↗</a></div>
+  </nav>
+
+  <div class="eyebrow">Products I use</div>
+  <h1 class="hero">GEAR</h1>
+  <p class="sub">What's in the bag for the photos and reels</p>
+  <p class="lead">Everything below is what I actually shoot with. The filters are how the light streaks, halos and doubled skylines in the <a href="/photos">gallery</a> happen in camera, not in post. Links open on Amazon.</p>
+
+  <div id="gear"></div>
+
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Links on this page are affiliate links. The price you pay is the same; Amazon sends me a small commission that helps keep the prints and presets going.</p>
+
+  <footer>
+    <a href="/">Home</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/book">Book a shoot</a>
+  </footer>
+</div>
+
+<script>
+// Add a product: one object per line. Group order and item order are as written.
+// url  = your amzn.to short link (carries the affiliate tag)
+// slug = short id for analytics (gear_click meta.item)
+const GEAR = [
+  { group:'Camera', items:[
+    { slug:'xt5-16-80', url:'https://amzn.to/46oFm4o', title:'Fujifilm X-T5 + XF 16-80mm f/4', desc:'The body behind almost every photo on this site. Bundle comes with the 16-80 kit lens, a spare battery and a 128GB card.' },
+    { slug:'xf35-f14', url:'https://amzn.to/3TxeA6S', title:'Fujifilm XF 35mm f/1.4 R', desc:'The lens that stays on the camera. Street, portraits, low light. Slow to focus, worth it.' },
+  ]},
+  { group:'Filters', items:[
+    { slug:'fractal-linear-72', url:'https://amzn.to/4hbmBpX', title:'Fractal linear filter, 72mm', desc:'Repeats the subject in a line across the frame. Handheld in front of the lens, rotate for the effect.' },
+    { slug:'kaleidoscope-prism-77', url:'https://amzn.to/4h55B4O', title:'Kaleidoscope glass prism, 77mm', desc:'Multiplies the scene around the edges. The doubled skyline shots come from this.' },
+    { slug:'kf-spiral-halo-72', url:'https://amzn.to/4gTZuRR', title:'K&F Concept spiral halo filter, 72mm', desc:'Screws on. Swirls the highlights into a ring around the center of the frame. Best at night with point lights.' },
+  ]},
+  { group:'Carry', items:[
+    { slug:'besnfoto-messenger', url:'https://amzn.to/3T1UYHY', title:'Besnfoto canvas messenger bag', desc:'Small enough to not look like a camera bag. Body plus one lens plus filters.' },
+    { slug:'lightdow-lens-pouches', url:'https://amzn.to/4hnTYal', title:'Neoprene lens pouches, 4 pack', desc:'Cheap protection for the spare lens and the filters rattling around in the bag.' },
+  ]},
+];
+
+(function(){
+  var root = document.getElementById('gear'), n = 0, html = '';
+  GEAR.forEach(function(g){
+    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + g.items.length + '</span></div>';
+    g.items.forEach(function(it){
+      n++;
+      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
+        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
+        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
+        + '<span class="cta">View on Amazon ↗</span></a>';
+    });
+    html += '</section>';
+  });
+  root.innerHTML = html;
+  root.addEventListener('click', function(e){
+    var a = e.target.closest('a.item'); if(!a) return;
+    try{ gtag('event','gear_click',{item:a.dataset.slug}); }catch(x){}
+    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug}); }catch(x){}
+  });
+})();
+</script>
+</body>
+</html>

@@ -7,6 +7,7 @@
     { "source": "/S137devhub/:path*", "destination": "https://s137-dev-hub.vercel.app/:path*" },
 
     { "source": "/prints", "destination": "/prints.html" },
+    { "source": "/gear", "destination": "/gear.html" },
     { "source": "/print-success", "destination": "/index.html" },
     { "source": "/print/:slug", "destination": "/print/:slug.html" },
 
