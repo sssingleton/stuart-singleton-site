@@ -9,6 +9,7 @@
 
     { "source": "/prints", "destination": "/prints.html" },
     { "source": "/camera-gear", "destination": "/camera-gear.html" },
+    { "source": "/bradenbachelortripcalculator", "destination": "/bradenbachelortripcalculator.html" },
     { "source": "/print-success", "destination": "/index.html" },
     { "source": "/print/:slug", "destination": "/print/:slug.html" },
 
