@@ -1324,6 +1324,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .an-note a{color:#666;text-decoration:none;border-bottom:1px solid #222}
   .an-vercel{border:1px solid #1a1a1a;padding:12px 14px;margin-top:4px}
   .an-vercel .an-sub{margin-bottom:10px}
+  .an-aff{border:1px solid #1a1a1a;padding:12px 14px 10px;margin:4px 0 18px}
+  .an-aff-h{display:flex;justify-content:space-between;gap:10px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#fff;margin-bottom:12px}
+  .an-aff-h em{font-style:normal;color:#333;letter-spacing:.12em}
+  @media (min-width:1300px){.an-kpis.an-kpis-6{grid-template-columns:repeat(6,1fr)}}
+  @media (max-width:700px){.an-kpis.an-kpis-6{grid-template-columns:repeat(2,1fr)}.an-aff-h{flex-direction:column}}
+  .an-chart.an-chart-sm{height:70px}
+  .an-aff-pitch{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px}
+  .an-aff-pitch pre{flex:1;margin:0;white-space:pre-wrap;font:inherit;font-size:10px;line-height:1.7;color:#999;background:#0b0b0b;border:1px solid #1a1a1a;padding:10px 12px;min-width:0}
   .dash-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #111}
   .dash-thumb{width:44px;height:44px;object-fit:cover;background:#111;flex-shrink:0}
   .dash-info{flex:1;font-size:9px;color:#555;letter-spacing:.04em;line-height:1.7;overflow:hidden;min-width:0}
@@ -4106,6 +4114,23 @@ function getAdminPanelHTML(fullpage) {
           <div><div class="an-sub">Referrers <em>visitors</em></div><div class="an-rows" id="an-referrer"></div></div>
           <div><div class="an-sub">Pages <em>pageviews</em></div><div class="an-rows" id="an-path"></div></div>
         </div>
+        <div class="an-aff" id="an-aff">
+          <div class="an-aff-h"><span>Affiliate · Gear pages</span><em>Amazon Associates · stuartsinglet-20</em></div>
+          <div class="an-kpis an-kpis-6" id="an-aff-kpis"></div>
+          <div class="an-legend"><span>gear page views</span><span class="shop">product clicks</span></div>
+          <div class="an-chart an-chart-sm" id="an-aff-chart"></div>
+          <div class="an-axis" id="an-aff-axis"></div>
+          <div class="an-sub">Clicks by product <em>clicks · people</em></div>
+          <div class="an-rows" id="an-aff-products" style="margin-bottom:18px"></div>
+          <div class="an-grid">
+            <div><div class="an-sub">Countries <em>visitors</em></div><div class="an-rows" id="an-aff-country"></div></div>
+            <div><div class="an-sub">Came from <em>visitors</em></div><div class="an-rows" id="an-aff-source"></div></div>
+            <div><div class="an-sub">Device <em>visitors</em></div><div class="an-rows" id="an-aff-device"></div></div>
+          </div>
+          <div class="an-sub">Sponsor stats <em>all time, copy for a pitch</em></div>
+          <div class="an-aff-pitch"><pre id="an-aff-pitch">loading…</pre><button class="dash-filter-btn" id="an-aff-copy" onclick="copyAffiliatePitch()">Copy</button></div>
+          <div class="an-note" id="an-aff-note"></div>
+        </div>
         <div class="an-sub">Turned away by country <em>told "we don't ship there" before Stripe</em></div>
         <div class="an-rows" id="an-blocked" style="margin-bottom:18px"></div>
         <div class="an-vercel" id="an-vercel"><div class="an-sub">Vercel Web Analytics <em id="an-vercel-note">loading…</em></div><div class="an-grid" id="an-vercel-grid" style="margin-bottom:0"></div></div>
@@ -4282,6 +4307,109 @@ async function loadAnalytics() {
     loadAnalyticsLive();
   }, 30000);
   loadVercelAnalytics(days);
+  loadAffiliate(days);
+}
+// ── Affiliate (gear pages) ── RPC analytics_affiliate(days). Product titles come from the
+// GEAR array in /camera-gear (and /audio-gear once it exists) so this never needs editing.
+var _affGear = null, _affPitch = '';
+async function affGearCatalog() {
+  if (_affGear) return _affGear;
+  var out = {};
+  await Promise.all([['camera', '/camera-gear'], ['audio', '/audio-gear']].map(function (pg) {
+    return fetch(pg[1], { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
+      if (t.indexOf('const GEAR') < 0) return;
+      var re = /slug:'([^']+)'[^}]*?title:'((?:\\'|[^'])*)'/g, m;
+      while ((m = re.exec(t))) out[pg[0] + ':' + m[1]] = { list: pg[0], item: m[1], title: m[2].replace(/\\'/g, "'") };
+    }).catch(function () {});
+  }));
+  return (_affGear = out);
+}
+function affSource(k) {
+  if (!k || k === '(direct)') return 'direct / in-app (no referrer)';
+  if (/stuartsingleton\.com$/.test(k)) return 'your site (Gear button)';
+  if (/instagram\.com$/.test(k)) return 'Instagram';
+  if (/(^|\.)t\.co$|twitter\.com$|x\.com$/.test(k)) return 'X / Twitter';
+  if (/facebook\.com$/.test(k)) return 'Facebook';
+  if (/google\./.test(k)) return 'Google';
+  if (/pinterest\./.test(k)) return 'Pinterest';
+  if (/tiktok\.com$/.test(k)) return 'TikTok';
+  return k;
+}
+function affPct(a, b) { return b ? Math.round(a / b * 100) + '%' : '—'; }
+async function loadAffiliate(days) {
+  var kp = document.getElementById('an-aff-kpis'), note = document.getElementById('an-aff-note');
+  if (!kp) return;
+  try {
+    var both = await Promise.all([sb.rpc('analytics_affiliate', { days: days }), affGearCatalog()]);
+    if (both[0].error) throw both[0].error;
+    var a = both[0].data || {}, cat = both[1];
+    var t = a.totals || {}, p = a.prev || {}, all = a.all_time || {};
+    var k = function (label, v, d) { return '<div class="an-kpi"><label>' + label + '</label><div class="v">' + v + '</div>' + (d || '') + '</div>'; };
+    kp.innerHTML =
+      k('Gear page views', anFmt(t.views), anDelta(+t.views, +p.views)) +
+      k('Visitors', anFmt(t.visitors), anDelta(+t.visitors, +p.visitors)) +
+      k('Product clicks', anFmt(t.clicks), anDelta(+t.clicks, +p.clicks)) +
+      k('People who clicked', anFmt(t.clickers), anDelta(+t.clickers, +p.clickers)) +
+      k('Click-through', affPct(+t.clickers, +t.visitors), '<span class="d">clickers ÷ visitors</span>') +
+      k('Gear button taps', anFmt(t.nav_clicks), '<span class="d">from the Photos toggle</span>');
+    // chart: views (dim) vs clicks (bright)
+    var daily = a.daily || [], host = document.getElementById('an-aff-chart'), axis = document.getElementById('an-aff-axis');
+    if (host) {
+      var W = 1000, H = 70, n = daily.length || 1, gap = n > 45 ? 1 : 3, bw = (W - gap * (n - 1)) / n;
+      var max = Math.max.apply(null, daily.map(function (d) { return Math.max(+d.views || 0, +d.clicks || 0); }).concat([1]));
+      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">';
+      daily.forEach(function (d, i) {
+        var x = i * (bw + gap), hv = (+d.views || 0) / max * (H - 6), hc = (+d.clicks || 0) / max * (H - 6);
+        svg += '<g><title>' + anEsc(String(d.day).slice(0, 10) + ' · ' + (+d.views || 0) + ' views · ' + (+d.clicks || 0) + ' product clicks') + '</title>' +
+          '<rect class="hit" x="' + x + '" y="0" width="' + bw + '" height="' + H + '"/>' +
+          '<rect class="bar" x="' + x + '" y="' + (H - hv) + '" width="' + bw + '" height="' + hv + '"/>' +
+          '<rect class="bar shop" x="' + x + '" y="' + (H - hc) + '" width="' + bw + '" height="' + hc + '"/></g>';
+      });
+      host.innerHTML = svg + '</svg>';
+      var fmt = function (s) { return new Date(String(s).slice(0, 10) + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); };
+      if (axis && daily.length) axis.innerHTML = '<span>' + fmt(daily[0].day) + '</span><span>peak ' + max + '/day</span><span>' + fmt(daily[daily.length - 1].day) + '</span>';
+    }
+    // products: every product on the pages, clicked or not
+    var byKey = {};
+    Object.keys(cat).forEach(function (key) { byKey[key] = { title: cat[key].title, list: cat[key].list, clicks: 0, clickers: 0 }; });
+    (a.products || []).forEach(function (r) {
+      var key = (r.list || 'camera') + ':' + r.item;
+      byKey[key] = byKey[key] || { title: r.item, list: r.list, clicks: 0, clickers: 0 };
+      byKey[key].clicks = +r.clicks || 0; byKey[key].clickers = +r.clickers || 0;
+    });
+    var prods = Object.keys(byKey).map(function (key) { return byKey[key]; }).sort(function (x, y) { return y.clicks - x.clicks; });
+    var pe = document.getElementById('an-aff-products');
+    if (pe) {
+      if (!prods.length) pe.innerHTML = '<div class="an-empty">no products found</div>';
+      else {
+        var pmax = Math.max.apply(null, prods.map(function (r) { return r.clicks; }).concat([1]));
+        var multi = prods.some(function (r) { return r.list !== prods[0].list; });
+        pe.innerHTML = prods.map(function (r) {
+          return '<div class="an-row" style="--w:' + Math.round(r.clicks / pmax * 100) + '%"><span>' + anEsc(r.title) + (multi ? '<small>' + anEsc(r.list) + '</small>' : '') + '</span><b>' + anFmt(r.clicks) + '<small>' + anFmt(r.clickers) + ' ppl</small></b></div>';
+        }).join('');
+      }
+    }
+    anRows(document.getElementById('an-aff-country'), a.countries, 'key', 'visitors', anCountry);
+    anRows(document.getElementById('an-aff-source'), a.sources, 'key', 'visitors', affSource);
+    anRows(document.getElementById('an-aff-device'), a.devices, 'key', 'visitors');
+    // sponsor pitch text (all time + this window)
+    var since = all.since ? new Date(all.since).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+    var top = prods.filter(function (r) { return r.clicks; }).slice(0, 3).map(function (r) { return r.title + ' (' + r.clicks + ')'; });
+    _affPitch = 'stuartsingleton.com/camera-gear, the gear behind my photos\n' +
+      'Since ' + since + ': ' + anFmt(all.visitors) + ' visitors from ' + anFmt(all.countries) + ' countries, ' +
+      anFmt(all.clickers) + ' clicked through to a product (' + affPct(+all.clickers, +all.visitors) + ' click-through), ' + anFmt(all.clicks) + ' product clicks total.\n' +
+      'Last ' + days + ' days: ' + anFmt(t.visitors) + ' visitors, ' + anFmt(t.clicks) + ' product clicks, ' + affPct(+t.clickers, +t.visitors) + ' click-through.' +
+      (top.length ? '\nMost clicked: ' + top.join(', ') + '.' : '');
+    var pre = document.getElementById('an-aff-pitch'); if (pre) pre.textContent = _affPitch;
+    if (note) note.innerHTML = 'Site-side clicks only. Purchases and earnings live in Amazon Associates → Reports. Product clicks before Sep 21 2026 were dropped by a database bug (GA4 still has them as <code>gear_click</code>).';
+  } catch (e) {
+    if (note) note.innerHTML = '<span style="color:#c44">affiliate error: ' + anEsc(e.message || e) + '</span>';
+  }
+}
+function copyAffiliatePitch() {
+  var b = document.getElementById('an-aff-copy');
+  var done = function () { if (b) { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1500); } };
+  try { navigator.clipboard.writeText(_affPitch).then(done, function () {}); } catch (e) {}
 }
 async function loadVercelAnalytics(days) {
   var grid = document.getElementById('an-vercel-grid'), vnote = document.getElementById('an-vercel-note');
