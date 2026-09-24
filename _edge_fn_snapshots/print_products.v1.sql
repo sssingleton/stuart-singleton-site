@@ -1,0 +1,4 @@
+-- Applied 2026-09-24 as migration print_products_catalog_v1 on zbcdeglxwrappriwpxwt.
+-- Additive: new table public.print_products (16 rows seeded from checkout v29; the two dead
+-- framed SKUs GLOBAL-CFPM-12X16 and GLOBAL-CFPM-16X24 are active=false).
+-- Undo (only if needed): redeploy checkout v29 + webhook v26 first, then: drop table public.print_products;

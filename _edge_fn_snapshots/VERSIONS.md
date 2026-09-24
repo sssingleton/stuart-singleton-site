@@ -36,3 +36,8 @@ Adaptive Pricing turned on in Stripe the same day. DB `amount_total` stays USD
 USD figure from `session.currency_conversion` to the buyer/owner email totals.
 Diff vs v23: `_edge_fn_snapshots/stripe-webhook.v24.patch.md`. Live check:
 bad signature → 400 (verification path intact).
+
+## 2026-09-24 — Shop v2 Phase 0 (backend only, no site push needed)
+- `create-checkout-session` **v29 → v30**: reads prices/labels/sizes/countries from `public.print_products` (seeded identical to v29; constants kept as fallback), refuses inactive SKUs (dead CFPM-12X16 / CFPM-16X24), countries = intersection across cart items, adds `metadata[kind]=print`. verify_jwt **false**. Parity-tested with apikey-only calls: same line items and amounts as v29.
+- `stripe-webhook` **v26 → v27**: atomic claim of the order row (pending|error → paid) before Prodigi, so retries/double deliveries can't double-order; ignores sessions with metadata.kind other than print; Prodigi attributes from `print_products` (v26 rule as fallback). verify_jwt **false**. Unsigned POST → 400 Invalid signature (verified).
+- Rollback: redeploy `create-checkout-session.v29.ts` / `stripe-webhook.v26.ts` with verify_jwt:false.
