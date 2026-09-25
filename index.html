@@ -1155,6 +1155,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .admin-btn { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; padding: 8px 16px; background: transparent; border: 1px solid #333; color: #666; cursor: none; transition: all .2s; }
   .admin-btn:hover { border-color: #fff; color: #fff; }
   #upload-status { font-size: 9px; color: #555; letter-spacing: .1em; margin-top: 10px; min-height: 14px; }
+  /* ── BULK UPLOADER (Shop v2 Phase 1, shown only with ?v2) ── */
+  .bulk-modes { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .bulk-drop { border: 1px dashed #2a2a2a; padding: 22px 16px; text-align: center; transition: border-color .2s, background .2s; }
+  .bulk-drop.dragover { border-color: #777; background: #0f0f0f; }
+  .bulk-drop p { font-size: 10px; color: #555; letter-spacing: .1em; margin-bottom: 12px; line-height: 1.6; }
+  .bulk-drop .bulk-pick { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .bulk-field { margin-top: 14px; }
+  .bulk-field label.bulk-lbl { display: block; font-size: 9px; letter-spacing: .2em; color: #444; text-transform: uppercase; margin-bottom: 6px; }
+  .bulk-input { width: 100%; background: #111; border: 1px solid #1c1c1c; color: #fff; font-family: var(--mono); font-size: 11px; padding: 10px 12px; outline: none; letter-spacing: .04em; }
+  .bulk-input:focus { border-color: #444; }
+  .bulk-checks { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .bulk-check { display: flex; gap: 8px; align-items: flex-start; font-size: 10px; color: #888; letter-spacing: .06em; line-height: 1.5; }
+  .bulk-check input { margin-top: 2px; accent-color: #bbb; }
+  .bulk-check small { display: block; color: #444; font-size: 9px; }
+  .bulk-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
+  .bulk-summary { font-size: 9px; color: #666; letter-spacing: .1em; margin-top: 10px; min-height: 14px; line-height: 1.6; }
+  .bulk-summary.err { color: #c44; }
+  .bulk-bar { height: 2px; background: #161616; margin-top: 8px; }
+  .bulk-bar > i { display: block; height: 100%; width: 0; background: #888; transition: width .3s; }
+  .bulk-list { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; max-height: 52vh; overflow-y: auto; }
+  .bulk-row { display: grid; grid-template-columns: 44px 1fr auto; gap: 10px; align-items: center; border: 1px solid #161616; padding: 6px; font-size: 9px; color: #777; letter-spacing: .06em; }
+  .bulk-row.attach { grid-template-columns: 18px 44px 44px 1fr; }
+  .bulk-thumb { width: 44px; height: 44px; object-fit: cover; background: #111; display: block; }
+  .bulk-name { color: #bbb; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bulk-meta { color: #555; margin-top: 3px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .bulk-meta select { background: #111; color: #999; border: 1px solid #222; font-family: var(--mono); font-size: 9px; padding: 1px 2px; }
+  .bulk-st { text-align: right; white-space: nowrap; }
+  .bulk-st.ok { color: #4a8; } .bulk-st.err { color: #c44; } .bulk-st.dup { color: #a80; } .bulk-st.busy { color: #aaa; }
+  .bulk-st button { margin-left: 6px; padding: 3px 8px; }
+  .bulk-conf { display: inline-block; padding: 0 5px; border: 1px solid #333; }
+  .bulk-conf.hi { color: #4a8; border-color: #264; } .bulk-conf.mid { color: #a80; border-color: #541; } .bulk-conf.lo { color: #c44; border-color: #522; }
   #admin-logout { margin-top: 8px; font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: #333; background: none; border: none; cursor: none; transition: color .2s; }
   #admin-logout:hover { color: #c44; }
   .admin-span-btn { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 6px 12px; background: transparent; border: 1px solid #1c1c1c; color: #444; cursor: none; transition: all .2s; }
@@ -2643,6 +2674,7 @@ function setAdminCamera(cam) {
   document.querySelectorAll('#admin-camera-picker .cam-btn').forEach(function(b){
     b.classList.toggle('active', b.dataset.cam === cam);
   });
+  if (BULK_V2) bulkRender(); // bulk rows without an EXIF camera follow the picker
   loadAdminPhotos();
 }
 
@@ -3990,6 +4022,581 @@ function showTagSuggestions() {
     addHover(".admin-tag-pill");
   });
 }
+// ══ ADMIN: BULK UPLOADER (Shop v2 Phase 1) ══
+// Only renders when the admin URL has ?v2 (e.g. /mr.manager?v2), so the
+// existing single-photo uploader stays exactly as it was until Stuart signs off.
+// Two modes:
+//   NEW     — drop many files/folders, type tags once. Per file: read EXIF camera,
+//             make a 2048px web preview in the browser, upload the preview to the
+//             camera's public bucket + the untouched original to the private
+//             photos-masters bucket, insert photos + photo_assets rows. 3 at a time,
+//             SHA-256 duplicate skip, per-file retry that resumes where it failed.
+//   ATTACH  — drop full-res originals for photos ALREADY on the site; each file is
+//             matched to its photo by a perceptual hash and, after Stuart ticks it,
+//             uploaded as that photo's print-master. Nothing public changes.
+// Rows are created hidden and only unhidden once every step succeeded, so a
+// half-finished upload can never show up in the public gallery or shop.
+const BULK_V2 = /[?&]v2(?:[=&]|$)/.test(location.search);
+const BULK_CONCURRENCY = 3;
+const BULK_OK_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+let bulk = { mode: 'new', items: [], running: false, seq: 0, candidates: null };
+
+function bulkEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+function bulkSectionHTML() {
+  return `
+      <div class="admin-section" id="bulk-section">
+        <div class="admin-section-title">Bulk Upload <span style="color:#2a2a2a;">(v2)</span></div>
+        <div class="bulk-modes">
+          <button class="cam-btn active" data-bulkmode="new" onclick="bulkSetMode('new')">New photos</button>
+          <button class="cam-btn" data-bulkmode="attach" onclick="bulkSetMode('attach')">Attach print masters</button>
+        </div>
+        <div class="bulk-drop" id="bulk-drop">
+          <p id="bulk-drop-label">Drop photos or a whole folder here.<br>Camera is read from each file; otherwise the Add Photo camera picker below is used.</p>
+          <div class="bulk-pick">
+            <input type="file" id="bulk-files" accept="image/jpeg,image/png,image/webp" multiple style="display:none" onchange="bulkAddFiles(this.files);this.value=''">
+            <input type="file" id="bulk-folder" webkitdirectory multiple style="display:none" onchange="bulkAddFiles(this.files);this.value=''">
+            <button class="admin-btn" onclick="document.getElementById('bulk-files').click()">Select files</button>
+            <button class="admin-btn" onclick="document.getElementById('bulk-folder').click()">Select folder</button>
+          </div>
+        </div>
+        <div id="bulk-new-opts">
+          <div class="bulk-field">
+            <label class="bulk-lbl">Tags for the whole batch <span style="color:#2a2a2a;">(comma separated)</span></label>
+            <input type="text" id="bulk-tags" class="bulk-input" placeholder="nashville, night, color" onfocus="bulkShowTagPills()">
+            <div id="bulk-tag-pills" class="admin-tag-suggestions"></div>
+          </div>
+          <div class="bulk-checks">
+            <label class="bulk-check"><input type="checkbox" id="bulk-forsale"><span>Mark all as for sale<small>print sizes still follow each photo's resolution</small></span></label>
+            <label class="bulk-check"><input type="checkbox" id="bulk-publish" checked><span>Publish as they finish<small>untick to save the batch as hidden drafts you can review first</small></span></label>
+          </div>
+        </div>
+        <div class="bulk-actions">
+          <button class="admin-btn" id="bulk-start" onclick="bulkStart()">Upload all →</button>
+          <button class="admin-btn" id="bulk-clear" onclick="bulkClear()">Clear list</button>
+        </div>
+        <div class="bulk-bar"><i id="bulk-bar"></i></div>
+        <div class="bulk-summary" id="bulk-summary"></div>
+        <div class="bulk-list" id="bulk-list"></div>
+      </div>`;
+}
+
+function initBulkUploader() {
+  const drop = document.getElementById('bulk-drop');
+  if (!drop) return;
+  drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('dragover'); });
+  drop.addEventListener('dragleave', function () { drop.classList.remove('dragover'); });
+  drop.addEventListener('drop', async function (e) {
+    e.preventDefault(); drop.classList.remove('dragover');
+    const files = await bulkFilesFromDrop(e.dataTransfer);
+    bulkAddFiles(files);
+  });
+  addHover('#bulk-section button, #bulk-section .cam-btn');
+  bulkRender();
+}
+
+// Walk dropped folders (webkitGetAsEntry) so Stuart can drop an export folder.
+async function bulkFilesFromDrop(dt) {
+  const out = [];
+  const items = dt.items ? Array.from(dt.items) : [];
+  const entries = items.map(function (it) { return it.webkitGetAsEntry ? it.webkitGetAsEntry() : null; }).filter(Boolean);
+  if (!entries.length) return Array.from(dt.files || []);
+  async function walk(entry) {
+    if (entry.isFile) {
+      await new Promise(function (res) { entry.file(function (f) { out.push(f); res(); }, function () { res(); }); });
+    } else if (entry.isDirectory) {
+      const reader = entry.createReader();
+      let batch;
+      do {
+        batch = await new Promise(function (res) { reader.readEntries(res, function () { res([]); }); });
+        for (const child of batch) await walk(child);
+      } while (batch.length);
+    }
+  }
+  for (const en of entries) await walk(en);
+  return out;
+}
+
+function bulkSetMode(mode) {
+  if (bulk.running) return;
+  bulk.mode = mode;
+  bulk.items.forEach(function (it) { if (it.thumb) URL.revokeObjectURL(it.thumb); });
+  bulk.items = [];
+  document.querySelectorAll('[data-bulkmode]').forEach(function (b) { b.classList.toggle('active', b.dataset.bulkmode === mode); });
+  document.getElementById('bulk-new-opts').style.display = mode === 'new' ? '' : 'none';
+  document.getElementById('bulk-drop-label').innerHTML = mode === 'new'
+    ? 'Drop photos or a whole folder here.<br>Camera is read from each file; otherwise the Add Photo camera picker below is used.'
+    : 'Drop full-res originals of photos already on the site.<br>Each is matched to its photo; you confirm before anything uploads.';
+  document.getElementById('bulk-start').textContent = mode === 'new' ? 'Upload all →' : 'Attach ticked →';
+  bulkSummary('');
+  bulkRender();
+}
+
+function bulkAddFiles(fileList) {
+  if (bulk.running) { bulkSummary('wait for the current batch to finish', true); return; }
+  let skipped = 0;
+  Array.from(fileList || []).forEach(function (f) {
+    if (f.name.charAt(0) === '.') return; // .DS_Store etc.
+    const type = f.type || (/\.jpe?g$/i.test(f.name) ? 'image/jpeg' : '');
+    if (BULK_OK_TYPES.indexOf(type) === -1) { skipped++; return; }
+    if (bulk.items.some(function (it) { return it.file.name === f.name && it.file.size === f.size; })) return;
+    bulk.items.push({
+      key: ++bulk.seq, file: f, type: type, status: 'queued', msg: '', camera: null, exif: '',
+      span: '', w: 0, h: 0, sha: null, preview: null, thumb: null, phash: null,
+      // resume markers (retry continues from the first missing step)
+      previewPath: null, previewBucket: null, photoId: null, masterPath: null, assetsDone: false,
+      // attach mode
+      match: null, pick: false
+    });
+  });
+  bulkSummary(bulk.items.length + ' file' + (bulk.items.length === 1 ? '' : 's') + ' ready' + (skipped ? ' · ' + skipped + ' skipped (not JPG/PNG/WebP — HEIC/RAW need exporting first)' : ''));
+  bulkRender();
+  bulkPrepAll(); // read EXIF, hash, build previews/thumbs in the background
+}
+
+function bulkClear() {
+  if (bulk.running) return;
+  bulk.items.forEach(function (it) { if (it.thumb) URL.revokeObjectURL(it.thumb); });
+  bulk.items = [];
+  bulkSummary('');
+  bulkRender();
+}
+
+function bulkSummary(msg, isErr) {
+  const el = document.getElementById('bulk-summary');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.toggle('err', !!isErr);
+}
+
+// ── rendering ──
+const BULK_STATUS = {
+  queued: ['', 'queued'], prepping: ['busy', 'reading…'], ready: ['', 'ready'],
+  uploading: ['busy', 'uploading…'], done: ['ok', 'done'], draft: ['ok', 'saved as draft'],
+  dup: ['dup', 'duplicate'], error: ['err', 'failed'], nomatch: ['err', 'no match'], matching: ['busy', 'matching…'],
+  attached: ['ok', 'attached'], skip: ['dup', 'skipped']
+};
+function bulkRowHTML(it) {
+  const st = BULK_STATUS[it.status] || ['', it.status];
+  const canRetry = it.status === 'error' && !bulk.running;
+  const stHTML = '<div class="bulk-st ' + st[0] + '">' + bulkEsc(it.msg || st[1]) +
+    (canRetry ? '<button class="admin-btn" onclick="bulkRetry(' + it.key + ')">retry</button>' : '') + '</div>';
+  const mb = (it.file.size / 1048576).toFixed(1) + ' MB';
+  const dims = it.w ? it.w + '×' + it.h : '';
+  const thumb = '<img class="bulk-thumb" alt="" ' + (it.thumb ? 'src="' + it.thumb + '"' : '') + '>';
+  if (bulk.mode === 'new') {
+    const camSel = '<select onchange="bulkSetCam(' + it.key + ',this.value)"' + (bulk.running ? ' disabled' : '') + '>' +
+      CAMERA_ORDER.map(function (c) { return '<option value="' + c + '"' + (c === (it.camera || adminCamera) ? ' selected' : '') + '>' + CAMERA_LABELS[c] + '</option>'; }).join('') + '</select>';
+    const span = it.span === 'tall' ? 'tall' : (it.span === 'span-2' ? 'wide' : 'normal');
+    return '<div class="bulk-row">' + thumb +
+      '<div style="min-width:0"><div class="bulk-name">' + bulkEsc(it.file.name) + '</div>' +
+      '<div class="bulk-meta">' + camSel + '<span>' + [dims, it.w ? span : '', mb, it.exif].filter(Boolean).map(bulkEsc).join(' · ') + '</span></div></div>' +
+      stHTML + '</div>';
+  }
+  // attach mode
+  const m = it.match;
+  const other = m ? '<img class="bulk-thumb" alt="" src="' + bulkEsc(thumbURL(m.src, 128)) + '">' : '<div class="bulk-thumb"></div>';
+  let info = '';
+  if (m) {
+    const cls = m.dist <= 6 ? 'hi' : (m.dist <= 12 ? 'mid' : 'lo');
+    const word = m.dist <= 6 ? 'match' : (m.dist <= 12 ? 'check it' : 'unlikely');
+    info = '<span class="bulk-conf ' + cls + '">' + word + '</span><span>→ #' + m.id + '</span>' +
+      '<span>master ' + (m.masterW ? m.masterW + 'px' : 'none') + ' → ' + Math.max(it.w, it.h) + 'px</span>' +
+      (m.forSale ? '<span>for sale</span>' : '');
+  }
+  const box = '<input type="checkbox"' + (it.pick ? ' checked' : '') + (m && !bulk.running && it.status === 'ready' ? '' : ' disabled') +
+    ' onchange="bulkPick(' + it.key + ',this.checked)">';
+  return '<div class="bulk-row attach">' + box + thumb + other +
+    '<div style="min-width:0"><div class="bulk-name">' + bulkEsc(it.file.name) + '</div>' +
+    '<div class="bulk-meta">' + info + '<span>' + bulkEsc(mb) + '</span></div>' + stHTML + '</div></div>';
+}
+let _bulkRenderQueued = false;
+function bulkRender() {
+  if (_bulkRenderQueued) return;
+  _bulkRenderQueued = true;
+  requestAnimationFrame(function () {
+    _bulkRenderQueued = false;
+    const list = document.getElementById('bulk-list');
+    if (!list) return;
+    list.innerHTML = bulk.items.map(bulkRowHTML).join('');
+    const total = bulk.items.length;
+    const fin = bulk.items.filter(function (it) { return ['done', 'draft', 'dup', 'attached', 'skip', 'nomatch'].indexOf(it.status) > -1; }).length;
+    const bar = document.getElementById('bulk-bar');
+    if (bar) bar.style.width = (total ? Math.round(fin / total * 100) : 0) + '%';
+    const start = document.getElementById('bulk-start');
+    if (start) start.disabled = bulk.running;
+  });
+}
+function bulkSetCam(key, cam) { const it = bulk.items.find(function (i) { return i.key === key; }); if (it) it.camera = cam; }
+function bulkPick(key, on) { const it = bulk.items.find(function (i) { return i.key === key; }); if (it) it.pick = on; }
+
+function bulkShowTagPills() {
+  const input = document.getElementById('bulk-tags');
+  const box = document.getElementById('bulk-tag-pills');
+  if (!input || !box) return;
+  const all = {};
+  (typeof PHOTOS !== 'undefined' ? PHOTOS : []).forEach(function (p) { (p.tags || '').split(',').forEach(function (t) { t = t.trim(); if (t) all[t] = 1; }); });
+  const cur = input.value.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+  box.innerHTML = Object.keys(all).sort().map(function (tag) {
+    return '<button type="button" class="admin-tag-pill' + (cur.indexOf(tag) > -1 ? ' selected' : '') + '" data-tag="' + bulkEsc(tag) + '">' + bulkEsc(tag) + '</button>';
+  }).join('');
+  box.onclick = function (e) {
+    const b = e.target.closest('.admin-tag-pill'); if (!b) return;
+    const tags = input.value.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+    const i = tags.indexOf(b.dataset.tag);
+    if (i > -1) { tags.splice(i, 1); b.classList.remove('selected'); } else { tags.push(b.dataset.tag); b.classList.add('selected'); }
+    input.value = tags.join(', ');
+  };
+  addHover('#bulk-tag-pills .admin-tag-pill');
+}
+
+// ── per-file prep: EXIF, SHA-256, decode → preview + thumb + dHash ──
+// Decoding a 40MP JPEG takes ~150MB of memory, so decodes run one at a time
+// even while three uploads are in flight.
+let _bulkDecodeChain = Promise.resolve();
+function bulkDecodeLocked(fn) {
+  const run = _bulkDecodeChain.then(fn, fn);
+  _bulkDecodeChain = run.catch(function () {});
+  return run;
+}
+
+async function bulkPrepAll() {
+  const todo = bulk.items.filter(function (it) { return it.status === 'queued'; });
+  for (const it of todo) {
+    if (bulk.items.indexOf(it) === -1) continue; // cleared meanwhile
+    try { await bulkPrep(it); } catch (e) { it.status = 'error'; it.msg = 'could not read: ' + (e.message || e); bulkRender(); }
+  }
+  if (bulk.mode === 'attach') bulkMatchAll();
+}
+
+async function bulkPrep(it) {
+  if (it.sha) return;
+  it.status = 'prepping'; bulkRender();
+  const buf = await it.file.arrayBuffer();
+  const ex = bulkReadExif(buf);
+  if (ex) {
+    it.exif = (ex.make + ' ' + ex.model).replace(/\s+/g, ' ').trim();
+    if (/fujifilm/i.test(ex.make)) it.camera = 'fujifilm-xt5';
+  }
+  const digest = await crypto.subtle.digest('SHA-256', buf);
+  it.sha = Array.from(new Uint8Array(digest)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+  await bulkDecodeLocked(async function () {
+    const url = URL.createObjectURL(it.file);
+    try {
+      const img = await new Promise(function (res, rej) {
+        const im = new Image();
+        im.onload = function () { res(im); };
+        im.onerror = function () { rej(new Error('browser cannot decode this file')); };
+        im.src = url;
+      });
+      if (img.decode) { try { await img.decode(); } catch (e) {} }
+      const w = img.naturalWidth, h = img.naturalHeight;
+      it.w = w; it.h = h;
+      it.span = h > w ? 'tall' : (w / h >= 2.0 ? 'span-2' : '');
+      // 2048px web preview (new mode only — attach mode keeps the web image as is)
+      const s = Math.min(1, PREVIEW_MAX_EDGE / Math.max(w, h));
+      const pw = Math.round(w * s), ph = Math.round(h * s);
+      const c = document.createElement('canvas');
+      c.width = pw; c.height = ph;
+      const ctx = c.getContext('2d');
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, 0, 0, pw, ph);
+      if (bulk.mode === 'new') {
+        const blob = await new Promise(function (res) { c.toBlob(res, 'image/jpeg', 0.85); });
+        if (!blob) throw new Error('preview encode failed');
+        it.preview = { blob: blob, w: pw, h: ph };
+      }
+      it.phash = bulkDHash(c);
+      // small thumb for the list
+      const t = document.createElement('canvas');
+      const ts = 88 / Math.max(pw, ph);
+      t.width = Math.max(1, Math.round(pw * ts)); t.height = Math.max(1, Math.round(ph * ts));
+      t.getContext('2d').drawImage(c, 0, 0, t.width, t.height);
+      const tb = await new Promise(function (res) { t.toBlob(res, 'image/jpeg', 0.7); });
+      if (tb) it.thumb = URL.createObjectURL(tb);
+      c.width = c.height = 0; // release canvas memory now
+    } finally { URL.revokeObjectURL(url); }
+  });
+  // already on the site? (same file uploaded before, by either mode)
+  const dupRes = await sb.from('photo_assets').select('photo_id').eq('sha256', it.sha).limit(1);
+  const twin = bulk.items.find(function (o) { return o !== it && o.sha === it.sha && o.key < it.key; });
+  if (dupRes.data && dupRes.data.length) { it.status = 'dup'; it.msg = 'already on site (#' + dupRes.data[0].photo_id + ')'; }
+  else if (twin) { it.status = 'dup'; it.msg = 'same file as ' + twin.file.name; }
+  else { it.status = 'ready'; it.msg = ''; }
+  bulkRender();
+}
+
+// Minimal EXIF reader: IFD0 Make (0x010F) + Model (0x0110) from a JPEG APP1.
+function bulkReadExif(buf) {
+  try {
+    const v = new DataView(buf);
+    if (v.getUint16(0) !== 0xFFD8) return null;
+    let off = 2;
+    const lim = Math.min(v.byteLength, 262144);
+    while (off + 4 < lim) {
+      const marker = v.getUint16(off);
+      const size = v.getUint16(off + 2);
+      if (marker === 0xFFE1 && v.getUint32(off + 4) === 0x45786966) { // "Exif"
+        const t = off + 10;
+        const le = v.getUint16(t) === 0x4949;
+        const u16 = function (p) { return v.getUint16(p, le); };
+        const u32 = function (p) { return v.getUint32(p, le); };
+        const ifd = t + u32(t + 4);
+        const n = u16(ifd);
+        const out = { make: '', model: '' };
+        for (let i = 0; i < n; i++) {
+          const e = ifd + 2 + i * 12;
+          const tag = u16(e);
+          if (tag !== 0x010F && tag !== 0x0110) continue;
+          const cnt = u32(e + 4);
+          const p = cnt > 4 ? t + u32(e + 8) : e + 8;
+          let s = '';
+          for (let k = 0; k < cnt && k < 64; k++) { const ch = v.getUint8(p + k); if (!ch) break; s += String.fromCharCode(ch); }
+          if (tag === 0x010F) out.make = s.trim(); else out.model = s.trim();
+        }
+        return out;
+      }
+      if ((marker & 0xFF00) !== 0xFF00) break;
+      off += 2 + size;
+    }
+  } catch (e) {}
+  return null;
+}
+
+// 64-bit difference hash (9×8 greyscale, compare neighbours) as 16 hex chars.
+function bulkDHash(srcCanvasOrImg) {
+  // Reduce in two steps (→144×128 → 9×8) so a 2048px canvas and a 256px
+  // thumbnail of the same frame land on the same hash.
+  const mid = document.createElement('canvas');
+  mid.width = 144; mid.height = 128;
+  const mctx = mid.getContext('2d');
+  mctx.imageSmoothingQuality = 'high';
+  mctx.drawImage(srcCanvasOrImg, 0, 0, 144, 128);
+  const c = document.createElement('canvas');
+  c.width = 9; c.height = 8;
+  const ctx = c.getContext('2d');
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(mid, 0, 0, 9, 8);
+  const d = ctx.getImageData(0, 0, 9, 8).data;
+  let bits = '';
+  for (let y = 0; y < 8; y++) {
+    for (let x = 0; x < 8; x++) {
+      const i = (y * 9 + x) * 4, j = i + 4;
+      const a = d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114;
+      const b = d[j] * 0.299 + d[j + 1] * 0.587 + d[j + 2] * 0.114;
+      bits += a > b ? '1' : '0';
+    }
+  }
+  let hex = '';
+  for (let k = 0; k < 64; k += 4) hex += parseInt(bits.slice(k, k + 4), 2).toString(16);
+  return hex;
+}
+function bulkHamming(a, b) {
+  let d = 0;
+  for (let i = 0; i < 16; i++) {
+    let x = parseInt(a[i], 16) ^ parseInt(b[i], 16);
+    while (x) { d += x & 1; x >>= 1; }
+  }
+  return d;
+}
+
+// Retry an async step with backoff (network blips, Supabase 5xx).
+async function bulkTry(fn, label) {
+  let last;
+  for (let a = 0; a < 3; a++) {
+    try { return await fn(); } catch (e) { last = e; await new Promise(function (r) { setTimeout(r, 800 * Math.pow(2, a)); }); }
+  }
+  throw new Error(label + ': ' + ((last && (last.message || last.error)) || last));
+}
+function bulkUnwrap(res) { if (res && res.error) throw res.error; return res; }
+function bulkExt(it) { const m = /\.([a-z0-9]{2,5})$/i.exec(it.file.name); return m ? m[1].toLowerCase() : (it.type === 'image/png' ? 'png' : 'jpg'); }
+function bulkStamp() { return Date.now() + '_' + Math.random().toString(36).slice(2, 6); }
+
+// ── NEW mode: one file end-to-end, resumable ──
+async function bulkUploadOne(it, opts) {
+  it.status = 'uploading'; it.msg = 'uploading…'; bulkRender();
+  const cam = it.camera || adminCamera || 'fujifilm-xt5';
+  // 1. public web preview
+  if (!it.previewPath) {
+    const bucket = bucketForCamera(cam);
+    const path = 'photo_' + bulkStamp() + '.jpg';
+    await bulkTry(function () { return sb.storage.from(bucket).upload(path, it.preview.blob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false }).then(bulkUnwrap); }, 'preview upload');
+    it.previewPath = path; it.previewBucket = bucket;
+  }
+  // 2. photos row — created HIDDEN so nothing public changes until every step is done
+  if (!it.photoId) {
+    const src = sb.storage.from(it.previewBucket).getPublicUrl(it.previewPath).data.publicUrl;
+    const row = { src: src, tags: opts.tags, span: it.span, camera: cam, for_sale: opts.forSale, hidden: true,
+      img_w: it.preview.w, img_h: it.preview.h, phash: it.phash };
+    const ins = await bulkTry(function () { return sb.from('photos').insert(row).select('id').single().then(bulkUnwrap); }, 'save photo');
+    it.photoId = ins.data.id;
+  }
+  // 3. untouched original → private masters bucket
+  if (!it.masterPath) {
+    it.msg = 'uploading original…'; bulkRender();
+    const mpath = it.photoId + '/master_' + Date.now() + '.' + bulkExt(it);
+    await bulkTry(function () { return sb.storage.from(MASTERS_BUCKET).upload(mpath, it.file, { contentType: it.type, upsert: false }).then(bulkUnwrap); }, 'original upload');
+    it.masterPath = mpath;
+  }
+  // 4. asset rows (preview first so the dims trigger keeps img_w = web image)
+  if (!it.assetsDone) {
+    await bulkTry(function () {
+      return sb.from('photo_assets').insert([
+        { photo_id: it.photoId, variant: 'preview', bucket: it.previewBucket, path: it.previewPath, width: it.preview.w, height: it.preview.h, bytes: it.preview.blob.size, is_display_default: true },
+        { photo_id: it.photoId, variant: 'print-master', bucket: MASTERS_BUCKET, path: it.masterPath, width: it.w, height: it.h, bytes: it.file.size, is_print_default: true, sha256: it.sha }
+      ]).then(bulkUnwrap);
+    }, 'save versions');
+    it.assetsDone = true;
+  }
+  // 5. go live (or stay a draft)
+  if (opts.publish) {
+    await bulkTry(function () { return sb.from('photos').update({ hidden: false }).eq('id', it.photoId).then(bulkUnwrap); }, 'publish');
+    it.status = 'done'; it.msg = 'live · #' + it.photoId;
+  } else {
+    it.status = 'draft'; it.msg = 'hidden draft · #' + it.photoId;
+  }
+  it.preview = null; // free the blob
+  bulkRender();
+}
+
+// ── ATTACH mode ──
+async function bulkLoadCandidates() {
+  if (bulk.candidates) return bulk.candidates;
+  bulkSummary('loading site photos to match against…');
+  const res = await sb.from('photos').select('id,src,phash,img_w,img_h,for_sale,camera');
+  if (res.error) throw res.error;
+  const assets = await sb.from('photo_assets').select('photo_id,width,height').eq('variant', 'print-master');
+  const best = {};
+  (assets.data || []).forEach(function (a) { const m = Math.max(a.width || 0, a.height || 0); if (m > (best[a.photo_id] || 0)) best[a.photo_id] = m; });
+  const rows = res.data || [];
+  // Hash any photo not hashed yet from a small render of its web image, cache it.
+  const need = rows.filter(function (p) { return !p.phash && p.src; });
+  let n = 0;
+  async function hashOne(p) {
+    const h = await new Promise(function (resolve) {
+      const im = new Image();
+      im.crossOrigin = 'anonymous';
+      im.onload = function () { try { resolve(bulkDHash(im)); } catch (e) { resolve(null); } };
+      im.onerror = function () { resolve(null); };
+      im.src = thumbURL(p.src, 256, 80);
+    });
+    n++;
+    if (n % 10 === 0) bulkSummary('indexing site photos ' + n + ' / ' + need.length + ' (one-time)…');
+    if (h) { p.phash = h; sb.from('photos').update({ phash: h }).eq('id', p.id).then(function () {}); }
+  }
+  for (let i = 0; i < need.length; i += 6) await Promise.all(need.slice(i, i + 6).map(hashOne));
+  bulk.candidates = rows.filter(function (p) { return p.phash; }).map(function (p) {
+    return { id: p.id, src: p.src, phash: p.phash, ar: (p.img_w && p.img_h) ? p.img_w / p.img_h : null, forSale: p.for_sale, masterW: best[p.id] || 0 };
+  });
+  return bulk.candidates;
+}
+
+async function bulkMatchAll() {
+  let cands;
+  try { cands = await bulkLoadCandidates(); } catch (e) { bulkSummary('could not load site photos: ' + (e.message || e), true); return; }
+  let strong = 0;
+  bulk.items.forEach(function (it) {
+    if (it.status !== 'ready' || !it.phash || it.match) return;
+    const ar = it.w / it.h;
+    let bestC = null, bestD = 99, secondD = 99;
+    cands.forEach(function (c) {
+      if (c.ar && Math.abs(c.ar - ar) > 0.03) return; // different shape → can't be the same frame
+      const d = bulkHamming(it.phash, c.phash);
+      if (d < bestD) { secondD = bestD; bestD = d; bestC = c; } else if (d < secondD) { secondD = d; }
+    });
+    if (!bestC || bestD > 20) { it.status = 'nomatch'; it.msg = 'no matching photo on the site'; return; }
+    // A near-identical runner-up (burst shots, re-edits) drops confidence to "check it".
+    const dist = (bestD <= 6 && secondD - bestD < 4) ? Math.max(bestD, 7) : bestD;
+    it.match = Object.assign({ dist: dist }, bestC);
+    // Pre-tick only confident matches that actually improve on the current master.
+    it.pick = dist <= 6 && Math.max(it.w, it.h) > (bestC.masterW || 0);
+    if (it.pick) strong++;
+  });
+  const ready = bulk.items.filter(function (it) { return it.status === 'ready'; }).length;
+  bulkSummary(ready + ' matched · ' + strong + ' ticked (confident + bigger than current master). Check the rest, then Attach.');
+  bulkRender();
+}
+
+async function bulkAttachOne(it) {
+  it.status = 'uploading'; it.msg = 'uploading original…'; bulkRender();
+  const pid = it.match.id;
+  if (!it.masterPath) {
+    const mpath = pid + '/master_' + Date.now() + '.' + bulkExt(it);
+    await bulkTry(function () { return sb.storage.from(MASTERS_BUCKET).upload(mpath, it.file, { contentType: it.type, upsert: false }).then(bulkUnwrap); }, 'original upload');
+    it.masterPath = mpath;
+  }
+  if (!it.assetsDone) {
+    await bulkTry(function () {
+      return sb.from('photo_assets').insert({ photo_id: pid, variant: 'print-master', bucket: MASTERS_BUCKET, path: it.masterPath,
+        width: it.w, height: it.h, bytes: it.file.size, is_print_default: true, sha256: it.sha }).then(bulkUnwrap);
+    }, 'save master');
+    it.assetsDone = true;
+  }
+  it.status = 'attached'; it.msg = 'master on #' + pid + ' (' + Math.max(it.w, it.h) + 'px)';
+  bulkRender();
+}
+
+// ── runner ──
+async function bulkStart() {
+  if (bulk.running) return;
+  if (bulk.items.some(function (it) { return it.status === 'queued' || it.status === 'prepping'; })) {
+    bulkSummary('still reading files — one moment, then press again', true); return;
+  }
+  let jobs, opts = null;
+  if (bulk.mode === 'new') {
+    const tags = document.getElementById('bulk-tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean).join(', ');
+    const publish = document.getElementById('bulk-publish').checked;
+    if (!tags && publish) { bulkSummary('add at least one tag, or untick "Publish as they finish" to save hidden drafts', true); return; }
+    opts = { tags: tags, publish: publish, forSale: document.getElementById('bulk-forsale').checked };
+    jobs = bulk.items.filter(function (it) { return it.status === 'ready'; });
+  } else {
+    jobs = bulk.items.filter(function (it) { return it.status === 'ready' && it.pick && it.match; });
+  }
+  if (!jobs.length) { bulkSummary(bulk.mode === 'new' ? 'nothing to upload' : 'tick at least one match', true); return; }
+  bulk.running = true; bulkRender();
+  const t0 = Date.now();
+  let idx = 0, ok = 0, bad = 0;
+  async function worker() {
+    while (idx < jobs.length) {
+      const it = jobs[idx++];
+      try { bulk.mode === 'new' ? await bulkUploadOne(it, opts) : await bulkAttachOne(it); ok++; }
+      catch (e) {
+        bad++; it.status = 'error';
+        it.msg = (e.message || String(e)) + (it.photoId && bulk.mode === 'new' ? ' — kept as hidden draft #' + it.photoId : '');
+        bulkRender();
+      }
+      bulkSummary((ok + bad) + ' / ' + jobs.length + ' · ' + ok + ' ok' + (bad ? ' · ' + bad + ' failed' : ''));
+    }
+  }
+  const pool = [];
+  for (let w = 0; w < Math.min(BULK_CONCURRENCY, jobs.length); w++) pool.push(worker());
+  await Promise.all(pool);
+  bulk.running = false;
+  const secs = Math.round((Date.now() - t0) / 1000);
+  bulkSummary('finished: ' + ok + ' ok' + (bad ? ', ' + bad + ' failed (press retry on each)' : '') + ' in ' + secs + 's', bad > 0);
+  bulk.candidates = null; // masters changed → re-read next time
+  bulkRender();
+  try { await loadPhotos(); } catch (e) {}
+  try { await loadAdminPhotos(); } catch (e) {}
+}
+
+async function bulkRetry(key) {
+  const it = bulk.items.find(function (i) { return i.key === key; });
+  if (!it || bulk.running) return;
+  if (!it.sha) { it.status = 'queued'; it.msg = ''; bulkPrepAll(); return; }
+  if (bulk.mode === 'new' && !it.preview && !it.assetsDone) { it.sha = null; it.status = 'queued'; await bulkPrep(it); }
+  const opts = bulk.mode === 'new' ? {
+    tags: document.getElementById('bulk-tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean).join(', '),
+    publish: document.getElementById('bulk-publish').checked,
+    forSale: document.getElementById('bulk-forsale').checked
+  } : null;
+  bulk.running = true; bulkRender();
+  try { bulk.mode === 'new' ? await bulkUploadOne(it, opts) : await bulkAttachOne(it); bulkSummary('retry worked'); }
+  catch (e) { it.status = 'error'; it.msg = e.message || String(e); bulkSummary('retry failed: ' + it.msg, true); }
+  bulk.running = false; bulkRender();
+  try { await loadPhotos(); await loadAdminPhotos(); } catch (e) {}
+}
+
 // ══ YOUTUBE ══
 function openYT(videoId, title, artist) {
   document.getElementById('yt-iframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
@@ -4043,7 +4650,7 @@ function getAdminPanelHTML(fullpage) {
   const colsOpen  = fullpage ? '<div class="admin-cols"><div class="admin-col-left">' : '';
   const colsSplit = fullpage ? '</div><div class="admin-col-right">' : '';
   const colsClose = fullpage ? '</div></div>' : '';
-  return colsOpen + `
+  return colsOpen + (BULK_V2 ? bulkSectionHTML() : '') + `
       <div class="admin-section">
         <div class="admin-section-title">Add Photo</div>
         <div id="admin-camera-picker" style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
@@ -4157,6 +4764,7 @@ function showAdminPanel() {
   panel.style.display = 'block';
   document.getElementById('admin-login').style.display = 'none';
   initUploadArea();
+  if (BULK_V2) initBulkUploader();
   adminCamera = 'fujifilm-xt5';
   addHover('#admin-camera-picker .cam-btn');
   loadAdminPhotos();
