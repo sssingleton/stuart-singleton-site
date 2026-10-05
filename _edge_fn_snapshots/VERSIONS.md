@@ -41,3 +41,9 @@ bad signature → 400 (verification path intact).
 - `create-checkout-session` **v29 → v30**: reads prices/labels/sizes/countries from `public.print_products` (seeded identical to v29; constants kept as fallback), refuses inactive SKUs (dead CFPM-12X16 / CFPM-16X24), countries = intersection across cart items, adds `metadata[kind]=print`. verify_jwt **false**. Parity-tested with apikey-only calls: same line items and amounts as v29.
 - `stripe-webhook` **v26 → v27**: atomic claim of the order row (pending|error → paid) before Prodigi, so retries/double deliveries can't double-order; ignores sessions with metadata.kind other than print; Prodigi attributes from `print_products` (v26 rule as fallback). verify_jwt **false**. Unsigned POST → 400 Invalid signature (verified).
 - Rollback: redeploy `create-checkout-session.v29.ts` / `stripe-webhook.v26.ts` with verify_jwt:false.
+
+## 2026-10-05 — Shop v2 bulk tiers
+- `create-checkout-session` **v30 → v31** (`verify_jwt: false`): `BULK_TIERS` paper only, 3+ paper copies 15% off, 5+ 20%, 10+ 25%, applied to each paper line's unit price; framed never discounts. Adds `quoteOnly:true` (returns priced lines, creates no Stripe session and no print_orders row) and `metadata[bulk_pct]`. Snapshot `create-checkout-session.v31.ts`.
+- Tested apikey-only with quoteOnly: 1/2 paper = 0%, 3 = 15% ($29 → $24.65), 5 = 20%, 10 = 25%, framed untouched in mixed carts, legacy single-item body still accepted, print_orders count unchanged. The real Stripe path was NOT exercised after deploy (code after the quote return is unchanged from v30).
+- 🔴 Tiers are mirrored in index.html (`BULK_TIERS`). Change both together.
+- Rollback: redeploy `create-checkout-session.v30.ts` with verify_jwt:false.
