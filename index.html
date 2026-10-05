@@ -3661,7 +3661,7 @@ async function loadAdminPhotos() {
       html += "<div class=\"admin-photo-row\" data-id=\"" + pid + "\" data-span=\"" + pspan + "\" data-hidden=\"" + isHid + "\" draggable=\"true\">";
       html += "<span class=\"admin-drag-handle\">&#8942;</span>";
       html += "<img class=\"admin-photo-thumb" + (isHid ? " admin-thumb-hidden" : "") + "\" src=\"" + thumbURL(p.src||"", 120, 60) + "\" onerror=\"this.onerror=null;this.src='" + (p.src||"") + "';this.style.background='#222'\">";
-      html += "<div class=\"admin-photo-info\"><span>" + (p.tags||"no tags") + "</span>";
+      html += "<div class=\"admin-photo-info\"><span><b style=\"color:#888;font-weight:400\">#" + pid + "</b> · " + (p.tags||"no tags") + "</span>";
       html += "<span style=\"color:#3a3a3a\">" + dimsTxt + " · offers: " + offeredTxt + "</span>";
       html += "<div class=\"dash-badges\">" + badges + "</div></div>";
       html += "<button class=\"admin-edit-btn\" data-action=\"edit\" data-id=\"" + pid + "\">edit</button>";
@@ -4641,6 +4641,126 @@ document.addEventListener('keydown', e => {
   if (adminBuffer === 'admin') openAdmin();
 });
 
+// ══ ADMIN: PRINT SETS (Shop v2) ══
+// Only renders with ?v2, same as the bulk uploader. Stuart pastes photo ID numbers
+// (shown as #id on every Manage Photos row), names the set and saves it to the
+// `print_sets` table. A set is one family (paper OR framed, never mixed) and is
+// saved INACTIVE; nothing on the public shop reads this table yet.
+var SETS_IN = 'width:100%;box-sizing:border-box;background:#0a0a0a;border:1px solid #222;color:#aaa;font-family:var(--mono);font-size:11px;padding:8px 10px;margin-bottom:8px;';
+function setsSectionHTML() {
+  return `
+      <div class="admin-section" id="sets-section">
+        <div class="admin-section-title">Print Sets <span style="color:#2a2a2a;">(v2)</span></div>
+        <input type="text" id="sets-name" placeholder="set name, e.g. Riviera Trio" style="${SETS_IN}">
+        <textarea id="sets-ids" rows="2" placeholder="paste photo IDs, e.g. 384, 391, 396" style="${SETS_IN}resize:vertical;" oninput="setsPreviewSoon()"></textarea>
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
+          <button class="cam-btn active" data-setfam="paper" onclick="setsSetFamily('paper')">Paper</button>
+          <button class="cam-btn" data-setfam="framed" onclick="setsSetFamily('framed')">Framed</button>
+          <button class="admin-btn" onclick="setsSave()" style="margin-left:auto;">Save set</button>
+        </div>
+        <div id="sets-preview" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+        <div id="sets-status" style="font-size:9px;color:#555;letter-spacing:.1em;margin:8px 0;min-height:14px;line-height:1.5;"></div>
+        <div id="sets-list" style="display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto;"></div>
+      </div>`;
+}
+var setsState = { family: 'paper', photos: {}, timer: null };
+function setsParseIds(txt) {
+  var seen = {}, out = [];
+  (String(txt || '').match(/\d+/g) || []).forEach(function (n) { n = parseInt(n, 10); if (n > 0 && !seen[n]) { seen[n] = 1; out.push(n); } });
+  return out;
+}
+function setsSlug(name) { return String(name || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60); }
+function setsSay(msg, bad) { var el = document.getElementById('sets-status'); if (el) { el.textContent = msg || ''; el.style.color = bad ? '#b55' : '#555'; } }
+function setsSetFamily(f) {
+  setsState.family = f;
+  document.querySelectorAll('[data-setfam]').forEach(function (b) { b.classList.toggle('active', b.dataset.setfam === f); });
+}
+function setsThumbs(ids, byId) {
+  return ids.map(function (id) {
+    var p = byId[id];
+    if (!p) return '<div style="width:60px;height:60px;border:1px solid #522;color:#b55;font-size:9px;display:flex;align-items:center;justify-content:center;">#' + id + '?</div>';
+    var warn = !p.for_sale ? 'not for sale' : (p.hidden ? 'hidden' : '');
+    return '<div style="position:relative;width:60px;" title="#' + id + ' ' + bulkEsc(p.tags || '') + '"><img src="' + thumbURL(p.src || '', 120, 60) + '" style="width:60px;height:60px;object-fit:cover;display:block;' + (warn ? 'outline:1px solid #b55;' : '') + '"><div style="font-size:8px;color:' + (warn ? '#b55' : '#555') + ';">#' + id + (warn ? ' ' + warn : '') + '</div></div>';
+  }).join('');
+}
+async function setsFetchPhotos(ids) {
+  if (!ids.length) return {};
+  var r = await sb.from('photos').select('id,src,tags,for_sale,hidden').in('id', ids);
+  if (r.error) throw r.error;
+  var byId = {}; (r.data || []).forEach(function (p) { byId[p.id] = p; });
+  return byId;
+}
+function setsPreviewSoon() { clearTimeout(setsState.timer); setsState.timer = setTimeout(setsPreview, 350); }
+async function setsPreview() {
+  var box = document.getElementById('sets-preview'); if (!box) return null;
+  var ids = setsParseIds(document.getElementById('sets-ids').value);
+  try {
+    var byId = await setsFetchPhotos(ids);
+    box.innerHTML = setsThumbs(ids, byId);
+    var missing = ids.filter(function (id) { return !byId[id]; });
+    var unsellable = ids.filter(function (id) { return byId[id] && (!byId[id].for_sale || byId[id].hidden); });
+    if (missing.length) setsSay('no photo with ID ' + missing.join(', '), true);
+    else if (unsellable.length) setsSay('not for sale or hidden: ' + unsellable.join(', '), true);
+    else setsSay(ids.length ? ids.length + ' photos' : '');
+    return { ids: ids, missing: missing, unsellable: unsellable };
+  } catch (e) { setsSay('could not look up photos: ' + (e.message || e), true); return null; }
+}
+async function setsSave() {
+  var name = document.getElementById('sets-name').value.trim();
+  var chk = await setsPreview();
+  if (!chk) return;
+  if (!name) return setsSay('give the set a name', true);
+  if (chk.ids.length < 2) return setsSay('a set needs at least 2 photo IDs', true);
+  if (chk.missing.length) return setsSay('no photo with ID ' + chk.missing.join(', '), true);
+  if (chk.unsellable.length) return setsSay('not for sale or hidden: ' + chk.unsellable.join(', '), true);
+  var slug = setsSlug(name);
+  if (!slug) return setsSay('name needs letters or numbers', true);
+  var r = await sb.from('print_sets').insert({ name: name, slug: slug, photo_ids: chk.ids, family: setsState.family, active: false });
+  if (r.error) return setsSay(r.error.code === '23505' ? 'a set with that name already exists' : 'save failed: ' + r.error.message, true);
+  document.getElementById('sets-name').value = ''; document.getElementById('sets-ids').value = '';
+  document.getElementById('sets-preview').innerHTML = '';
+  setsSay('saved "' + name + '" (off until you switch it on)');
+  loadSets();
+}
+async function loadSets() {
+  var list = document.getElementById('sets-list'); if (!list) return;
+  try {
+    var r = await sb.from('print_sets').select('*').order('created_at', { ascending: false });
+    if (r.error) throw r.error;
+    var sets = r.data || [];
+    if (!sets.length) { list.innerHTML = '<div style="font-size:9px;color:#333">no sets yet</div>'; return; }
+    var all = []; sets.forEach(function (s) { (s.photo_ids || []).forEach(function (id) { if (all.indexOf(id) < 0) all.push(id); }); });
+    var byId = await setsFetchPhotos(all);
+    list.innerHTML = sets.map(function (s) {
+      return '<div style="border:1px solid #1a1a1a;padding:8px;">' +
+        '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;font-size:10px;color:#888;">' +
+          '<span style="flex:1;">' + bulkEsc(s.name) + ' <span style="color:#444;">· ' + s.family + ' · ' + (s.photo_ids || []).length + ' photos</span></span>' +
+          '<button class="admin-edit-btn' + (s.active ? ' admin-span-active' : '') + '" onclick="setsToggle(\'' + s.id + '\',' + (!s.active) + ')">' + (s.active ? 'on ✓' : 'off') + '</button>' +
+          '<button class="admin-edit-btn" onclick="setsLoadForEdit(\'' + s.id + '\')">copy ids</button>' +
+          '<button class="admin-edit-btn" data-armed="0" onclick="setsDelete(this,\'' + s.id + '\')">delete</button>' +
+        '</div><div style="display:flex;gap:6px;flex-wrap:wrap;">' + setsThumbs(s.photo_ids || [], byId) + '</div></div>';
+    }).join('');
+    setsState.sets = sets;
+  } catch (e) { list.innerHTML = '<div style="font-size:9px;color:#b55">could not load sets: ' + bulkEsc(e.message || e) + '</div>'; }
+}
+async function setsToggle(id, on) {
+  var r = await sb.from('print_sets').update({ active: on, updated_at: new Date().toISOString() }).eq('id', id);
+  if (r.error) setsSay('could not update: ' + r.error.message, true);
+  loadSets();
+}
+function setsLoadForEdit(id) {
+  var s = (setsState.sets || []).find(function (x) { return x.id === id; }); if (!s) return;
+  document.getElementById('sets-ids').value = (s.photo_ids || []).join(', ');
+  setsSetFamily(s.family); setsPreview();
+}
+async function setsDelete(btn, id) {
+  // two clicks instead of a browser confirm dialog
+  if (btn.dataset.armed !== '1') { btn.dataset.armed = '1'; btn.textContent = 'sure?'; setTimeout(function () { btn.dataset.armed = '0'; btn.textContent = 'delete'; }, 3000); return; }
+  var r = await sb.from('print_sets').delete().eq('id', id);
+  if (r.error) setsSay('could not delete: ' + r.error.message, true);
+  loadSets();
+}
+
 // ══ ADMIN ══
 let adminAuthed = false;
 function getAdminPanelHTML(fullpage) {
@@ -4650,7 +4770,7 @@ function getAdminPanelHTML(fullpage) {
   const colsOpen  = fullpage ? '<div class="admin-cols"><div class="admin-col-left">' : '';
   const colsSplit = fullpage ? '</div><div class="admin-col-right">' : '';
   const colsClose = fullpage ? '</div></div>' : '';
-  return colsOpen + (BULK_V2 ? bulkSectionHTML() : '') + `
+  return colsOpen + (BULK_V2 ? bulkSectionHTML() + setsSectionHTML() : '') + `
       <div class="admin-section">
         <div class="admin-section-title">Add Photo</div>
         <div id="admin-camera-picker" style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
@@ -4764,7 +4884,7 @@ function showAdminPanel() {
   panel.style.display = 'block';
   document.getElementById('admin-login').style.display = 'none';
   initUploadArea();
-  if (BULK_V2) initBulkUploader();
+  if (BULK_V2) { initBulkUploader(); loadSets(); }
   adminCamera = 'fujifilm-xt5';
   addHover('#admin-camera-picker .cam-btn');
   loadAdminPhotos();
