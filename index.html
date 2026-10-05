@@ -598,9 +598,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .shop-sets { margin-top: 22px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
   .shop-set { background: #fff; border: 1px solid #e7e4dd; display: flex; flex-direction: column; }
   .shop-set-imgs { display: flex; gap: 2px; background: #efece6; height: 190px; }
-  .shop-set-imgs button { flex: 1; min-width: 0; padding: 0; border: 0; background: #efece6; cursor: none; overflow: hidden; }
-  .shop-set-imgs img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s cubic-bezier(.16,1,.3,1); }
-  .shop-set-imgs button:hover img { transform: scale(1.05); }
+  .shop-set { cursor: none; transition: box-shadow .25s, transform .25s, border-color .25s; }
+  .shop-set:hover { box-shadow: 0 10px 34px rgba(0,0,0,.10); transform: translateY(-3px); border-color: #d8d4ca; }
+  .shop-set-img { flex: 1; min-width: 0; position: relative; overflow: hidden; }
+  .shop-set-imgs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .shop-set-more { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(20,18,15,.5); color: #fff; font-family: var(--sans); font-size: 18px; font-weight: 600; }
+  #set-modal { position: fixed; inset: 0; z-index: 955; background: rgba(20,18,15,.55); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; }
+  #set-modal.open { opacity: 1; pointer-events: all; }
+  .set-inner { width: min(680px, 94vw); border: 1px solid #e2dfd7; background: #fff; border-radius: 2px; font-family: var(--mono); max-height: 92vh; display: flex; flex-direction: column; box-shadow: 0 24px 70px rgba(0,0,0,.22); }
+  .set-body { padding: 18px 22px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+  .set-label { font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #a09a90; }
+  .set-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+  .set-tile { position: relative; padding: 0; border: 2px solid transparent; background: #efece6; aspect-ratio: 1; overflow: hidden; cursor: none; opacity: .72; transition: opacity .2s, border-color .2s; }
+  .set-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .set-tile.on { border-color: #1a1a1a; opacity: 1; }
+  .set-tick { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border: 1px solid #fff; background: rgba(20,18,15,.35); color: #fff; font-size: 12px; line-height: 18px; text-align: center; }
+  .set-tile.on .set-tick { background: #1a1a1a; }
+  .set-sizes { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 6px; }
+  .set-sizes .print-size-btn.selected { border-color: #1a1a1a; color: #1a1a1a; }
+  .set-hint, .set-total { font-size: 10px; letter-spacing: .06em; color: #6a655c; line-height: 1.7; }
+  .set-total strong { font-size: 14px; color: #1a1a1a; } .set-total b { color: #3a7a3a; font-weight: 400; } .set-total s { color: #b0aaa0; }
+  .set-foot { padding: 14px 22px 18px; border-top: 1px solid #ece9e2; display: flex; flex-direction: column; gap: 10px; flex: 0 0 auto; }
+  @media (max-width: 600px) { .set-inner { width: 100vw; max-height: 100dvh; } .set-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; } }
   .shop-set-body { padding: 13px 15px 15px; display: flex; flex-direction: column; gap: 6px; }
   .shop-set-kicker { font-family: var(--mono); font-size: 7.5px; letter-spacing: .18em; text-transform: uppercase; color: #b8b2a7; }
   .shop-set-name { font-family: var(--sans); font-size: 15px; font-weight: 600; color: #1a1a1a; }
@@ -1655,6 +1674,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <button id="cart-fab" onclick="openCart()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
   <span>Cart</span><span class="cart-fab-count" id="cart-fab-count">0</span>
 </button>
+
+<!-- SET PICKER MODAL (Shop v2) -->
+<div id="set-modal" onclick="if(event.target===this)closeSetModal()">
+  <div class="set-inner">
+    <div class="cart-head"><span id="set-title">// set</span><button onclick="closeSetModal()">✕ close</button></div>
+    <div class="set-body">
+      <div class="set-label">Pick 3 or more photos</div>
+      <div class="set-grid" id="set-grid"></div>
+      <div class="set-label">One size for the set · fine-art paper</div>
+      <div class="set-sizes" id="set-sizes"></div>
+    </div>
+    <div class="set-foot">
+      <div class="set-total" id="set-total"></div>
+      <button class="print-checkout-btn" id="set-add-btn" onclick="addSetToCart()" disabled>Pick 3</button>
+      <p class="print-note" style="margin:0;">3 or more paper prints 15% off · 5 for 20% · 10 for 25% · free shipping</p>
+    </div>
+  </div>
+</div>
 
 <!-- CART MODAL -->
 <div id="cart-modal">
@@ -2981,24 +3018,102 @@ function loadShopSets() {
       });
   } catch (e) {}
 }
+var SET_MIN = 3; // a set is a pool of photos; the buyer picks at least this many
+function setEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+// Photos of a set that can actually be bought right now, in the set's own order.
+function setPhotos(set) {
+  return (set.photo_ids || []).map(function (id) { return PHOTOS.find(function (p) { return String(p.id) === String(id); }); })
+    .filter(function (p) { return p && p.for_sale && !p.hidden; });
+}
 function shopSetsHTML() {
   loadShopSets();
   if (!SHOP_SETS || !SHOP_SETS.length) return '';
-  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var cards = [];
   SHOP_SETS.forEach(function (set) {
-    var photos = (set.photo_ids || []).map(function (id) { return PHOTOS.find(function (p) { return String(p.id) === String(id); }); });
-    if (photos.length < 2 || photos.some(function (p) { return !p || !p.for_sale; })) return;
-    var n = photos.length, pct = bulkPct(n);
-    var imgs = photos.map(function (p) {
-      return '<button type="button" onclick="openPrintModal(\'' + p.id + '\')" aria-label="Buy this print"><img src="' + thumbURL(p.src || '', 480, 62) + '" alt="' + esc(set.name) + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + (p.src || '') + '\'"></button>';
+    if (set.family !== 'paper') return;           // framed sets are not sold as a pick-your-own set yet
+    var photos = setPhotos(set);
+    if (photos.length < SET_MIN) return;          // sets of 2 never show
+    var show = photos.slice(0, 4), extra = photos.length - show.length;
+    var imgs = show.map(function (p, i) {
+      var more = (extra > 0 && i === show.length - 1) ? '<span class="shop-set-more">+' + extra + '</span>' : '';
+      return '<div class="shop-set-img"><img src="' + thumbURL(p.src || '', 480, 62) + '" alt="' + setEsc(set.name) + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + (p.src || '') + '\'">' + more + '</div>';
     }).join('');
-    var note = set.family === 'framed'
-      ? 'Set of ' + n + ' · framed · tap a photo to choose its size'
-      : 'Set of ' + n + ' · tap each photo to add it' + (pct ? ' · <b>all ' + n + ' = ' + pct + '% off</b>' : ' · <b>add one more print for 15% off</b>');
-    cards.push('<div class="shop-set"><div class="shop-set-imgs">' + imgs + '</div><div class="shop-set-body"><div class="shop-set-kicker">Print set</div><div class="shop-set-name">' + esc(set.name) + '</div><div class="shop-set-note">' + note + '</div></div></div>');
+    var note = photos.length === SET_MIN
+      ? 'Set of ' + SET_MIN + ' · <b>' + bulkPct(SET_MIN) + '% off</b>'
+      : photos.length + ' photos · pick any ' + SET_MIN + ' or more · <b>from ' + bulkPct(SET_MIN) + '% off</b>';
+    cards.push('<div class="shop-set" onclick="openSetModal(\'' + setEsc(set.slug) + '\')"><div class="shop-set-imgs">' + imgs + '</div><div class="shop-set-body"><div class="shop-set-kicker">Print set</div><div class="shop-set-name">' + setEsc(set.name) + '</div><div class="shop-set-note">' + note + '</div><button class="shop-card-buy" type="button">Build your set</button></div></div>');
   });
   return cards.length ? '<div class="shop-sets">' + cards.join('') + '</div>' : '';
+}
+
+// ── Set picker: tick 3 or more photos from the set, choose one size, add them all. ──
+var _set = { set: null, photos: [], picked: {}, sku: null };
+function setPhotoSizes(p) {
+  var w = p.masterW || p.img_w || 0, h = p.masterH || p.img_h || 0;
+  var longest = Math.max(w, h), shortest = Math.min(w, h);
+  return sizesForPhoto(longest, shortest ? longest / shortest : 0).filter(function (s) { return !s.framed; });
+}
+function setPickedPhotos() { return _set.photos.filter(function (p) { return _set.picked[p.id]; }); }
+// Sizes every relevant photo can be printed at (the picked ones, or the whole set before any pick).
+function setCommonSizes() {
+  var pool = setPickedPhotos(); if (!pool.length) pool = _set.photos;
+  var lists = pool.map(setPhotoSizes);
+  return (lists[0] || []).filter(function (s) { return lists.every(function (l) { return l.some(function (x) { return x.sku === s.sku; }); }); });
+}
+function openSetModal(slug) {
+  var set = (SHOP_SETS || []).find(function (x) { return x.slug === slug; }); if (!set) return;
+  var photos = setPhotos(set); if (photos.length < SET_MIN) return;
+  _set = { set: set, photos: photos, picked: {}, sku: null };
+  if (photos.length === SET_MIN) photos.forEach(function (p) { _set.picked[p.id] = true; }); // a set of exactly 3 comes pre-ticked
+  renderSetModal();
+  document.getElementById('set-modal').classList.add('open');
+}
+function closeSetModal() { var m = document.getElementById('set-modal'); if (m) m.classList.remove('open'); }
+function toggleSetPhoto(id) { _set.picked[id] = !_set.picked[id]; renderSetModal(); }
+function chooseSetSize(sku) { _set.sku = sku; renderSetModal(); }
+function renderSetModal() {
+  var m = document.getElementById('set-modal'); if (!m || !_set.set) return;
+  var picked = setPickedPhotos(), n = picked.length;
+  var sizes = setCommonSizes();
+  if (_set.sku && !sizes.some(function (s) { return s.sku === _set.sku; })) _set.sku = null;
+  var size = sizes.find(function (s) { return s.sku === _set.sku; }) || null;
+  document.getElementById('set-title').textContent = '// ' + _set.set.name;
+  document.getElementById('set-grid').innerHTML = _set.photos.map(function (p) {
+    var on = !!_set.picked[p.id];
+    return '<button type="button" class="set-tile' + (on ? ' on' : '') + '" onclick="toggleSetPhoto(\'' + p.id + '\')" aria-pressed="' + on + '"><img src="' + thumbURL(p.src || '', 480, 62) + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'' + (p.src || '') + '\'"><span class="set-tick">' + (on ? '✓' : '') + '</span></button>';
+  }).join('');
+  document.getElementById('set-sizes').innerHTML = sizes.length
+    ? sizes.map(function (s) { return '<button type="button" class="print-size-btn' + (s.sku === _set.sku ? ' selected' : '') + '" onclick="chooseSetSize(\'' + s.sku + '\')"><span>' + s.label + '</span><span>' + cartMoney(s.price) + '</span></button>'; }).join('')
+    : '<div class="set-hint">These photos don’t share a print size. Untick one, or add them one at a time from the shop.</div>';
+  var total = document.getElementById('set-total'), btn = document.getElementById('set-add-btn');
+  var after = cartPaperCount() + n, pct = bulkPct(after);
+  if (n < SET_MIN) {
+    var k = SET_MIN - n;
+    total.innerHTML = 'Pick ' + k + ' more photo' + (k === 1 ? '' : 's') + ' · ' + SET_MIN + ' is the minimum for a set';
+    btn.disabled = true; btn.textContent = 'Pick ' + k + ' more';
+  } else if (!size) {
+    total.innerHTML = n + ' photos picked · choose a size';
+    btn.disabled = true; btn.textContent = 'Choose a size';
+  } else {
+    var full = size.price * n, disc = Math.round(size.price * (100 - pct) / 100) * n;
+    total.innerHTML = n + ' × ' + size.label + ' · ' + (pct ? '<s>' + cartMoney(full) + '</s> <strong>' + cartMoney(disc) + '</strong> · <b>' + pct + '% off</b>' : '<strong>' + cartMoney(full) + '</strong>');
+    btn.disabled = false; btn.textContent = 'Add ' + n + ' prints to cart';
+  }
+  try { addHover('#set-modal button'); } catch (e) {}
+}
+function addSetToCart() {
+  var picked = setPickedPhotos();
+  var size = PRINT_SIZES.find(function (s) { return s.sku === _set.sku; });
+  if (picked.length < SET_MIN || !size) return;
+  picked.forEach(function (p) {
+    var item = { photoId: p.id, sku: size.sku, frameColor: null, variant: 'print-master', copies: 1, priceCents: size.price, sizeLabel: size.label, thumb: p.src || '' };
+    var key = cartLineKey(item);
+    var existing = CART.find(function (it) { return cartLineKey(it) === key; });
+    if (existing) existing.copies = Math.min(20, (existing.copies || 1) + 1); else CART.push(item);
+  });
+  cartSave(); updateCartFab();
+  closeSetModal();
+  try { openCart(); } catch (e) {}
 }
 
 function renderShop() {
@@ -4709,7 +4824,7 @@ function setsSectionHTML() {
       <div class="admin-section" id="sets-section">
         <div class="admin-section-title">Print Sets <span style="color:#2a2a2a;">(v2)</span></div>
         <input type="text" id="sets-name" placeholder="set name, e.g. Riviera Trio" style="${SETS_IN}">
-        <textarea id="sets-ids" rows="2" placeholder="paste photo IDs, e.g. 384, 391, 396" style="${SETS_IN}resize:vertical;" oninput="setsPreviewSoon()"></textarea>
+        <textarea id="sets-ids" rows="2" placeholder="paste 3 or more photo IDs, e.g. 384, 391, 396, 402, 410 — buyers pick at least 3" style="${SETS_IN}resize:vertical;" oninput="setsPreviewSoon()"></textarea>
         <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
           <button class="cam-btn active" data-setfam="paper" onclick="setsSetFamily('paper')">Paper</button>
           <button class="cam-btn" data-setfam="framed" onclick="setsSetFamily('framed')">Framed</button>
@@ -4767,7 +4882,7 @@ async function setsSave() {
   var chk = await setsPreview();
   if (!chk) return;
   if (!name) return setsSay('give the set a name', true);
-  if (chk.ids.length < 2) return setsSay('a set needs at least 2 photo IDs', true);
+  if (chk.ids.length < 3) return setsSay('a set needs at least 3 photo IDs (buyers pick 3 or more from it)', true);
   if (chk.missing.length) return setsSay('no photo with ID ' + chk.missing.join(', '), true);
   if (chk.unsellable.length) return setsSay('not for sale or hidden: ' + chk.unsellable.join(', '), true);
   var slug = setsSlug(name);
