@@ -26,24 +26,29 @@ function parse(){
     return {photoId:parseInt(m[1],10),sku:sku,frameColor:framed?'black':null,variant:'print-master',copies:Math.max(1,Math.min(20,qty||1))};
   }).filter(Boolean);
 }
-function fallback(items,why){
-  try{ var cart=JSON.parse(localStorage.getItem('sss_cart_v1')||'[]'); if(!Array.isArray(cart)) cart=[];
-    items.forEach(function(it){cart.push({photoId:it.photoId,sku:it.sku,frameColor:it.frameColor,variant:it.variant,copies:it.copies,priceCents:0,sizeLabel:it.sku.replace('GLOBAL-',''),thumb:''});});
-    localStorage.setItem('sss_cart_v1',JSON.stringify(cart)); }catch(e){}
-  document.getElementById('msg').innerHTML='Opening your cart… <a href="/shop?cart=1">continue</a>';
-  document.getElementById('sub').textContent=why||'';
-  setTimeout(function(){location.href='/shop?cart=1';},1200);
+async function session(items){
+  var res=await fetch(EDGE,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},
+    body:JSON.stringify({items:items,successUrl:location.origin+'/print-success',cancelUrl:location.origin+'/shop'})});
+  var data={}; try{data=await res.json();}catch(e){}
+  if(!res.ok||!data.url) throw new Error(data.error||('checkout unavailable ('+res.status+')'));
+  return data.url;
+}
+function fail(msg,bad){
+  document.getElementById('msg').innerHTML='Sorry, '+(bad&&bad.length?'some of these prints are no longer available':'checkout hit a snag')+'. <a href="/shop">Browse the shop</a>';
+  document.getElementById('sub').textContent=msg||'';
 }
 (async function(){
   var items=parse();
   if(!items.length){ location.replace('/shop'); return; }
-  try{
-    var res=await fetch(EDGE,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},
-      body:JSON.stringify({items:items,successUrl:location.origin+'/print-success',cancelUrl:location.origin+'/shop'})});
-    var data=await res.json();
-    if(!res.ok||!data.url) throw new Error(data.error||'checkout unavailable');
-    location.replace(data.url);
-  }catch(e){ fallback(items,e.message); }
+  try{ location.replace(await session(items)); return; }catch(e){ var firstErr=e.message; }
+  // One line is bad (unlisted photo or retired size). Find it, check out the rest.
+  var good=[],bad=[];
+  for(var i=0;i<items.length;i++){
+    try{ await session([items[i]]); good.push(items[i]); }
+    catch(e){ bad.push(items[i].photoId+' '+items[i].sku.replace('GLOBAL-','')+': '+e.message); }
+  }
+  if(good.length&&bad.length){ try{ location.replace(await session(good)); return; }catch(e){ firstErr=e.message; } }
+  fail(bad.length?bad.join(' · '):firstErr,bad);
 })();
 </script>
 </body></html>
