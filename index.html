@@ -1417,6 +1417,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #music-page.tab-beats .music-cta:hover { color:#c0392b; border-color:#c0392b; }
   #music-page.tab-beats .music-dot { color:#222; }
 </style>
+<script src="/meta-pixel.js" async></script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -2336,6 +2337,7 @@ const ssTrack = (function () {
   }
   function send(event, opts) {
     if (optedOut()) return;
+    try { if (window.ssMetaPixel) window.ssMetaPixel(event, opts); } catch (e) {}
     var p = location.pathname;
     if (p === '/mr.manager') return;
     opts = opts || {};
