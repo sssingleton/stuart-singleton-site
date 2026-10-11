@@ -11,6 +11,7 @@
     { "source": "/camera-gear", "destination": "/camera-gear.html" },
     { "source": "/bradenbachelortripcalculator", "destination": "/bradenbachelortripcalculator.html" },
     { "source": "/print-success", "destination": "/index.html" },
+    { "source": "/checkout", "destination": "/checkout.html" },
     { "source": "/print/:slug", "destination": "/print/:slug.html" },
 
     { "source": "/shop", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/shop.html" },
