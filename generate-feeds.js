@@ -9,7 +9,25 @@
  * Run from repo root:  node generate-feeds.js
  */
 const fs = require('fs');
+const path = require('path');
 const { fetchCatalog } = require('./catalog-data.js');
+const IMG_DIR = 'feed-img';
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+// Meta/Pinterest fetch every image in one burst; Supabase Storage answers that with 429s.
+// So feed images are copied once into /feed-img/<id>.jpg and served by Vercel's CDN.
+async function ensureImage(it) {
+  const file = path.join(IMG_DIR, `${it.id}.jpg`);
+  if (fs.existsSync(file) && fs.statSync(file).size > 10000) return true;
+  const url = it.src.replace('/object/public/', '/render/image/public/') + '?width=1200&quality=82&resize=contain';
+  for (let a = 1; a <= 6; a++) {
+    try {
+      const r = await fetch(url);
+      if (r.ok) { fs.writeFileSync(file, Buffer.from(await r.arrayBuffer())); await sleep(300); return true; }
+      await sleep(a * 2000);
+    } catch (e) { await sleep(a * 2000); }
+  }
+  return false;
+}
 
 function parseCSV(text) {
   const rows = []; let row = [], f = '', q = false;
@@ -37,13 +55,18 @@ async function main() {
     rs.forEach(r => { const o = {}; h.forEach((k, i) => o[k] = r[i]); prior[o.id] = o; });
   }
   const { items } = await fetchCatalog();
+  fs.mkdirSync(IMG_DIR, { recursive: true });
+  const local = new Set();
+  for (const it of items) if (await ensureImage(it)) local.add(it.id);
+  const keep = new Set(items.map(i => `${i.id}.jpg`));
+  for (const f of fs.readdirSync(IMG_DIR)) if (!keep.has(f)) { try { fs.unlinkSync(path.join(IMG_DIR, f)); } catch (e) {} }
   const rows = [];
   for (const it of items) {
     const tags = it.tags.map(t => t.trim().toLowerCase());
     const bw = tags.some(t => t.includes('black'));
     const subj = tags.filter(t => !SKIP.has(t)).map(t => t.replace(/\b\w/g, c => c.toUpperCase()));
     const name = subj.slice(0, 3).join(' — ') || it.title;
-    const image = it.src.replace('/object/public/', '/render/image/public/') + '?width=2000&quality=85&resize=contain';
+    const image = local.has(it.id) ? `https://stuartsingleton.com/${IMG_DIR}/${it.id}.jpg` : it.src.replace('/object/public/', '/render/image/public/') + '?width=1200&quality=82&resize=contain';
     for (const s of it.offeredSizes) {
       const id = `${it.id}-${s.sku.replace(/^GLOBAL-/, '')}`;
       const size = s.label.replace(/in\b/, '"').replace('x', '×');
@@ -70,6 +93,6 @@ async function main() {
   write('meta-catalog.csv', ['id','title','description','availability','condition','price','link','image_link','brand','google_product_category','item_group_id','color','size'], rows);
   write('tiktok-catalog.csv', ['sku_id','title','description','availability','condition','price','currency','link','image_link','brand','google_product_category','item_group_id'],
     rows.map(r => ({ ...r, sku_id: r.id, price: r.priceNum, currency: 'USD' })));
-  console.log(`feeds: ${items.length} photos, ${rows.length} rows (pinterest/meta/tiktok)`);
+  console.log(`feeds: ${items.length} photos, ${rows.length} rows (pinterest/meta/tiktok), ${local.size} images on site CDN`);
 }
 main().catch(e => { console.error(e); process.exit(1); });
