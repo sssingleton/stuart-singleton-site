@@ -338,7 +338,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     ${relatedBlock(item.related)}
     <footer>
       Photograph by <a href="/">Stuart Singleton</a>, Nashville TN ·
-      <a href="/prints">All prints</a> · <a href="/shop">Shop</a>
+      <a href="/prints">All prints</a> · <a href="/shop">Shop</a> · <a href="/returns">Shipping &amp; returns</a> · <a href="/contact">Contact</a>
     </footer>
   </main>
 <a class="cartlink" id="cartlink" href="/shop?cart=1" hidden>Your cart <b id="cartlink-n">0</b> →</a>
@@ -483,7 +483,7 @@ ${faqHtml}
   </section>
     <footer>
       Photographs by <a href="/">Stuart Singleton</a>, Nashville TN ·
-      <a href="/shop">Shop</a> · <a href="/catalog.json">Catalog feed</a> · <a href="/llms.txt">llms.txt</a>
+      <a href="/shop">Shop</a> · <a href="/returns">Shipping &amp; returns</a> · <a href="/contact">Contact</a> · <a href="/catalog.json">Catalog feed</a> · <a href="/llms.txt">llms.txt</a>
     </footer>
   </main>
 <a class="cartlink" id="cartlink" href="/shop?cart=1" hidden>Your cart <b id="cartlink-n">0</b> →</a>
