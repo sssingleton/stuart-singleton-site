@@ -8,6 +8,8 @@
     { "source": "/S137devhub/:path*", "destination": "https://s137-dev-hub.vercel.app/:path*" },
 
     { "source": "/prints", "destination": "/prints.html" },
+    { "source": "/returns", "destination": "/returns.html" },
+    { "source": "/contact", "destination": "/contact.html" },
     { "source": "/camera-gear", "destination": "/camera-gear.html" },
     { "source": "/bradenbachelortripcalculator", "destination": "/bradenbachelortripcalculator.html" },
     { "source": "/print-success", "destination": "/index.html" },
