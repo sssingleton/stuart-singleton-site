@@ -89,6 +89,9 @@ async function main() {
       });
     }
   }
+  // id -> catalog title. checkout.html sends these so the Stripe line name matches the Meta
+  // catalog title (Meta's checkout test flags a mismatch as "product name was incorrect").
+  fs.writeFileSync('catalog-titles.json', JSON.stringify(Object.fromEntries(rows.map(r => [r.id, r.title]))));
   write('pinterest-catalog.csv', ['id','title','description','link','image_link','price','availability','google_product_category','brand','item_group_id','condition','color'], rows);
   write('meta-catalog.csv', ['id','title','description','availability','condition','price','link','image_link','brand','google_product_category','item_group_id','color','size'], rows);
   write('tiktok-catalog.csv', ['sku_id','title','description','availability','condition','price','currency','link','image_link','brand','google_product_category','item_group_id'],

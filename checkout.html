@@ -24,8 +24,13 @@ function parse(){
     var i=entry.lastIndexOf(':'); var id=i>0?entry.slice(0,i):entry; var qty=i>0?parseInt(entry.slice(i+1),10):1;
     var m=id.match(/^(\d+)-(.+)$/); if(!m) return null;
     var sku='GLOBAL-'+m[2].toUpperCase(); var framed=sku.indexOf('GLOBAL-CFPM')===0;
-    return {photoId:parseInt(m[1],10),sku:sku,frameColor:framed?'black':null,variant:'print-master',copies:Math.max(1,Math.min(20,qty||1))};
+    return {photoId:parseInt(m[1],10),sku:sku,frameColor:framed?'black':null,variant:'print-master',copies:Math.max(1,Math.min(20,qty||1)),cid:id};
   }).filter(Boolean);
+}
+var TITLES=null;
+async function loadTitles(){
+  try{ var ctl=new AbortController(); var t=setTimeout(function(){ctl.abort();},2500);
+    var r=await fetch('/catalog-titles.json',{signal:ctl.signal}); clearTimeout(t); if(r.ok) TITLES=await r.json(); }catch(e){}
 }
 async function session(items){
   var res=await fetch(EDGE,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},
@@ -41,6 +46,8 @@ function fail(msg,bad){
 (async function(){
   var items=parse();
   if(!items.length){ location.replace('/shop'); return; }
+  await loadTitles();
+  items.forEach(function(it){ if(TITLES&&TITLES[it.cid]) it.title=TITLES[it.cid]; delete it.cid; });
   try{ location.replace(await session(items)); return; }catch(e){ var firstErr=e.message; }
   // One line is bad (unlisted photo or retired size). Find it, check out the rest.
   var good=[],bad=[];
