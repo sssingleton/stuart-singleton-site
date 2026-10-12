@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact | Stuart Singleton</title>
+<meta name="description" content="Contact Stuart Singleton about print orders, photo shoots, or anything else. Based in Nashville, Tennessee.">
+<link rel="canonical" href="https://stuartsingleton.com/contact">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif; --pad:clamp(24px,6vw,64px); }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:#050505; color:#fff; min-height:100%; }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:760px; margin:0 auto; padding:calc(var(--pad) * .9) var(--pad) 80px; }
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#666; margin-bottom:56px; }
+  .nav a { text-decoration:none; color:#888; } .nav a:hover { color:#fff; }
+  .nav .links { display:flex; gap:22px; }
+  .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:#666; text-transform:uppercase; margin-bottom:12px; }
+  .hero { font-family:var(--display); font-size:clamp(56px,10vw,104px); line-height:.86; letter-spacing:.02em; margin:0 0 18px; }
+  .lead { font-size:15px; font-weight:300; line-height:1.7; color:#a8a8a8; margin:0 0 44px; }
+  h2 { font-family:var(--mono); font-size:11px; font-weight:normal; letter-spacing:.2em; text-transform:uppercase; color:#777; border-bottom:1px solid #1a1a1a; padding-bottom:10px; margin:44px 0 16px; }
+  p, li { font-size:14.5px; font-weight:300; line-height:1.7; color:#bdbdbd; }
+  ul, ol { padding-left:20px; } li { margin-bottom:8px; }
+  b { color:#eee; font-weight:400; }
+  .content a { color:#fff; text-decoration:none; border-bottom:1px solid #444; }
+  .card { border:1px solid #1e1e1e; padding:20px 22px; margin:18px 0; }
+  .card p { margin:4px 0; }
+  .updated { font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:#555; text-transform:uppercase; margin-top:48px; }
+  .f { display:flex; flex-direction:column; gap:16px; margin:8px 0 12px; }
+  .f label { display:block; font-family:var(--mono); font-size:9px; letter-spacing:.2em; color:#666; text-transform:uppercase; margin-bottom:8px; }
+  .f input, .f textarea { width:100%; background:#111; border:1px solid #222; color:#fff; font-family:var(--mono); font-size:13px; padding:12px 14px; outline:none; }
+  .f input:focus, .f textarea:focus { border-color:#555; }
+  .f textarea { resize:vertical; min-height:130px; }
+  .f button { padding:13px; background:transparent; border:1px solid #444; color:#ccc; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; cursor:pointer; }
+  .f button:hover { border-color:#fff; color:#fff; }
+  .hp { position:absolute; left:-9999px; }
+  #st { font-family:var(--mono); font-size:10px; letter-spacing:.1em; min-height:14px; }
+  footer { margin-top:40px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; display:flex; gap:22px; flex-wrap:wrap; }
+  footer a { text-decoration:none; color:#555; } footer a:hover { color:#fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a href="/">Stuart Singleton</a>
+    <div class="links"><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/contact">Contact</a></div>
+  </nav>
+
+  <div class="eyebrow">Get in touch</div>
+  <h1 class="hero">CONTACT</h1>
+  <div class="content">
+  <p class="lead">Questions about a print order, a shoot, licensing, or anything else. Send a message and I'll reply by email within 2 business days.</p>
+
+  <form class="f" id="cf">
+    <div><label for="n">Name</label><input id="n" name="name" required autocomplete="name"></div>
+    <div><label for="e">Email</label><input id="e" type="email" name="email" required autocomplete="email"></div>
+    <div><label for="o">Order number (if about an order)</label><input id="o" name="order"></div>
+    <div><label for="m">Message</label><textarea id="m" name="message" required></textarea></div>
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit" id="sb">Send message →</button>
+    <div id="st"></div>
+  </form>
+
+  <div class="card">
+    <p><b>Stuart Singleton</b> · Photography &amp; Prints</p>
+    <p>Location: Nashville, Tennessee, USA</p>
+    <p>Website: <a href="https://stuartsingleton.com">stuartsingleton.com</a></p>
+    <p>Instagram: <a href="https://instagram.com/stuartsingleton.jpg" target="_blank" rel="noopener">@stuartsingleton.jpg</a></p>
+  </div>
+
+  <h2>Print orders</h2>
+  <p>Include your order number from your confirmation email. For damaged or incorrect prints, see the <a href="/returns">shipping &amp; returns policy</a>.</p>
+
+  <h2>Shoots</h2>
+  <p>Booking details and rates are on the <a href="/book">book a shoot</a> page.</p>
+  </div>
+
+  <footer>
+    <a href="/">Home</a><a href="/shop">Prints</a><a href="/returns">Shipping &amp; Returns</a><a href="/contact">Contact</a>
+  </footer>
+</div>
+<script>
+document.getElementById('cf').addEventListener('submit', async function(e){
+  e.preventDefault();
+  var f=e.target, b=document.getElementById('sb'), s=document.getElementById('st');
+  b.textContent='Sending...';
+  try {
+    var r = await fetch('https://formspree.io/f/mwvwevop', { method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'},
+      body: JSON.stringify({ name:f.name.value, email:f.email.value, order:f.order.value, message:f.message.value, _gotcha:f._gotcha.value, _subject:'stuartsingleton.com contact' }) });
+    if (!r.ok) throw 0;
+    s.style.color='#4a8'; s.textContent='✓ Message sent. I\'ll reply by email.'; f.reset();
+  } catch(x) { s.style.color='#c44'; s.textContent='Something went wrong. Please try again.'; }
+  b.textContent='Send message →';
+});
+</script>
+</body>
+</html>
