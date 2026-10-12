@@ -5931,6 +5931,13 @@ async function openProductFast(photoId) {
     // Seed PHOTOS with just this one so openPrintModal (which does PHOTOS.find) works
     // immediately. loadPhotos() below replaces it with the full set in the background.
     if (!Array.isArray(PHOTOS) || !PHOTOS.length) { PHOTOS = [photo]; }
+    else {
+      // loadPhotos() at boot may already have filled PHOTOS with rows that lack master
+      // dims; openPrintModal reads PHOTOS, so copy them onto that row (or add ours).
+      var existing = PHOTOS.find(function (p) { return String(p.id) === String(photo.id); });
+      if (existing) { if (photo.masterW) { existing.masterW = photo.masterW; existing.masterH = photo.masterH; } }
+      else { PHOTOS.push(photo); }
+    }
     // Agent discoverability: enrich this /p?id= page's <head> for JS-capable
     // crawlers (title, description, OG, schema.org JSON-LD). Non-JS agents read
     // the static /print/<slug> page instead; this is a bonus for JS-capable ones.
@@ -6535,6 +6542,22 @@ function buildSizeGrid(sizes, note) {
 }
 
 function measurePhotoAndBuildSizes(src, photo) {
+  // Master dims not attached yet (attachMasterDims() still in flight, or a deep link)?
+  // Ask for this one photo's print-master before falling back to the small web file,
+  // so the size grid matches the catalog / print page instead of under-offering.
+  if (photo && !photo.masterW && !photo._masterChecked && typeof sb !== 'undefined') {
+    photo._masterChecked = true;
+    var again = function () { if (String(_printPhotoId) === String(photo.id)) measurePhotoAndBuildSizes(src, photo); };
+    sb.from('photo_assets').select('width,height,is_print_default,created_at')
+      .eq('photo_id', photo.id).eq('variant', 'print-master')
+      .order('is_print_default', { ascending: false }).order('created_at', { ascending: false })
+      .then(function (r) {
+        var m = r && r.data && r.data.find(function (a) { return a.width && a.height; });
+        if (m) { photo.masterW = m.width; photo.masterH = m.height; }
+        again();
+      }, again);
+    return;
+  }
   // If we know the print-master's real dimensions, gate sizes by THOSE — the
   // master is what gets printed, and it's usually much larger than the web src.
   if (photo && photo.masterW && photo.masterH) {
