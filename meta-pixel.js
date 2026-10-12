@@ -5,6 +5,8 @@
           index.html's ssTrack() calls window.ssMetaPixel(event, opts) for the buy flow. */
 (function () {
   var PIXEL = '1049528497730577';
+  // Only the real domain reports; old mirrors (stuartsingleton.netlify.app, Vercel previews) stay silent.
+  if (!/(^|\.)stuartsingleton\.com$/.test(location.hostname)) return;
   try { if (localStorage.getItem('ss_admin') === '1') return; } catch (e) {}
   if (location.pathname === '/mr.manager') return;
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
