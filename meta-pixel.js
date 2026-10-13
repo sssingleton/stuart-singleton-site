@@ -18,7 +18,12 @@
   var PENDING = 'ss_meta_pending';
   function ids(list) { return list.map(function (x) { return String(x); }).filter(function (x, i, a) { return x && a.indexOf(x) === i; }); }
   function cartLines() { try { var c = JSON.parse(localStorage.getItem('sss_cart_v1') || '[]'); return Array.isArray(c) ? c : []; } catch (e) { return []; } }
-  function view(id) { if (id) fbq('track', 'ViewContent', { content_ids: ids([id]), content_type: 'product_group', currency: 'USD' }); }
+  var viewed = {};
+  function view(id) {
+    id = id == null ? '' : String(id);
+    if (!id || viewed[id]) return; viewed[id] = 1;
+    fbq('track', 'ViewContent', { content_ids: ids([id]), content_type: 'product_group', currency: 'USD' });
+  }
 
   window.ssMetaPixel = function (event, opts) {
     opts = opts || {}; var m = opts.m || {};
@@ -36,6 +41,13 @@
       return fbq('track', 'InitiateCheckout', { content_ids: list, content_type: 'product_group', value: value, currency: 'USD', num_items: list.length });
     }
   };
+
+  // Deep links (/shop?buy=14, /p?id=14) can open the buy modal before this async script loads,
+  // so ssTrack('buy_modal') finds no ssMetaPixel and the ViewContent is lost. Fire it from the URL.
+  try {
+    var q = new URLSearchParams(location.search), deep = q.get('buy') || (location.pathname === '/p' ? q.get('id') : null);
+    if (deep && /^\d+$/.test(deep)) view(deep);
+  } catch (e) {}
 
   var me = document.currentScript;
   if (me && me.getAttribute('data-view')) view(me.getAttribute('data-view'));
