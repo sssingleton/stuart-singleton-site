@@ -59,11 +59,10 @@
       fbq('track', 'InitiateCheckout', { content_ids: list, content_type: 'product_group', currency: 'USD', num_items: list.length });
     }
   }
+  // Purchase is sent server-side by stripe-webhook (Conversions API, event_id = Stripe session),
+  // which sees every paid order. Firing it here too would double count, so /print-success only
+  // clears the pending checkout record.
   if (location.pathname === '/print-success') {
-    try {
-      var p = JSON.parse(localStorage.getItem(PENDING) || 'null');
-      if (p && Date.now() - p.t < 864e5) fbq('track', 'Purchase', { content_ids: p.ids, content_type: 'product_group', value: p.value || 0, currency: 'USD' });
-      localStorage.removeItem(PENDING);
-    } catch (e) {}
+    try { localStorage.removeItem(PENDING); } catch (e) {}
   }
 })();
