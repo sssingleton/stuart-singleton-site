@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client Galleries | mr.manager</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+  :root { --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif; --line:#1e1e1e; --line2:#2c2c2c; --dim:#666; --mid:#aaa; --ok:#7fc29b; --warn:#e0b25a; --bad:#e06a5a; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:#050505; color:#eee; }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; font-size:14px; }
+  a { color:inherit; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px clamp(16px,4vw,40px) 120px; }
+  .nav { display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#777; margin-bottom:34px; gap:12px; }
+  .nav a { text-decoration:none; color:#888; }
+  h1 { font-family:var(--display); font-weight:normal; font-size:clamp(44px,7vw,72px); line-height:.9; margin:0 0 6px; letter-spacing:.02em; }
+  h2 { font-family:var(--mono); font-weight:normal; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#888; border-bottom:1px solid var(--line); padding-bottom:10px; margin:36px 0 14px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
+  .sub { color:#888; font-weight:300; margin:0 0 20px; }
+  .btn { background:none; border:1px solid #444; color:#ddd; font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; padding:10px 13px; cursor:pointer; white-space:nowrap; }
+  .btn:hover { border-color:#fff; color:#fff; }
+  .btn.solid { background:#eee; color:#000; border-color:#eee; }
+  .btn.red { border-color:#5a2a24; color:var(--bad); }
+  .btn.sm { padding:7px 9px; font-size:9px; }
+  .btn[disabled] { opacity:.4; cursor:default; }
+  .card { border:1px solid var(--line); padding:16px; margin-bottom:10px; display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center; }
+  .card .t { font-size:16px; } .card .m { font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:#777; text-transform:uppercase; margin-top:6px; line-height:1.8; }
+  .tag { display:inline-block; font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:3px 6px; border:1px solid var(--line2); margin-right:6px; }
+  .tag.live { color:var(--ok); border-color:#2d4a39; } .tag.draft { color:var(--warn); border-color:#4a3d22; } .tag.exp { color:var(--bad); border-color:#5a2a24; }
+  .form { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px 14px; }
+  .f label { display:block; font-family:var(--mono); font-size:9px; letter-spacing:.18em; color:#777; text-transform:uppercase; margin-bottom:6px; }
+  .f input, .f select, .f textarea { width:100%; background:#101010; border:1px solid #242424; color:#fff; font-family:var(--mono); font-size:13px; padding:10px 11px; outline:none; }
+  .f input:focus { border-color:#555; }
+  .f small { color:#666; font-size:11px; display:block; margin-top:5px; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:14px; }
+  .drop { border:1px dashed #333; padding:28px 18px; text-align:center; color:#888; font-weight:300; line-height:1.6; }
+  .drop.over { border-color:#aaa; color:#ddd; background:#0c0c0c; }
+  .bar { height:3px; background:#151515; margin:12px 0; } .bar i { display:block; height:100%; width:0; background:#ddd; transition:width .2s; }
+  .ulist { font-family:var(--mono); font-size:11px; color:#999; max-height:260px; overflow:auto; }
+  .ulist div { display:flex; justify-content:space-between; gap:10px; padding:5px 0; border-bottom:1px solid #121212; }
+  .ulist .ok { color:var(--ok); } .ulist .err { color:var(--bad); } .ulist .skip { color:#666; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+  .ph { position:relative; background:#111; border:1px solid var(--line); }
+  .ph img { display:block; width:100%; aspect-ratio:1; object-fit:cover; }
+  .ph .cap { display:flex; justify-content:space-between; align-items:center; gap:4px; padding:6px; font-family:var(--mono); font-size:10px; color:#888; }
+  .ph .u { position:absolute; top:6px; left:6px; font-family:var(--mono); font-size:9px; letter-spacing:.14em; background:rgba(0,0,0,.7); color:var(--ok); padding:3px 6px; }
+  .ph .cap button { background:none; border:0; color:#777; cursor:pointer; font-family:var(--mono); font-size:10px; padding:2px 4px; }
+  .ph .cap button:hover { color:#fff; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  td, th { text-align:left; padding:8px 6px; border-bottom:1px solid #141414; font-weight:300; }
+  th { font-family:var(--mono); font-size:9px; letter-spacing:.16em; color:#666; text-transform:uppercase; font-weight:normal; }
+  .linkbox { font-family:var(--mono); font-size:12px; background:#0d0d0d; border:1px solid #222; padding:12px; word-break:break-all; color:#ddd; }
+  .note { color:#888; font-weight:300; font-size:13px; line-height:1.6; }
+  .toast { position:fixed; right:16px; bottom:16px; background:#111; border:1px solid #333; padding:12px 16px; font-size:13px; transform:translateY(200%); visibility:hidden; transition:transform .2s; z-index:9; }
+  .toast.on { transform:none; visibility:visible; }
+  .spin { width:14px; height:14px; border:2px solid #333; border-top-color:#ccc; border-radius:50%; animation:s .8s linear infinite; display:inline-block; vertical-align:middle; }
+  @keyframes s { to { transform:rotate(360deg); } }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav"><a href="/mr.manager">← mr.manager</a><span id="who"></span></nav>
+  <div id="app"><span class="spin"></span></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function () {
+  'use strict';
+  var SUPA_URL = 'https://zbcdeglxwrappriwpxwt.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY2RlZ2x4d3JhcHByaXdweHd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MzcyODUsImV4cCI6MjA4OTUxMzI4NX0.IMGxd2IIRvVWgA441aLFtH2VujrZgVRehv2Hb2qNEus';
+  var sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+  var BUCKET = 'client-galleries';
+  var SITE = 'https://stuartsingleton.com';
+  var PREVIEW_PX = 1600, THUMB_PX = 720, CONCURRENCY = 2;
+  var WATERMARK = 'STUART SINGLETON · PROOF';
+  var CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTVWXYZ23456789';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var app = $('app');
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]; }); };
+  var money = function (c) { return '$' + ((c || 0) / 100).toFixed((c || 0) % 100 ? 2 : 0); };
+  var unwrap = function (r) { if (r.error) throw r.error; return r.data; };
+  var tt;
+  function toast(m) { var t = $('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(function () { t.classList.remove('on'); }, 3500); }
+  function fmtDate(d) { if (!d) return '—'; var x = new Date(d.length === 10 ? d + 'T12:00:00' : d); return x.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }); }
+  function linkFor(g) { return SITE + '/g/' + g.slug + '?code=' + encodeURIComponent(g.access_code); }
+  function newCode() { var b = crypto.getRandomValues(new Uint8Array(8)); return Array.from(b, function (x) { return CODE_ALPHABET[x % CODE_ALPHABET.length]; }).join(''); }
+  function slugify(s) { return String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50); }
+  function copy(text) { (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { toast('Copied'); }, function () { prompt('Copy this:', text); }); }
+
+  // ── AUTH (same Supabase session as /mr.manager) ──
+  function boot() {
+    sb.auth.getSession().then(function (r) {
+      var s = r.data.session;
+      if (!s) return loginView();
+      return sb.rpc('is_site_admin').then(function (x) {
+        if (!x.data) { app.innerHTML = '<p class="note">This account isn’t an admin.</p>'; return; }
+        $('who').innerHTML = esc(s.user.email) + ' · <a href="#" id="lo">Sign out</a>';
+        $('lo').onclick = function (e) { e.preventDefault(); sb.auth.signOut().then(function () { location.reload(); }); };
+        route();
+      });
+    });
+  }
+  function loginView() {
+    app.innerHTML = '<h1>CLIENT GALLERIES</h1><p class="sub">Sign in with your mr.manager login.</p>' +
+      '<form id="lf" class="form" style="max-width:420px;grid-template-columns:1fr"><div class="f"><label>Email</label><input id="le" type="email" autocomplete="username" required></div>' +
+      '<div class="f"><label>Password</label><input id="lp" type="password" autocomplete="current-password" required></div><div><button class="btn solid">Sign in</button> <span id="lerr" style="color:var(--bad)"></span></div></form>';
+    $('lf').onsubmit = function (e) {
+      e.preventDefault();
+      sb.auth.signInWithPassword({ email:$('le').value, password:$('lp').value }).then(function (r) { if (r.error) $('lerr').textContent = r.error.message; else boot(); });
+    };
+  }
+
+  // ── ROUTER (#new, #g=<id>, default list) ──
+  window.addEventListener('hashchange', route);
+  function route() {
+    var h = location.hash;
+    if (h === '#new') return editView(null);
+    var m = /^#g=([0-9a-f-]{36})$/.exec(h);
+    if (m) return detailView(m[1]);
+    listView();
+  }
+
+  // ── LIST ──
+  function listView() {
+    app.innerHTML = '<span class="spin"></span>';
+    Promise.all([
+      sb.from('client_galleries').select('*').order('created_at', { ascending:false }).then(unwrap),
+      sb.from('client_gallery_photos').select('gallery_id').then(unwrap),
+      sb.from('client_gallery_unlocks').select('gallery_id').then(unwrap),
+      sb.from('client_gallery_orders').select('gallery_id,amount_total,status').eq('status', 'paid').then(unwrap),
+      sb.from('print_orders').select('gallery_id,amount_total,status').not('gallery_id', 'is', null).then(unwrap)
+    ]).then(function (r) {
+      var gs = r[0], cnt = function (rows, id) { return rows.filter(function (x) { return x.gallery_id === id; }); };
+      var html = '<h1>CLIENT GALLERIES</h1><p class="sub">Private delivery pages at stuartsingleton.com/g/&lt;name&gt;. Never public, never in the shop or feeds.</p>' +
+        '<div class="row" style="margin:0 0 18px"><a class="btn solid" href="#new" style="text-decoration:none">New client gallery</a></div>';
+      if (!gs.length) html += '<p class="note">No galleries yet.</p>';
+      gs.forEach(function (g) {
+        var ph = cnt(r[1], g.id).length, un = cnt(r[2], g.id).length;
+        var extras = cnt(r[3], g.id).reduce(function (n, o) { return n + o.amount_total; }, 0);
+        var prints = cnt(r[4], g.id).filter(function (o) { return ['paid', 'submitted', 'shipped'].indexOf(o.status) > -1; });
+        var exp = g.expires_at && new Date(g.expires_at) < new Date();
+        html += '<div class="card"><div><div class="t">' + esc(g.title) + ' · ' + esc(g.client_name || '') + '</div><div class="m">' +
+          '<span class="tag ' + (exp ? 'exp">Expired' : g.is_active ? 'live">Live' : 'draft">Draft') + '</span>' +
+          esc(g.slug) + ' · ' + ph + ' photos · ' + un + ' unlocked · ' + (g.included_unlocks + g.bonus_unlocks) + ' allowed' +
+          (extras ? ' · extras ' + money(extras) : '') + (prints.length ? ' · ' + prints.length + ' print orders' : '') +
+          ' · until ' + fmtDate(g.expires_at) + '</div></div>' +
+          '<div class="row" style="margin:0"><button class="btn sm" data-copy="' + esc(linkFor(g)) + '">Copy link</button><a class="btn sm" style="text-decoration:none" href="#g=' + g.id + '">Open</a></div></div>';
+      });
+      app.innerHTML = html;
+      app.querySelectorAll('[data-copy]').forEach(function (b) { b.onclick = function () { copy(b.dataset.copy); }; });
+    }).catch(function (e) { app.innerHTML = '<p style="color:var(--bad)">' + esc(e.message || e) + '</p>'; });
+  }
+
+  // ── CREATE / EDIT ──
+  function editView(g) {
+    var isNew = !g;
+    var d = g || { title:'Photo Shoot', client_name:'', client_email:'', shoot_date:'', included_unlocks:18, bonus_unlocks:0,
+      extra_unlock_cents:2000, bundle_size:5, bundle_cents:7500, access_code:newCode(), is_active:false, note:'',
+      expires_at:new Date(Date.now() + 90 * 86400000).toISOString() };
+    app.innerHTML = '<h1>' + (isNew ? 'NEW GALLERY' : 'EDIT GALLERY') + '</h1><p class="sub">' + (isNew ? 'Create it as a draft, upload the photos, then publish and send the link.' : esc(d.slug)) + '</p>' +
+      '<form id="ef"><div class="form">' +
+      fld('client_name', 'Client name', d.client_name, 'text', 'First name shows on the page') +
+      fld('client_email', 'Client email', d.client_email, 'email', 'For your records') +
+      fld('title', 'Page title', d.title, 'text', 'e.g. Nashville Photo Shoot') +
+      fld('shoot_date', 'Shoot date', d.shoot_date || '', 'date') +
+      fld('slug', 'Link name', d.slug || '', 'text', isNew ? 'stuartsingleton.com/g/<this>' : 'Changing it breaks links already sent') +
+      fld('access_code', 'Access code', d.access_code, 'text', 'Part of the link. 6+ characters') +
+      fld('included_unlocks', 'Included photos', d.included_unlocks, 'number', 'From the contract') +
+      fld('bonus_unlocks', 'Bonus photos (free)', d.bonus_unlocks, 'number', 'Extra on you') +
+      fld('extra_price', 'Extra photo price ($)', d.extra_unlock_cents / 100, 'number') +
+      fld('bundle_size', 'Bundle size', d.bundle_size, 'number') +
+      fld('bundle_price', 'Bundle price ($)', d.bundle_cents / 100, 'number') +
+      fld('expires_at', 'Available until', d.expires_at ? d.expires_at.slice(0, 10) : '', 'date', 'Blank = never closes') +
+      '</div><div class="f" style="margin-top:12px"><label>Private note</label><textarea id="f-note" rows="2">' + esc(d.note || '') + '</textarea></div>' +
+      '<div class="row"><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="f-active"' + (d.is_active ? ' checked' : '') + '> Live (client can open the link)</label></div>' +
+      '<div class="row"><button class="btn solid" id="f-save">' + (isNew ? 'Create draft' : 'Save') + '</button><a class="btn" style="text-decoration:none" href="' + (isNew ? '#' : '#g=' + d.id) + '">Cancel</a><span id="f-err" style="color:var(--bad)"></span></div></form>';
+    if (isNew) {
+      var auto = true, sl = $('f-slug');
+      sl.oninput = function () { auto = false; };
+      var upd = function () { if (auto) sl.value = slugify(($('f-client_name').value.split(' ')[0] || '') + ' ' + $('f-title').value).replace(/-photo-shoot$/, '') || ''; };
+      $('f-client_name').oninput = upd; $('f-title').oninput = upd; upd();
+    }
+    $('ef').onsubmit = function (e) {
+      e.preventDefault();
+      var v = function (k) { return $('f-' + k).value.trim(); };
+      var row = {
+        client_name:v('client_name') || null, client_email:v('client_email') || null, title:v('title') || 'Photo Shoot',
+        shoot_date:v('shoot_date') || null, slug:slugify(v('slug')), access_code:v('access_code').toUpperCase(),
+        included_unlocks:parseInt(v('included_unlocks'), 10) || 0, bonus_unlocks:parseInt(v('bonus_unlocks'), 10) || 0,
+        extra_unlock_cents:Math.round(parseFloat(v('extra_price') || '0') * 100), bundle_size:parseInt(v('bundle_size'), 10) || 5,
+        bundle_cents:Math.round(parseFloat(v('bundle_price') || '0') * 100),
+        expires_at:v('expires_at') ? new Date(v('expires_at') + 'T23:59:59').toISOString() : null,
+        note:$('f-note').value.trim() || null, is_active:$('f-active').checked
+      };
+      if (!/^[a-z0-9][a-z0-9-]{2,60}$/.test(row.slug)) { $('f-err').textContent = 'Link name: 3+ letters, numbers or dashes.'; return; }
+      if (row.access_code.length < 6) { $('f-err').textContent = 'Access code needs 6+ characters.'; return; }
+      $('f-save').disabled = true;
+      var q = isNew ? sb.from('client_galleries').insert(row).select().single() : sb.from('client_galleries').update(row).eq('id', d.id).select().single();
+      q.then(function (r) {
+        if (r.error) { $('f-save').disabled = false; $('f-err').textContent = /duplicate|unique/i.test(r.error.message) ? 'That link name is taken.' : r.error.message; return; }
+        location.hash = '#g=' + r.data.id;
+      });
+    };
+  }
+  function fld(k, label, val, type, help) {
+    return '<div class="f"><label for="f-' + k + '">' + label + '</label><input id="f-' + k + '" type="' + (type || 'text') + '"' + (type === 'number' ? ' step="any" min="0"' : '') + ' value="' + esc(val) + '">' + (help ? '<small>' + esc(help) + '</small>' : '') + '</div>';
+  }
+
+  // ── DETAIL ──
+  var D = { g:null, photos:[], unl:{} };
+  function detailView(id) {
+    app.innerHTML = '<span class="spin"></span>';
+    Promise.all([
+      sb.from('client_galleries').select('*').eq('id', id).single().then(unwrap),
+      sb.from('client_gallery_photos').select('*').eq('gallery_id', id).order('position').order('created_at').then(unwrap),
+      sb.from('client_gallery_unlocks').select('photo_id,source,created_at').eq('gallery_id', id).then(unwrap),
+      sb.from('client_gallery_orders').select('*').eq('gallery_id', id).order('created_at', { ascending:false }).then(unwrap),
+      sb.from('print_orders').select('id,status,amount_total,items,shipping_name,created_at,prodigi_order_id,tracking_url').eq('gallery_id', id).order('created_at', { ascending:false }).then(unwrap)
+    ]).then(function (r) {
+      var g = r[0]; D.g = g; D.photos = r[1]; D.unl = {}; r[2].forEach(function (u) { D.unl[u.photo_id] = u; });
+      var orders = r[3], prints = r[4];
+      var paidCredits = orders.filter(function (o) { return o.status === 'paid'; }).reduce(function (n, o) { return n + o.credits; }, 0);
+      var used = r[2].filter(function (u) { return u.source === 'allowance'; }).length;
+      var total = g.included_unlocks + g.bonus_unlocks + paidCredits;
+      var exp = g.expires_at && new Date(g.expires_at) < new Date();
+      var html = '<h1>' + esc((g.title || '').toUpperCase()) + '</h1><p class="sub">' + esc(g.client_name || '') + (g.client_email ? ' · ' + esc(g.client_email) : '') + (g.shoot_date ? ' · shot ' + fmtDate(g.shoot_date) : '') + '</p>' +
+        '<div class="row" style="margin:0 0 6px"><span class="tag ' + (exp ? 'exp">Expired' : g.is_active ? 'live">Live' : 'draft">Draft') + '</span>' +
+        '<button class="btn sm" id="d-pub">' + (g.is_active ? 'Unpublish' : 'Publish') + '</button><button class="btn sm" id="d-edit">Edit</button>' +
+        '<button class="btn sm" id="d-ext">+30 days</button><a class="btn sm" style="text-decoration:none" href="' + esc(linkFor(g)) + '" target="_blank" rel="noopener">View as client</a></div>' +
+        '<h2><span>Link to send</span><button class="btn sm" id="d-copy">Copy</button></h2><div class="linkbox">' + esc(linkFor(g)) + '</div>' +
+        (g.is_active ? '' : '<p class="note">Draft: the link shows “not recognized” until you publish.</p>') +
+        '<p class="note">' + used + ' of ' + total + ' unlocks used (' + g.included_unlocks + ' included + ' + g.bonus_unlocks + ' bonus' + (paidCredits ? ' + ' + paidCredits + ' bought' : '') + ') · extras ' + money(g.extra_unlock_cents) + ' / ' + g.bundle_size + ' for ' + money(g.bundle_cents) + ' · available until ' + fmtDate(g.expires_at) + '</p>' +
+        '<h2><span>Upload photos</span><span>' + D.photos.length + ' in gallery</span></h2>' +
+        '<div class="drop" id="drop">Drop the finished JPEGs here (or a folder).<br><span style="font-size:12px;color:#666">Originals go to private storage untouched. Each gets a 1600px watermarked proof, a clean 1600px preview for after unlock, and a thumbnail. Order follows file names. Duplicates are skipped.</span>' +
+        '<div class="row" style="justify-content:center"><input type="file" id="fi" accept="image/jpeg,image/png,image/webp" multiple hidden><input type="file" id="fd" webkitdirectory multiple hidden>' +
+        '<button class="btn" id="b-fi">Select files</button><button class="btn" id="b-fd">Select folder</button></div></div>' +
+        '<div class="bar"><i id="ubar"></i></div><div class="ulist" id="ulist"></div>' +
+        '<h2><span>Photos</span><span>' + Object.keys(D.unl).length + ' unlocked</span></h2><div class="grid" id="pgrid"></div>' +
+        '<h2><span>Extra photo purchases</span></h2>' + (orders.length ? '<table><tr><th>Date</th><th>Photos</th><th>Total</th><th>Status</th><th>Email</th></tr>' + orders.map(function (o) {
+          return '<tr><td>' + fmtDate(o.created_at) + '</td><td>' + o.credits + '</td><td>' + money(o.amount_total) + '</td><td>' + esc(o.status) + '</td><td>' + esc(o.customer_email || '') + '</td></tr>';
+        }).join('') + '</table>' : '<p class="note">None yet.</p>') +
+        '<h2><span>Print orders</span></h2>' + (prints.length ? '<table><tr><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Ship to</th></tr>' + prints.map(function (o) {
+          var items = (o.items || []).map(function (it) { var p = D.photos.filter(function (x) { return x.id === it.gallery_photo_id; })[0]; return (p ? '#' + (D.photos.indexOf(p) + 1) : '?') + ' ' + String(it.sku).replace(/^GLOBAL-/, '') + ' ×' + it.copies; }).join(', ');
+          return '<tr><td>' + fmtDate(o.created_at) + '</td><td>' + esc(items) + '</td><td>' + money(o.amount_total) + '</td><td>' + esc(o.status) + (o.tracking_url ? ' · <a href="' + esc(o.tracking_url) + '" target="_blank" rel="noopener">track</a>' : '') + '</td><td>' + esc(o.shipping_name || '') + '</td></tr>';
+        }).join('') + '</table>' : '<p class="note">None yet.</p>') +
+        '<h2><span>Danger zone</span></h2><button class="btn red" id="d-del">Delete gallery and all its files</button>';
+      app.innerHTML = html;
+      $('d-copy').onclick = function () { copy(linkFor(g)); };
+      $('d-edit').onclick = function () { editView(g); };
+      $('d-pub').onclick = function () {
+        if (!g.is_active && !D.photos.length && !confirm('No photos uploaded yet. Publish anyway?')) return;
+        sb.from('client_galleries').update({ is_active:!g.is_active }).eq('id', g.id).then(function (x) { if (x.error) return toast(x.error.message); toast(g.is_active ? 'Unpublished' : 'Live'); detailView(g.id); });
+      };
+      $('d-ext').onclick = function () {
+        var base = g.expires_at && new Date(g.expires_at) > new Date() ? new Date(g.expires_at) : new Date();
+        sb.from('client_galleries').update({ expires_at:new Date(base.getTime() + 30 * 86400000).toISOString() }).eq('id', g.id).then(function () { toast('Extended 30 days'); detailView(g.id); });
+      };
+      $('d-del').onclick = function () { deleteGallery(g); };
+      setupDrop(); renderPhotos();
+    }).catch(function (e) { app.innerHTML = '<p style="color:var(--bad)">' + esc(e.message || e) + '</p><p><a href="#">Back</a></p>'; });
+  }
+
+  function renderPhotos() {
+    var grid = $('pgrid'); if (!grid) return;
+    if (!D.photos.length) { grid.outerHTML = '<p class="note" id="pgrid">No photos yet.</p>'; return; }
+    var paths = D.photos.map(function (p) { return p.thumb_path; });
+    sb.storage.from(BUCKET).createSignedUrls(paths, 3600).then(function (r) {
+      var urls = (r.data || []).map(function (x) { return x.signedUrl; });
+      grid.innerHTML = D.photos.map(function (p, i) {
+        var u = D.unl[p.id];
+        return '<div class="ph">' + (u ? '<span class="u">' + (u.source === 'admin' ? 'Given' : 'Unlocked') + '</span>' : '') +
+          '<img loading="lazy" src="' + esc(urls[i] || '') + '" alt="">' +
+          '<div class="cap"><span title="' + esc(p.filename || '') + '">' + String(i + 1).padStart(2, '0') + ' · ' + (p.width && p.height ? Math.max(p.width, p.height) + 'px' : '') + '</span><span>' +
+          (u ? (u.source === 'admin' ? '<button data-ungive="' + p.id + '">Take back</button>' : '') : '<button data-give="' + p.id + '" title="Unlock for free without using her allowance">Give</button>') +
+          (u ? '' : '<button data-rm="' + p.id + '">Delete</button>') + '</span></div></div>';
+      }).join('');
+      grid.querySelectorAll('[data-give]').forEach(function (b) { b.onclick = function () {
+        sb.from('client_gallery_unlocks').insert({ gallery_id:D.g.id, photo_id:b.dataset.give, source:'admin' }).then(function (x) { if (x.error) return toast(x.error.message); detailView(D.g.id); });
+      }; });
+      grid.querySelectorAll('[data-ungive]').forEach(function (b) { b.onclick = function () {
+        sb.from('client_gallery_unlocks').delete().eq('photo_id', b.dataset.ungive).eq('source', 'admin').then(function () { detailView(D.g.id); });
+      }; });
+      grid.querySelectorAll('[data-rm]').forEach(function (b) { b.onclick = function () { removePhoto(b.dataset.rm); }; });
+    });
+  }
+
+  function removePhoto(id) {
+    var p = D.photos.filter(function (x) { return x.id === id; })[0]; if (!p || !confirm('Delete this photo from the gallery?')) return;
+    sb.storage.from(BUCKET).remove([p.master_path, p.preview_path, p.thumb_path, p.clean_path].filter(Boolean)).then(function () {
+      return sb.from('client_gallery_photos').delete().eq('id', id);
+    }).then(function (x) { if (x && x.error) toast(x.error.message); detailView(D.g.id); });
+  }
+
+  function deleteGallery(g) {
+    var typed = prompt('This deletes every photo file in "' + g.slug + '" and the gallery itself. Paid orders stay in Stripe/Prodigi.\nType the link name to confirm:');
+    if (typed !== g.slug) return;
+    var paths = []; D.photos.forEach(function (p) { paths.push(p.master_path, p.preview_path, p.thumb_path); if (p.clean_path) paths.push(p.clean_path); });
+    var chunks = []; for (var i = 0; i < paths.length; i += 100) chunks.push(paths.slice(i, i + 100));
+    chunks.reduce(function (pr, c) { return pr.then(function () { return sb.storage.from(BUCKET).remove(c); }); }, Promise.resolve())
+      .then(function () { return sb.from('client_gallery_orders').delete().eq('gallery_id', g.id); })
+      .then(function () { return sb.from('client_galleries').delete().eq('id', g.id); })
+      .then(function (x) { if (x.error) return toast(x.error.message); location.hash = '#'; });
+  }
+
+  // ── UPLOAD ──
+  var U = { items:[], running:false };
+  function setupDrop() {
+    var drop = $('drop');
+    drop.ondragover = function (e) { e.preventDefault(); drop.classList.add('over'); };
+    drop.ondragleave = function () { drop.classList.remove('over'); };
+    drop.ondrop = function (e) { e.preventDefault(); drop.classList.remove('over'); filesFromDrop(e.dataTransfer).then(addFiles); };
+    $('b-fi').onclick = function () { $('fi').click(); }; $('b-fd').onclick = function () { $('fd').click(); };
+    $('fi').onchange = function () { addFiles(Array.from(this.files)); this.value = ''; };
+    $('fd').onchange = function () { addFiles(Array.from(this.files)); this.value = ''; };
+  }
+  function filesFromDrop(dt) {
+    var items = Array.from(dt.items || []), out = [];
+    function walk(entry) {
+      return new Promise(function (res) {
+        if (entry.isFile) entry.file(function (f) { out.push(f); res(); }, function () { res(); });
+        else if (entry.isDirectory) {
+          var rd = entry.createReader(), all = [];
+          (function read() { rd.readEntries(function (es) { if (!es.length) return Promise.all(all.map(walk)).then(res); all = all.concat(Array.from(es)); read(); }, function () { res(); }); })();
+        } else res();
+      });
+    }
+    var entries = items.map(function (i) { return i.webkitGetAsEntry && i.webkitGetAsEntry(); }).filter(Boolean);
+    if (!entries.length) return Promise.resolve(Array.from(dt.files || []));
+    return Promise.all(entries.map(walk)).then(function () { return out; });
+  }
+  function addFiles(files) {
+    files = files.filter(function (f) { return /^image\/(jpeg|png|webp)$/.test(f.type) || /\.(jpe?g|png|webp)$/i.test(f.name); })
+      .sort(function (a, b) { return a.name.localeCompare(b.name, undefined, { numeric:true }); });
+    if (!files.length) return toast('No JPEG, PNG or WebP files found.');
+    var basePos = D.photos.reduce(function (m, p) { return Math.max(m, p.position + 1); }, 0) + U.items.length;
+    files.forEach(function (f, i) { U.items.push({ file:f, pos:basePos + i, status:'queued', msg:'queued' }); });
+    drawU(); if (!U.running) runU();
+  }
+  function drawU() {
+    var done = U.items.filter(function (x) { return x.status !== 'queued' && x.status !== 'working'; }).length;
+    $('ubar').style.width = (U.items.length ? done / U.items.length * 100 : 0) + '%';
+    $('ulist').innerHTML = U.items.map(function (x) {
+      var cls = x.status === 'done' ? 'ok' : x.status === 'error' ? 'err' : x.status === 'skip' ? 'skip' : '';
+      return '<div><span>' + esc(x.file.name) + '</span><span class="' + cls + '">' + esc(x.msg) + (x.status === 'error' ? ' <a href="#" data-retry="' + U.items.indexOf(x) + '">retry</a>' : '') + '</span></div>';
+    }).join('');
+    $('ulist').querySelectorAll('[data-retry]').forEach(function (a) { a.onclick = function (e) { e.preventDefault(); var it = U.items[+a.dataset.retry]; it.status = 'queued'; it.msg = 'queued'; drawU(); if (!U.running) runU(); }; });
+  }
+  function runU() {
+    U.running = true;
+    var next = function () {
+      var it = U.items.filter(function (x) { return x.status === 'queued'; })[0];
+      if (!it) return Promise.resolve();
+      it.status = 'working'; it.msg = 'reading…'; drawU();
+      return Promise.resolve().then(function () { return uploadOne(it); }).then(function () { it.status = it.status === 'skip' ? 'skip' : 'done'; if (it.status === 'done') it.msg = 'done'; },
+        function (e) { it.status = 'error'; it.msg = String((e && (e.message || e.error)) || e).slice(0, 80); console.error(e); })
+        .then(function () { drawU(); return next(); });
+    };
+    var workers = []; for (var i = 0; i < CONCURRENCY; i++) workers.push(next());
+    Promise.all(workers).then(function () {
+      U.running = false;
+      var ok = U.items.filter(function (x) { return x.status === 'done'; }).length, bad = U.items.filter(function (x) { return x.status === 'error'; }).length;
+      toast(ok + ' uploaded' + (bad ? ', ' + bad + ' failed (retry them)' : ''));
+      if (!bad) { U.items = []; detailView(D.g.id); }
+    });
+  }
+  function retry(fn, label) {
+    var a = 0;
+    return (function go() {
+      return fn().catch(function (e) { if (/duplicate|unique/i.test(String(e && e.message)) || ++a >= 3) throw new Error(label + ': ' + (e.message || e)); return new Promise(function (r) { setTimeout(r, 900 * Math.pow(2, a)); }).then(go); });
+    })();
+  }
+  // Reads the file once; the same bytes are hashed and uploaded, so what's stored is exactly what was hashed.
+  function readHash(file) {
+    return file.arrayBuffer().then(function (buf) {
+      return crypto.subtle.digest('SHA-256', buf).then(function (h) {
+        return { buf:buf, hash:Array.from(new Uint8Array(h)).map(function (x) { return x.toString(16).padStart(2, '0'); }).join('') };
+      });
+    });
+  }
+  function decode(file) {
+    return new Promise(function (res, rej) {
+      var url = URL.createObjectURL(file), im = new Image();
+      im.onload = function () { res({ img:im, w:im.naturalWidth, h:im.naturalHeight, url:url }); };
+      im.onerror = function () { URL.revokeObjectURL(url); rej(new Error('could not read image')); };
+      im.src = url;
+    });
+  }
+  // Downscale with a two-step halving for quality, optionally stamp the wordmark, return a JPEG blob.
+  function render(d, maxPx, mark, quality) {
+    var s = Math.min(1, maxPx / Math.max(d.w, d.h)), W = Math.round(d.w * s), H = Math.round(d.h * s);
+    var src = d.img, sw = d.w, sh = d.h;
+    while (sw / 2 > W * 1.1) {
+      var c0 = document.createElement('canvas'); c0.width = Math.round(sw / 2); c0.height = Math.round(sh / 2);
+      var x0 = c0.getContext('2d'); x0.imageSmoothingQuality = 'high'; x0.drawImage(src, 0, 0, c0.width, c0.height);
+      src = c0; sw = c0.width; sh = c0.height;
+    }
+    var c = document.createElement('canvas'); c.width = W; c.height = H;
+    var x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(src, 0, 0, W, H);
+    if (mark) {
+      var fs = Math.max(11, Math.round(Math.max(W, H) * 0.017));
+      x.font = fs + "px 'Share Tech Mono', monospace";
+      x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+      if ('letterSpacing' in x) x.letterSpacing = Math.round(fs * 0.28) + 'px';
+      x.shadowColor = 'rgba(0,0,0,.55)'; x.shadowBlur = Math.round(fs * 0.5);
+      x.fillStyle = 'rgba(255,255,255,.72)';
+      x.fillText(WATERMARK, W / 2, H - Math.round(fs * 1.6));
+    }
+    return new Promise(function (res, rej) { c.toBlob(function (b) { b ? res(b) : rej(new Error('encode failed')); }, 'image/jpeg', quality || 0.86); });
+  }
+  function uploadOne(it) {
+    var g = D.g, f = it.file, id = it.id || (it.id = crypto.randomUUID()), ext = (/\.([a-z0-9]{2,5})$/i.exec(f.name) || [, 'jpg'])[1].toLowerCase(), dec;
+    var paths = { master:g.id + '/master/' + id + '.' + ext, preview:g.id + '/preview/' + id + '.jpg', thumb:g.id + '/thumb/' + id + '.jpg', clean:g.id + '/clean/' + id + '.jpg' };
+    var put = function (path, body, type) { return retry(function () { return sb.storage.from(BUCKET).upload(path, body, { contentType:type, upsert:true, cacheControl:'31536000' }).then(unwrap); }, 'upload'); };
+    var master;
+    return readHash(f).then(function (r) {
+      var hash = r.hash; it.hash = hash; master = new Blob([r.buf], { type:f.type || 'image/jpeg' });
+      if (D.photos.some(function (p) { return p.sha256 === hash; }) || U.items.some(function (x) { return x !== it && x.hash === hash && x.status !== 'error' && U.items.indexOf(x) < U.items.indexOf(it); })) { it.status = 'skip'; it.msg = 'already in gallery'; throw { skip:true }; }
+      it.msg = 'resizing…'; drawU();
+      return document.fonts.load("20px 'Share Tech Mono'").catch(function () {}).then(function () { return decode(f); });
+    }).then(function (d) {
+      dec = d;
+      return Promise.all([render(d, PREVIEW_PX, true, 0.85), render(d, THUMB_PX, true, 0.8), render(d, PREVIEW_PX, false, 0.88)]);
+    }).then(function (b) {
+      URL.revokeObjectURL(dec.url);
+      it.msg = 'uploading original…'; drawU();
+      if (master.size !== f.size || !master.size) throw new Error('read ' + master.size + ' of ' + f.size + ' bytes');
+      return put(paths.master, master, f.type || 'image/jpeg')
+        .then(function () { it.msg = 'uploading previews…'; drawU(); return Promise.all([put(paths.preview, b[0], 'image/jpeg'), put(paths.thumb, b[1], 'image/jpeg'), put(paths.clean, b[2], 'image/jpeg')]); });
+    }).then(function () {
+      return retry(function () {
+        return sb.from('client_gallery_photos').insert({ id:id, gallery_id:g.id, position:it.pos, filename:f.name, master_path:paths.master,
+          preview_path:paths.preview, thumb_path:paths.thumb, clean_path:paths.clean, width:dec.w, height:dec.h, bytes:f.size, sha256:it.hash }).then(unwrap);
+      }, 'save');
+    }).then(function () {
+      master = null;
+      D.photos.push({ id:id, sha256:it.hash, position:it.pos });
+    }).catch(function (e) {
+      if (e && e.skip) return;
+      if (/duplicate|unique/i.test(String(e && e.message))) { it.status = 'skip'; it.msg = 'already in gallery'; return; }
+      throw e;
+    });
+  }
+
+  if (/[?&]debug\b/.test(location.search)) window.__ga = { render:render, decode:decode };
+  boot();
+})();
+</script>
+</body>
+</html>

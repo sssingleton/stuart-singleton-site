@@ -8,6 +8,7 @@ Allow: /print/
 Allow: /catalog.json
 Allow: /llms.txt
 Disallow: /mr.manager
+Disallow: /g/
 Disallow: /S137devhub
 Disallow: /api/
 

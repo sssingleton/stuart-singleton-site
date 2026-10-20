@@ -29,6 +29,19 @@
     { "source": "/whoami", "destination": "/index.html" },
 
     { "source": "/p", "destination": "/index.html" },
-    { "source": "/mr.manager", "destination": "/index.html" }
+    { "source": "/mr.manager/galleries", "destination": "/gallery-admin.html" },
+    { "source": "/mr.manager", "destination": "/index.html" },
+
+    { "source": "/g/:slug", "destination": "/g.html" }
+  ],
+  "headers": [
+    { "source": "/g/:slug*", "headers": [
+      { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, noimageindex" },
+      { "key": "Referrer-Policy", "value": "no-referrer" },
+      { "key": "Cache-Control", "value": "no-store" }
+    ] },
+    { "source": "/g.html", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
+    { "source": "/gallery-admin.html", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
+    { "source": "/mr.manager/galleries", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] }
   ]
 }

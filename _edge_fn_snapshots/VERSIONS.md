@@ -41,3 +41,11 @@ bad signature → 400 (verification path intact).
 - `create-checkout-session` **v29 → v30**: reads prices/labels/sizes/countries from `public.print_products` (seeded identical to v29; constants kept as fallback), refuses inactive SKUs (dead CFPM-12X16 / CFPM-16X24), countries = intersection across cart items, adds `metadata[kind]=print`. verify_jwt **false**. Parity-tested with apikey-only calls: same line items and amounts as v29.
 - `stripe-webhook` **v26 → v27**: atomic claim of the order row (pending|error → paid) before Prodigi, so retries/double deliveries can't double-order; ignores sessions with metadata.kind other than print; Prodigi attributes from `print_products` (v26 rule as fallback). verify_jwt **false**. Unsigned POST → 400 Invalid signature (verified).
 - Rollback: redeploy `create-checkout-session.v29.ts` / `stripe-webhook.v26.ts` with verify_jwt:false.
+
+## 2026-10-20 — Shop v2 Phase 2: client galleries
+- **New** `client-gallery` **v2** (`verify_jwt: false`): the only public door into `/g/<slug>?code=`. Actions view / unlock / download / checkout (extra photos, Stripe `metadata.kind=gallery`) / claim / quote. Reconciles pending extra orders with Stripe on every view, so a closed tab still gets its credits. Snapshot `client-gallery.v2.ts`.
+- `create-checkout-session` **v34 → v35** (`verify_jwt: false`): optional `gallery {slug, code}` + `items[].galleryPhotoId`. Photo must be in that gallery and unlocked; size gate uses the client master dims; no Stripe product image; `print_orders.photo_id` null + `gallery_id`. Without `gallery` it behaves exactly as v33/v34 (quoteOnly parity verified byte-for-byte on 4 shop carts). Snapshot `create-checkout-session.v35.ts`. (v34 live source was identical to `v33.ts`.)
+- `stripe-webhook` **v30 → v31** (`verify_jwt: false`): items with `gallery_photo_id` print from the private `client-galleries` master; buyer email hero = 30-day signed clean preview; **gallery orders are never sent to Meta CAPI**. Unsigned POST → 400 verified. Snapshot `stripe-webhook.v31.ts`.
+- Schema: `client_galleries.v1.sql`.
+- Rollback: redeploy `create-checkout-session.v33.ts` / `stripe-webhook.v30.ts` with verify_jwt:false.
+- Front end: `g.html` (rewrite `/g/:slug`), `gallery-admin.html` (rewrite `/mr.manager/galleries`), X-Robots-Tag noindex headers, robots `Disallow: /g/`.
