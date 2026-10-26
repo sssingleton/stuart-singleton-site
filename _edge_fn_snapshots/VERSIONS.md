@@ -49,3 +49,4 @@ bad signature → 400 (verification path intact).
 - Schema: `client_galleries.v1.sql`.
 - Rollback: redeploy `create-checkout-session.v33.ts` / `stripe-webhook.v30.ts` with verify_jwt:false.
 - Front end: `g.html` (rewrite `/g/:slug`), `gallery-admin.html` (rewrite `/mr.manager/galleries`), X-Robots-Tag noindex headers, robots `Disallow: /g/`.
+- 2026-10-26 `client-gallery` **v2 → v3**: admin preview. `preview:true` + an admin Supabase JWT opens a draft/expired gallery read-only (only view/quote; unlock/checkout/claim/download → 403) and adds a signed `clean` URL per photo so g.html can simulate unlocks. Without `preview` behaviour is unchanged (draft = 404 for everyone). Non-admin/no/junk token → 401. Snapshot `client-gallery.v3.ts`; rollback = `client-gallery.v2.ts`.

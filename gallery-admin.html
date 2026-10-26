@@ -89,6 +89,7 @@
   var tt;
   function toast(m) { var t = $('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(function () { t.classList.remove('on'); }, 3500); }
   function fmtDate(d) { if (!d) return '—'; var x = new Date(d.length === 10 ? d + 'T12:00:00' : d); return x.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }); }
+  function previewFor(g) { return location.origin + '/g/' + g.slug + '?code=' + encodeURIComponent(g.access_code) + '&preview=1'; }
   function linkFor(g) { return SITE + '/g/' + g.slug + '?code=' + encodeURIComponent(g.access_code); }
   function newCode() { var b = crypto.getRandomValues(new Uint8Array(8)); return Array.from(b, function (x) { return CODE_ALPHABET[x % CODE_ALPHABET.length]; }).join(''); }
   function slugify(s) { return String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50); }
@@ -184,7 +185,15 @@
     if (isNew) {
       var auto = true, sl = $('f-slug');
       sl.oninput = function () { auto = false; };
-      var upd = function () { if (auto) sl.value = slugify(($('f-client_name').value.split(' ')[0] || '') + ' ' + $('f-title').value).replace(/-photo-shoot$/, '') || ''; };
+      // "Diane" + "Diane's Nashville Photoshoot" -> "diane-nashville": drop possessives, the repeated name and shoot words.
+      var upd = function () {
+        if (!auto) return;
+        var first = slugify($('f-client_name').value.split(' ')[0] || '');
+        var words = slugify($('f-title').value.replace(/['\u2019]s\b/gi, '')).split('-').filter(function (w) {
+          return w && w !== first && ['photo', 'photos', 'shoot', 'photoshoot', 'session', 'the', 'a'].indexOf(w) < 0;
+        });
+        sl.value = [first].concat(words).filter(Boolean).join('-').slice(0, 50);
+      };
       $('f-client_name').oninput = upd; $('f-title').oninput = upd; upd();
     }
     $('ef').onsubmit = function (e) {
@@ -233,9 +242,10 @@
       var html = '<h1>' + esc((g.title || '').toUpperCase()) + '</h1><p class="sub">' + esc(g.client_name || '') + (g.client_email ? ' · ' + esc(g.client_email) : '') + (g.shoot_date ? ' · shot ' + fmtDate(g.shoot_date) : '') + '</p>' +
         '<div class="row" style="margin:0 0 6px"><span class="tag ' + (exp ? 'exp">Expired' : g.is_active ? 'live">Live' : 'draft">Draft') + '</span>' +
         '<button class="btn sm" id="d-pub">' + (g.is_active ? 'Unpublish' : 'Publish') + '</button><button class="btn sm" id="d-edit">Edit</button>' +
-        '<button class="btn sm" id="d-ext">+30 days</button><a class="btn sm" style="text-decoration:none" href="' + esc(linkFor(g)) + '" target="_blank" rel="noopener">View as client</a></div>' +
+        '<button class="btn sm" id="d-ext">+30 days</button><a class="btn sm solid" style="text-decoration:none" href="' + esc(previewFor(g)) + '" target="_blank" rel="noopener">Preview</a></div>' +
         '<h2><span>Link to send</span><button class="btn sm" id="d-copy">Copy</button></h2><div class="linkbox">' + esc(linkFor(g)) + '</div>' +
-        (g.is_active ? '' : '<p class="note">Draft: the link shows “not recognized” until you publish.</p>') +
+        '<p class="note">' + (g.is_active ? 'Live: the client link works. ' : 'Draft: the client link shows \u201cnot recognized\u201d until you publish. ') +
+          'Preview shows you the client page at any time; selections there are on screen only, and payments and downloads are off.</p>' +
         '<p class="note">' + used + ' of ' + total + ' unlocks used (' + g.included_unlocks + ' included + ' + g.bonus_unlocks + ' bonus' + (paidCredits ? ' + ' + paidCredits + ' bought' : '') + ') · extras ' + money(g.extra_unlock_cents) + ' / ' + g.bundle_size + ' for ' + money(g.bundle_cents) + ' · available until ' + fmtDate(g.expires_at) + '</p>' +
         '<h2><span>Upload photos</span><span>' + D.photos.length + ' in gallery</span></h2>' +
         '<div class="drop" id="drop">Drop the finished JPEGs here (or a folder).<br><span style="font-size:12px;color:#666">Originals go to private storage untouched. Each gets a 1600px watermarked proof, a clean 1600px preview for after unlock, and a thumbnail. Order follows file names. Duplicates are skipped.</span>' +

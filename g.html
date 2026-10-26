@@ -123,11 +123,14 @@
   .state { max-width:560px; padding-top:8vh; }
   .spin { width:18px; height:18px; border:2px solid #333; border-top-color:#ccc; border-radius:50%; animation:s 0.8s linear infinite; display:inline-block; vertical-align:middle; }
   @keyframes s { to { transform:rotate(360deg); } }
+  .pv { position:sticky; top:0; z-index:30; background:#e0b25a; color:#000; font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:9px var(--pad); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  .pv a { color:#000; }
   footer { margin-top:56px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#444; display:flex; gap:22px; flex-wrap:wrap; }
   footer a { text-decoration:none; color:#555; }
 </style>
 </head>
 <body>
+<div class="pv" id="pv" hidden></div>
 <div class="wrap" id="app">
   <nav class="nav">
     <a href="/">Stuart Singleton</a>
@@ -162,6 +165,9 @@
   var qs = new URLSearchParams(location.search);
   var slug = (location.pathname.match(/^\/g\/([a-z0-9-]+)/i) || [])[1] || qs.get('g') || '';
   var code = qs.get('code') || '';
+  // Admin preview: ?preview=1 sends Stuart's mr.manager session so a draft opens. Nothing is saved.
+  var PREVIEW = qs.get('preview') === '1';
+  var SB_URL = 'https://zbcdeglxwrappriwpxwt.supabase.co', SB_KEY = 'sb-zbcdeglxwrappriwpxwt-auth-token';
 
   // Print sizes. MIRRORS public.print_products (active, channel public). The checkout fn is the
   // enforcer and prices every order server-side; this list only decides what to offer per photo.
@@ -189,11 +195,28 @@
   var money = function (c) { return '$' + (c / 100).toFixed(c % 100 ? 2 : 0); };
   var plural = function (n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); };
 
+  // The mr.manager session lives in localStorage on this same origin; refresh it if it's about to expire.
+  function adminToken() {
+    var sess; try { sess = JSON.parse(localStorage.getItem(SB_KEY) || 'null'); } catch (e) { sess = null; }
+    if (!sess || !sess.access_token) return Promise.resolve(null);
+    if ((sess.expires_at || 0) * 1000 > Date.now() + 60000) return Promise.resolve(sess.access_token);
+    if (!sess.refresh_token) return Promise.resolve(null);
+    return fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', { method:'POST', headers:{ 'Content-Type':'application/json', apikey:ANON }, body:JSON.stringify({ refresh_token:sess.refresh_token }) })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (n) {
+        if (!n || !n.access_token) return null;
+        try { localStorage.setItem(SB_KEY, JSON.stringify(Object.assign({}, sess, n))); } catch (e) {}
+        return n.access_token;
+      }).catch(function () { return null; });
+  }
   function api(action, extra) {
     var body = Object.assign({ action: action, slug: slug, code: code }, extra || {});
-    return fetch(FN + '/client-gallery', { method:'POST', headers:{ 'Content-Type':'application/json', apikey:ANON }, body:JSON.stringify(body) })
+    var headers = { 'Content-Type':'application/json', apikey:ANON };
+    var ready = PREVIEW ? adminToken().then(function (t) { body.preview = true; if (t) headers.Authorization = 'Bearer ' + t; }) : Promise.resolve();
+    return ready.then(function () { return fetch(FN + '/client-gallery', { method:'POST', headers:headers, body:JSON.stringify(body) }); })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { j._status = r.status; return j; }); });
   }
+  function previewOff(what) { toast(what + ' are off in preview. Everything works for the client once published.', ''); }
 
   var toastT;
   function toast(msg, kind) {
@@ -218,10 +241,19 @@
   function load() {
     if (!slug || !code) return renderState('Link not recognized', 'This link is missing its access code. Use the full link from your email or text, or <a href="/contact">message Stuart</a>.');
     return api('view').then(function (d) {
+      if (d.preview_denied) return renderState('Sign in to preview', 'Previews need your mr.manager login. <a href="/mr.manager/galleries">Sign in here</a>, then use Preview on the gallery.');
       if (d._status === 404) return renderState('Link not recognized', 'Check that you used the full link. If it still doesn’t open, <a href="/contact">message Stuart</a>.');
       if (d.expired) return renderState('This gallery has closed', 'It was available until ' + esc(fmtDate(d.expires_at)) + '. <a href="/contact">Message Stuart</a> if you need it reopened.');
       if (!d.photos) return renderState('Something went wrong', 'Please refresh the page in a moment.');
-      S.g = d; S.photos = d.photos; S.byId = {}; S.loadedAt = Date.now();
+      S.g = d; S.photos = d.photos; S.byId = {}; S.loadedAt = Date.now(); S.preview = !!d.preview;
+      if (S.preview) {
+        var pv = $('pv'); pv.hidden = false;
+        pv.innerHTML = '<span>Preview · only you can see this · nothing here is saved</span><span>' +
+          (d.expired ? 'Expired' : d.is_active ? 'Live: the client link works' : 'Draft: the client link shows “not recognized”') +
+          ' · <a href="/mr.manager/galleries">Admin</a></span>';
+        // Keep simulated unlocks across re-renders in this tab.
+        (S.simUnl || []).forEach(function (id) { var p = d.photos.filter(function (x) { return x.id === id; })[0]; if (p) simUnlock(p); });
+      }
       d.photos.forEach(function (p) { S.byId[p.id] = p; });
       S.sel.forEach(function (id) { if (!S.byId[id] || S.byId[id].unlocked) S.sel.delete(id); });
       render();
@@ -363,7 +395,17 @@
     }
   }
 
+  function simUnlock(p) {
+    if (p.unlocked) return;
+    p.unlocked = true; p.thumb = p.clean || p.thumb; p.large = p.clean || p.large;
+    var a = S.g.allowance; a.used++; a.remaining = Math.max(0, a.total - a.used);
+  }
   function doUnlock(ids, btn) {
+    if (S.preview) {
+      S.simUnl = (S.simUnl || []).concat(ids);
+      ids.forEach(function (id) { if (S.byId[id]) simUnlock(S.byId[id]); });
+      closeSheet(); S.sel.clear(); S.view = 'un'; toast('Preview: ' + plural(ids.length, 'photo') + ' unlocked on screen only.', 'ok'); render(); return;
+    }
     if (S.busy) return; S.busy = true; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
     api('unlock', { photo_ids:ids }).then(function (d) {
       S.busy = false;
@@ -391,6 +433,7 @@
   }
 
   function checkout(ids, credits, btn) {
+    if (S.preview) { closeSheet(); return previewOff('Payments'); }
     if (S.busy) return; S.busy = true; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
     api('checkout', { photo_ids:ids, credits:credits }).then(function (d) {
       S.busy = false;
@@ -472,6 +515,7 @@
 
   // ── DOWNLOADS ──
   function downloadOne(id, btn) {
+    if (S.preview) return previewOff('Downloads');
     btn.disabled = true;
     api('download', { photo_ids:[id] }).then(function (d) {
       btn.disabled = false;
@@ -484,6 +528,7 @@
     document.body.appendChild(a); a.click(); a.remove();
   }
   function openDownloads() {
+    if (S.preview) return previewOff('Downloads');
     sheet('<h3>Download</h3><p><span class="spin"></span></p>');
     api('download', {}).then(function (d) {
       var files = d.files || [];
@@ -577,7 +622,20 @@
     return fetch(FN + '/create-checkout-session', { method:'POST', headers:{ 'Content-Type':'application/json', apikey:ANON }, body:JSON.stringify(body) })
       .then(function (r) { return r.json(); });
   }
+  // Same tiers as create-checkout-session (paper only, 3+ 15%, 5+ 20%, 10+ 25%), used for the preview estimate.
+  function localQuote() {
+    var paper = 0, total = 0;
+    S.tray.forEach(function (t) { var s = SIZES.filter(function (x) { return x.sku === t.sku; })[0]; if (s && !s.framed) paper += t.copies; });
+    var pct = paper >= 10 ? 25 : paper >= 5 ? 20 : paper >= 3 ? 15 : 0;
+    S.tray.forEach(function (t) { var s = SIZES.filter(function (x) { return x.sku === t.sku; })[0]; if (s) total += (s.framed ? s.price : Math.round(s.price * (100 - pct) / 100)) * t.copies; });
+    return { bulkPct:pct, amountTotal:total };
+  }
   function quoteTray() {
+    if (S.preview) {
+      var q = localQuote(), el = $('t-total');
+      if (el) el.innerHTML = '<span>Total' + (q.bulkPct ? ' · ' + q.bulkPct + '% off paper prints' : '') + ' · free shipping</span><span>' + money(q.amountTotal) + '</span>';
+      return;
+    }
     ccs(trayBody({ quoteOnly:true })).then(function (q) {
       var el = $('t-total'); if (!el) return;
       if (q.error) { el.innerHTML = '<span style="color:var(--bad)">' + esc(q.error) + '</span>'; return; }
@@ -585,6 +643,7 @@
     }).catch(function () {});
   }
   function printCheckout(btn) {
+    if (S.preview) { closeSheet(); return previewOff('Payments'); }
     if (S.busy) return; S.busy = true; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
     ccs(trayBody()).then(function (d) {
       S.busy = false;
