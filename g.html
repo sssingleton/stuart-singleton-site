@@ -49,11 +49,13 @@
   .btn.solid:hover { background:#fff; }
   .btn[disabled] { opacity:.4; cursor:default; }
 
-  /* Grid: CSS columns keep each photo at its own aspect ratio, no crop. */
-  .grid { columns:2; column-gap:8px; }
-  @media (min-width:700px) { .grid { columns:3; column-gap:10px; } }
-  @media (min-width:1100px) { .grid { columns:4; column-gap:12px; } }
-  .tile { break-inside:avoid; margin:0 0 8px; position:relative; background:#111; cursor:zoom-in; overflow:hidden; outline:2px solid transparent; outline-offset:-2px; transition:outline-color .12s; }
+  /* Grid: photos are dealt into columns left to right (1 2 3 / 4 5 6), so the
+     numbers read across rows. Each photo keeps its own aspect ratio, no crop. */
+  .grid { display:flex; align-items:flex-start; gap:8px; }
+  @media (min-width:700px) { .grid { gap:10px; } }
+  @media (min-width:1100px) { .grid { gap:12px; } }
+  .grid .col { flex:1 1 0; min-width:0; }
+  .tile { margin:0 0 8px; position:relative; background:#111; cursor:zoom-in; overflow:hidden; outline:2px solid transparent; outline-offset:-2px; transition:outline-color .12s; }
   @media (min-width:700px) { .tile { margin-bottom:10px; } }
   .tile img { display:block; width:100%; height:auto; user-select:none; -webkit-user-drag:none; -webkit-touch-callout:none; opacity:0; transition:opacity .3s; }
   .tile img.in { opacity:1; }
@@ -329,6 +331,17 @@
     es.forEach(function (e) { if (e.isIntersecting) { var im = e.target; im.src = im.dataset.src; io.unobserve(im); } });
   }, { rootMargin:'600px 0px' }) : null;
 
+  // Column count follows the old CSS breakpoints: 2 on phones, 3 from 700px, 4 from 1100px.
+  var mq3 = window.matchMedia('(min-width:700px)'), mq4 = window.matchMedia('(min-width:1100px)');
+  function gridCols() { return mq4.matches ? 4 : mq3.matches ? 3 : 2; }
+  function onColsChange() {
+    var g = $('grid');
+    if (g && g.classList.contains('grid') && +g.dataset.cols !== gridCols()) renderGrid();
+  }
+  [mq3, mq4].forEach(function (m) {
+    if (m.addEventListener) m.addEventListener('change', onColsChange); else if (m.addListener) m.addListener(onColsChange);
+  });
+
   function renderGrid() {
     if (S.view === 'ed') return renderEditList();
     var list = visible(); S.list = list;
@@ -337,7 +350,7 @@
       grid.outerHTML = '<div class="empty" id="grid">' + (S.view === 'sel' ? 'Nothing selected yet. Tap the circle on a photo to choose it.' : S.view === 'un' ? 'No photos unlocked yet.' : 'Your photos are still being uploaded. Check back soon.') + '</div>';
       return;
     }
-    grid.innerHTML = list.map(function (p, i) {
+    var tiles = list.map(function (p, i) {
       var ratio = p.w && p.h ? (p.h / p.w * 100).toFixed(3) : 66.667;
       return '<div class="tile' + (S.sel.has(p.id) ? ' sel' : '') + '" data-i="' + i + '" data-id="' + p.id + '">' +
         '<div style="padding-top:' + ratio + '%;position:relative"><img alt="Photo ' + p.n + '" draggable="false" style="position:absolute;inset:0" data-src="' + esc(p.thumb) + '"></div>' +
@@ -345,7 +358,14 @@
         (p.unlocked ? '<span class="badge">' + (p.edit ? 'Edited' : 'Unlocked') + '</span>' :
           '<button class="pick" aria-label="Select photo ' + p.n + '" aria-pressed="' + S.sel.has(p.id) + '"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle class="ring" cx="12" cy="12" r="10"/><path class="chk" d="M7 12.5l3.2 3.2L17 9"/></svg></button>') +
         '</div>';
-    }).join('');
+    });
+    // Deal tiles across columns: photo 1 → col 1, 2 → col 2 ... so rows read left to right.
+    var n = gridCols(), cols = [];
+    for (var c = 0; c < n; c++) cols.push([]);
+    tiles.forEach(function (t, i) { cols[i % n].push(t); });
+    grid.className = 'grid';
+    grid.dataset.cols = n;
+    grid.innerHTML = cols.map(function (c) { return '<div class="col">' + c.join('') + '</div>'; }).join('');
     grid.querySelectorAll('img').forEach(function (im) {
       im.onload = function () { im.classList.add('in'); };
       im.oncontextmenu = function (e) { e.preventDefault(); };
