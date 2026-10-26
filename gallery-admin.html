@@ -44,6 +44,18 @@
   .ulist { font-family:var(--mono); font-size:11px; color:#999; max-height:260px; overflow:auto; }
   .ulist div { display:flex; justify-content:space-between; gap:10px; padding:5px 0; border-bottom:1px solid #121212; }
   .ulist .ok { color:var(--ok); } .ulist .err { color:var(--bad); } .ulist .skip { color:#666; }
+  .report { border:1px solid #4a3d22; background:#0d0b06; padding:14px; margin:12px 0; }
+  .report h3 { font-family:var(--mono); font-weight:normal; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--warn); margin:0 0 10px; }
+  .rfile { padding:8px 0; border-bottom:1px solid #1a160d; font-size:13px; }
+  .rfile b { font-weight:400; color:#ddd; font-family:var(--mono); font-size:12px; }
+  .rfile .m { font-size:12px; line-height:1.6; margin-top:3px; }
+  .lv-bad { color:var(--bad); } .lv-warn { color:var(--warn); } .lv-info { color:#777; }
+  .ph .w { position:absolute; top:6px; right:6px; font-family:var(--mono); font-size:10px; background:rgba(0,0,0,.75); color:var(--warn); padding:2px 6px; cursor:help; }
+  .ph .e { position:absolute; bottom:34px; left:6px; font-family:var(--mono); font-size:9px; letter-spacing:.14em; background:rgba(0,0,0,.7); color:#ddd; padding:3px 6px; }
+  .er { display:grid; grid-template-columns:64px 1fr auto; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid #141414; }
+  .er img { width:64px; height:64px; object-fit:cover; background:#111; }
+  .er .d { font-size:13px; line-height:1.55; color:#ccc; } .er .d small { color:#777; display:block; font-family:var(--mono); font-size:10px; letter-spacing:.08em; }
+  .er .a { display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
   .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
   .ph { position:relative; background:#111; border:1px solid var(--line); }
   .ph img { display:block; width:100%; aspect-ratio:1; object-fit:cover; }
@@ -179,6 +191,8 @@
       fld('bundle_size', 'Bundle size', d.bundle_size, 'number') +
       fld('bundle_price', 'Bundle price ($)', d.bundle_cents / 100, 'number') +
       fld('expires_at', 'Available until', d.expires_at ? d.expires_at.slice(0, 10) : '', 'date', 'Blank = never closes') +
+      fld('free_edits', 'Free edit requests', d.free_edits != null ? d.free_edits : 5, 'number', 'Small edits on unlocked photos') +
+      fld('edit_price', 'Price per extra edit ($)', (d.edit_price_cents != null ? d.edit_price_cents : 500) / 100, 'number', '0 = all edits free') +
       '</div><div class="f" style="margin-top:12px"><label>Private note</label><textarea id="f-note" rows="2">' + esc(d.note || '') + '</textarea></div>' +
       '<div class="row"><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="f-active"' + (d.is_active ? ' checked' : '') + '> Live (client can open the link)</label></div>' +
       '<div class="row"><button class="btn solid" id="f-save">' + (isNew ? 'Create draft' : 'Save') + '</button><a class="btn" style="text-decoration:none" href="' + (isNew ? '#' : '#g=' + d.id) + '">Cancel</a><span id="f-err" style="color:var(--bad)"></span></div></form>';
@@ -205,6 +219,7 @@
         included_unlocks:parseInt(v('included_unlocks'), 10) || 0, bonus_unlocks:parseInt(v('bonus_unlocks'), 10) || 0,
         extra_unlock_cents:Math.round(parseFloat(v('extra_price') || '0') * 100), bundle_size:parseInt(v('bundle_size'), 10) || 5,
         bundle_cents:Math.round(parseFloat(v('bundle_price') || '0') * 100),
+        free_edits:parseInt(v('free_edits'), 10) || 0, edit_price_cents:Math.round(parseFloat(v('edit_price') || '0') * 100),
         expires_at:v('expires_at') ? new Date(v('expires_at') + 'T23:59:59').toISOString() : null,
         note:$('f-note').value.trim() || null, is_active:$('f-active').checked
       };
@@ -231,10 +246,13 @@
       sb.from('client_gallery_photos').select('*').eq('gallery_id', id).order('position').order('created_at').then(unwrap),
       sb.from('client_gallery_unlocks').select('photo_id,source,created_at').eq('gallery_id', id).then(unwrap),
       sb.from('client_gallery_orders').select('*').eq('gallery_id', id).order('created_at', { ascending:false }).then(unwrap),
-      sb.from('print_orders').select('id,status,amount_total,items,shipping_name,created_at,prodigi_order_id,tracking_url').eq('gallery_id', id).order('created_at', { ascending:false }).then(unwrap)
+      sb.from('print_orders').select('id,status,amount_total,items,shipping_name,created_at,prodigi_order_id,tracking_url').eq('gallery_id', id).order('created_at', { ascending:false }).then(unwrap),
+      sb.from('client_gallery_edit_requests').select('*').eq('gallery_id', id).order('created_at', { ascending:false }).then(unwrap)
     ]).then(function (r) {
       var g = r[0]; D.g = g; D.photos = r[1]; D.unl = {}; r[2].forEach(function (u) { D.unl[u.photo_id] = u; });
-      var orders = r[3], prints = r[4];
+      var orders = r[3], prints = r[4]; D.edits = r[5];
+      var openEdits = D.edits.filter(function (e) { return e.status === 'open'; }).length;
+      var freeUsed = D.edits.filter(function (e) { return !e.paid && e.status !== 'cancelled'; }).length;
       var paidCredits = orders.filter(function (o) { return o.status === 'paid'; }).reduce(function (n, o) { return n + o.credits; }, 0);
       var used = r[2].filter(function (u) { return u.source === 'allowance'; }).length;
       var total = g.included_unlocks + g.bonus_unlocks + paidCredits;
@@ -246,15 +264,18 @@
         '<h2><span>Link to send</span><button class="btn sm" id="d-copy">Copy</button></h2><div class="linkbox">' + esc(linkFor(g)) + '</div>' +
         '<p class="note">' + (g.is_active ? 'Live: the client link works. ' : 'Draft: the client link shows \u201cnot recognized\u201d until you publish. ') +
           'Preview shows you the client page at any time; selections there are on screen only, and payments and downloads are off.</p>' +
-        '<p class="note">' + used + ' of ' + total + ' unlocks used (' + g.included_unlocks + ' included + ' + g.bonus_unlocks + ' bonus' + (paidCredits ? ' + ' + paidCredits + ' bought' : '') + ') · extras ' + money(g.extra_unlock_cents) + ' / ' + g.bundle_size + ' for ' + money(g.bundle_cents) + ' · available until ' + fmtDate(g.expires_at) + '</p>' +
+        '<p class="note">' + used + ' of ' + total + ' unlocks used (' + g.included_unlocks + ' included + ' + g.bonus_unlocks + ' bonus' + (paidCredits ? ' + ' + paidCredits + ' bought' : '') + ') · extras ' + money(g.extra_unlock_cents) + ' / ' + g.bundle_size + ' for ' + money(g.bundle_cents) + ' · available until ' + fmtDate(g.expires_at) + ' · edits: ' + freeUsed + ' of ' + g.free_edits + ' free used, then ' + money(g.edit_price_cents) + ' each</p>' +
         '<h2><span>Upload photos</span><span>' + D.photos.length + ' in gallery</span></h2>' +
         '<div class="drop" id="drop">Drop the finished JPEGs here (or a folder).<br><span style="font-size:12px;color:#666">Originals go to private storage untouched. Each gets a 1600px watermarked proof, a clean 1600px preview for after unlock, and a thumbnail. Order follows file names. Duplicates are skipped.</span>' +
         '<div class="row" style="justify-content:center"><input type="file" id="fi" accept="image/jpeg,image/png,image/webp" multiple hidden><input type="file" id="fd" webkitdirectory multiple hidden>' +
         '<button class="btn" id="b-fi">Select files</button><button class="btn" id="b-fd">Select folder</button></div></div>' +
         '<div class="bar"><i id="ubar"></i></div><div class="ulist" id="ulist"></div>' +
+        '<h2><span>Edit requests</span><span>' + (openEdits ? openEdits + ' open' : '') + '</span></h2><div id="elist"></div>' +
         '<h2><span>Photos</span><span>' + Object.keys(D.unl).length + ' unlocked</span></h2><div class="grid" id="pgrid"></div>' +
-        '<h2><span>Extra photo purchases</span></h2>' + (orders.length ? '<table><tr><th>Date</th><th>Photos</th><th>Total</th><th>Status</th><th>Email</th></tr>' + orders.map(function (o) {
-          return '<tr><td>' + fmtDate(o.created_at) + '</td><td>' + o.credits + '</td><td>' + money(o.amount_total) + '</td><td>' + esc(o.status) + '</td><td>' + esc(o.customer_email || '') + '</td></tr>';
+        '<h2><span>Purchases</span></h2>' + (orders.length ? '<table><tr><th>Date</th><th>What</th><th>Total</th><th>Status</th><th>Email</th></tr>' + orders.map(function (o) {
+          var what = o.kind === 'edits' ? 'Edit request' : o.credits + ' extra photo' + (o.credits === 1 ? '' : 's');
+          var st = o.status === 'pending' ? 'not paid (checkout opened)' : o.status;
+          return '<tr><td>' + fmtDate(o.created_at) + '</td><td>' + what + '</td><td>' + money(o.amount_total) + '</td><td>' + esc(st) + '</td><td>' + esc(o.customer_email || '') + '</td></tr>';
         }).join('') + '</table>' : '<p class="note">None yet.</p>') +
         '<h2><span>Print orders</span></h2>' + (prints.length ? '<table><tr><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Ship to</th></tr>' + prints.map(function (o) {
           var items = (o.items || []).map(function (it) { var p = D.photos.filter(function (x) { return x.id === it.gallery_photo_id; })[0]; return (p ? '#' + (D.photos.indexOf(p) + 1) : '?') + ' ' + String(it.sku).replace(/^GLOBAL-/, '') + ' ×' + it.copies; }).join(', ');
@@ -273,7 +294,7 @@
         sb.from('client_galleries').update({ expires_at:new Date(base.getTime() + 30 * 86400000).toISOString() }).eq('id', g.id).then(function () { toast('Extended 30 days'); detailView(g.id); });
       };
       $('d-del').onclick = function () { deleteGallery(g); };
-      setupDrop(); renderPhotos();
+      setupDrop(); renderPhotos(); renderEdits();
     }).catch(function (e) { app.innerHTML = '<p style="color:var(--bad)">' + esc(e.message || e) + '</p><p><a href="#">Back</a></p>'; });
   }
 
@@ -283,12 +304,15 @@
     var paths = D.photos.map(function (p) { return p.thumb_path; });
     sb.storage.from(BUCKET).createSignedUrls(paths, 3600).then(function (r) {
       var urls = (r.data || []).map(function (x) { return x.signedUrl; });
+      var nums = photoNums();
       grid.innerHTML = D.photos.map(function (p, i) {
-        var u = D.unl[p.id];
-        return '<div class="ph">' + (u ? '<span class="u">' + (u.source === 'admin' ? 'Given' : 'Unlocked') + '</span>' : '') +
+        var u = D.unl[p.id], ck = p.checks || {}, issues = (ck.issues || []).filter(function (x) { return x.level !== 'info'; });
+        return '<div class="ph">' + (u ? '<span class="u">' + (u.source === 'admin' ? (p.parent_photo_id ? 'Edit' : 'Given') : 'Unlocked') + '</span>' : '') +
+          (issues.length ? '<span class="w" title="' + esc(issues.map(function (x) { return x.msg; }).join('\n')) + '">\u26a0 ' + issues.length + '</span>' : '') +
+          (p.parent_photo_id ? '<span class="e">Edit of ' + String(nums[p.parent_photo_id] || '?').padStart(2, '0') + '</span>' : '') +
           '<img loading="lazy" src="' + esc(urls[i] || '') + '" alt="">' +
-          '<div class="cap"><span title="' + esc(p.filename || '') + '">' + String(i + 1).padStart(2, '0') + ' · ' + (p.width && p.height ? Math.max(p.width, p.height) + 'px' : '') + '</span><span>' +
-          (u ? (u.source === 'admin' ? '<button data-ungive="' + p.id + '">Take back</button>' : '') : '<button data-give="' + p.id + '" title="Unlock for free without using her allowance">Give</button>') +
+          '<div class="cap"><span title="' + esc((p.filename || '') + (ck.max_print ? '\nBiggest print: ' + ck.max_print : '')) + '">' + String(nums[p.parent_photo_id || p.id] || '?').padStart(2, '0') + (p.parent_photo_id ? 'e' : '') + ' · ' + (ck.max_print ? 'max ' + ck.max_print : (p.width && p.height ? Math.max(p.width, p.height) + 'px' : '')) + '</span><span>' +
+          (u ? (u.source === 'admin' && !p.parent_photo_id ? '<button data-ungive="' + p.id + '">Take back</button>' : '') : '<button data-give="' + p.id + '" title="Unlock for free without using her allowance">Give</button>') +
           (u ? '' : '<button data-rm="' + p.id + '">Delete</button>') + '</span></div></div>';
       }).join('');
       grid.querySelectorAll('[data-give]').forEach(function (b) { b.onclick = function () {
@@ -314,6 +338,7 @@
     var paths = []; D.photos.forEach(function (p) { paths.push(p.master_path, p.preview_path, p.thumb_path); if (p.clean_path) paths.push(p.clean_path); });
     var chunks = []; for (var i = 0; i < paths.length; i += 100) chunks.push(paths.slice(i, i + 100));
     chunks.reduce(function (pr, c) { return pr.then(function () { return sb.storage.from(BUCKET).remove(c); }); }, Promise.resolve())
+      .then(function () { return sb.from('client_gallery_edit_requests').delete().eq('gallery_id', g.id); })
       .then(function () { return sb.from('client_gallery_orders').delete().eq('gallery_id', g.id); })
       .then(function () { return sb.from('client_galleries').delete().eq('id', g.id); })
       .then(function (x) { if (x.error) return toast(x.error.message); location.hash = '#'; });
@@ -350,14 +375,210 @@
       .sort(function (a, b) { return a.name.localeCompare(b.name, undefined, { numeric:true }); });
     if (!files.length) return toast('No JPEG, PNG or WebP files found.');
     var basePos = D.photos.reduce(function (m, p) { return Math.max(m, p.position + 1); }, 0) + U.items.length;
-    files.forEach(function (f, i) { U.items.push({ file:f, pos:basePos + i, status:'queued', msg:'queued' }); });
-    drawU(); if (!U.running) runU();
+    var batch = files.map(function (f, i) { return { file:f, pos:basePos + i, status:'checking', msg:'checking…' }; });
+    U.items = U.items.concat(batch); drawU();
+    batch.reduce(function (pr, it) { return pr.then(function () { return inspect(it.file).then(function (c) { it.checks = c; }, function () { it.checks = { issues:[] }; }); }); }, Promise.resolve())
+      .then(function () {
+        var flagged = batch.filter(function (it) { return (it.checks.issues || []).some(function (x) { return x.level !== 'info'; }); });
+        if (!flagged.length) { batch.forEach(function (it) { it.status = 'queued'; it.msg = 'queued'; }); drawU(); if (!U.running) runU(); return; }
+        showReport(batch, flagged);
+      });
+  }
+
+  // ── UPLOAD CHECK ──
+  // Same sizes and rule as the client page / checkout: offered when long edge >= longIn x 200 px and
+  // the ratio is within 0.06. Only for messages here; the checkout fn is what enforces it.
+  var SIZES = [
+    { l:'4×6', n:6, r:1.5 }, { l:'6×9', n:9, r:1.5 }, { l:'8×12', n:12, r:1.5 }, { l:'12×18', n:18, r:1.5 }, { l:'16×24', n:24, r:1.5 }, { l:'24×36', n:36, r:1.5 },
+    { l:'6×8', n:8, r:4/3 }, { l:'9×12', n:12, r:4/3 }, { l:'12×16', n:16, r:4/3 }, { l:'18×24', n:24, r:4/3 }, { l:'8×10', n:10, r:1.25 }
+  ];
+  var STD_LUM = [16,11,10,16,24,40,51,61,12,12,14,19,26,58,60,55,14,13,16,24,40,57,69,56,14,17,22,29,51,87,80,62,18,22,37,56,68,109,103,77,24,35,55,64,81,104,113,92,49,64,78,87,103,121,120,101,72,92,95,98,112,100,103,99];
+  var ZIG = [0,1,8,16,9,2,3,10,17,24,32,25,18,11,4,5,12,19,26,33,40,48,41,34,27,20,13,6,7,14,21,28,35,42,49,56,57,50,43,36,29,22,15,23,30,37,44,51,58,59,52,45,38,31,39,46,53,60,61,54,47,55,62,63];
+  // Reads JPEG headers only (first 1 MB): size, colour model, ICC profile name, quality estimate, GPS.
+  function parseJpeg(buf) {
+    var v = new DataView(buf), out = { icc:null, iccSpace:null, gps:false, components:null, w:0, h:0, q:null, orient:1 }, iccParts = [];
+    if (v.byteLength < 4 || v.getUint16(0) !== 0xFFD8) return null;
+    var p = 2;
+    while (p + 4 <= v.byteLength) {
+      if (v.getUint8(p) !== 0xFF) { p++; continue; }
+      var m = v.getUint8(p + 1); if (m === 0xD9 || m === 0xDA) break;
+      if (m === 0x01 || (m >= 0xD0 && m <= 0xD7)) { p += 2; continue; }
+      var len = v.getUint16(p + 2), seg = p + 4, end = p + 2 + len;
+      if (end > v.byteLength) break;
+      if ((m >= 0xC0 && m <= 0xCF) && m !== 0xC4 && m !== 0xC8 && m !== 0xCC) {
+        out.h = v.getUint16(seg + 1); out.w = v.getUint16(seg + 3); out.components = v.getUint8(seg + 5);
+      } else if (m === 0xDB) {
+        var t = seg;
+        while (t < end) {
+          var pq = v.getUint8(t) >> 4, tq = v.getUint8(t) & 15; t++;
+          var vals = []; for (var i = 0; i < 64; i++) { vals.push(pq ? v.getUint16(t + i * 2) : v.getUint8(t + i)); }
+          t += pq ? 128 : 64;
+          if (tq === 0 && out.q == null) {
+            var sum = 0; for (var k = 0; k < 64; k++) sum += vals[k] * 100 / STD_LUM[ZIG[k]];
+            var scale = sum / 64;
+            out.q = Math.max(1, Math.min(100, Math.round(scale <= 100 ? (200 - scale) / 2 : 5000 / scale)));
+          }
+        }
+      } else if (m === 0xE1 && v.getUint32(seg) === 0x45786966) {
+        var tiff = seg + 6, le = v.getUint16(tiff) === 0x4949;
+        var g16 = function (o) { return v.getUint16(o, le); }, g32 = function (o) { return v.getUint32(o, le); };
+        var ifd = tiff + g32(tiff + 4), n = g16(ifd);
+        for (var e = 0; e < n; e++) {
+          var ent = ifd + 2 + e * 12, tag = g16(ent);
+          if (tag === 0x0112) out.orient = g16(ent + 8);
+          if (tag === 0x8825) { var gi = tiff + g32(ent + 8); if (gi + 2 < end && g16(gi) > 0) { for (var z = 0; z < g16(gi); z++) { var gt = g16(gi + 2 + z * 12); if (gt === 2 || gt === 4) out.gps = true; } } }
+        }
+      } else if (m === 0xE2 && len > 16) {
+        var sig = ''; for (var c = 0; c < 11; c++) sig += String.fromCharCode(v.getUint8(seg + c));
+        if (sig === 'ICC_PROFILE') iccParts.push({ n:v.getUint8(seg + 12), data:new Uint8Array(buf, seg + 14, end - seg - 14) });
+      }
+      p = end;
+    }
+    if (iccParts.length) {
+      iccParts.sort(function (a, b) { return a.n - b.n; });
+      var total = iccParts.reduce(function (s2, x) { return s2 + x.data.length; }, 0), prof = new Uint8Array(total), o2 = 0;
+      iccParts.forEach(function (x) { prof.set(x.data, o2); o2 += x.data.length; });
+      var pv = new DataView(prof.buffer);
+      if (total > 132) {
+        out.iccSpace = String.fromCharCode(prof[16], prof[17], prof[18], prof[19]).trim();
+        var tc = pv.getUint32(128);
+        for (var ti = 0; ti < tc && 132 + ti * 12 + 12 <= total; ti++) {
+          var tb = 132 + ti * 12, tsig = String.fromCharCode(prof[tb], prof[tb + 1], prof[tb + 2], prof[tb + 3]);
+          if (tsig !== 'desc') continue;
+          var off = pv.getUint32(tb + 4), typ = String.fromCharCode(prof[off], prof[off + 1], prof[off + 2], prof[off + 3]), name = '';
+          if (typ === 'desc') { var cnt = pv.getUint32(off + 8); for (var a = 0; a < cnt - 1 && off + 12 + a < total; a++) name += String.fromCharCode(prof[off + 12 + a]); }
+          else if (typ === 'mluc') { var rl = pv.getUint32(off + 20), ro = pv.getUint32(off + 24); for (var b2 = 0; b2 < rl; b2 += 2) name += String.fromCharCode(pv.getUint16(off + ro + b2)); }
+          out.icc = name.trim();
+        }
+      }
+    }
+    return out;
+  }
+  function inspect(file) {
+    var isJpeg = /jpe?g$/i.test(file.type) || /\.jpe?g$/i.test(file.name);
+    var head = isJpeg ? file.slice(0, 1024 * 1024).arrayBuffer().then(parseJpeg) : Promise.resolve(null);
+    return head.then(function (j) {
+      var dims = j && j.w ? Promise.resolve({ w:j.w, h:j.h }) : decode(file).then(function (d) { URL.revokeObjectURL(d.url); return { w:d.w, h:d.h }; });
+      return dims.then(function (d) {
+        var issues = [], L = Math.max(d.w, d.h), S = Math.min(d.w, d.h), ratio = L / S;
+        var fits = SIZES.filter(function (s2) { return Math.abs(s2.r - ratio) <= 0.06; });
+        var ok = fits.filter(function (s2) { return L >= s2.n * 200; }).sort(function (a, b) { return b.n - a.n; });
+        var maxPrint = ok.length ? ok[0].l : null;
+        var famMax = fits.length ? fits.slice().sort(function (a, b) { return b.n - a.n; })[0] : null;
+        if (file.size > 100 * 1024 * 1024) issues.push({ level:'bad', msg:'Over 100 MB. Export as JPEG quality 92 instead.' });
+        if (j && j.components === 4) issues.push({ level:'bad', msg:'CMYK file. Export as sRGB; CMYK won\u2019t display or print correctly.' });
+        if (!fits.length) issues.push({ level:'bad', msg:'Shape ' + ratio.toFixed(2) + ':1 matches no print size, so prints can\u2019t be offered. Crop to 3:2, 4:3 or 4:5.' });
+        else if (!ok.length) issues.push({ level:'bad', msg:'Only ' + L + ' px on the long edge; too small for any print. Export at full size (Resize to fit off).' });
+        else if (L < 2400) issues.push({ level:'bad', msg:'Low resolution (' + L + ' px). Biggest print is ' + maxPrint + '. Export at full size.' });
+        else if (famMax && maxPrint !== famMax.l) issues.push({ level:L < 4800 ? 'warn' : 'info', msg:'Biggest print ' + maxPrint + ' (' + L + ' px). ' + famMax.l + ' needs ' + (famMax.n * 200) + ' px' + (L < 4800 ? '. If she might hang it, export at full size or crop less.' : '.') });
+        if (j && j.icc) {
+          var srgb = /srgb|iec61966/i.test(j.icc);
+          if (!srgb) issues.push({ level:'bad', msg:'Colour profile is \u201c' + j.icc + '\u201d. Export in sRGB so prints and downloads match what you see.' });
+        } else if (j && j.components === 3) issues.push({ level:'info', msg:'No colour profile embedded; it will be treated as sRGB.' });
+        if (j && j.q != null) {
+          if (j.q < 70) issues.push({ level:'bad', msg:'Heavy JPEG compression (about ' + j.q + '). Export at quality 90+.' });
+          else if (j.q < 85) issues.push({ level:'warn', msg:'JPEG quality about ' + j.q + '. 90+ is safer for prints.' });
+        }
+        if (j && j.gps) issues.push({ level:'warn', msg:'Contains GPS location. Export with \u201cCopyright & Contact Info only\u201d to strip it.' });
+        return { w:d.w, h:d.h, long:L, ratio:Math.round(ratio * 1000) / 1000, max_print:maxPrint, icc:j ? j.icc : null, quality:j ? j.q : null, gps:j ? j.gps : false, issues:issues };
+      });
+    });
+  }
+  function showReport(batch, flagged) {
+    var bad = flagged.filter(function (it) { return it.checks.issues.some(function (x) { return x.level === 'bad'; }); }).length;
+    var box = document.createElement('div'); box.className = 'report'; box.id = 'report';
+    box.innerHTML = '<h3>' + flagged.length + ' of ' + batch.length + ' file' + (batch.length > 1 ? 's' : '') + ' need a look' + (bad ? ' (' + bad + ' should be re-exported)' : '') + '</h3>' +
+      flagged.map(function (it) {
+        return '<div class="rfile"><b>' + esc(it.file.name) + '</b>' + (it.checks.max_print ? ' <span class="lv-info">· biggest print ' + it.checks.max_print + '</span>' : '') +
+          '<div class="m">' + it.checks.issues.filter(function (x) { return x.level !== 'info'; }).map(function (x) { return '<div class="lv-' + x.level + '">' + (x.level === 'bad' ? '\u2716 ' : '\u26a0 ') + esc(x.msg) + '</div>'; }).join('') + '</div></div>';
+      }).join('') +
+      '<div class="row"><button class="btn solid" id="r-all">Upload all ' + batch.length + '</button>' +
+      (batch.length > flagged.length ? '<button class="btn" id="r-clean">Upload only the ' + (batch.length - flagged.length) + ' without issues</button>' : '') +
+      '<button class="btn" id="r-cancel">Cancel</button></div>';
+    var old = $('report'); if (old) old.remove();
+    $('ulist').parentNode.insertBefore(box, $('ulist'));
+    var go = function (list) {
+      box.remove();
+      batch.forEach(function (it) { if (list.indexOf(it) > -1) { it.status = 'queued'; it.msg = 'queued'; } else { it.status = 'skip'; it.msg = 'skipped'; } });
+      drawU(); if (!U.running) runU();
+    };
+    $('r-all').onclick = function () { go(batch); };
+    if ($('r-clean')) $('r-clean').onclick = function () { go(batch.filter(function (it) { return flagged.indexOf(it) < 0; })); };
+    $('r-cancel').onclick = function () { box.remove(); U.items = U.items.filter(function (it) { return batch.indexOf(it) < 0; }); drawU(); };
+  }
+
+  // Client-facing numbers: originals 1..N in order; an edit shares its original's number.
+  function photoNums() {
+    var nums = {}, k = 0;
+    D.photos.forEach(function (p) { if (!p.parent_photo_id) nums[p.id] = ++k; });
+    return nums;
+  }
+
+  // ── EDIT REQUESTS ──
+  var OPT_LABEL = { bw:'Black and white', brighter:'Brighter', darker:'Darker', warmer:'Warmer', cooler:'Cooler', crop:'Crop', remove:'Remove something', other:'Other' };
+  function renderEdits() {
+    var el = $('elist'); if (!el) return;
+    var list = (D.edits || []).filter(function (e) { return e.status !== 'cancelled'; });
+    if (!list.length) { el.innerHTML = '<p class="note">None yet. She can ask for edits on photos she has unlocked: ' + D.g.free_edits + ' free, then ' + money(D.g.edit_price_cents) + ' each.</p>'; return; }
+    var nums = photoNums(), byId = {}; D.photos.forEach(function (p) { byId[p.id] = p; });
+    var paths = list.map(function (e) { var p = byId[e.photo_id]; return p ? p.thumb_path : ''; });
+    sb.storage.from(BUCKET).createSignedUrls(paths.filter(Boolean), 3600).then(function (r) {
+      var urls = {}, i = 0; paths.forEach(function (pth, j) { if (pth) urls[j] = ((r.data || [])[i++] || {}).signedUrl; });
+      el.innerHTML = list.map(function (e, j) {
+        var p = byId[e.photo_id], n = p ? nums[p.parent_photo_id || p.id] : '?';
+        var opts = (e.options || []).map(function (o) { return OPT_LABEL[o] || o; }).join(', ');
+        var st = e.status === 'open' ? '<span class="lv-warn">Open</span>' : e.status === 'done' ? '<span style="color:var(--ok)">Done ' + fmtDate(e.done_at) + '</span>' : '<span class="lv-info">Awaiting her payment</span>';
+        return '<div class="er"><img src="' + esc(urls[j] || '') + '" alt=""><div class="d">Photo ' + String(n).padStart(2, '0') + ' · ' + esc(opts || 'See note') +
+          (e.note ? '<br>\u201c' + esc(e.note) + '\u201d' : '') + '<small>' + fmtDate(e.created_at) + ' · ' + (e.paid ? 'paid' : 'free') + ' · ' + st + '</small><div id="es-' + e.id + '" class="lv-info" style="font-size:12px"></div></div>' +
+          '<div class="a">' + (e.status === 'open' ? '<input type="file" accept="image/jpeg,image/png,image/webp" hidden id="ef-' + e.id + '"><button class="btn sm solid" data-eup="' + e.id + '">Upload edited version</button><button class="btn sm" data-ecan="' + e.id + '">Cancel</button>' : '') + '</div></div>';
+      }).join('');
+      el.querySelectorAll('[data-eup]').forEach(function (b) {
+        var id = b.dataset.eup, fi = $('ef-' + id);
+        b.onclick = function () { fi.click(); };
+        fi.onchange = function () { if (this.files[0]) deliverEdit(list.filter(function (e) { return e.id === id; })[0], this.files[0]); this.value = ''; };
+      });
+      el.querySelectorAll('[data-ecan]').forEach(function (b) { b.onclick = function () {
+        var e = list.filter(function (x) { return x.id === b.dataset.ecan; })[0];
+        if (!confirm('Cancel this edit request?' + (e.paid ? ' It was paid, so refund it in Stripe.' : ' Her free edit goes back to her.'))) return;
+        sb.from('client_gallery_edit_requests').update({ status:'cancelled' }).eq('id', e.id).then(function (x) { if (x.error) return toast(x.error.message); detailView(D.g.id); });
+      }; });
+    });
+  }
+  function deliverEdit(e, file) {
+    var parent = D.photos.filter(function (p) { return p.id === e.photo_id; })[0];
+    if (!parent) return toast('Original photo not found.');
+    var st = $('es-' + e.id), say = function (m) { if (st) st.textContent = m; };
+    say('checking…');
+    inspect(file).then(function (c) {
+      var probs = c.issues.filter(function (x) { return x.level !== 'info'; });
+      if (probs.length && !confirm('This file has issues:\n\n' + probs.map(function (x) { return '\u2022 ' + x.msg; }).join('\n') + '\n\nUpload anyway?')) { say(''); return; }
+      var it = { file:file, pos:parent.position, parent:parent.id, checks:c, status:'working', msg:'' };
+      var tick = setInterval(function () { say(it.msg || 'uploading…'); }, 300);
+      return uploadOne(it).then(function () {
+        clearInterval(tick);
+        if (it.status === 'skip') { say('That file is already in the gallery.'); return; }
+        say('saving…');
+        return sb.from('client_gallery_unlocks').insert({ gallery_id:D.g.id, photo_id:it.id, source:'admin' }).then(unwrap)
+          .then(function () { return sb.from('client_gallery_edit_requests').update({ status:'done', result_photo_id:it.id, done_at:new Date().toISOString() }).eq('id', e.id).then(unwrap); })
+          .then(function () { return sb.auth.getSession(); })
+          .then(function (r) {
+            var tok = r.data.session && r.data.session.access_token;
+            return fetch(SUPA_URL + '/functions/v1/client-gallery', { method:'POST', headers:{ 'Content-Type':'application/json', apikey:SUPA_KEY, Authorization:'Bearer ' + tok },
+              body:JSON.stringify({ action:'admin_edit_done', slug:D.g.slug, code:D.g.access_code, request_id:e.id }) }).then(function (x) { return x.json(); });
+          })
+          .then(function (res) {
+            toast(res && res.emailed ? 'Edit delivered. She was emailed.' : 'Edit delivered.' + (D.g.client_email ? (D.g.is_active ? '' : ' No email while the gallery is a draft.') : ' No email on the gallery, so let her know.'));
+            detailView(D.g.id);
+          });
+      }, function (err) { clearInterval(tick); say('Failed: ' + (err.message || err)); });
+    }).catch(function (err) { say('Failed: ' + (err.message || err)); });
   }
   function drawU() {
-    var done = U.items.filter(function (x) { return x.status !== 'queued' && x.status !== 'working'; }).length;
+    var done = U.items.filter(function (x) { return x.status !== 'queued' && x.status !== 'working' && x.status !== 'checking'; }).length;
     $('ubar').style.width = (U.items.length ? done / U.items.length * 100 : 0) + '%';
     $('ulist').innerHTML = U.items.map(function (x) {
       var cls = x.status === 'done' ? 'ok' : x.status === 'error' ? 'err' : x.status === 'skip' ? 'skip' : '';
+      if (x.status === 'done' && x.checks && x.checks.issues.some(function (y) { return y.level !== 'info'; })) cls = 'ok" style="color:var(--warn)';
       return '<div><span>' + esc(x.file.name) + '</span><span class="' + cls + '">' + esc(x.msg) + (x.status === 'error' ? ' <a href="#" data-retry="' + U.items.indexOf(x) + '">retry</a>' : '') + '</span></div>';
     }).join('');
     $('ulist').querySelectorAll('[data-retry]').forEach(function (a) { a.onclick = function (e) { e.preventDefault(); var it = U.items[+a.dataset.retry]; it.status = 'queued'; it.msg = 'queued'; drawU(); if (!U.running) runU(); }; });
@@ -377,7 +598,7 @@
       U.running = false;
       var ok = U.items.filter(function (x) { return x.status === 'done'; }).length, bad = U.items.filter(function (x) { return x.status === 'error'; }).length;
       toast(ok + ' uploaded' + (bad ? ', ' + bad + ' failed (retry them)' : ''));
-      if (!bad) { U.items = []; detailView(D.g.id); }
+      if (!bad && !U.items.some(function (x) { return x.status === 'checking'; })) { U.items = []; detailView(D.g.id); }
     });
   }
   function retry(fn, label) {
@@ -446,11 +667,12 @@
     }).then(function () {
       return retry(function () {
         return sb.from('client_gallery_photos').insert({ id:id, gallery_id:g.id, position:it.pos, filename:f.name, master_path:paths.master,
-          preview_path:paths.preview, thumb_path:paths.thumb, clean_path:paths.clean, width:dec.w, height:dec.h, bytes:f.size, sha256:it.hash }).then(unwrap);
+          preview_path:paths.preview, thumb_path:paths.thumb, clean_path:paths.clean, width:dec.w, height:dec.h, bytes:f.size, sha256:it.hash,
+          parent_photo_id:it.parent || null, checks:it.checks || null }).then(unwrap);
       }, 'save');
     }).then(function () {
       master = null;
-      D.photos.push({ id:id, sha256:it.hash, position:it.pos });
+      D.photos.push({ id:id, sha256:it.hash, position:it.pos, parent_photo_id:it.parent || null });
     }).catch(function (e) {
       if (e && e.skip) return;
       if (/duplicate|unique/i.test(String(e && e.message))) { it.status = 'skip'; it.msg = 'already in gallery'; return; }
@@ -458,7 +680,7 @@
     });
   }
 
-  if (/[?&]debug\b/.test(location.search)) window.__ga = { render:render, decode:decode };
+  if (/[?&]debug\b/.test(location.search)) window.__ga = { render:render, decode:decode, inspect:inspect };
   boot();
 })();
 </script>

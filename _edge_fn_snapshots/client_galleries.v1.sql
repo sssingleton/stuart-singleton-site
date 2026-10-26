@@ -55,3 +55,11 @@ create table public.client_gallery_unlocks (
 alter table public.print_orders alter column photo_id drop not null;
 alter table public.print_orders add column gallery_id uuid references public.client_galleries(id) on delete set null;
 alter table public.print_orders add constraint print_orders_photo_or_gallery check (photo_id is not null or gallery_id is not null);
+
+-- 2026-10-26 migration client_gallery_edits_v1:
+--   client_galleries.free_edits (default 5), edit_price_cents (default 500)
+--   client_gallery_photos.parent_photo_id (edited version → original), checks jsonb (upload quality report)
+--   client_gallery_edit_requests (photo_id, options[], note, paid, status pending_payment|open|done|cancelled, order_id, result_photo_id)
+--   client_gallery_orders.kind ('unlocks'|'edits'), edit_request_ids uuid[]; credits may be 0
+--   RPC client_gallery_request_edit(gallery, photo, options, note): advisory-locked; free while
+--     (not paid, not cancelled) requests < free_edits, else pending_payment. Execute revoked from anon/authenticated.

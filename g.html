@@ -113,6 +113,14 @@
   .tray-item small { color:#777; display:block; font-size:11px; }
   .tray-item button { background:none; border:0; color:#777; cursor:pointer; font-size:18px; }
   .total { display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; letter-spacing:.08em; color:#ddd; margin-top:12px; }
+  .ed-list { display:flex; flex-direction:column; }
+  .ed { display:grid; grid-template-columns:72px 1fr; gap:14px; padding:14px 0; border-bottom:1px solid var(--line); align-items:center; }
+  .ed img { width:72px; height:72px; object-fit:cover; background:#111; cursor:pointer; }
+  .ed .t { font-size:14px; color:#ddd; line-height:1.5; } .ed .t small { display:block; color:#777; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; margin-top:4px; }
+  .ed .acts { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .st-open { color:var(--warn); } .st-done { color:var(--ok); } .st-pay { color:#aaa; }
+  textarea.note { width:100%; min-height:84px; background:#111; border:1px solid #2a2a2a; color:#fff; font-family:var(--sans); font-size:14px; padding:10px 12px; outline:none; resize:vertical; }
+  textarea.note:focus { border-color:#555; }
   .dl-list a { display:flex; justify-content:space-between; gap:10px; padding:11px 0; border-bottom:1px solid #151515; text-decoration:none; font-size:13px; color:#ddd; }
   .dl-list a span:last-child { font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:#888; }
 
@@ -192,6 +200,8 @@
   var S = { g:null, photos:[], byId:{}, sel:new Set(), view:'all', lb:-1, list:[], tray:[], loadedAt:0, busy:false };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]; }); };
+  var pn = function (p) { return String(p.n).padStart(2, '0') + (p.edit ? ' · edit' : ''); };
+  var EDIT_OPTS = [['bw','Black and white'],['brighter','Brighter'],['darker','Darker'],['warmer','Warmer'],['cooler','Cooler'],['crop','Crop'],['remove','Remove something'],['other','Other']];
   var money = function (c) { return '$' + (c / 100).toFixed(c % 100 ? 2 : 0); };
   var plural = function (n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); };
 
@@ -291,6 +301,7 @@
       (g.expires_at ? '<p class="fine">Available until ' + esc(fmtDate(g.expires_at)) + ' · download your photos before then</p>' : '') +
       '<div class="bar"><div class="tabs" role="group" aria-label="Filter">' +
         tab('all', 'All ' + c.total) + tab('sel', 'Selected ' + c.sel) + tab('un', 'Unlocked ' + c.unlocked) +
+        (g.edits && g.edits.requests.length ? tab('ed', 'Edits ' + g.edits.requests.length) : '') +
       '</div><div class="tools">' +
         (c.unlocked ? '<button class="btn" id="b-dl">Download ' + (c.unlocked === 1 ? '1 photo' : 'all ' + c.unlocked) + '</button>' : '') +
         (c.unlocked ? '<button class="btn" id="b-pr">Order prints</button>' : '') +
@@ -319,6 +330,7 @@
   }, { rootMargin:'600px 0px' }) : null;
 
   function renderGrid() {
+    if (S.view === 'ed') return renderEditList();
     var list = visible(); S.list = list;
     var grid = $('grid');
     if (!list.length) {
@@ -329,8 +341,8 @@
       var ratio = p.w && p.h ? (p.h / p.w * 100).toFixed(3) : 66.667;
       return '<div class="tile' + (S.sel.has(p.id) ? ' sel' : '') + '" data-i="' + i + '" data-id="' + p.id + '">' +
         '<div style="padding-top:' + ratio + '%;position:relative"><img alt="Photo ' + p.n + '" draggable="false" style="position:absolute;inset:0" data-src="' + esc(p.thumb) + '"></div>' +
-        '<span class="n">' + String(p.n).padStart(2, '0') + '</span>' +
-        (p.unlocked ? '<span class="badge">Unlocked</span>' :
+        '<span class="n">' + pn(p) + '</span>' +
+        (p.unlocked ? '<span class="badge">' + (p.edit ? 'Edited' : 'Unlocked') + '</span>' :
           '<button class="pick" aria-label="Select photo ' + p.n + '" aria-pressed="' + S.sel.has(p.id) + '"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle class="ring" cx="12" cy="12" r="10"/><path class="chk" d="M7 12.5l3.2 3.2L17 9"/></svg></button>') +
         '</div>';
     }).join('');
@@ -455,6 +467,7 @@
     var tries = 0;
     function poll() {
       return api('claim', { session_id:sid }).then(function (d) {
+        if (d.status === 'paid' && d.kind === 'edits') { toast('Payment received. Your edit request is in.', 'ok'); S.view = 'ed'; return; }
         if (d.status === 'paid') { toast('Payment received. Your photos are unlocked.', 'ok'); S.view = 'un'; return; }
         if (d.status === 'pending' && ++tries < 8) return new Promise(function (r) { setTimeout(r, 1500); }).then(poll);
         if (d.status === 'pending') toast('Payment is still processing. Refresh in a minute.', '');
@@ -469,7 +482,7 @@
   function drawLb() {
     var p = S.list[S.lb]; if (!p) return closeLb();
     var im = $('lb-img'); im.removeAttribute('src'); im.src = p.large || p.thumb; im.alt = 'Photo ' + p.n;
-    $('lb-count').textContent = 'Photo ' + String(p.n).padStart(2, '0') + ' · ' + (S.lb + 1) + ' / ' + S.list.length;
+    $('lb-count').textContent = 'Photo ' + pn(p) + ' · ' + (S.lb + 1) + ' / ' + S.list.length;
     $('lb-prev').style.visibility = S.lb > 0 ? '' : 'hidden';
     $('lb-next').style.visibility = S.lb < S.list.length - 1 ? '' : 'hidden';
     renderLbBar();
@@ -479,7 +492,9 @@
     var p = S.list[S.lb]; if (!p) return;
     var bar = $('lb-bot');
     if (p.unlocked) {
-      bar.innerHTML = '<button class="btn" id="lb-dl">Download</button><button class="btn solid" id="lb-pr">Order a print</button>';
+      bar.innerHTML = '<button class="btn" id="lb-dl">Download</button><button class="btn solid" id="lb-pr">Order a print</button>' +
+        (S.g.edits ? '<button class="btn" id="lb-ed">Request an edit</button>' : '');
+      if ($('lb-ed')) $('lb-ed').onclick = function () { openEditRequest(p); };
       $('lb-dl').onclick = function () { downloadOne(p.id, this); };
       $('lb-pr').onclick = function () { closeLb(); openPrints(p.id); };
     } else {
@@ -513,6 +528,72 @@
     }, { passive:true });
   })();
 
+  // ── EDIT REQUESTS ──
+  function editPriceLine() {
+    var e = S.g.edits;
+    if (e.free_left > 0) return 'Free · ' + e.free_left + ' of ' + e.free + ' free edit' + (e.free === 1 ? '' : 's') + ' left';
+    return e.price_cents ? money(e.price_cents) + ' for this edit (your ' + e.free + ' free edit' + (e.free === 1 ? ' is' : 's are') + ' used)' : 'Free';
+  }
+  function openEditRequest(p) {
+    var picked = [];
+    function draw() {
+      sheet('<h3>Request an edit</h3>' +
+        '<p>Photo ' + pn(p) + '. Small changes like a crop, brightness, color, black and white, or removing a stray hair or small distraction. The edited version is added next to the original, so you keep both. Bigger retouching is quoted separately.</p>' +
+        '<div class="lbl">What should change</div><div class="chips">' + EDIT_OPTS.map(function (o) {
+          return '<button class="chip" data-o="' + o[0] + '" aria-pressed="' + (picked.indexOf(o[0]) > -1) + '">' + o[1] + '</button>';
+        }).join('') + '</div>' +
+        '<div class="lbl">Details' + (picked.indexOf('remove') > -1 || picked.indexOf('other') > -1 ? '' : ' (optional)') + '</div>' +
+        '<textarea class="note" id="e-note" maxlength="1000" placeholder="e.g. crop out the car on the left, a little brighter on her face">' + esc(S._edNote || '') + '</textarea>' +
+        '<div class="total"><span>' + editPriceLine() + '</span></div>' +
+        '<div class="row"><button class="btn" data-close>Cancel</button><button class="btn solid" id="e-go">' + (S.g.edits.free_left > 0 || !S.g.edits.price_cents ? 'Send request' : 'Continue to payment') + '</button></div>');
+      $('e-note').oninput = function () { S._edNote = this.value; };
+      document.querySelectorAll('[data-o]').forEach(function (b) { b.onclick = function () {
+        var o = b.dataset.o, i = picked.indexOf(o); if (i > -1) picked.splice(i, 1); else picked.push(o); draw();
+      }; });
+      $('e-go').onclick = function () {
+        var note = ($('e-note').value || '').trim();
+        if (!picked.length && !note) return toast('Pick a change or describe it.', 'bad');
+        if ((picked.indexOf('remove') > -1 || picked.indexOf('other') > -1) && !note) return toast('Add a short note so Stuart knows what to change.', 'bad');
+        if (S.preview) { closeSheet(); return previewOff('Edit requests'); }
+        var btn = this; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
+        api('request_edit', { photo_id:p.id, options:picked, note:note }).then(function (d) {
+          if (d.url) { location.href = d.url; return; }
+          if (d.status === 'open') { S._edNote = ''; closeSheet(); closeLb(); toast('Edit requested. The edited version will appear next to the original.', 'ok'); S.view = 'ed'; return load(); }
+          btn.disabled = false; btn.textContent = 'Send request'; toast(d.error || 'That didn\u2019t work. Please try again.', 'bad');
+        }).catch(function () { btn.disabled = false; btn.textContent = 'Send request'; toast('Connection problem. Please try again.', 'bad'); });
+      };
+    }
+    draw();
+  }
+  function renderEditList() {
+    var grid = $('grid'), reqs = (S.g.edits && S.g.edits.requests) || [];
+    S.list = [];
+    if (!reqs.length) { grid.outerHTML = '<div class="empty" id="grid">No edit requests yet. Open an unlocked photo and tap Request an edit.</div>'; return; }
+    var LAB = {}; EDIT_OPTS.forEach(function (o) { LAB[o[0]] = o[1]; });
+    grid.outerHTML = '<div class="ed-list" id="grid">' + reqs.slice().reverse().map(function (r) {
+      var orig = S.byId[r.photo_id], res = r.result_photo_id ? S.byId[r.result_photo_id] : null, show = res || orig;
+      var st = r.status === 'done' ? '<span class="st-done">Ready</span>' : r.status === 'open' ? '<span class="st-open">Requested · Stuart is on it</span>' : '<span class="st-pay">Waiting for payment</span>';
+      return '<div class="ed"><img src="' + esc(show ? show.thumb : '') + '" alt="" data-open="' + (show ? show.id : '') + '"><div class="t">Photo ' + (orig ? pn(orig) : '') + ' · ' +
+        esc((r.options || []).map(function (o) { return LAB[o] || o; }).join(', ') || 'See note') + (r.note ? '<br><span style="color:#999">\u201c' + esc(r.note) + '\u201d</span>' : '') +
+        '<small>' + st + (r.paid ? '' : ' · free edit') + '</small>' +
+        (r.status === 'done' && res ? '<div class="acts"><button class="btn" data-open="' + res.id + '">View edit</button></div>' : '') +
+        (r.status === 'pending_payment' ? '<div class="acts"><button class="btn solid" data-pay="' + r.id + '">Pay ' + money(S.g.edits.price_cents) + '</button><button class="btn" data-cancel="' + r.id + '">Cancel</button></div>' : '') +
+        '</div></div>';
+    }).join('') + '</div>';
+    document.querySelectorAll('[data-open]').forEach(function (b) { b.onclick = function () {
+      var id = b.dataset.open; if (!id) return;
+      S.list = S.photos.filter(function (x) { return x.id === id; }); openLb(0);
+    }; });
+    document.querySelectorAll('[data-pay]').forEach(function (b) { b.onclick = function () {
+      if (S.preview) return previewOff('Payments');
+      b.disabled = true; api('pay_edit', { request_id:b.dataset.pay }).then(function (d) { if (d.url) location.href = d.url; else { b.disabled = false; toast('Couldn\u2019t start payment. Please try again.', 'bad'); } });
+    }; });
+    document.querySelectorAll('[data-cancel]').forEach(function (b) { b.onclick = function () {
+      if (S.preview) return previewOff('Changes');
+      api('cancel_edit', { request_id:b.dataset.cancel }).then(function () { toast('Request cancelled.', ''); load(); });
+    }; });
+  }
+
   // ── DOWNLOADS ──
   function downloadOne(id, btn) {
     if (S.preview) return previewOff('Downloads');
@@ -539,7 +620,7 @@
         '<div class="row" style="justify-content:flex-start;margin:0 0 6px"><button class="btn solid" id="dl-all">Download all</button></div>' +
         '<div class="dl-list">' + files.map(function (f) {
           var p = S.byId[f.id] || {};
-          return '<a href="' + esc(f.url) + '" download="' + esc(f.name) + '" rel="noopener"><span>Photo ' + String(p.n || '').padStart(2, '0') + ' · ' + esc(f.name) + '</span><span>Save</span></a>';
+          return '<a href="' + esc(f.url) + '" download="' + esc(f.name) + '" rel="noopener"><span>Photo ' + (p.n ? pn(p) : '') + ' · ' + esc(f.name) + '</span><span>Save</span></a>';
         }).join('') + '</div>' +
         '<div class="row"><button class="btn" data-close>Close</button></div>');
       $('dl-all').onclick = function () {
