@@ -1924,7 +1924,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </a>
 
           <a class="svc-card" id="svc-portrait" href="#" target="_blank" rel="noopener">
-            <div class="svc-card-num">SVC_002<span class="svc-card-price"><span class="svc-was">$300</span><span class="svc-now">$222</span></span></div>
+            <div class="svc-card-num">SVC_002<span class="svc-card-price"><span class="svc-now">$300</span></span></div>
             <div class="svc-card-title">PORTRAIT</div>
             <div class="svc-card-desc">
               One hour, one location, at least 12 finished images. Editing is included and never
@@ -1940,7 +1940,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </a>
 
           <a class="svc-card" id="svc-band" href="#" target="_blank" rel="noopener">
-            <div class="svc-card-num">SVC_003<span class="svc-card-price"><span class="svc-was">$400</span><span class="svc-now">$333</span></span></div>
+            <div class="svc-card-num">SVC_003<span class="svc-card-price"><span class="svc-now">$400</span></span></div>
             <div class="svc-card-title">BAND PRESS</div>
             <div class="svc-card-desc">
               Ninety minutes, one or two locations, at least 12 finished images. I don't
@@ -3045,23 +3045,22 @@ const BOOKING_SERVICES = {
   },
   portrait: {
     id: 'svc-portrait', service: 'portrait', label: 'Portrait session',
-    // On sale from $300. Retainer is set explicitly rather than halved, because
-    // half of an odd sale price lands on cents nobody wants on an invoice.
-    total: 22200, retainer: 11100, listPrice: 30000, people: 1,
+    // Launch sale ($222) ended 2026-10-27, back to list. Retainer stays an explicit
+    // per-service value; the total / 2 in the submit handler is only a fallback.
+    total: 30000, retainer: 15000, people: 1,
     clause1: 'One hour, one location, and <b>at least 12 finished images</b> edited and '
       + 'color-corrected, in web and print sizes, back to you in <b>seven days or less</b>. '
       + 'Editing is included and never billed separately. Images are selected by Stuart from the full take.',
-    terms: '<b>$222</b> <span style="text-decoration:line-through;color:#c4bfb6">$300</span> · retainer $111, balance $111 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
+    terms: '<b>$300</b> · retainer $150, balance $150 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
   },
   band: {
     id: 'svc-band', service: 'band', label: 'Band press photos',
-    // On sale from $400. $166.50 is exactly half of $333 — rounded up to $167 so
-    // the retainer link and the balance are both whole dollars.
-    total: 33300, retainer: 16700, listPrice: 40000, people: 4,
+    // Launch sale ($333) ended 2026-10-27, back to list. Halves cleanly at $200.
+    total: 40000, retainer: 20000, people: 4,
     clause1: '90 minutes, one or two locations, and <b>at least 12 finished images</b> edited and '
       + 'color-corrected, in web and print sizes, back to you in <b>seven days or less</b>. '
       + 'Editing is included and never billed separately. Images are selected by Stuart from the full take.',
-    terms: '<b>$333</b> <span style="text-decoration:line-through;color:#c4bfb6">$400</span> · retainer $167, balance $166 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
+    terms: '<b>$400</b> · retainer $200, balance $200 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
   }
 };
 
@@ -6206,7 +6205,7 @@ const ROUTE_META = {
   ],
   '/book': [
     'Book a Photo Shoot in Nashville | Stuart Singleton',
-    'Book Stuart Singleton for band press photos ($333, was $400), portraits and headshots ($222, was $300), or live shows in Nashville. At least 12 finished images, editing included, back in seven days or less. Start with a free 15-minute call.'
+    'Book Stuart Singleton for band press photos ($400), portraits and headshots ($300), or live shows in Nashville. At least 12 finished images, editing included, back in seven days or less. Start with a free 15-minute call.'
   ],
   '/whoami': [
     'About Stuart Singleton — Photographer, Producer & Builder',
