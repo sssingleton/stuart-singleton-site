@@ -198,7 +198,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      keeps the crossfade exactly as it was — old page held over the viewport,
      new page already in flow underneath — without the outgoing page adding a
      second viewport of height to the document while it leaves. */
-  .screen.hidden { position: fixed; inset: 0; opacity: 0; pointer-events: none; transform: scale(1.025); z-index: 0; }
+  /* scale is BELOW 1 on purpose. It was 1.025: an incoming screen is back in document flow
+     while it animates from this state to scale(1), so for 0.7s it was 2.5% wider than the
+     viewport and the whole page grew sideways and snapped back on every page change
+     (measured 1296px on a 1280px window, 2026-10-06). Anything over 1 brings that back. */
+  .screen.hidden { position: fixed; inset: 0; opacity: 0; pointer-events: none; transform: scale(.985); z-index: 0; }
   .screen.gone { display: none; }
 
   /* LANDING */
@@ -614,6 +618,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .set-tile.on { border-color: #1a1a1a; opacity: 1; }
   .set-tick { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border: 1px solid #fff; background: rgba(20,18,15,.35); color: #fff; font-size: 12px; line-height: 18px; text-align: center; }
   .set-tile.on .set-tick { background: #1a1a1a; }
+  .set-na { display: none; position: absolute; left: 0; right: 0; bottom: 0; padding: 4px 2px; background: rgba(20,18,15,.6); color: #fff; font-size: 7.5px; letter-spacing: .12em; text-transform: uppercase; }
+  .set-tile.na { opacity: .3; } .set-tile.na .set-na { display: block; }
+  .set-sizes .print-size-btn:disabled { opacity: .3; pointer-events: none; }
+  .set-total { min-height: 24px; display: flex; align-items: center; flex-wrap: wrap; gap: 0 6px; }
+  .set-inner { height: min(760px, 92vh); } .set-body { flex: 1 1 auto; }
   .set-sizes { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 6px; }
   .set-sizes .print-size-btn.selected { border-color: #1a1a1a; color: #1a1a1a; }
   .set-hint, .set-total { font-size: 10px; letter-spacing: .06em; color: #6a655c; line-height: 1.7; }
@@ -3018,6 +3027,7 @@ function loadShopSets() {
       });
   } catch (e) {}
 }
+try { loadShopSets(); } catch (e) {} // fetch early so the shop doesn't redraw and shift when sets arrive
 var SET_MIN = 3; // a set is a pool of photos; the buyer picks at least this many
 function setEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 // Photos of a set that can actually be bought right now, in the set's own order.
@@ -3054,37 +3064,62 @@ function setPhotoSizes(p) {
   return sizesForPhoto(longest, shortest ? longest / shortest : 0).filter(function (s) { return !s.framed; });
 }
 function setPickedPhotos() { return _set.photos.filter(function (p) { return _set.picked[p.id]; }); }
-// Sizes every relevant photo can be printed at (the picked ones, or the whole set before any pick).
-function setCommonSizes() {
-  var pool = setPickedPhotos(); if (!pool.length) pool = _set.photos;
-  var lists = pool.map(setPhotoSizes);
-  return (lists[0] || []).filter(function (s) { return lists.every(function (l) { return l.some(function (x) { return x.sku === s.sku; }); }); });
+// Every paper size ANY photo in the set can be printed at, in catalogue order. This list is
+// fixed for the life of the picker so the size row never reshuffles while photos are ticked.
+function setAllSizes() {
+  var have = {};
+  _set.photos.forEach(function (p) { setPhotoSizes(p).forEach(function (s) { have[s.sku] = 1; }); });
+  return PRINT_SIZES.filter(function (s) { return have[s.sku]; });
 }
+function setPhotoHas(p, sku) { return setPhotoSizes(p).some(function (s) { return s.sku === sku; }); }
 function openSetModal(slug) {
   var set = (SHOP_SETS || []).find(function (x) { return x.slug === slug; }); if (!set) return;
   var photos = setPhotos(set); if (photos.length < SET_MIN) return;
   _set = { set: set, photos: photos, picked: {}, sku: null };
   if (photos.length === SET_MIN) photos.forEach(function (p) { _set.picked[p.id] = true; }); // a set of exactly 3 comes pre-ticked
+  // Built ONCE per open. Ticking and choosing a size only flip classes on these nodes, so
+  // nothing reloads, reorders or changes height.
+  document.getElementById('set-title').textContent = '// ' + set.name;
+  document.getElementById('set-grid').innerHTML = photos.map(function (p) {
+    return '<button type="button" class="set-tile" data-id="' + p.id + '" onclick="toggleSetPhoto(\'' + p.id + '\')"><img src="' + thumbURL(p.src || '', 480, 62) + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'' + (p.src || '') + '\'"><span class="set-tick"></span><span class="set-na">not in this size</span></button>';
+  }).join('');
+  var sizes = setAllSizes();
+  document.getElementById('set-sizes').innerHTML = sizes.length
+    ? sizes.map(function (s) { return '<button type="button" class="print-size-btn" data-sku="' + s.sku + '" onclick="chooseSetSize(\'' + s.sku + '\')"><span>' + s.label + '</span><span>' + cartMoney(s.price) + '</span></button>'; }).join('')
+    : '<div class="set-hint">No print sizes are available for this set yet.</div>';
   renderSetModal();
   document.getElementById('set-modal').classList.add('open');
+  try { addHover('#set-modal button'); } catch (e) {}
 }
 function closeSetModal() { var m = document.getElementById('set-modal'); if (m) m.classList.remove('open'); }
-function toggleSetPhoto(id) { _set.picked[id] = !_set.picked[id]; renderSetModal(); }
-function chooseSetSize(sku) { _set.sku = sku; renderSetModal(); }
+function toggleSetPhoto(id) {
+  var p = _set.photos.find(function (x) { return String(x.id) === String(id); }); if (!p) return;
+  if (!_set.picked[p.id] && _set.sku && !setPhotoHas(p, _set.sku)) return; // can't be printed at the chosen size
+  _set.picked[p.id] = !_set.picked[p.id];
+  renderSetModal();
+}
+function chooseSetSize(sku) {
+  if (setPickedPhotos().some(function (p) { return !setPhotoHas(p, sku); })) return; // a ticked photo can't do this size
+  _set.sku = (_set.sku === sku) ? null : sku;
+  renderSetModal();
+}
 function renderSetModal() {
   var m = document.getElementById('set-modal'); if (!m || !_set.set) return;
   var picked = setPickedPhotos(), n = picked.length;
-  var sizes = setCommonSizes();
-  if (_set.sku && !sizes.some(function (s) { return s.sku === _set.sku; })) _set.sku = null;
-  var size = sizes.find(function (s) { return s.sku === _set.sku; }) || null;
-  document.getElementById('set-title').textContent = '// ' + _set.set.name;
-  document.getElementById('set-grid').innerHTML = _set.photos.map(function (p) {
-    var on = !!_set.picked[p.id];
-    return '<button type="button" class="set-tile' + (on ? ' on' : '') + '" onclick="toggleSetPhoto(\'' + p.id + '\')" aria-pressed="' + on + '"><img src="' + thumbURL(p.src || '', 480, 62) + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'' + (p.src || '') + '\'"><span class="set-tick">' + (on ? '✓' : '') + '</span></button>';
-  }).join('');
-  document.getElementById('set-sizes').innerHTML = sizes.length
-    ? sizes.map(function (s) { return '<button type="button" class="print-size-btn' + (s.sku === _set.sku ? ' selected' : '') + '" onclick="chooseSetSize(\'' + s.sku + '\')"><span>' + s.label + '</span><span>' + cartMoney(s.price) + '</span></button>'; }).join('')
-    : '<div class="set-hint">These photos don’t share a print size. Untick one, or add them one at a time from the shop.</div>';
+  var size = PRINT_SIZES.find(function (s) { return s.sku === _set.sku; }) || null;
+  Array.prototype.forEach.call(m.querySelectorAll('.set-tile'), function (el) {
+    var p = _set.photos.find(function (x) { return String(x.id) === el.dataset.id; }); if (!p) return;
+    var on = !!_set.picked[p.id], na = !on && !!_set.sku && !setPhotoHas(p, _set.sku);
+    el.classList.toggle('on', on); el.classList.toggle('na', na);
+    el.setAttribute('aria-pressed', on ? 'true' : 'false');
+    el.querySelector('.set-tick').textContent = on ? '✓' : '';
+  });
+  Array.prototype.forEach.call(m.querySelectorAll('#set-sizes .print-size-btn'), function (el) {
+    var blocked = picked.some(function (p) { return !setPhotoHas(p, el.dataset.sku); });
+    el.classList.toggle('selected', el.dataset.sku === _set.sku);
+    el.disabled = blocked;
+    el.title = blocked ? 'One of your ticked photos can’t be printed this large' : '';
+  });
   var total = document.getElementById('set-total'), btn = document.getElementById('set-add-btn');
   var after = cartPaperCount() + n, pct = bulkPct(after);
   if (n < SET_MIN) {
@@ -3099,7 +3134,6 @@ function renderSetModal() {
     total.innerHTML = n + ' × ' + size.label + ' · ' + (pct ? '<s>' + cartMoney(full) + '</s> <strong>' + cartMoney(disc) + '</strong> · <b>' + pct + '% off</b>' : '<strong>' + cartMoney(full) + '</strong>');
     btn.disabled = false; btn.textContent = 'Add ' + n + ' prints to cart';
   }
-  try { addHover('#set-modal button'); } catch (e) {}
 }
 function addSetToCart() {
   var picked = setPickedPhotos();
