@@ -266,12 +266,12 @@
           'Preview shows you the client page at any time; selections there are on screen only, and payments and downloads are off.</p>' +
         '<p class="note">' + used + ' of ' + total + ' unlocks used (' + g.included_unlocks + ' included + ' + g.bonus_unlocks + ' bonus' + (paidCredits ? ' + ' + paidCredits + ' bought' : '') + ') · extras ' + money(g.extra_unlock_cents) + ' / ' + g.bundle_size + ' for ' + money(g.bundle_cents) + ' · available until ' + fmtDate(g.expires_at) + ' · edits: ' + freeUsed + ' of ' + g.free_edits + ' free used, then ' + money(g.edit_price_cents) + ' each</p>' +
         '<h2><span>Upload photos</span><span>' + D.photos.length + ' in gallery</span></h2>' +
-        '<div class="drop" id="drop">Drop the finished JPEGs here (or a folder).<br><span style="font-size:12px;color:#666">Originals go to private storage untouched. Each gets a 1600px watermarked proof, a clean 1600px preview for after unlock, and a thumbnail. Order follows file names. Duplicates are skipped.</span>' +
+        '<div class="drop" id="drop">Drop the finished JPEGs here (or a folder).<br><span style="font-size:12px;color:#666">Originals go to private storage untouched. Each gets a 1600px watermarked proof, a clean 1600px preview for after unlock, and a thumbnail. The whole gallery is numbered by file name (across every upload). Duplicates are skipped.</span>' +
         '<div class="row" style="justify-content:center"><input type="file" id="fi" accept="image/jpeg,image/png,image/webp" multiple hidden><input type="file" id="fd" webkitdirectory multiple hidden>' +
         '<button class="btn" id="b-fi">Select files</button><button class="btn" id="b-fd">Select folder</button></div></div>' +
         '<div class="bar"><i id="ubar"></i></div><div class="ulist" id="ulist"></div>' +
         '<h2><span>Edit requests</span><span>' + (openEdits ? openEdits + ' open' : '') + '</span></h2><div id="elist"></div>' +
-        '<h2><span>Photos</span><span>' + Object.keys(D.unl).length + ' unlocked</span></h2><div class="grid" id="pgrid"></div>' +
+        '<h2><span>Photos</span><span>' + Object.keys(D.unl).length + ' unlocked <button class="btn sm" id="d-sort" style="margin-left:10px" title="Number every photo by file name, across all uploads">Sort by file name</button></span></h2><div class="grid" id="pgrid"></div>' +
         '<h2><span>Purchases</span></h2>' + (orders.length ? '<table><tr><th>Date</th><th>What</th><th>Total</th><th>Status</th><th>Email</th></tr>' + orders.map(function (o) {
           var what = o.kind === 'edits' ? 'Edit request' : o.credits + ' extra photo' + (o.credits === 1 ? '' : 's');
           var st = o.status === 'pending' ? 'not paid (checkout opened)' : o.status;
@@ -294,6 +294,10 @@
         sb.from('client_galleries').update({ expires_at:new Date(base.getTime() + 30 * 86400000).toISOString() }).eq('id', g.id).then(function () { toast('Extended 30 days'); detailView(g.id); });
       };
       $('d-del').onclick = function () { deleteGallery(g); };
+      $('d-sort').onclick = function () {
+        if (Object.keys(D.unl).length && !confirm('She has already unlocked photos. Re-sorting changes the photo numbers she sees. Continue?')) return;
+        sb.rpc('client_gallery_sort_by_filename', { p_gallery:g.id }).then(function (x) { if (x.error) return toast(x.error.message); toast('Sorted by file name'); detailView(g.id); });
+      };
       setupDrop(); renderPhotos(); renderEdits();
     }).catch(function (e) { app.innerHTML = '<p style="color:var(--bad)">' + esc(e.message || e) + '</p><p><a href="#">Back</a></p>'; });
   }
@@ -598,7 +602,11 @@
       U.running = false;
       var ok = U.items.filter(function (x) { return x.status === 'done'; }).length, bad = U.items.filter(function (x) { return x.status === 'error'; }).length;
       toast(ok + ' uploaded' + (bad ? ', ' + bad + ' failed (retry them)' : ''));
-      if (!bad && !U.items.some(function (x) { return x.status === 'checking'; })) { U.items = []; detailView(D.g.id); }
+      if (!bad && !U.items.some(function (x) { return x.status === 'checking'; })) {
+        U.items = [];
+        // Keep the whole gallery in file-name order, not just this batch.
+        sb.rpc('client_gallery_sort_by_filename', { p_gallery:D.g.id }).then(function () { detailView(D.g.id); });
+      }
     });
   }
   function retry(fn, label) {

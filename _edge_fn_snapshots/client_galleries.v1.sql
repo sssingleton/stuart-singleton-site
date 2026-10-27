@@ -63,3 +63,9 @@ alter table public.print_orders add constraint print_orders_photo_or_gallery che
 --   client_gallery_orders.kind ('unlocks'|'edits'), edit_request_ids uuid[]; credits may be 0
 --   RPC client_gallery_request_edit(gallery, photo, options, note): advisory-locked; free while
 --     (not paid, not cancelled) requests < free_edits, else pending_payment. Execute revoked from anon/authenticated.
+
+-- 2026-10-27 migration client_gallery_sort_by_filename:
+--   client_gallery_sort_by_filename(gallery) — SECURITY INVOKER (RLS: admins only; anon EXECUTE revoked).
+--   Natural file-name order across ALL uploads ("-3" < "-04" < "-10"); originals 0..N-1, edits take
+--   their original's position. Admin runs it after every upload batch + "Sort by file name" button.
+--   Before this, each upload batch was only sorted within itself and appended after earlier batches.
