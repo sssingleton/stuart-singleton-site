@@ -250,6 +250,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('config', 'G-Y7P9FGW6PT');
 </script>
 ${beacon(item.id)}
+<script src="/meta-pixel.js" data-view="${item.id}" async></script>
 <title>${esc(fullTitle)}</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -430,6 +431,7 @@ ${links}
   gtag('config', 'G-Y7P9FGW6PT');
 </script>
 ${beacon(null)}
+<script src="/meta-pixel.js" async></script>
 <title>Fine Art Photography Prints | Stuart Singleton</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${SITE}/prints">

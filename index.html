@@ -1462,6 +1462,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #music-page.tab-beats .music-cta:hover { color:#c0392b; border-color:#c0392b; }
   #music-page.tab-beats .music-dot { color:#222; }
 </style>
+<script src="/meta-pixel.js" async></script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1633,6 +1634,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .ship-status.no { color: #a33; }
   .ship-status button, .ship-status a { font-family: var(--mono); font-size: 8.5px; letter-spacing: .12em; background: none; border: none; padding: 0; cursor: none; color: #1a1a1a; border-bottom: 1px solid #c9c4ba; text-decoration: none; }
   .ship-status button:hover, .ship-status a:hover { border-color: #1a1a1a; }
+  body.ship-v2 .ship-limit-note { display: none !important; }
+  .ship-status select.ship-pick { font-family: var(--mono); font-size: 8.5px; letter-spacing: .1em; color: #1a1a1a; background: transparent; border: none; border-bottom: 1px solid #c9c4ba; padding: 0 2px; max-width: 150px; cursor: pointer; }
   /* WHERE WE SHIP modal */
   #ship-modal { position: fixed; inset: 0; z-index: 970; background: rgba(20,18,15,.55); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; }
   #ship-modal.open { opacity: 1; pointer-events: all; }
@@ -1712,7 +1715,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="cart-lines" id="cart-lines"></div>
     <div class="cart-foot" id="cart-foot" style="display:none;">
       <div class="cart-bulk" id="cart-bulk"></div>
-      <div class="cart-subtotal"><span>Subtotal · <span style="color:#3a7a3a">free shipping</span></span><strong id="cart-subtotal-amt">$0</strong></div>
+      <div class="cart-subtotal"><span id="cart-subtotal-label">Subtotal · <span style="color:#3a7a3a">free shipping</span></span><strong id="cart-subtotal-amt">$0</strong></div>
       <p class="ship-limit-note" id="cart-ship-note" style="display:none;">
         Your cart has a framed print, which ships across the US, UK and Europe but not
         to Canada, Australia, New Zealand, Japan or Iceland.
@@ -1985,7 +1988,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </a>
 
           <a class="svc-card" id="svc-portrait" href="#" target="_blank" rel="noopener">
-            <div class="svc-card-num">SVC_002<span class="svc-card-price"><span class="svc-was">$300</span><span class="svc-now">$222</span></span></div>
+            <div class="svc-card-num">SVC_002<span class="svc-card-price"><span class="svc-now">$300</span></span></div>
             <div class="svc-card-title">PORTRAIT</div>
             <div class="svc-card-desc">
               One hour, one location, at least 12 finished images. Editing is included and never
@@ -2001,7 +2004,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </a>
 
           <a class="svc-card" id="svc-band" href="#" target="_blank" rel="noopener">
-            <div class="svc-card-num">SVC_003<span class="svc-card-price"><span class="svc-was">$400</span><span class="svc-now">$333</span></span></div>
+            <div class="svc-card-num">SVC_003<span class="svc-card-price"><span class="svc-now">$400</span></span></div>
             <div class="svc-card-title">BAND PRESS</div>
             <div class="svc-card-desc">
               Ninety minutes, one or two locations, at least 12 finished images. I don't
@@ -2108,6 +2111,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- PORTFOLIO LINKS -->
       <div class="photo-links">
         <a class="photo-link" href="/prints">All Prints</a>
+        <a class="photo-link" href="/returns">Shipping &amp; Returns</a>
+        <a class="photo-link" href="/contact">Contact</a>
         <a class="photo-link" href="https://stuartsingleton.myportfolio.com/photography" target="_blank" rel="noopener">Full Portfolio ↗</a>
         <a class="photo-link" href="https://stuartsingleton.myportfolio.com/travel-1" target="_blank" rel="noopener">Travel ↗</a>
         <a class="photo-link" href="https://stuartsingleton.myportfolio.com/portraits-1" target="_blank" rel="noopener">Portraits ↗</a>
@@ -2400,6 +2405,7 @@ const ssTrack = (function () {
   }
   function send(event, opts) {
     if (optedOut()) return;
+    try { if (window.ssMetaPixel) window.ssMetaPixel(event, opts); } catch (e) {}
     var p = location.pathname;
     if (p === '/mr.manager') return;
     opts = opts || {};
@@ -3245,23 +3251,22 @@ const BOOKING_SERVICES = {
   },
   portrait: {
     id: 'svc-portrait', service: 'portrait', label: 'Portrait session',
-    // On sale from $300. Retainer is set explicitly rather than halved, because
-    // half of an odd sale price lands on cents nobody wants on an invoice.
-    total: 22200, retainer: 11100, listPrice: 30000, people: 1,
+    // Launch sale ($222) ended 2026-10-27, back to list. Retainer stays an explicit
+    // per-service value; the total / 2 in the submit handler is only a fallback.
+    total: 30000, retainer: 15000, people: 1,
     clause1: 'One hour, one location, and <b>at least 12 finished images</b> edited and '
       + 'color-corrected, in web and print sizes, back to you in <b>seven days or less</b>. '
       + 'Editing is included and never billed separately. Images are selected by Stuart from the full take.',
-    terms: '<b>$222</b> <span style="text-decoration:line-through;color:#c4bfb6">$300</span> · retainer $111, balance $111 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
+    terms: '<b>$300</b> · retainer $150, balance $150 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
   },
   band: {
     id: 'svc-band', service: 'band', label: 'Band press photos',
-    // On sale from $400. $166.50 is exactly half of $333 — rounded up to $167 so
-    // the retainer link and the balance are both whole dollars.
-    total: 33300, retainer: 16700, listPrice: 40000, people: 4,
+    // Launch sale ($333) ended 2026-10-27, back to list. Halves cleanly at $200.
+    total: 40000, retainer: 20000, people: 4,
     clause1: '90 minutes, one or two locations, and <b>at least 12 finished images</b> edited and '
       + 'color-corrected, in web and print sizes, back to you in <b>seven days or less</b>. '
       + 'Editing is included and never billed separately. Images are selected by Stuart from the full take.',
-    terms: '<b>$333</b> <span style="text-decoration:line-through;color:#c4bfb6">$400</span> · retainer $167, balance $166 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
+    terms: '<b>$400</b> · retainer $200, balance $200 on delivery<br>Nothing is charged now. I confirm the date, then send the retainer link.'
   }
 };
 
@@ -6135,6 +6140,13 @@ async function openProductFast(photoId) {
     // Seed PHOTOS with just this one so openPrintModal (which does PHOTOS.find) works
     // immediately. loadPhotos() below replaces it with the full set in the background.
     if (!Array.isArray(PHOTOS) || !PHOTOS.length) { PHOTOS = [photo]; }
+    else {
+      // loadPhotos() at boot may already have filled PHOTOS with rows that lack master
+      // dims; openPrintModal reads PHOTOS, so copy them onto that row (or add ours).
+      var existing = PHOTOS.find(function (p) { return String(p.id) === String(photo.id); });
+      if (existing) { if (photo.masterW) { existing.masterW = photo.masterW; existing.masterH = photo.masterH; } }
+      else { PHOTOS.push(photo); }
+    }
     // Agent discoverability: enrich this /p?id= page's <head> for JS-capable
     // crawlers (title, description, OG, schema.org JSON-LD). Non-JS agents read
     // the static /print/<slug> page instead; this is a bonus for JS-capable ones.
@@ -6399,7 +6411,7 @@ const ROUTE_META = {
   ],
   '/book': [
     'Book a Photo Shoot in Nashville | Stuart Singleton',
-    'Book Stuart Singleton for band press photos ($333, was $400), portraits and headshots ($222, was $300), or live shows in Nashville. At least 12 finished images, editing included, back in seven days or less. Start with a free 15-minute call.'
+    'Book Stuart Singleton for band press photos ($400), portraits and headshots ($300), or live shows in Nashville. At least 12 finished images, editing included, back in seven days or less. Start with a free 15-minute call.'
   ],
   '/whoami': [
     'About Stuart Singleton — Photographer, Producer & Builder',
@@ -6537,13 +6549,13 @@ let _printHasBordered = false;
 // address form — which is where blocked-country buyers used to silently die.
 // Keep the two lists in sync by hand; a mismatch shows as a buyer told "yes" who
 // then can't pick their country.
-var SHIP_PAPER = ['US','CA','AU','NZ','JP','GB','IE','FR','DE','NL','BE','LU','ES','PT','IT','AT','CH','DK','SE','NO','FI','IS','PL','CZ','SK','HU','SI','HR','RO','BG','GR','EE','LV','LT','MT'];
+var SHIP_PAPER = ['US','CA','AU','NZ','JP','PH','IN','GB','IE','FR','DE','NL','BE','LU','ES','PT','IT','AT','CH','DK','SE','NO','FI','IS','PL','CZ','SK','HU','SI','HR','RO','BG','GR','EE','LV','LT','MT'];
 var SHIP_FRAMED = ['US','GB','IE','FR','DE','NL','BE','LU','ES','PT','IT','AT','CH','DK','SE','NO','FI','PL','CZ','SK','HU','SI','HR','RO','BG','GR','EE','LV','LT','MT'];
 var SHIP_REGIONS = [
   ['North America', ['US','CA']],
   ['United Kingdom & Ireland', ['GB','IE']],
   ['Europe', ['FR','DE','NL','BE','LU','ES','PT','IT','AT','CH','DK','SE','NO','FI','IS','PL','CZ','SK','HU','SI','HR','RO','BG','GR','EE','LV','LT','MT']],
-  ['Pacific & Asia', ['AU','NZ','JP']],
+  ['Pacific & Asia', ['AU','NZ','JP','PH','IN']],
 ];
 function shipCountryName(cc) { try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(cc) || cc; } catch (e) { return cc; } }
 window._ssGeo = null;
@@ -6581,6 +6593,131 @@ function hideIabBar(remember) {
   document.body.classList.remove('iab-bar-on');
   if (remember) { try { sessionStorage.setItem('iab_bar_off', '1'); } catch (e) {} }
 }
+// ══ SHIP-TO PICKER (v2, 2026-10-14) ══
+// Behind a switch until Stuart phone-tests it: ?v2 turns it on (sticky), ?v2=0 turns it off.
+// The buyer picks a destination; items that don't ship free there take the per-SKU fee from
+// public.shipping_surcharges (framed to CA/AU/NZ/JP/IS/PH/IN). create-checkout-session v33
+// re-checks the fee server-side and locks Stripe's address form to that country.
+var SHIP_V2 = (function () {
+  try {
+    var q = new URLSearchParams(location.search);
+    if (q.has('v2')) localStorage.setItem('ss_v2', q.get('v2') === '0' ? '0' : '1');
+    return localStorage.getItem('ss_v2') === '1';
+  } catch (e) { return /[?&]v2(?!=0)/.test(location.search); }
+})();
+if (SHIP_V2) { try { document.documentElement.classList.add('ship-v2'); document.addEventListener('DOMContentLoaded', function () { document.body.classList.add('ship-v2'); }); if (document.body) document.body.classList.add('ship-v2'); } catch (e) {} }
+var SHIP_FEES = null, _shipFeesPromise = null;
+function loadShipFees() {
+  if (SHIP_FEES) return Promise.resolve(SHIP_FEES);
+  if (_shipFeesPromise) return _shipFeesPromise;
+  _shipFeesPromise = fetch(SUPA_URL + '/rest/v1/shipping_surcharges?select=country,sku,fee_cents', { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } })
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (rows) { var m = {}; (rows || []).forEach(function (r) { (m[r.country] = m[r.country] || {})[String(r.sku).toUpperCase()] = r.fee_cents; }); SHIP_FEES = m; return m; })
+    .catch(function () { SHIP_FEES = {}; return SHIP_FEES; });
+  return _shipFeesPromise;
+}
+if (SHIP_V2) { try { loadShipFees().then(function () { try { if (document.getElementById('cart-modal').classList.contains('open')) renderCart(); } catch (e) {} }); } catch (e) {} }
+var _shipDestPicked = null;
+try { _shipDestPicked = localStorage.getItem('ss_ship_dest') || null; } catch (e) {}
+function shipDest() { return _shipDestPicked || (window._ssGeo && window._ssGeo.country) || null; }
+function shipIsFramed(sku) { return String(sku || '').toUpperCase().indexOf('GLOBAL-CFPM') === 0; }
+// 0 = ships free, n = fee in cents per copy, -1 = can't ship there yet
+function shipItemFee(cc, sku) {
+  if ((shipIsFramed(sku) ? SHIP_FRAMED : SHIP_PAPER).indexOf(cc) !== -1) return 0;
+  var f = SHIP_FEES && SHIP_FEES[cc] ? SHIP_FEES[cc][String(sku || '').toUpperCase()] : undefined;
+  return (f === undefined || f === null) ? -1 : f;
+}
+function shipQuote(cc, items) {
+  var fee = 0, blocked = false;
+  items.forEach(function (it) { var f = shipItemFee(cc, it.sku); if (f < 0) blocked = true; else fee += f * (it.copies || 1); });
+  return { fee: fee, blocked: blocked };
+}
+function shipPrintItems() {
+  var copies = parseInt((document.getElementById('print-copies') || {}).value || 1, 10) || 1;
+  return _printSku ? [{ sku: _printSku, copies: copies }] : [{ sku: 'GLOBAL-FAP-8X12', copies: 1 }];
+}
+function shipCartItems() { return CART.map(function (it) { return { sku: it.sku, copies: it.copies || 1 }; }); }
+// What to send create-checkout-session as `destination`. Only when a fee applies or the buyer
+// chose a country themselves; otherwise the v32 behaviour (every shared country) is kept.
+function shipDestForCheckout(items) {
+  if (!SHIP_V2) return undefined;
+  var cc = shipDest(); if (!cc) return undefined;
+  var q = shipQuote(cc, items);
+  if (q.blocked) return undefined;
+  return (q.fee > 0 || _shipDestPicked) ? cc : undefined;
+}
+function shipCountryOptions(current) {
+  var set = {};
+  SHIP_PAPER.forEach(function (c) { set[c] = 1; });
+  Object.keys(SHIP_FEES || {}).forEach(function (c) { set[c] = 1; });
+  if (current) set[current] = 1;
+  return Object.keys(set).map(function (c) { return [c, shipCountryName(c)]; })
+    .sort(function (a, b) { return a[1].localeCompare(b[1]); });
+}
+function pickShipDest(v) {
+  if (v === '__other') { askAboutShipping('country'); return; }
+  _shipDestPicked = v || null;
+  try { if (v) localStorage.setItem('ss_ship_dest', v); else localStorage.removeItem('ss_ship_dest'); } catch (e) {}
+  try { ssTrack('ship_pick', { m: { country: v } }); } catch (e) {}
+  try { renderShipStatus('print-ship-status', shipIsFramed(_printSku), _printPhotoId); } catch (e) {}
+  try { updatePrintTotal(); } catch (e) {}
+  try { if (document.getElementById('cart-modal').classList.contains('open')) renderCart(); } catch (e) {}
+}
+// Totals that include the fee. Called after every render, because the visitor's country
+// (/api/geo) and the fee table both arrive asynchronously.
+function shipPrintTotal() {
+  if (!_printSku) return;
+  var copies = parseInt(document.getElementById('print-copies').value || 1, 10);
+  var cc = shipDest(), q = cc ? shipQuote(cc, shipPrintItems()) : { fee: 0, blocked: false };
+  var items = _printPriceCents * copies;
+  document.getElementById('print-total-row').innerHTML = q.blocked
+    ? 'Total: <strong>' + cartMoney(items) + '</strong>'
+    : q.fee
+    ? 'Total: <strong>' + cartMoney(items + q.fee) + '</strong> &middot; incl. ' + cartMoney(q.fee) + ' express shipping'
+    : 'Total: <strong>' + cartMoney(items) + '</strong> &middot; <span style="color:#3a7a3a">free shipping</span>';
+}
+function shipCartTotals() {
+  var cc = shipDest(), q = cc ? shipQuote(cc, shipCartItems()) : { fee: 0, blocked: false };
+  var amt = document.getElementById('cart-subtotal-amt'), lbl = document.getElementById('cart-subtotal-label');
+  if (!amt) return;
+  if (q.fee && !q.blocked) {
+    amt.textContent = cartMoney(cartTotalCents() + q.fee);
+    if (lbl) lbl.innerHTML = 'Total · incl. ' + cartMoney(q.fee) + ' express shipping';
+  } else {
+    amt.textContent = cartMoney(cartTotalCents());
+    if (lbl) lbl.innerHTML = q.blocked ? 'Subtotal' : 'Subtotal · <span style="color:#3a7a3a">free shipping</span>';
+  }
+}
+var _shipFeeLogged = {};
+function renderShipStatusV2(el, elId, photoId, safari) {
+  var items = elId === 'cart-ship-status' ? shipCartItems() : shipPrintItems();
+  loadShipFees().then(function () {
+    try { if (elId === 'cart-ship-status') shipCartTotals(); else shipPrintTotal(); } catch (e) {}
+    var cc = shipDest();
+    var sel = '<select class="ship-pick" aria-label="Ship to" onchange="pickShipDest(this.value)">'
+      + (cc ? '' : '<option value="">choose a country</option>')
+      + shipCountryOptions(cc).map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === cc ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('')
+      + '<option value="__other">Somewhere else…</option></select>';
+    if (!cc) { el.className = 'ship-status'; el.innerHTML = 'Ship to ' + sel + safari; return; }
+    var q = shipQuote(cc, items);
+    var framedAny = items.some(function (it) { return shipIsFramed(it.sku); });
+    var key = cc + ':' + (framedAny ? 'f' : 'p');
+    if (q.blocked) {
+      el.className = 'ship-status no';
+      el.innerHTML = 'Ship to ' + sel + ' · not shipping there yet. <button type="button" onclick="askAboutShipping(\'' + (framedAny ? 'framed' : 'country') + '\')">Message me</button> and I\'ll get you a quote.' + safari;
+      if (!_shipBlockedLogged[key]) { _shipBlockedLogged[key] = 1; try { ssTrack('ship_blocked', { id: photoId, m: { country: cc, framed: framedAny, v2: 1 } }); } catch (e) {} }
+      return;
+    }
+    if (q.fee > 0) {
+      el.className = 'ship-status warn';
+      el.innerHTML = 'Ship to ' + sel + ' · +' + cartMoney(q.fee) + ' express courier shipping (frames fly there by courier)' + safari;
+      if (!_shipFeeLogged[key]) { _shipFeeLogged[key] = 1; try { ssTrack('ship_fee', { id: photoId, m: { country: cc, cents: q.fee } }); } catch (e) {} }
+      return;
+    }
+    el.className = 'ship-status ok';
+    el.innerHTML = 'Ship to ' + sel + ' · ✓ free shipping' + safari;
+  });
+}
 var _shipBlockedLogged = {};
 function renderShipStatus(elId, framed, photoId) {
   var el = document.getElementById(elId);
@@ -6592,6 +6729,7 @@ function renderShipStatus(elId, framed, photoId) {
     var safari = (inAppBrowser() && (ios || /Android/i.test(navigator.userAgent || '')))
       ? ' &nbsp;·&nbsp; <a href="' + externalHref(photoId ? '/p?id=' + photoId : '/shop?cart=1') + '" onclick="try{ssTrack(\'open_in_safari\',{id:' + (photoId || 'null') + '})}catch(e){}">' + (/Android/i.test(navigator.userAgent || '') ? 'Open in Chrome for Google Pay →' : 'Open in Safari for Apple Pay →') + '</a>'
       : '';
+    if (SHIP_V2) { renderShipStatusV2(el, elId, photoId, safari); return; }
     if (!cc) { el.innerHTML = 'Free shipping to <button type="button" onclick="openShipModal()">35 countries</button>' + safari; return; }
     var name = shipCountryName(cc);
     var key = cc + ':' + (framed ? 'f' : 'p');
@@ -6739,6 +6877,22 @@ function buildSizeGrid(sizes, note) {
 }
 
 function measurePhotoAndBuildSizes(src, photo) {
+  // Master dims not attached yet (attachMasterDims() still in flight, or a deep link)?
+  // Ask for this one photo's print-master before falling back to the small web file,
+  // so the size grid matches the catalog / print page instead of under-offering.
+  if (photo && !photo.masterW && !photo._masterChecked && typeof sb !== 'undefined') {
+    photo._masterChecked = true;
+    var again = function () { if (String(_printPhotoId) === String(photo.id)) measurePhotoAndBuildSizes(src, photo); };
+    sb.from('photo_assets').select('width,height,is_print_default,created_at')
+      .eq('photo_id', photo.id).eq('variant', 'print-master')
+      .order('is_print_default', { ascending: false }).order('created_at', { ascending: false })
+      .then(function (r) {
+        var m = r && r.data && r.data.find(function (a) { return a.width && a.height; });
+        if (m) { photo.masterW = m.width; photo.masterH = m.height; }
+        again();
+      }, again);
+    return;
+  }
   // If we know the print-master's real dimensions, gate sizes by THOSE — the
   // master is what gets printed, and it's usually much larger than the web src.
   if (photo && photo.masterW && photo.masterH) {
@@ -6968,6 +7122,11 @@ function updatePrintTotal() {
   const copies = parseInt(document.getElementById('print-copies').value || 1, 10);
   const total = (_printPriceCents * copies) / 100;
   const formatted = total.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
+  if (SHIP_V2) {
+    shipPrintTotal();
+    try { renderShipStatus('print-ship-status', shipIsFramed(_printSku), _printPhotoId); } catch (e) {}
+    return;
+  }
   document.getElementById('print-total-row').innerHTML = `Total: <strong>${formatted}</strong> &middot; <span style="color:#3a7a3a">free shipping</span>`;
 }
 
@@ -6991,6 +7150,7 @@ async function submitPrintOrder() {
         frameColor: _printFrameColor,
         variant: _printVariant, // 'print-master' (full bleed) or 'bordered'
         copies,
+        destination: shipDestForCheckout([{ sku: _printSku, copies }]),
         successUrl: `${window.location.origin}/print-success`,
         cancelUrl: `${window.location.origin}/shop`
       })
@@ -7130,6 +7290,7 @@ function renderCart() {
   }).join('');
   document.getElementById('cart-subtotal-amt').textContent = cartMoney(cartTotalCents());
   renderCartBulk();
+  if (SHIP_V2) shipCartTotals();
   // Framed lines restrict the WHOLE order to US/GB (create-checkout-session filters
   // allowed_countries on anyFramed), so say so before the Stripe address step.
   var shipNote = document.getElementById('cart-ship-note');
@@ -7181,6 +7342,7 @@ async function checkoutCart() {
       headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY },
       body: JSON.stringify({
         items: CART.map(function (it) { return { photoId: it.photoId, sku: it.sku, frameColor: it.frameColor, variant: it.variant, copies: it.copies }; }),
+        destination: shipDestForCheckout(shipCartItems()),
         successUrl: window.location.origin + '/print-success',
         cancelUrl: window.location.origin + '/shop'
       })

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Checkout · Stuart Singleton</title>
+<style>
+  :root{--bg:#f7f5f0;--ink:#1a1a1a;--mute:#6a655c}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:15px/1.6 Georgia,serif;padding:16px;text-align:center}
+  a{color:var(--ink)} .mute{color:var(--mute);font-size:13px}
+</style>
+<script src="/meta-pixel.js" data-checkout></script>
+</head><body>
+<main><p id="msg">Taking you to secure checkout…</p><p class="mute" id="sub"></p></main>
+<script>
+/* Meta Shops checkout URL handler.
+   Meta sends buyers here as /checkout?products=<content_id>:<qty>,<content_id>:<qty>[&coupon=CODE]
+   content_id = catalog "id" column, e.g. 14-FAP-8X12 or 14-CFPM-MOTH-16X24
+   => photoId 14, sku GLOBAL-FAP-8X12. Prices are set server-side by create-checkout-session. */
+var EDGE='https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1/create-checkout-session';
+var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY2RlZ2x4d3JhcHByaXdweHd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MzcyODUsImV4cCI6MjA4OTUxMzI4NX0.IMGxd2IIRvVWgA441aLFtH2VujrZgVRehv2Hb2qNEus';
+function parse(){
+  var raw=new URLSearchParams(location.search).get('products')||'';
+  return raw.split(',').map(function(s){return s.trim();}).filter(Boolean).map(function(entry){
+    var i=entry.lastIndexOf(':'); var id=i>0?entry.slice(0,i):entry; var qty=i>0?parseInt(entry.slice(i+1),10):1;
+    var m=id.match(/^(\d+)-(.+)$/); if(!m) return null;
+    var sku='GLOBAL-'+m[2].toUpperCase(); var framed=sku.indexOf('GLOBAL-CFPM')===0;
+    return {photoId:parseInt(m[1],10),sku:sku,frameColor:framed?'black':null,variant:'print-master',copies:Math.max(1,Math.min(20,qty||1)),cid:id};
+  }).filter(Boolean);
+}
+var TITLES=null;
+async function loadTitles(){
+  try{ var ctl=new AbortController(); var t=setTimeout(function(){ctl.abort();},2500);
+    var r=await fetch('/catalog-titles.json',{signal:ctl.signal}); clearTimeout(t); if(r.ok) TITLES=await r.json(); }catch(e){}
+}
+async function session(items){
+  var res=await fetch(EDGE,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},
+    body:JSON.stringify({items:items,successUrl:location.origin+'/print-success',cancelUrl:location.origin+'/shop'})});
+  var data={}; try{data=await res.json();}catch(e){}
+  if(!res.ok||!data.url) throw new Error(data.error||('checkout unavailable ('+res.status+')'));
+  return data.url;
+}
+function fail(msg,bad){
+  document.getElementById('msg').innerHTML='Sorry, '+(bad&&bad.length?'some of these prints are no longer available':'checkout hit a snag')+'. <a href="/shop">Browse the shop</a>';
+  document.getElementById('sub').textContent=msg||'';
+}
+(async function(){
+  var items=parse();
+  if(!items.length){ location.replace('/shop'); return; }
+  await loadTitles();
+  items.forEach(function(it){ if(TITLES&&TITLES[it.cid]) it.title=TITLES[it.cid]; delete it.cid; });
+  try{ location.replace(await session(items)); return; }catch(e){ var firstErr=e.message; }
+  // One line is bad (unlisted photo or retired size). Find it, check out the rest.
+  var good=[],bad=[];
+  for(var i=0;i<items.length;i++){
+    try{ await session([items[i]]); good.push(items[i]); }
+    catch(e){ bad.push(items[i].photoId+' '+items[i].sku.replace('GLOBAL-','')+': '+e.message); }
+  }
+  if(good.length&&bad.length){ try{ location.replace(await session(good)); return; }catch(e){ firstErr=e.message; } }
+  fail(bad.length?bad.join(' · '):firstErr,bad);
+})();
+</script>
+</body></html>

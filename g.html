@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your Photos | Stuart Singleton</title>
+<!-- Private client gallery (Shop v2 Phase 2). Never indexed, never in sitemap/catalog/feeds (Decision 241).
+     The code in the URL is the key; no-referrer keeps it out of every third-party request. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif;
+    --bg:#050505; --panel:#0d0d0d; --line:#1c1c1c; --line2:#2a2a2a; --dim:#666; --mid:#a8a8a8; --fg:#f2f2f2;
+    --ok:#7fc29b; --warn:#e0b25a; --bad:#e06a5a;
+    --pad:clamp(16px,4.5vw,56px);
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { margin:0; background:var(--bg); color:var(--fg); }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; min-height:100vh; overflow-x:hidden; }
+  a { color:inherit; }
+  button { font:inherit; color:inherit; }
+  .wrap { max-width:1400px; margin:0 auto; padding:calc(var(--pad) * .8) var(--pad) 140px; }
+
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:12px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); margin-bottom:44px; }
+  .nav a { text-decoration:none; color:#888; }
+  .pill { border:1px solid var(--line2); padding:7px 11px; color:var(--mid); background:none; cursor:pointer; letter-spacing:.16em; font-family:var(--mono); font-size:10px; text-transform:uppercase; }
+  .pill b { color:var(--fg); font-weight:normal; }
+
+  .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:var(--dim); text-transform:uppercase; margin-bottom:12px; }
+  .hero { font-family:var(--display); font-size:clamp(48px,9vw,104px); line-height:.86; letter-spacing:.02em; margin:0 0 18px; font-weight:normal; }
+  .lead { font-size:15px; font-weight:300; line-height:1.7; color:var(--mid); margin:0 0 8px; max-width:640px; }
+  .lead b { color:var(--fg); font-weight:400; }
+  .fine { font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:#555; text-transform:uppercase; margin:14px 0 0; }
+
+  .bar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; margin:36px 0 14px; border-bottom:1px solid var(--line); padding-bottom:12px; }
+  .tabs { display:flex; gap:4px; flex-wrap:wrap; }
+  .tab { background:none; border:1px solid transparent; color:#777; font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:8px 10px; cursor:pointer; }
+  .tab[aria-pressed="true"] { color:var(--fg); border-color:var(--line2); }
+  .tools { display:flex; gap:8px; flex-wrap:wrap; }
+  .btn { background:none; border:1px solid #444; color:#ddd; font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:11px 14px; cursor:pointer; white-space:nowrap; }
+  .btn:hover { border-color:#fff; color:#fff; }
+  .btn.solid { background:var(--fg); color:#000; border-color:var(--fg); }
+  .btn.solid:hover { background:#fff; }
+  .btn[disabled] { opacity:.4; cursor:default; }
+
+  /* Grid: photos are dealt into columns left to right (1 2 3 / 4 5 6), so the
+     numbers read across rows. Each photo keeps its own aspect ratio, no crop. */
+  .grid { display:flex; align-items:flex-start; gap:8px; }
+  @media (min-width:700px) { .grid { gap:10px; } }
+  @media (min-width:1100px) { .grid { gap:12px; } }
+  .grid .col { flex:1 1 0; min-width:0; }
+  .tile { margin:0 0 8px; position:relative; background:#111; cursor:zoom-in; overflow:hidden; outline:2px solid transparent; outline-offset:-2px; transition:outline-color .12s; }
+  @media (min-width:700px) { .tile { margin-bottom:10px; } }
+  .tile img { display:block; width:100%; height:auto; user-select:none; -webkit-user-drag:none; -webkit-touch-callout:none; opacity:0; transition:opacity .3s; }
+  .tile img.in { opacity:1; }
+  .tile .n { position:absolute; left:8px; bottom:7px; font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:rgba(255,255,255,.75); text-shadow:0 1px 3px rgba(0,0,0,.8); pointer-events:none; }
+  .tile .pick { position:absolute; top:6px; right:6px; width:36px; height:36px; border-radius:50%; border:0; background:rgba(0,0,0,.35); display:grid; place-items:center; cursor:pointer; }
+  .tile .pick svg { width:20px; height:20px; }
+  .tile .pick .ring { stroke:rgba(255,255,255,.9); }
+  .tile.sel { outline-color:var(--fg); }
+  .tile.sel .pick { background:var(--fg); }
+  .tile.sel .pick .ring { stroke:var(--fg); }
+  .tile .pick .chk { stroke:#000; opacity:0; }
+  .tile.sel .pick .chk { opacity:1; }
+  .tile .badge { position:absolute; top:10px; left:10px; font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; background:rgba(0,0,0,.6); color:var(--ok); padding:4px 7px; pointer-events:none; }
+  .empty { color:#666; font-size:14px; font-weight:300; padding:40px 0; }
+
+  /* Bottom action bar */
+  .dock { position:fixed; left:0; right:0; bottom:0; z-index:20; background:rgba(8,8,8,.94); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-top:1px solid var(--line); padding:12px var(--pad) calc(12px + env(safe-area-inset-bottom)); display:flex; gap:12px; align-items:center; justify-content:space-between; transform:translateY(110%); transition:transform .2s; }
+  .dock.on { transform:none; }
+  .dock .msg { font-size:13px; color:var(--mid); line-height:1.4; min-width:0; }
+  .dock .msg b { color:var(--fg); font-weight:400; }
+  .dock .acts { display:flex; gap:8px; flex-shrink:0; }
+
+  /* Lightbox */
+  .lb { position:fixed; inset:0; z-index:40; background:#000; display:none; flex-direction:column; }
+  .lb.on { display:flex; }
+  .lb-top, .lb-bot { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#888; }
+  .lb-top { padding-top:calc(12px + env(safe-area-inset-top)); }
+  .lb-bot { padding-bottom:calc(14px + env(safe-area-inset-bottom)); flex-wrap:wrap; justify-content:center; }
+  .lb-stage { flex:1; min-height:0; position:relative; display:flex; align-items:center; justify-content:center; }
+  .lb-stage img { max-width:100%; max-height:100%; object-fit:contain; user-select:none; -webkit-user-drag:none; -webkit-touch-callout:none; }
+  .lb-nav { position:absolute; top:0; bottom:0; width:22%; border:0; background:none; cursor:pointer; color:rgba(255,255,255,.5); font-size:30px; }
+  .lb-nav:hover { color:#fff; }
+  .lb-prev { left:0; text-align:left; padding-left:14px; } .lb-next { right:0; text-align:right; padding-right:14px; }
+  .x { background:none; border:0; color:#aaa; font-size:26px; line-height:1; cursor:pointer; padding:4px 8px; }
+
+  /* Sheets (confirm / buy / prints / downloads) */
+  .scrim { position:fixed; inset:0; z-index:60; background:rgba(0,0,0,.7); display:none; align-items:flex-end; justify-content:center; }
+  .scrim.on { display:flex; }
+  @media (min-width:700px) { .scrim { align-items:center; } }
+  .sheet { background:var(--panel); border:1px solid var(--line2); width:100%; max-width:520px; max-height:88vh; overflow:auto; padding:22px 20px calc(22px + env(safe-area-inset-bottom)); }
+  .sheet h3 { font-family:var(--display); font-weight:normal; font-size:34px; letter-spacing:.02em; margin:0 0 10px; line-height:1; }
+  .sheet p { font-size:14px; font-weight:300; color:var(--mid); line-height:1.65; margin:0 0 14px; }
+  .sheet p b { color:var(--fg); font-weight:400; }
+  .row { display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap; margin-top:18px; }
+  .lbl { font-family:var(--mono); font-size:9px; letter-spacing:.2em; color:var(--dim); text-transform:uppercase; margin:16px 0 8px; }
+  .stepper { display:flex; align-items:center; gap:0; border:1px solid var(--line2); width:max-content; }
+  .stepper button { width:44px; height:44px; background:none; border:0; font-size:18px; cursor:pointer; color:#ddd; }
+  .stepper span { min-width:44px; text-align:center; font-family:var(--mono); font-size:14px; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chip { border:1px solid var(--line2); background:none; color:#ccc; padding:10px 11px; font-family:var(--mono); font-size:11px; letter-spacing:.06em; cursor:pointer; text-align:left; }
+  .chip small { display:block; color:#777; font-size:10px; margin-top:3px; }
+  .chip[aria-pressed="true"] { border-color:var(--fg); color:var(--fg); }
+  .tray { border-top:1px solid var(--line); margin-top:18px; padding-top:12px; }
+  .tray-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #151515; font-size:13px; color:#ccc; }
+  .tray-item img { width:44px; height:44px; object-fit:cover; background:#111; }
+  .tray-item .grow { flex:1; min-width:0; }
+  .tray-item small { color:#777; display:block; font-size:11px; }
+  .tray-item button { background:none; border:0; color:#777; cursor:pointer; font-size:18px; }
+  .total { display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; letter-spacing:.08em; color:#ddd; margin-top:12px; }
+  .ed-list { display:flex; flex-direction:column; }
+  .ed { display:grid; grid-template-columns:72px 1fr; gap:14px; padding:14px 0; border-bottom:1px solid var(--line); align-items:center; }
+  .ed img { width:72px; height:72px; object-fit:cover; background:#111; cursor:pointer; }
+  .ed .t { font-size:14px; color:#ddd; line-height:1.5; } .ed .t small { display:block; color:#777; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; margin-top:4px; }
+  .ed .acts { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .st-open { color:var(--warn); } .st-done { color:var(--ok); } .st-pay { color:#aaa; }
+  textarea.note { width:100%; min-height:84px; background:#111; border:1px solid #2a2a2a; color:#fff; font-family:var(--sans); font-size:14px; padding:10px 12px; outline:none; resize:vertical; }
+  textarea.note:focus { border-color:#555; }
+  .dl-list a { display:flex; justify-content:space-between; gap:10px; padding:11px 0; border-bottom:1px solid #151515; text-decoration:none; font-size:13px; color:#ddd; }
+  .dl-list a span:last-child { font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:#888; }
+
+  .toast { position:fixed; left:50%; top:16px; transform:translate(-50%,-160%); visibility:hidden; z-index:80; background:#111; border:1px solid var(--line2); padding:12px 16px; font-size:13px; max-width:calc(100% - 32px); transition:transform .25s; }
+  .toast.on { transform:translate(-50%,0); visibility:visible; }
+  .toast.ok { border-color:#2d4a39; } .toast.bad { border-color:#5a2a24; }
+
+  .state { max-width:560px; padding-top:8vh; }
+  .spin { width:18px; height:18px; border:2px solid #333; border-top-color:#ccc; border-radius:50%; animation:s 0.8s linear infinite; display:inline-block; vertical-align:middle; }
+  @keyframes s { to { transform:rotate(360deg); } }
+  .pv { position:sticky; top:0; z-index:30; background:#e0b25a; color:#000; font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:9px var(--pad); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  .pv a { color:#000; }
+  footer { margin-top:56px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#444; display:flex; gap:22px; flex-wrap:wrap; }
+  footer a { text-decoration:none; color:#555; }
+</style>
+</head>
+<body>
+<div class="pv" id="pv" hidden></div>
+<div class="wrap" id="app">
+  <nav class="nav">
+    <a href="/">Stuart Singleton</a>
+    <button class="pill" id="allow" hidden></button>
+  </nav>
+  <div id="main"><div class="state"><span class="spin"></span></div></div>
+  <footer><a href="/contact">Contact</a><a href="/returns">Shipping &amp; Returns</a></footer>
+</div>
+
+<div class="dock" id="dock"><div class="msg" id="dock-msg"></div><div class="acts" id="dock-acts"></div></div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="lb-top"><span id="lb-count"></span><button class="x" id="lb-x" aria-label="Close">×</button></div>
+  <div class="lb-stage">
+    <img id="lb-img" alt="">
+    <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous">‹</button>
+    <button class="lb-nav lb-next" id="lb-next" aria-label="Next">›</button>
+  </div>
+  <div class="lb-bot" id="lb-bot"></div>
+</div>
+
+<div class="scrim" id="scrim"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  'use strict';
+  var FN = 'https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1';
+  var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY2RlZ2x4d3JhcHByaXdweHd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MzcyODUsImV4cCI6MjA4OTUxMzI4NX0.IMGxd2IIRvVWgA441aLFtH2VujrZgVRehv2Hb2qNEus';
+
+  // /g/<slug>?code=XXXX   (also accepts /g.html?g=<slug>&code=XXXX for local previews)
+  var qs = new URLSearchParams(location.search);
+  var slug = (location.pathname.match(/^\/g\/([a-z0-9-]+)/i) || [])[1] || qs.get('g') || '';
+  var code = qs.get('code') || '';
+  // Admin preview: ?preview=1 sends Stuart's mr.manager session so a draft opens. Nothing is saved.
+  var PREVIEW = qs.get('preview') === '1';
+  var SB_URL = 'https://zbcdeglxwrappriwpxwt.supabase.co', SB_KEY = 'sb-zbcdeglxwrappriwpxwt-auth-token';
+
+  // Print sizes. MIRRORS public.print_products (active, channel public). The checkout fn is the
+  // enforcer and prices every order server-side; this list only decides what to offer per photo.
+  var SIZES = [
+    { sku:'GLOBAL-FAP-4X6',   label:'4×6',   price:2900,  framed:false, longIn:6,  ratio:1.5 },
+    { sku:'GLOBAL-FAP-6X9',   label:'6×9',   price:3500,  framed:false, longIn:9,  ratio:1.5 },
+    { sku:'GLOBAL-FAP-8X12',  label:'8×12',  price:4500,  framed:false, longIn:12, ratio:1.5 },
+    { sku:'GLOBAL-FAP-12X18', label:'12×18', price:5900,  framed:false, longIn:18, ratio:1.5 },
+    { sku:'GLOBAL-FAP-16X24', label:'16×24', price:7900,  framed:false, longIn:24, ratio:1.5 },
+    { sku:'GLOBAL-FAP-24X36', label:'24×36', price:11500, framed:false, longIn:36, ratio:1.5 },
+    { sku:'GLOBAL-CFPM-MOTH-8X12',  label:'8×12 framed',  price:11900, framed:true, longIn:12, ratio:1.5 },
+    { sku:'GLOBAL-CFPM-MOTH-16X24', label:'16×24 framed', price:24500, framed:true, longIn:24, ratio:1.5 },
+    { sku:'GLOBAL-FAP-6X8',   label:'6×8',   price:2900,  framed:false, longIn:8,  ratio:4/3 },
+    { sku:'GLOBAL-FAP-9X12',  label:'9×12',  price:4500,  framed:false, longIn:12, ratio:4/3 },
+    { sku:'GLOBAL-FAP-12X16', label:'12×16', price:5900,  framed:false, longIn:16, ratio:4/3 },
+    { sku:'GLOBAL-FAP-18X24', label:'18×24', price:8500,  framed:false, longIn:24, ratio:4/3 },
+    { sku:'GLOBAL-FAP-8X10',  label:'8×10',  price:3500,  framed:false, longIn:10, ratio:1.25 },
+    { sku:'GLOBAL-CFPM-8X10', label:'8×10 framed', price:12000, framed:true, longIn:10, ratio:1.25 }
+  ];
+  var FRAME_COLORS = ['black', 'white', 'natural'];
+
+  var S = { g:null, photos:[], byId:{}, sel:new Set(), view:'all', lb:-1, list:[], tray:[], loadedAt:0, busy:false };
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]; }); };
+  var pn = function (p) { return String(p.n).padStart(2, '0') + (p.edit ? ' · edit' : ''); };
+  var EDIT_OPTS = [['bw','Black and white'],['brighter','Brighter'],['darker','Darker'],['warmer','Warmer'],['cooler','Cooler'],['crop','Crop'],['remove','Remove something'],['other','Other']];
+  var money = function (c) { return '$' + (c / 100).toFixed(c % 100 ? 2 : 0); };
+  var plural = function (n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); };
+
+  // The mr.manager session lives in localStorage on this same origin; refresh it if it's about to expire.
+  function adminToken() {
+    var sess; try { sess = JSON.parse(localStorage.getItem(SB_KEY) || 'null'); } catch (e) { sess = null; }
+    if (!sess || !sess.access_token) return Promise.resolve(null);
+    if ((sess.expires_at || 0) * 1000 > Date.now() + 60000) return Promise.resolve(sess.access_token);
+    if (!sess.refresh_token) return Promise.resolve(null);
+    return fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', { method:'POST', headers:{ 'Content-Type':'application/json', apikey:ANON }, body:JSON.stringify({ refresh_token:sess.refresh_token }) })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (n) {
+        if (!n || !n.access_token) return null;
+        try { localStorage.setItem(SB_KEY, JSON.stringify(Object.assign({}, sess, n))); } catch (e) {}
+        return n.access_token;
+      }).catch(function () { return null; });
+  }
+  function api(action, extra) {
+    var body = Object.assign({ action: action, slug: slug, code: code }, extra || {});
+    var headers = { 'Content-Type':'application/json', apikey:ANON };
+    var ready = PREVIEW ? adminToken().then(function (t) { body.preview = true; if (t) headers.Authorization = 'Bearer ' + t; }) : Promise.resolve();
+    return ready.then(function () { return fetch(FN + '/client-gallery', { method:'POST', headers:headers, body:JSON.stringify(body) }); })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { j._status = r.status; return j; }); });
+  }
+  function previewOff(what) { toast(what + ' are off in preview. Everything works for the client once published.', ''); }
+
+  var toastT;
+  function toast(msg, kind) {
+    var t = $('toast'); t.textContent = msg; t.className = 'toast on ' + (kind || '');
+    clearTimeout(toastT); toastT = setTimeout(function () { t.className = 'toast'; }, 4200);
+  }
+
+  // Same rule as the server (client-gallery priceCredits).
+  function priceCredits(n) {
+    var p = S.g.pricing, B = p.bundle_size, full = Math.floor(n / B), rest = n % B, restCost = rest * p.each_cents;
+    if (rest && restCost >= p.bundle_cents) return { credits:(full + 1) * B, cents:(full + 1) * p.bundle_cents };
+    return { credits:n, cents:full * p.bundle_cents + restCost };
+  }
+
+  function fmtDate(d, withYear) {
+    if (!d) return '';
+    var x = new Date(d.length === 10 ? d + 'T12:00:00' : d);
+    return x.toLocaleDateString('en-US', withYear === false ? { month:'long', day:'numeric' } : { month:'long', day:'numeric', year:'numeric' });
+  }
+
+  // ── LOAD ──
+  function load() {
+    if (!slug || !code) return renderState('Link not recognized', 'This link is missing its access code. Use the full link from your email or text, or <a href="/contact">message Stuart</a>.');
+    return api('view').then(function (d) {
+      if (d.preview_denied) return renderState('Sign in to preview', 'Previews need your mr.manager login. <a href="/mr.manager/galleries">Sign in here</a>, then use Preview on the gallery.');
+      if (d._status === 404) return renderState('Link not recognized', 'Check that you used the full link. If it still doesn’t open, <a href="/contact">message Stuart</a>.');
+      if (d.expired) return renderState('This gallery has closed', 'It was available until ' + esc(fmtDate(d.expires_at)) + '. <a href="/contact">Message Stuart</a> if you need it reopened.');
+      if (!d.photos) return renderState('Something went wrong', 'Please refresh the page in a moment.');
+      S.g = d; S.photos = d.photos; S.byId = {}; S.loadedAt = Date.now(); S.preview = !!d.preview;
+      if (S.preview) {
+        var pv = $('pv'); pv.hidden = false;
+        pv.innerHTML = '<span>Preview · only you can see this · nothing here is saved</span><span>' +
+          (d.expired ? 'Expired' : d.is_active ? 'Live: the client link works' : 'Draft: the client link shows “not recognized”') +
+          ' · <a href="/mr.manager/galleries">Admin</a></span>';
+        // Keep simulated unlocks across re-renders in this tab.
+        (S.simUnl || []).forEach(function (id) { var p = d.photos.filter(function (x) { return x.id === id; })[0]; if (p) simUnlock(p); });
+      }
+      d.photos.forEach(function (p) { S.byId[p.id] = p; });
+      S.sel.forEach(function (id) { if (!S.byId[id] || S.byId[id].unlocked) S.sel.delete(id); });
+      render();
+    }).catch(function () { renderState('Couldn’t load your photos', 'Check your connection and refresh.'); });
+  }
+
+  function renderState(title, html) {
+    $('allow').hidden = true;
+    $('main').innerHTML = '<div class="state"><div class="eyebrow">Private gallery</div><h1 class="hero">' + esc(title.toUpperCase()) + '</h1><p class="lead">' + html + '</p></div>';
+  }
+
+  function counts() {
+    var un = S.photos.filter(function (p) { return p.unlocked; }).length;
+    return { total:S.photos.length, unlocked:un, sel:S.sel.size };
+  }
+
+  function render() {
+    var g = S.g, a = g.allowance, c = counts();
+    document.title = (g.title || 'Your Photos') + ' | Stuart Singleton';
+    $('allow').hidden = false;
+    $('allow').innerHTML = '<b>' + a.remaining + '</b> of ' + a.total + ' left';
+
+    var who = g.client ? esc(g.client) + ', your' : 'Your';
+    var inc = a.included + (a.bonus ? ' included + ' + a.bonus + ' extra' : ' included');
+    var extraLine = 'More are ' + money(g.pricing.each_cents) + ' each or ' + g.pricing.bundle_size + ' for ' + money(g.pricing.bundle_cents) + '.';
+    var lead = a.remaining === 0 && c.unlocked
+      ? who + ' photos are unlocked and ready to download. ' + extraLine + ' Prints of any unlocked photo ship to you.'
+      : who + ' photos are ready. Choose ' + (a.total === 1 ? 'the photo' : 'the <b>' + a.total + '</b> photos') + ' you want (' + inc +
+        (a.purchased ? ' + ' + a.purchased + ' purchased' : '') + ') and they unlock as full-resolution downloads. ' + extraLine + ' Prints of any unlocked photo ship to you.';
+
+    var html = '' +
+      '<div class="eyebrow">Private gallery' + (g.shoot_date ? ' · ' + esc(fmtDate(g.shoot_date)) : '') + '</div>' +
+      '<h1 class="hero">' + esc((g.title || 'Your photos').toUpperCase()) + '</h1>' +
+      '<p class="lead">' + lead + '</p>' +
+      (g.expires_at ? '<p class="fine">Available until ' + esc(fmtDate(g.expires_at)) + ' · download your photos before then</p>' : '') +
+      '<div class="bar"><div class="tabs" role="group" aria-label="Filter">' +
+        tab('all', 'All ' + c.total) + tab('sel', 'Selected ' + c.sel) + tab('un', 'Unlocked ' + c.unlocked) +
+        (g.edits && g.edits.requests.length ? tab('ed', 'Edits ' + g.edits.requests.length) : '') +
+      '</div><div class="tools">' +
+        (c.unlocked ? '<button class="btn" id="b-dl">Download ' + (c.unlocked === 1 ? '1 photo' : 'all ' + c.unlocked) + '</button>' : '') +
+        (c.unlocked ? '<button class="btn" id="b-pr">Order prints</button>' : '') +
+        '<button class="btn" id="b-more">Buy more</button>' +
+      '</div></div>' +
+      '<div class="grid" id="grid"></div>';
+    $('main').innerHTML = html;
+    document.querySelectorAll('.tab').forEach(function (b) { b.onclick = function () { S.view = b.dataset.v; render(); }; });
+    if ($('b-dl')) $('b-dl').onclick = function () { openDownloads(); };
+    if ($('b-pr')) $('b-pr').onclick = function () { openPrints(null); };
+    $('b-more').onclick = function () { openBuy(0); };
+    renderGrid(); renderDock();
+  }
+  function tab(v, label) { return '<button class="tab" data-v="' + v + '" aria-pressed="' + (S.view === v) + '">' + esc(label) + '</button>'; }
+
+  function visible() {
+    return S.photos.filter(function (p) {
+      if (S.view === 'sel') return S.sel.has(p.id);
+      if (S.view === 'un') return p.unlocked;
+      return true;
+    });
+  }
+
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { var im = e.target; im.src = im.dataset.src; io.unobserve(im); } });
+  }, { rootMargin:'600px 0px' }) : null;
+
+  // Column count follows the old CSS breakpoints: 2 on phones, 3 from 700px, 4 from 1100px.
+  var mq3 = window.matchMedia('(min-width:700px)'), mq4 = window.matchMedia('(min-width:1100px)');
+  function gridCols() { return mq4.matches ? 4 : mq3.matches ? 3 : 2; }
+  function onColsChange() {
+    var g = $('grid');
+    if (g && g.classList.contains('grid') && +g.dataset.cols !== gridCols()) renderGrid();
+  }
+  [mq3, mq4].forEach(function (m) {
+    if (m.addEventListener) m.addEventListener('change', onColsChange); else if (m.addListener) m.addListener(onColsChange);
+  });
+
+  function renderGrid() {
+    if (S.view === 'ed') return renderEditList();
+    var list = visible(); S.list = list;
+    var grid = $('grid');
+    if (!list.length) {
+      grid.outerHTML = '<div class="empty" id="grid">' + (S.view === 'sel' ? 'Nothing selected yet. Tap the circle on a photo to choose it.' : S.view === 'un' ? 'No photos unlocked yet.' : 'Your photos are still being uploaded. Check back soon.') + '</div>';
+      return;
+    }
+    var tiles = list.map(function (p, i) {
+      var ratio = p.w && p.h ? (p.h / p.w * 100).toFixed(3) : 66.667;
+      return '<div class="tile' + (S.sel.has(p.id) ? ' sel' : '') + '" data-i="' + i + '" data-id="' + p.id + '">' +
+        '<div style="padding-top:' + ratio + '%;position:relative"><img alt="Photo ' + p.n + '" draggable="false" style="position:absolute;inset:0" data-src="' + esc(p.thumb) + '"></div>' +
+        '<span class="n">' + pn(p) + '</span>' +
+        (p.unlocked ? '<span class="badge">' + (p.edit ? 'Edited' : 'Unlocked') + '</span>' :
+          '<button class="pick" aria-label="Select photo ' + p.n + '" aria-pressed="' + S.sel.has(p.id) + '"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle class="ring" cx="12" cy="12" r="10"/><path class="chk" d="M7 12.5l3.2 3.2L17 9"/></svg></button>') +
+        '</div>';
+    });
+    // Deal tiles across columns: photo 1 → col 1, 2 → col 2 ... so rows read left to right.
+    var n = gridCols(), cols = [];
+    for (var c = 0; c < n; c++) cols.push([]);
+    tiles.forEach(function (t, i) { cols[i % n].push(t); });
+    grid.className = 'grid';
+    grid.dataset.cols = n;
+    grid.innerHTML = cols.map(function (c) { return '<div class="col">' + c.join('') + '</div>'; }).join('');
+    grid.querySelectorAll('img').forEach(function (im) {
+      im.onload = function () { im.classList.add('in'); };
+      im.oncontextmenu = function (e) { e.preventDefault(); };
+      if (io) io.observe(im); else im.src = im.dataset.src;
+    });
+    grid.querySelectorAll('.tile').forEach(function (t) {
+      t.onclick = function (e) {
+        if (e.target.closest('.pick')) { e.stopPropagation(); toggle(t.dataset.id); return; }
+        openLb(+t.dataset.i);
+      };
+    });
+  }
+
+  function toggle(id) {
+    var p = S.byId[id]; if (!p || p.unlocked) return;
+    if (S.sel.has(id)) S.sel.delete(id); else S.sel.add(id);
+    document.querySelectorAll('.tile[data-id="' + id + '"]').forEach(function (t) {
+      t.classList.toggle('sel', S.sel.has(id));
+      var b = t.querySelector('.pick'); if (b) b.setAttribute('aria-pressed', S.sel.has(id));
+    });
+    var tb = document.querySelector('.tab[data-v="sel"]'); if (tb) tb.textContent = 'Selected ' + S.sel.size;
+    if (S.view === 'sel') renderGrid();
+    renderDock(); if (S.lb >= 0) renderLbBar();
+  }
+
+  function renderDock() {
+    var n = S.sel.size, r = S.g.allowance.remaining, dock = $('dock');
+    if (!n) { dock.classList.remove('on'); return; }
+    var acts = '<button class="btn" id="d-clear">Clear</button>', msg;
+    if (n <= r) {
+      msg = '<b>' + plural(n, 'photo') + '</b> selected · ' + (r - n) + ' left after this';
+      acts += '<button class="btn solid" id="d-go">Unlock ' + n + '</button>';
+    } else {
+      var q = priceCredits(n - r);
+      msg = '<b>' + plural(n, 'photo') + '</b> selected · ' + (r ? r + ' included left, ' : '') + (n - r) + ' more needed';
+      acts += '<button class="btn solid" id="d-go">Unlock ' + n + ' · ' + money(q.cents) + '</button>';
+    }
+    $('dock-msg').innerHTML = msg; $('dock-acts').innerHTML = acts; dock.classList.add('on');
+    $('d-clear').onclick = function () { S.sel.clear(); render(); };
+    $('d-go').onclick = function () { confirmUnlock(); };
+  }
+
+  // ── UNLOCK ──
+  function confirmUnlock() {
+    var ids = Array.from(S.sel), n = ids.length, r = S.g.allowance.remaining;
+    if (n <= r) {
+      sheet('<h3>Unlock ' + plural(n, 'photo') + '?</h3>' +
+        '<p>This uses ' + n + ' of your ' + r + ' remaining. Unlocked photos download at full resolution and can be printed. Choices are final, so check your selection first.</p>' +
+        '<div class="row"><button class="btn" data-close>Back</button><button class="btn solid" id="s-go">Unlock</button></div>');
+      $('s-go').onclick = function () { doUnlock(ids, this); };
+    } else {
+      var extra = n - r, q = priceCredits(extra), bonus = q.credits - extra;
+      sheet('<h3>Unlock ' + plural(n, 'photo') + '</h3>' +
+        '<p>You have <b>' + r + '</b> included ' + (r === 1 ? 'photo' : 'photos') + ' left, so ' + (r ? 'the other ' : '') + '<b>' + extra + '</b> ' + (extra === 1 ? 'needs' : 'need') + ' to be added: <b>' + money(q.cents) + '</b>' +
+        (bonus ? ' for ' + q.credits + ' (the ' + S.g.pricing.bundle_size + '-photo price is lower, so ' + bonus + ' more ' + (bonus === 1 ? 'is' : 'are') + ' added to your total to use any time)' : '') + '.</p>' +
+        '<p>You’ll pay on Stripe and come straight back here with all ' + n + ' unlocked.</p>' +
+        '<div class="row"><button class="btn" data-close>Back</button><button class="btn solid" id="s-go">Continue to payment</button></div>');
+      $('s-go').onclick = function () { checkout(ids, 0, this); };
+    }
+  }
+
+  function simUnlock(p) {
+    if (p.unlocked) return;
+    p.unlocked = true; p.thumb = p.clean || p.thumb; p.large = p.clean || p.large;
+    var a = S.g.allowance; a.used++; a.remaining = Math.max(0, a.total - a.used);
+  }
+  function doUnlock(ids, btn) {
+    if (S.preview) {
+      S.simUnl = (S.simUnl || []).concat(ids);
+      ids.forEach(function (id) { if (S.byId[id]) simUnlock(S.byId[id]); });
+      closeSheet(); S.sel.clear(); S.view = 'un'; toast('Preview: ' + plural(ids.length, 'photo') + ' unlocked on screen only.', 'ok'); render(); return;
+    }
+    if (S.busy) return; S.busy = true; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
+    api('unlock', { photo_ids:ids }).then(function (d) {
+      S.busy = false;
+      if (d.ok) { closeSheet(); S.sel.clear(); toast(plural(d.unlocked, 'photo') + ' unlocked.', 'ok'); S.view = 'un'; return load(); }
+      closeSheet(); toast(d.error === 'not enough unlocks' ? 'Not enough unlocks left. Refreshing.' : 'That didn’t work. Please try again.', 'bad'); load();
+    }).catch(function () { S.busy = false; closeSheet(); toast('Connection problem. Please try again.', 'bad'); });
+  }
+
+  // ── BUY MORE ──
+  function openBuy(start) {
+    var n = Math.max(1, start || 1);
+    function draw() {
+      var q = priceCredits(n);
+      sheet('<h3>Buy more photos</h3>' +
+        '<p>' + money(S.g.pricing.each_cents) + ' each, or ' + S.g.pricing.bundle_size + ' for ' + money(S.g.pricing.bundle_cents) + '. They’re added to your total and you choose which photos to unlock.</p>' +
+        '<div class="lbl">How many</div><div class="stepper"><button id="m-">−</button><span id="m-n">' + n + '</span><button id="m+">+</button></div>' +
+        '<div class="total"><span>' + plural(q.credits, 'photo') + '</span><span>' + money(q.cents) + '</span></div>' +
+        (q.credits > n ? '<p style="margin-top:10px">The ' + S.g.pricing.bundle_size + '-photo price is lower, so you get ' + q.credits + '.</p>' : '') +
+        '<div class="row"><button class="btn" data-close>Cancel</button><button class="btn solid" id="s-go">Continue to payment</button></div>');
+      $('m-').onclick = function () { if (n > 1) { n--; draw(); } };
+      $('m+').onclick = function () { if (n < 200) { n++; draw(); } };
+      $('s-go').onclick = function () { checkout([], q.credits, this); };
+    }
+    draw();
+  }
+
+  function checkout(ids, credits, btn) {
+    if (S.preview) { closeSheet(); return previewOff('Payments'); }
+    if (S.busy) return; S.busy = true; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
+    api('checkout', { photo_ids:ids, credits:credits }).then(function (d) {
+      S.busy = false;
+      if (d.url) { location.href = d.url; return; }
+      btn.disabled = false; btn.textContent = 'Continue to payment';
+      toast(d.error === 'nothing to buy' ? 'You already have enough unlocks for these.' : 'Checkout couldn’t start. Please try again.', 'bad');
+    }).catch(function () { S.busy = false; btn.disabled = false; btn.textContent = 'Continue to payment'; toast('Connection problem. Please try again.', 'bad'); });
+  }
+
+  // Return from Stripe (extras): confirm with the server, then show the result.
+  function handleReturn() {
+    var sid = qs.get('session_id'), printed = qs.get('print');
+    if (!sid && !printed) return Promise.resolve();
+    var clean = new URL(location.href); clean.searchParams.delete('session_id'); clean.searchParams.delete('print');
+    history.replaceState(null, '', clean.pathname + clean.search);
+    if (printed === 'done') { toast('Print order placed. A confirmation email is on its way.', 'ok'); S.tray = []; saveTray(); return Promise.resolve(); }
+    if (printed === 'cancel') return Promise.resolve();
+    renderState('Confirming payment', '<span class="spin"></span>');
+    var tries = 0;
+    function poll() {
+      return api('claim', { session_id:sid }).then(function (d) {
+        if (d.status === 'paid' && d.kind === 'edits') { toast('Payment received. Your edit request is in.', 'ok'); S.view = 'ed'; return; }
+        if (d.status === 'paid') { toast('Payment received. Your photos are unlocked.', 'ok'); S.view = 'un'; return; }
+        if (d.status === 'pending' && ++tries < 8) return new Promise(function (r) { setTimeout(r, 1500); }).then(poll);
+        if (d.status === 'pending') toast('Payment is still processing. Refresh in a minute.', '');
+      }).catch(function () {});
+    }
+    return poll();
+  }
+
+  // ── LIGHTBOX ──
+  function openLb(i) { S.lb = i; $('lb').classList.add('on'); document.body.style.overflow = 'hidden'; drawLb(); }
+  function closeLb() { S.lb = -1; $('lb').classList.remove('on'); document.body.style.overflow = ''; }
+  function drawLb() {
+    var p = S.list[S.lb]; if (!p) return closeLb();
+    var im = $('lb-img'); im.removeAttribute('src'); im.src = p.large || p.thumb; im.alt = 'Photo ' + p.n;
+    $('lb-count').textContent = 'Photo ' + pn(p) + ' · ' + (S.lb + 1) + ' / ' + S.list.length;
+    $('lb-prev').style.visibility = S.lb > 0 ? '' : 'hidden';
+    $('lb-next').style.visibility = S.lb < S.list.length - 1 ? '' : 'hidden';
+    renderLbBar();
+    var nx = S.list[S.lb + 1]; if (nx) (new Image()).src = nx.large || nx.thumb;
+  }
+  function renderLbBar() {
+    var p = S.list[S.lb]; if (!p) return;
+    var bar = $('lb-bot');
+    if (p.unlocked) {
+      bar.innerHTML = '<button class="btn" id="lb-dl">Download</button><button class="btn solid" id="lb-pr">Order a print</button>' +
+        (S.g.edits ? '<button class="btn" id="lb-ed">Request an edit</button>' : '');
+      if ($('lb-ed')) $('lb-ed').onclick = function () { openEditRequest(p); };
+      $('lb-dl').onclick = function () { downloadOne(p.id, this); };
+      $('lb-pr').onclick = function () { closeLb(); openPrints(p.id); };
+    } else {
+      var on = S.sel.has(p.id);
+      bar.innerHTML = '<button class="btn' + (on ? '' : ' solid') + '" id="lb-sel">' + (on ? 'Selected ✓' : 'Select this photo') + '</button>' +
+        (S.sel.size ? '<button class="btn" id="lb-go">Review ' + S.sel.size + ' selected</button>' : '');
+      $('lb-sel').onclick = function () { toggle(p.id); };
+      if ($('lb-go')) $('lb-go').onclick = function () { closeLb(); confirmUnlock(); };
+    }
+  }
+  $('lb-x').onclick = closeLb;
+  $('lb-prev').onclick = function () { if (S.lb > 0) { S.lb--; drawLb(); } };
+  $('lb-next').onclick = function () { if (S.lb < S.list.length - 1) { S.lb++; drawLb(); } };
+  $('lb-img').oncontextmenu = function (e) { var p = S.list[S.lb]; if (!p || !p.unlocked) e.preventDefault(); };
+  document.addEventListener('keydown', function (e) {
+    if ($('scrim').classList.contains('on')) { if (e.key === 'Escape') closeSheet(); return; }
+    if (S.lb < 0) return;
+    if (e.key === 'Escape') closeLb();
+    else if (e.key === 'ArrowLeft') $('lb-prev').click();
+    else if (e.key === 'ArrowRight') $('lb-next').click();
+    else if (e.key === ' ' || e.key === 'Enter') { var p = S.list[S.lb]; if (p && !p.unlocked) { e.preventDefault(); toggle(p.id); } }
+  });
+  (function swipe() {
+    var x0 = null, y0 = null, st = $('lb');
+    st.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive:true });
+    st.addEventListener('touchend', function (e) {
+      if (x0 == null) return;
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) (dx < 0 ? $('lb-next') : $('lb-prev')).click();
+      else if (dy > 90 && Math.abs(dy) > Math.abs(dx) * 1.4) closeLb();
+    }, { passive:true });
+  })();
+
+  // ── EDIT REQUESTS ──
+  function editPriceLine() {
+    var e = S.g.edits;
+    if (e.free_left > 0) return 'Free · ' + e.free_left + ' of ' + e.free + ' free edit' + (e.free === 1 ? '' : 's') + ' left';
+    return e.price_cents ? money(e.price_cents) + ' for this edit (your ' + e.free + ' free edit' + (e.free === 1 ? ' is' : 's are') + ' used)' : 'Free';
+  }
+  function openEditRequest(p) {
+    var picked = [];
+    function draw() {
+      sheet('<h3>Request an edit</h3>' +
+        '<p>Photo ' + pn(p) + '. Small changes like a crop, brightness, color, black and white, or removing a stray hair or small distraction. The edited version is added next to the original, so you keep both. Bigger retouching is quoted separately.</p>' +
+        '<div class="lbl">What should change</div><div class="chips">' + EDIT_OPTS.map(function (o) {
+          return '<button class="chip" data-o="' + o[0] + '" aria-pressed="' + (picked.indexOf(o[0]) > -1) + '">' + o[1] + '</button>';
+        }).join('') + '</div>' +
+        '<div class="lbl">Details' + (picked.indexOf('remove') > -1 || picked.indexOf('other') > -1 ? '' : ' (optional)') + '</div>' +
+        '<textarea class="note" id="e-note" maxlength="1000" placeholder="e.g. crop out the car on the left, a little brighter on her face">' + esc(S._edNote || '') + '</textarea>' +
+        '<div class="total"><span>' + editPriceLine() + '</span></div>' +
+        '<div class="row"><button class="btn" data-close>Cancel</button><button class="btn solid" id="e-go">' + (S.g.edits.free_left > 0 || !S.g.edits.price_cents ? 'Send request' : 'Continue to payment') + '</button></div>');
+      $('e-note').oninput = function () { S._edNote = this.value; };
+      document.querySelectorAll('[data-o]').forEach(function (b) { b.onclick = function () {
+        var o = b.dataset.o, i = picked.indexOf(o); if (i > -1) picked.splice(i, 1); else picked.push(o); draw();
+      }; });
+      $('e-go').onclick = function () {
+        var note = ($('e-note').value || '').trim();
+        if (!picked.length && !note) return toast('Pick a change or describe it.', 'bad');
+        if ((picked.indexOf('remove') > -1 || picked.indexOf('other') > -1) && !note) return toast('Add a short note so Stuart knows what to change.', 'bad');
+        if (S.preview) { closeSheet(); return previewOff('Edit requests'); }
+        var btn = this; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
+        api('request_edit', { photo_id:p.id, options:picked, note:note }).then(function (d) {
+          if (d.url) { location.href = d.url; return; }
+          if (d.status === 'open') { S._edNote = ''; closeSheet(); closeLb(); toast('Edit requested. The edited version will appear next to the original.', 'ok'); S.view = 'ed'; return load(); }
+          btn.disabled = false; btn.textContent = 'Send request'; toast(d.error || 'That didn\u2019t work. Please try again.', 'bad');
+        }).catch(function () { btn.disabled = false; btn.textContent = 'Send request'; toast('Connection problem. Please try again.', 'bad'); });
+      };
+    }
+    draw();
+  }
+  function renderEditList() {
+    var grid = $('grid'), reqs = (S.g.edits && S.g.edits.requests) || [];
+    S.list = [];
+    if (!reqs.length) { grid.outerHTML = '<div class="empty" id="grid">No edit requests yet. Open an unlocked photo and tap Request an edit.</div>'; return; }
+    var LAB = {}; EDIT_OPTS.forEach(function (o) { LAB[o[0]] = o[1]; });
+    grid.outerHTML = '<div class="ed-list" id="grid">' + reqs.slice().reverse().map(function (r) {
+      var orig = S.byId[r.photo_id], res = r.result_photo_id ? S.byId[r.result_photo_id] : null, show = res || orig;
+      var st = r.status === 'done' ? '<span class="st-done">Ready</span>' : r.status === 'open' ? '<span class="st-open">Requested · Stuart is on it</span>' : '<span class="st-pay">Waiting for payment</span>';
+      return '<div class="ed"><img src="' + esc(show ? show.thumb : '') + '" alt="" data-open="' + (show ? show.id : '') + '"><div class="t">Photo ' + (orig ? pn(orig) : '') + ' · ' +
+        esc((r.options || []).map(function (o) { return LAB[o] || o; }).join(', ') || 'See note') + (r.note ? '<br><span style="color:#999">\u201c' + esc(r.note) + '\u201d</span>' : '') +
+        '<small>' + st + (r.paid ? '' : ' · free edit') + '</small>' +
+        (r.status === 'done' && res ? '<div class="acts"><button class="btn" data-open="' + res.id + '">View edit</button></div>' : '') +
+        (r.status === 'pending_payment' ? '<div class="acts"><button class="btn solid" data-pay="' + r.id + '">Pay ' + money(S.g.edits.price_cents) + '</button><button class="btn" data-cancel="' + r.id + '">Cancel</button></div>' : '') +
+        '</div></div>';
+    }).join('') + '</div>';
+    document.querySelectorAll('[data-open]').forEach(function (b) { b.onclick = function () {
+      var id = b.dataset.open; if (!id) return;
+      S.list = S.photos.filter(function (x) { return x.id === id; }); openLb(0);
+    }; });
+    document.querySelectorAll('[data-pay]').forEach(function (b) { b.onclick = function () {
+      if (S.preview) return previewOff('Payments');
+      b.disabled = true; api('pay_edit', { request_id:b.dataset.pay }).then(function (d) { if (d.url) location.href = d.url; else { b.disabled = false; toast('Couldn\u2019t start payment. Please try again.', 'bad'); } });
+    }; });
+    document.querySelectorAll('[data-cancel]').forEach(function (b) { b.onclick = function () {
+      if (S.preview) return previewOff('Changes');
+      api('cancel_edit', { request_id:b.dataset.cancel }).then(function () { toast('Request cancelled.', ''); load(); });
+    }; });
+  }
+
+  // ── DOWNLOADS ──
+  function downloadOne(id, btn) {
+    if (S.preview) return previewOff('Downloads');
+    btn.disabled = true;
+    api('download', { photo_ids:[id] }).then(function (d) {
+      btn.disabled = false;
+      var f = (d.files || [])[0]; if (!f) return toast('Couldn’t get that file. Please try again.', 'bad');
+      saveUrl(f.url, f.name);
+    }).catch(function () { btn.disabled = false; toast('Connection problem. Please try again.', 'bad'); });
+  }
+  function saveUrl(url, name) {
+    var a = document.createElement('a'); a.href = url; a.download = name || ''; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  function openDownloads() {
+    if (S.preview) return previewOff('Downloads');
+    sheet('<h3>Download</h3><p><span class="spin"></span></p>');
+    api('download', {}).then(function (d) {
+      var files = d.files || [];
+      if (!files.length) return sheet('<h3>Download</h3><p>No unlocked photos yet.</p><div class="row"><button class="btn" data-close>Close</button></div>');
+      files.sort(function (a, b) { return (S.byId[a.id] || {}).n - (S.byId[b.id] || {}).n; });
+      sheet('<h3>Download ' + plural(files.length, 'photo') + '</h3>' +
+        '<p>Full-resolution JPEGs. On a phone, tap each one to save it. Links refresh each time you open this.</p>' +
+        '<div class="row" style="justify-content:flex-start;margin:0 0 6px"><button class="btn solid" id="dl-all">Download all</button></div>' +
+        '<div class="dl-list">' + files.map(function (f) {
+          var p = S.byId[f.id] || {};
+          return '<a href="' + esc(f.url) + '" download="' + esc(f.name) + '" rel="noopener"><span>Photo ' + (p.n ? pn(p) : '') + ' · ' + esc(f.name) + '</span><span>Save</span></a>';
+        }).join('') + '</div>' +
+        '<div class="row"><button class="btn" data-close>Close</button></div>');
+      $('dl-all').onclick = function () {
+        var b = this; b.disabled = true; var i = 0;
+        (function next() {
+          if (i >= files.length) { b.disabled = false; b.textContent = 'Done'; return; }
+          b.textContent = (i + 1) + ' / ' + files.length; saveUrl(files[i].url, files[i].name); i++; setTimeout(next, 900);
+        })();
+      };
+    }).catch(function () { closeSheet(); toast('Connection problem. Please try again.', 'bad'); });
+  }
+
+  // ── PRINTS ──
+  var TRAY_KEY = 'ssg_tray_' + slug;
+  function loadTray() { try { S.tray = JSON.parse(localStorage.getItem(TRAY_KEY) || '[]'); } catch (e) { S.tray = []; } }
+  function saveTray() { try { localStorage.setItem(TRAY_KEY, JSON.stringify(S.tray)); } catch (e) {} }
+  function sizesFor(p) {
+    if (!p.w || !p.h) return SIZES.filter(function (s) { return s.longIn * 200 <= 2048; });
+    var L = Math.max(p.w, p.h), r = L / Math.min(p.w, p.h);
+    return SIZES.filter(function (s) { return L >= s.longIn * 200 && Math.abs(s.ratio - r) <= 0.06; });
+  }
+  function openPrints(id) {
+    var unl = S.photos.filter(function (p) { return p.unlocked; });
+    if (!unl.length) return toast('Unlock a photo first, then order prints of it.', '');
+    S.tray = S.tray.filter(function (t) { return S.byId[t.id] && S.byId[t.id].unlocked; });
+    var cur = { id:id || null, sku:null, color:'black', copies:1 };
+    function draw() {
+      var p = cur.id ? S.byId[cur.id] : null, sizes = p ? sizesFor(p) : [];
+      if (p && !sizes.some(function (s) { return s.sku === cur.sku; })) cur.sku = sizes.length ? (sizes.filter(function (s) { return s.sku.indexOf('8X12') > -1; })[0] || sizes[0]).sku : null;
+      var sz = SIZES.filter(function (s) { return s.sku === cur.sku; })[0];
+      var html = '<h3>Order prints</h3>' +
+        '<p>Printed on archival matte fine art paper and shipped to you. Shipping is free. 3 or more paper prints in one order are 15% off, 5 or more 20% off, 10 or more 25% off.</p>' +
+        '<div class="lbl">Photo</div><div class="chips">' + unl.map(function (u) {
+          return '<button class="chip" data-p="' + u.id + '" aria-pressed="' + (u.id === cur.id) + '" style="padding:3px"><img src="' + esc(u.thumb) + '" alt="Photo ' + u.n + '" style="display:block;width:52px;height:52px;object-fit:cover"></button>';
+        }).join('') + '</div>';
+      if (p) {
+        html += '<div class="lbl">Size</div>' + (sizes.length ? '<div class="chips">' + sizes.map(function (s) {
+          return '<button class="chip" data-s="' + s.sku + '" aria-pressed="' + (s.sku === cur.sku) + '">' + esc(s.label) + '"<small>' + money(s.price) + '</small></button>';
+        }).join('') + '</div>' : '<p>No print sizes match this photo’s proportions. <a href="/contact">Message Stuart</a> for a custom print.</p>');
+        if (sz && sz.framed) html += '<div class="lbl">Frame</div><div class="chips">' + FRAME_COLORS.map(function (c) {
+          return '<button class="chip" data-c="' + c + '" aria-pressed="' + (c === cur.color) + '">' + c.charAt(0).toUpperCase() + c.slice(1) + '</button>';
+        }).join('') + '</div>';
+        if (sz) html += '<div class="lbl">Copies</div><div class="stepper"><button id="c-">−</button><span>' + cur.copies + '</span><button id="c+">+</button></div>' +
+          '<div class="row" style="justify-content:flex-start"><button class="btn" id="t-add">Add to order · ' + money(sz.price * cur.copies) + '</button></div>';
+      }
+      if (S.tray.length) {
+        html += '<div class="tray"><div class="lbl" style="margin-top:0">Your order</div>' + S.tray.map(function (t, i) {
+          var s = SIZES.filter(function (x) { return x.sku === t.sku; })[0] || { label:t.sku, price:0 }, pp = S.byId[t.id];
+          return '<div class="tray-item"><img src="' + esc(pp.thumb) + '" alt=""><div class="grow">Photo ' + String(pp.n).padStart(2, '0') + ' · ' + esc(s.label) + '"' + (s.framed ? ' · ' + t.color : '') + '<small>' + t.copies + ' × ' + money(s.price) + '</small></div><button data-rm="' + i + '" aria-label="Remove">×</button></div>';
+        }).join('') + '<div class="total" id="t-total"><span>Total</span><span><span class="spin"></span></span></div></div>';
+      }
+      html += '<div class="row"><button class="btn" data-close>Close</button>' + (S.tray.length ? '<button class="btn solid" id="t-go">Checkout</button>' : '') + '</div>';
+      sheet(html);
+      document.querySelectorAll('[data-p]').forEach(function (b) { b.onclick = function () { cur.id = b.dataset.p; cur.copies = 1; draw(); }; });
+      document.querySelectorAll('[data-s]').forEach(function (b) { b.onclick = function () { cur.sku = b.dataset.s; draw(); }; });
+      document.querySelectorAll('[data-c]').forEach(function (b) { b.onclick = function () { cur.color = b.dataset.c; draw(); }; });
+      document.querySelectorAll('[data-rm]').forEach(function (b) { b.onclick = function () { S.tray.splice(+b.dataset.rm, 1); saveTray(); draw(); }; });
+      if ($('c-')) { $('c-').onclick = function () { if (cur.copies > 1) { cur.copies--; draw(); } }; $('c+').onclick = function () { if (cur.copies < 20) { cur.copies++; draw(); } }; }
+      if ($('t-add')) $('t-add').onclick = function () {
+        var s = SIZES.filter(function (x) { return x.sku === cur.sku; })[0];
+        var same = S.tray.filter(function (t) { return t.id === cur.id && t.sku === cur.sku && (!s.framed || t.color === cur.color); })[0];
+        if (same) same.copies = Math.min(20, same.copies + cur.copies);
+        else S.tray.push({ id:cur.id, sku:cur.sku, color:s.framed ? cur.color : null, copies:cur.copies });
+        saveTray(); cur.copies = 1; draw();
+      };
+      if ($('t-go')) $('t-go').onclick = function () { printCheckout(this); };
+      if (S.tray.length) quoteTray();
+    }
+    draw();
+  }
+  function trayBody(extra) {
+    var back = location.origin + '/g/' + slug + '?code=' + encodeURIComponent(code);
+    return Object.assign({
+      successUrl: back + '&print=done', cancelUrl: back + '&print=cancel',
+      gallery: { slug:slug, code:code },
+      items: S.tray.map(function (t) { return { galleryPhotoId:t.id, sku:t.sku, copies:t.copies, frameColor:t.color || undefined }; })
+    }, extra || {});
+  }
+  function ccs(body) {
+    return fetch(FN + '/create-checkout-session', { method:'POST', headers:{ 'Content-Type':'application/json', apikey:ANON }, body:JSON.stringify(body) })
+      .then(function (r) { return r.json(); });
+  }
+  // Same tiers as create-checkout-session (paper only, 3+ 15%, 5+ 20%, 10+ 25%), used for the preview estimate.
+  function localQuote() {
+    var paper = 0, total = 0;
+    S.tray.forEach(function (t) { var s = SIZES.filter(function (x) { return x.sku === t.sku; })[0]; if (s && !s.framed) paper += t.copies; });
+    var pct = paper >= 10 ? 25 : paper >= 5 ? 20 : paper >= 3 ? 15 : 0;
+    S.tray.forEach(function (t) { var s = SIZES.filter(function (x) { return x.sku === t.sku; })[0]; if (s) total += (s.framed ? s.price : Math.round(s.price * (100 - pct) / 100)) * t.copies; });
+    return { bulkPct:pct, amountTotal:total };
+  }
+  function quoteTray() {
+    if (S.preview) {
+      var q = localQuote(), el = $('t-total');
+      if (el) el.innerHTML = '<span>Total' + (q.bulkPct ? ' · ' + q.bulkPct + '% off paper prints' : '') + ' · free shipping</span><span>' + money(q.amountTotal) + '</span>';
+      return;
+    }
+    ccs(trayBody({ quoteOnly:true })).then(function (q) {
+      var el = $('t-total'); if (!el) return;
+      if (q.error) { el.innerHTML = '<span style="color:var(--bad)">' + esc(q.error) + '</span>'; return; }
+      el.innerHTML = '<span>Total' + (q.bulkPct ? ' · ' + q.bulkPct + '% off paper prints' : '') + ' · free shipping</span><span>' + money(q.amountTotal) + '</span>';
+    }).catch(function () {});
+  }
+  function printCheckout(btn) {
+    if (S.preview) { closeSheet(); return previewOff('Payments'); }
+    if (S.busy) return; S.busy = true; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
+    ccs(trayBody()).then(function (d) {
+      S.busy = false;
+      if (d.url) { location.href = d.url; return; }
+      btn.disabled = false; btn.textContent = 'Checkout'; toast(d.error || 'Checkout couldn’t start. Please try again.', 'bad');
+    }).catch(function () { S.busy = false; btn.disabled = false; btn.textContent = 'Checkout'; toast('Connection problem. Please try again.', 'bad'); });
+  }
+
+  // ── SHEET ──
+  function sheet(html) {
+    $('sheet').innerHTML = html; $('scrim').classList.add('on'); document.body.style.overflow = 'hidden';
+    $('sheet').querySelectorAll('[data-close]').forEach(function (b) { b.onclick = closeSheet; });
+  }
+  function closeSheet() { $('scrim').classList.remove('on'); if (S.lb < 0) document.body.style.overflow = ''; }
+  $('scrim').addEventListener('click', function (e) { if (e.target === $('scrim')) closeSheet(); });
+  $('allow').onclick = function () { if (S.g) openBuy(1); };
+
+  // Signed image links last an hour; refresh them when the tab comes back after a while.
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && S.g && Date.now() - S.loadedAt > 45 * 60 * 1000) load();
+  });
+
+  loadTray();
+  handleReturn().then(load);
+})();
+</script>
+</body>
+</html>

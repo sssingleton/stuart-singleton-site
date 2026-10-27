@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Renders /og-book.jpg, the share card for stuartsingleton.com/book.
+Renders /og-book-v2.jpg, the share card for stuartsingleton.com/book.
 
 Type only, no photograph. Two reasons, both deliberate:
 
@@ -12,8 +12,9 @@ Type only, no photograph. Two reasons, both deliberate:
      rot into a rights problem later.
 
 NO PRICES ON THIS CARD. It renders in the feed, and Decision 259 keeps figures out
-of the feed so nobody decides before they have looked at the work. "ON SALE NOW"
-carries the urgency without carrying the judgement.
+of the feed so nobody decides before they have looked at the work.
+v1 (og-book.jpg) led with an "ON SALE NOW" tag; the launch sale ended 2026-10-27,
+so v2 leads with the free call instead.
 
 Family: matches og-home-v2.jpg (Bebas wordmark, #050505, drifting particle field)
 rather than og-gallery.jpg / og-shop.jpg, because those two are photo cards and set
@@ -21,7 +22,7 @@ their name in Cormorant Garamond, which is not vendored here.
 
     cd _og_build && python3 render_book.py
 
-Ships as og-book.jpg. Per README, NEVER overwrite a live card to change a design:
+Ships as og-book-v2.jpg (v1 og-book.jpg left in place). Per README, NEVER overwrite a live card to change a design:
 unfurl caches key on URL, so a redesign ships as og-book-v2.jpg and the tags in
 og/book.html move with it.
 """
@@ -33,7 +34,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FONTS = os.path.join(HERE, "fonts")
-OUT = os.path.abspath(os.path.join(HERE, "..", "og-book.jpg"))
+OUT = os.path.abspath(os.path.join(HERE, "..", "og-book-v2.jpg"))
 
 W, H = 1200, 630
 BG = (5, 5, 5)
@@ -101,8 +102,8 @@ FOOT_Y = 552
 # ---- tags: the /book row, one filled among outlined (the svc-tag-lead
 # mechanism, so the card gets emphasis without inventing an accent colour) ----
 TAGS = [
-    ("ON SALE NOW", True),
-    ("FREE 15 MIN CALL", False),
+    ("FREE 15 MIN CALL", True),
+    ("EDITING INCLUDED", False),
     ("12+ IMAGES", False),
     ("SEVEN DAYS", False),
 ]

@@ -13,6 +13,7 @@
     { "source": "/camera-gear", "destination": "/camera-gear.html" },
     { "source": "/bradenbachelortripcalculator", "destination": "/bradenbachelortripcalculator.html" },
     { "source": "/print-success", "destination": "/index.html" },
+    { "source": "/checkout", "destination": "/checkout.html" },
     { "source": "/print/:slug", "destination": "/print/:slug.html" },
 
     { "source": "/shop", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/shop.html" },
@@ -28,6 +29,19 @@
     { "source": "/whoami", "destination": "/index.html" },
 
     { "source": "/p", "destination": "/index.html" },
-    { "source": "/mr.manager", "destination": "/index.html" }
+    { "source": "/mr.manager/galleries", "destination": "/gallery-admin.html" },
+    { "source": "/mr.manager", "destination": "/index.html" },
+
+    { "source": "/g/:slug", "destination": "/g.html" }
+  ],
+  "headers": [
+    { "source": "/g/:slug*", "headers": [
+      { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, noimageindex" },
+      { "key": "Referrer-Policy", "value": "no-referrer" },
+      { "key": "Cache-Control", "value": "no-store" }
+    ] },
+    { "source": "/g.html", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
+    { "source": "/gallery-admin.html", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
+    { "source": "/mr.manager/galleries", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] }
   ]
 }
