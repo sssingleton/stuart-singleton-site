@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       "name": "Stuart Singleton",
       "url": "https://stuartsingleton.com/",
       "jobTitle": ["Photographer", "Songwriter", "Record Producer", "Software Developer"],
-      "description": "Nashville-based photographer, songwriter and producer who also builds software. Sells archival fine art prints of his photography, shipped free to 37 countries across North America, Europe, Australia, New Zealand and Japan.",
+      "description": "Nashville-based photographer, songwriter and producer who also builds software. Sells archival fine art prints of his photography, shipped free to 35 countries across North America, Europe, Australia, New Zealand and Japan.",
       "knowsAbout": ["Photography", "Fine art printing", "Songwriting", "Music production", "Web development"],
       "address": { "@type": "PostalAddress", "addressLocality": "Nashville", "addressRegion": "TN", "addressCountry": "US" },
       "sameAs": [
@@ -623,25 +623,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width: 600px) {
     .sf-label { min-width: 100%; margin-bottom: -4px; }
   }
-  .sf-rows { display: flex; flex-direction: column; gap: 14px; }
-  /* phones: filter rows hide behind one FILTER button, same as the gallery tag cloud */
-  .sf-toggle, .sf-active { display: none; }
-  @media (max-width: 600px), (pointer: coarse) and (max-width: 1024px) {
-    .shop-filters { margin-bottom: 22px; gap: 0; }
-    .sf-toggle {
-      display: inline-flex; align-self: flex-start; align-items: center; gap: 8px;
-      font-family: var(--mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
-      color: #6a655c; background: #fff; border: 1px solid #d8d5cd; padding: 9px 12px; min-height: 36px; cursor: none; line-height: 1;
-    }
-    .sf-toggle-count { color: #1a1a1a; }
-    .sf-toggle-caret { color: #b0aaa0; font-size: 11px; }
-    .shop-filters.open .sf-toggle { color: #1a1a1a; border-color: #b3aea3; }
-    .sf-active { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-    .sf-active:empty, .shop-filters.open .sf-active { display: none; }
-    .sf-rows { display: none; flex-direction: column; gap: 14px; margin-top: 14px; }
-    .shop-filters.open .sf-rows { display: flex; }
-    .sf-pill { padding: 8px 12px; }
-  }
 
   /* TAG CLOUD — grouped rows (Look / Subject / Places / People). On phones the
      rows collapse behind a single FILTER toggle; active tags stay visible as chips
@@ -838,7 +819,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .print-copies-row input::-webkit-inner-spin-button,
   .print-copies-row input::-webkit-outer-spin-button { -webkit-appearance: none; }
-  .print-actions { display: flex; flex-direction: column; gap: 20px; }
   .print-total-row { font-size: 10px; color: #908b82; letter-spacing: .1em; }
   .print-total-row strong { color: #1a1a1a; font-weight: 600; }
   .print-checkout-btn {
@@ -1265,24 +1245,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* ── PRINT / REQUEST modal on mobile ── */
     #print-modal, #request-modal { align-items: stretch; }
-    .print-modal-inner { width: 100vw; max-height: 100%; border-radius: 0; border-left: none; border-right: none; -webkit-overflow-scrolling: touch; }
+    .print-modal-inner { width: 100vw; max-height: 100dvh; border-radius: 0; border-left: none; border-right: none; -webkit-overflow-scrolling: touch; }
     .print-modal-header { padding: 16px 18px; }
-    #print-preview-stage { padding: 16px; height: 34vh; overflow: hidden; }
+    #print-preview-stage { padding: 20px 16px; height: 44vh; overflow: hidden; }
     .pv-frame { height: 100%; width: auto; max-width: 70%; }
     .print-modal-body { padding: 18px 18px 26px; gap: 18px; }
     .print-size-grid { gap: 7px; }
     .print-size-btn { padding: 11px 4px; }        /* bigger tap targets */
     .print-checkout-btn { padding: 16px; }
-    /* Buy buttons pinned to the bottom of the sheet (2026-10-17): on a phone the
-       preview + sizes filled the screen and the buttons sat below the fold. */
-    #print-modal .print-actions {
-      position: sticky; bottom: 0; z-index: 2; background: #fff;
-      margin: 0 -18px -26px; padding: 12px 18px calc(14px + env(safe-area-inset-bottom));
-      border-top: 1px solid #ece9e2; gap: 10px; box-shadow: 0 -10px 24px rgba(255,255,255,.9);
-    }
-    #print-modal .print-actions .print-error:empty { display: none; }
-    #print-modal .print-addcart-btn, #print-modal .print-checkout-btn { padding: 14px; }
-    #print-modal .print-note { margin-top: 12px; }
     .print-copies-row input { width: 64px; padding: 9px 10px; }
   }
   .admin-drag-handle{cursor:grab;font-size:14px;color:#333;flex-shrink:0;user-select:none;padding:0 4px;transition:color .2s}
@@ -1631,10 +1601,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .ship-region { margin: 0 0 14px; }
   .ship-region b { display: block; font-weight: 400; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: #8d8880; margin-bottom: 6px; }
   .ship-region span { display: inline-block; font-size: 10px; letter-spacing: .04em; padding: 3px 8px; margin: 0 4px 4px 0; border: 1px solid #e6e3db; color: #1a1a1a; }
-  .ship-region button { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: .04em; padding: 6px 9px; margin: 0 4px 5px 0; border: 1px solid #d8d5cd; background: #fff; color: #1a1a1a; cursor: none; }
-  .ship-region button:hover { border-color: #1a1a1a; }
-  .ship-region em { font-style: normal; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: #8d8880; margin-left: 4px; }
-  .ship-region span.paper, .ship-region button.paper { color: #1a1a1a; border-style: solid; }
+  .ship-region span.paper { color: #8d8880; border-style: dashed; }
   .ship-key { font-size: 8.5px; letter-spacing: .09em; line-height: 1.8; color: #8d8880; border-top: 1px solid #ece9e2; padding-top: 12px; margin-top: 4px; }
   .ship-key i { display: inline-block; width: 9px; height: 9px; border: 1px solid #e6e3db; vertical-align: -1px; margin-right: 5px; }
   .ship-key i.paper { border-style: dashed; }
@@ -1694,7 +1661,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="ship-status" id="cart-ship-status"></div>
       <div class="print-error" id="cart-error"></div>
       <button class="print-checkout-btn" id="cart-checkout-btn" onclick="checkoutCart()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Proceed to Checkout →</button>
-      <p class="print-note" style="margin:0;">Printed on demand via Prodigi · Free shipping to <button type="button" onclick="openShipModal()">37 countries</button> · Secure checkout via Stripe</p>
+      <p class="print-note" style="margin:0;">Printed on demand via Prodigi · Free shipping to <button type="button" onclick="openShipModal()">35 countries</button> · Secure checkout via Stripe</p>
     </div>
   </div>
 </div>
@@ -1755,18 +1722,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <button onclick="adjustCopies(1)" style="border:1px solid #d8d5cd;background:#fff;color:#6a655c;font-family:var(--mono);font-size:14px;padding:5px 12px;cursor:none;transition:border-color .2s,color .2s;" onmouseenter="cursor.classList.add('hover');this.style.borderColor='#b3aea3';this.style.color='#1a1a1a'" onmouseleave="cursor.classList.remove('hover');this.style.borderColor='#d8d5cd';this.style.color='#6a655c'">+</button>
         </div>
       </div>
-      <!-- total + CTAs: one block so phones can pin it to the bottom of the sheet -->
-      <div class="print-actions">
+      <!-- total -->
       <div class="print-total-row" id="print-total-row"></div>
+      <!-- error -->
       <div class="print-error" id="print-error"></div>
+      <!-- cta -->
       <button class="print-addcart-btn" id="print-addcart-btn" disabled onclick="addToCart(this)" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
         Add to Cart
       </button>
       <button class="print-checkout-btn" id="print-checkout-btn" onclick="submitPrintOrder()" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">
         Buy It Now →
       </button>
-      </div>
-      <p class="print-note">Printed on demand via Prodigi · Free shipping to <button type="button" onclick="openShipModal()">37 countries</button> · Secure checkout via Stripe</p>
+      <p class="print-note">Printed on demand via Prodigi · Free shipping to <button type="button" onclick="openShipModal()">35 countries</button> · Secure checkout via Stripe</p>
     </div>
   </div>
 </div>
@@ -2950,8 +2917,6 @@ function toggleShopFilter(groupKey, optId) {
   renderShop();
 }
 
-let shopFiltersOpen = false;
-function toggleShopFilterPanel() { shopFiltersOpen = !shopFiltersOpen; renderShopFilters(); }
 function renderShopFilters() {
   const el = document.getElementById('shop-filters');
   if (!el) return;
@@ -2979,16 +2944,10 @@ function renderShopFilters() {
     if (!pills) return '';
     return `<div class="sf-row"><span class="sf-label">${group.label}</span>${pills}</div>`;
   }).filter(Boolean).join('');
-  const nActive = SHOP_FILTER_GROUPS.reduce((n, g) => n + shopFilters[g.key].size, 0);
-  const chips = SHOP_FILTER_GROUPS.map(g => g.options.filter(o => shopFilters[g.key].has(o.id))
-    .map(o => `<button class="sf-pill active" onclick="toggleShopFilter('${g.key}','${o.id}')">${o.label} &times;</button>`).join('')).join('');
-  el.innerHTML = `<button class="sf-toggle" type="button" onclick="toggleShopFilterPanel()" aria-expanded="${shopFiltersOpen}">Filter<span class="sf-toggle-count">${nActive ? ' ' + nActive : ''}</span><span class="sf-toggle-caret">${shopFiltersOpen ? '\u2212' : '+'}</span></button>`
-    + `<div class="sf-active">${chips}</div>`
-    + `<div class="sf-rows">` + rows + (anySelected
+  el.innerHTML = rows + (anySelected
     ? `<div class="sf-row"><span class="sf-label"></span><button class="sf-clear" onclick="clearShopFilters()">Clear all filters</button></div>`
-    : '') + `</div>`;
-  el.classList.toggle('open', shopFiltersOpen);
-  addHover('.sf-pill,.sf-clear,.sf-toggle');
+    : '');
+  addHover('.sf-pill,.sf-clear');
 }
 
 // === SHOP VIEW (white product cards) ===
@@ -3001,7 +2960,7 @@ function renderShop() {
   if (headEl) {
     headEl.innerHTML = forSaleCount
       ? `<div class="shop-head-row"><span class="shop-head-title">Fine-Art Prints</span><span class="shop-head-count">${forSaleCount} available</span></div>
-         <div class="shop-head-sub">Museum-quality giclée prints &amp; framed editions · printed on demand · free shipping to <button type="button" class="shop-ship-link" onclick="openShipModal()">37 countries</button></div>`
+         <div class="shop-head-sub">Museum-quality giclée prints &amp; framed editions · printed on demand · free shipping to <button type="button" class="shop-ship-link" onclick="openShipModal()">35 countries</button></div>`
       : '';
   }
   const cards = [];
@@ -3454,7 +3413,7 @@ function setPhotoMode(mode) {
   if (bBtn) bBtn.classList.toggle('active', isBook);
   if (hero) hero.textContent = isShop ? 'SHOP' : isBook ? 'BOOK' : 'PHOTOS';
   if (sub) sub.textContent = isShop
-    ? 'fine-art prints · ships to 37 countries'
+    ? 'fine-art prints · ships to 35 countries'
     : isBook
       ? 'bands · portraits · live shows · nashville'
       : 'nashville · brentwood · on the road';
@@ -6021,7 +5980,7 @@ function applyProductSeo(photo) {
   var avail = offered.length ? 'InStock' : 'PreOrder';
 
   var desc = title + ' fine art print by Stuart Singleton.' +
-    (lo != null ? ' Prints from $' + Math.round(lo / 100) + ', printed on demand, free shipping to 37 countries.' : ' Printed on demand, free shipping to 37 countries.') +
+    (lo != null ? ' Prints from $' + Math.round(lo / 100) + ', printed on demand, free shipping to 35 countries.' : ' Printed on demand, free shipping to 35 countries.') +
     ' Secure checkout.';
 
   document.title = title + ', Fine Art Print | Stuart Singleton';
@@ -6239,7 +6198,7 @@ const ROUTE_META = {
   ],
   '/shop': [
     'Buy Fine Art Photography Prints | Stuart Singleton',
-    'Shop archival giclee prints of Stuart Singleton’s photography. Framed and unframed, from $29, printed on demand with free shipping to 37 countries.'
+    'Shop archival giclee prints of Stuart Singleton’s photography. Framed and unframed, from $29, printed on demand with free shipping to 35 countries.'
   ],
   '/photos': [
     'Photography Gallery | Stuart Singleton',
@@ -6566,7 +6525,7 @@ function renderShipStatus(elId, framed, photoId) {
       ? ' &nbsp;·&nbsp; <a href="' + externalHref(photoId ? '/p?id=' + photoId : '/shop?cart=1') + '" onclick="try{ssTrack(\'open_in_safari\',{id:' + (photoId || 'null') + '})}catch(e){}">' + (/Android/i.test(navigator.userAgent || '') ? 'Open in Chrome for Google Pay →' : 'Open in Safari for Apple Pay →') + '</a>'
       : '';
     if (SHIP_V2) { renderShipStatusV2(el, elId, photoId, safari); return; }
-    if (!cc) { el.innerHTML = 'Free shipping to <button type="button" onclick="openShipModal()">37 countries</button>' + safari; return; }
+    if (!cc) { el.innerHTML = 'Free shipping to <button type="button" onclick="openShipModal()">35 countries</button>' + safari; return; }
     var name = shipCountryName(cc);
     var key = cc + ':' + (framed ? 'f' : 'p');
     if (SHIP_PAPER.indexOf(cc) === -1) {
@@ -6586,22 +6545,13 @@ function renderShipStatus(elId, framed, photoId) {
   });
 }
 function openShipModal() {
-  if (SHIP_V2 && !SHIP_FEES) { loadShipFees().then(function () { var b = document.getElementById('ship-modal-body'); if (b) b.innerHTML = ''; openShipModal(); }); return; }
   var body = document.getElementById('ship-modal-body');
   if (body && !body.innerHTML) {
     body.innerHTML = SHIP_REGIONS.map(function (r) {
       return '<div class="ship-region"><b>' + r[0] + '</b>' + r[1].map(function (cc) {
-        var both = SHIP_FRAMED.indexOf(cc) !== -1;
-        var fee = (!both && SHIP_FEES && SHIP_FEES[cc]) ? Math.min.apply(null, Object.keys(SHIP_FEES[cc]).map(function (k) { return SHIP_FEES[cc][k]; })) : 0;
-        var note = both ? '' : (SHIP_V2 && fee ? ' <em>framed +' + cartMoney(fee) + '</em>' : ' <em>paper</em>');
-        var cls = both ? '' : 'paper';
-        return SHIP_V2
-          ? '<button type="button" class="' + cls + '" onclick="pickShipDest(\'' + cc + '\');closeShipModal()">' + shipCountryName(cc) + note + '</button>'
-          : '<span class="' + cls + '">' + shipCountryName(cc) + note + '</span>';
+        return '<span class="' + (SHIP_FRAMED.indexOf(cc) === -1 ? 'paper' : '') + '" title="' + (SHIP_FRAMED.indexOf(cc) === -1 ? 'paper prints only' : 'paper + framed') + '">' + shipCountryName(cc) + '</span>';
       }).join('') + '</div>';
     }).join('');
-    var key = document.querySelector('#ship-modal .ship-key');
-    if (key && SHIP_V2) key.innerHTML = 'Tap a country to ship there. Unframed prints ship free everywhere listed; framed prints ship free to the US, UK and Europe, and elsewhere add the express courier cost shown. Somewhere else? <button type="button" onclick="closeShipModal();askAboutShipping(\'country\')">Message me</button> and I\'ll get a quote.';
   }
   document.getElementById('ship-modal').classList.add('open');
   try { addHover('#ship-modal button'); } catch (e) {}
