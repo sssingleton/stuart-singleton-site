@@ -2410,6 +2410,7 @@ const ssTrack = (function () {
     if (p === '/mr.manager') return;
     opts = opts || {};
     var payload = { s: session(), e: event, p: p, d: device(), r: document.referrer ? document.referrer.slice(0, 200) : null };
+    try { if (navigator.webdriver) payload.w = 1; } catch (e) {}
     if (opts.id != null) payload.id = opts.id;
     if (opts.m) payload.m = opts.m;
     var body = JSON.stringify(payload);

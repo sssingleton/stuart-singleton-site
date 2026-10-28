@@ -47,9 +47,21 @@ export default async function handler(req) {
   const event = body.e;
   if (!session || session.length < 8 || !EVENTS.has(event)) return new Response('bad event', { status: 400, headers: cors });
 
+  // Claude's own test browsers (and anyone Stuart wants uncounted) visit /api/notrack first,
+  // which sets this cookie. Their events are dropped entirely, not stored. The Meta pixel
+  // still fires for them, so pixel checks keep working.
+  const cookie = req.headers.get('cookie') || '';
+  if (/(?:^|;\s*)ss_notrack=1(?:;|$)/.test(cookie)) return new Response(null, { status: 204, headers: cors });
+
   const ua = req.headers.get('user-agent') || '';
-  const device = deviceOf(ua, body.d);
   const h = (k) => { const v = req.headers.get(k); return v ? decodeURIComponent(v) : null; };
+  let device = deviceOf(ua, body.d);
+  // Automation that announces itself (navigator.webdriver, sent by index.html as w:1).
+  if (body.w === 1) device = 'bot';
+  // Meta's Nebraska data center: desktop, Springfield NE, "from m.facebook.com", one page
+  // view per session. 131 of these Sep 14 → Oct 27, never a second event. Not people.
+  if (device === 'desktop' && h('x-vercel-ip-country-region') === 'NE' && h('x-vercel-ip-city') === 'Springfield'
+      && /facebook\.com/i.test(String(body.r || ''))) device = 'bot';
 
   const row = {
     session,
