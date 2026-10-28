@@ -6594,7 +6594,7 @@ function hideIabBar(remember) {
   if (remember) { try { sessionStorage.setItem('iab_bar_off', '1'); } catch (e) {} }
 }
 // ══ SHIP-TO PICKER (v2, 2026-10-14) ══
-// Behind a switch until Stuart phone-tests it: ?v2 turns it on (sticky), ?v2=0 turns it off.
+// ON for everyone since 2026-10-28 (Stuart phone-tested). ?v2=0 turns it off for this browser (sticky), ?v2 back on.
 // The buyer picks a destination; items that don't ship free there take the per-SKU fee from
 // public.shipping_surcharges (framed to CA/AU/NZ/JP/IS/PH/IN). create-checkout-session v33
 // re-checks the fee server-side and locks Stripe's address form to that country.
@@ -6602,8 +6602,8 @@ var SHIP_V2 = (function () {
   try {
     var q = new URLSearchParams(location.search);
     if (q.has('v2')) localStorage.setItem('ss_v2', q.get('v2') === '0' ? '0' : '1');
-    return localStorage.getItem('ss_v2') === '1';
-  } catch (e) { return /[?&]v2(?!=0)/.test(location.search); }
+    return localStorage.getItem('ss_v2') !== '0';
+  } catch (e) { return !/[?&]v2=0/.test(location.search); }
 })();
 if (SHIP_V2) { try { document.documentElement.classList.add('ship-v2'); document.addEventListener('DOMContentLoaded', function () { document.body.classList.add('ship-v2'); }); if (document.body) document.body.classList.add('ship-v2'); } catch (e) {} }
 var SHIP_FEES = null, _shipFeesPromise = null;
