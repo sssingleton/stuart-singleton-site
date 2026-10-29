@@ -638,6 +638,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cart-bulk .row { display: flex; justify-content: space-between; color: #3a7a3a; }
   @media (max-width: 600px) { .shop-sets { grid-template-columns: 1fr; gap: 12px; } .shop-set-imgs { height: 150px; } }
 
+  /* ── Set page (/sets/<slug>): the picker as its own full page, not a dimmed modal ── */
+  #set-modal { background: #faf8f4; backdrop-filter: none; align-items: stretch; justify-content: stretch; }
+  #set-modal .set-inner { width: 100vw; height: 100dvh; max-height: none; border: 0; border-radius: 0; box-shadow: none; background: #faf8f4; }
+  html.set-open, html.set-open body { overflow: hidden; }
+  .set-top { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px max(22px, calc((100vw - 1180px) / 2)); border-bottom: 1px solid #e7e4dd; background: #faf8f4; }
+  .set-back { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; background: none; border: 1px solid #cfcbc2; color: #3a362f; padding: 8px 14px; cursor: none; transition: border-color .2s, color .2s, background .2s; }
+  .set-back:hover { border-color: #1a1a1a; color: #1a1a1a; background: #fff; }
+  .set-kicker { font-family: var(--mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #8a8478; }
+  #set-modal .set-body { padding: 26px max(22px, calc((100vw - 1180px) / 2)) 30px; gap: 18px; }
+  .set-hero h1 { font-family: var(--sans); font-size: clamp(24px, 4vw, 36px); font-weight: 600; letter-spacing: -.01em; color: #1a1a1a; margin: 0; }
+  .set-hero p { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: #4a4640; line-height: 1.7; margin: 6px 0 0; }
+  .set-hero p b { color: #2f6b2f; font-weight: 400; }
+  #set-modal .set-label { font-size: 10px; letter-spacing: .18em; color: #3a362f; margin-top: 6px; }
+  #set-modal .set-label em { font-style: normal; color: #8a8478; letter-spacing: .1em; text-transform: none; }
+  #set-modal .set-grid { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; align-items: start; }
+  #set-modal .set-tile { opacity: 1; aspect-ratio: auto; border: 0; background: #ebe7df; box-shadow: 0 0 0 1px #e2ded5; transition: box-shadow .15s, transform .15s; }
+  #set-modal .set-tile img { height: auto; aspect-ratio: var(--ar, 2 / 3); object-fit: cover; }
+  #set-modal .set-tile:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px #b3aea3, 0 8px 22px rgba(0,0,0,.08); }
+  #set-modal .set-tile.on { box-shadow: 0 0 0 4px #1a1a1a; transform: none; }
+  #set-modal .set-tick { top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #1a1a1a; background: rgba(255,255,255,.92); color: #1a1a1a; font-family: var(--sans); font-size: 15px; font-weight: 700; line-height: 28px; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+  #set-modal .set-tile.on .set-tick { background: #1a1a1a; color: #fff; border-color: #fff; }
+  #set-modal .set-na { font-size: 9px; padding: 7px 4px; }
+  #set-modal .set-tile.na { opacity: .35; }
+  #set-modal .set-sizes { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; max-width: 760px; }
+  #set-modal .set-sizes .print-size-btn { font-size: 11px; color: #3a362f; padding: 12px 6px; border-color: #cfcbc2; }
+  #set-modal .set-sizes .print-size-btn.selected { border: 2px solid #1a1a1a; background: #fff; }
+  #set-modal .set-foot { padding: 14px max(22px, calc((100vw - 1180px) / 2)) 18px; background: #fff; border-top: 1px solid #e2ded5; box-shadow: 0 -6px 20px rgba(0,0,0,.05); }
+  #set-modal .set-total { font-size: 12px; color: #3a362f; }
+  #set-modal .set-total strong { font-size: 16px; }
+  #set-modal .print-note { color: #6a655c; }
+  @media (max-width: 600px) {
+    #set-modal .set-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    #set-modal .set-body { padding-top: 18px; }
+    #set-modal .set-tick { width: 28px; height: 28px; line-height: 24px; top: 7px; right: 7px; }
+  }
+
   /* shop header bar */
   .shop-head { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e2dfd7; }
   .shop-head-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -1690,11 +1726,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- SET PICKER MODAL (Shop v2) -->
 <div id="set-modal" onclick="if(event.target===this)closeSetModal()">
   <div class="set-inner">
-    <div class="cart-head"><span id="set-title">// set</span><button onclick="closeSetModal()">✕ close</button></div>
+    <div class="set-top"><button class="set-back" type="button" onclick="closeSetModal()">← Shop</button><span class="set-kicker">Print set</span></div>
     <div class="set-body">
-      <div class="set-label">Pick 3 or more photos</div>
+      <div class="set-hero"><h1 id="set-title"></h1><p id="set-sub"></p></div>
+      <div class="set-label">1 · Tap the photos you want <em>(3 or more)</em></div>
       <div class="set-grid" id="set-grid"></div>
-      <div class="set-label">One size for the set · fine-art paper</div>
+      <div class="set-label">2 · One size for the whole set <em>· fine-art paper</em></div>
       <div class="set-sizes" id="set-sizes"></div>
     </div>
     <div class="set-foot">
@@ -3022,12 +3059,14 @@ function renderShopFilters() {
 // loaded. Tapping a photo opens its normal buy window; the discount is the ordinary
 // bulk tier, applied in the cart and enforced by create-checkout-session.
 var SHOP_SETS = null;
+var SHOP_SETS_DONE = false; // true once the print_sets fetch has answered (even if empty)
 function loadShopSets() {
   if (SHOP_SETS !== null) return;
   SHOP_SETS = [];
   try {
     sb.from('print_sets').select('name,slug,photo_ids,family,sort,created_at').order('sort', { ascending: true }).order('created_at', { ascending: false })
       .then(function (r) {
+        SHOP_SETS_DONE = true;
         if (r.error || !r.data || !r.data.length) return;
         SHOP_SETS = r.data;
         try { if (typeof shopMode !== 'undefined' && shopMode) renderShop(); } catch (e) {}
@@ -3079,16 +3118,24 @@ function setAllSizes() {
   return PRINT_SIZES.filter(function (s) { return have[s.sku]; });
 }
 function setPhotoHas(p, sku) { return setPhotoSizes(p).some(function (s) { return s.sku === sku; }); }
-function openSetModal(slug) {
-  var set = (SHOP_SETS || []).find(function (x) { return x.slug === slug; }); if (!set) return;
-  var photos = setPhotos(set); if (photos.length < SET_MIN) return;
+// The picker is its own page: /sets/<slug> (pushState, so Back/close return to the shop
+// and the link can be shared). A cold load of /sets/<slug> is handled by the router below.
+var _setRoute = false; // true while a /sets/<slug> history entry we created is current
+function openSetModal(slug, opts) {
+  opts = opts || {};
+  var set = (SHOP_SETS || []).find(function (x) { return x.slug === slug; }); if (!set) return false;
+  var photos = setPhotos(set); if (photos.length < SET_MIN) return false;
   _set = { set: set, photos: photos, picked: {}, sku: null };
   if (photos.length === SET_MIN) photos.forEach(function (p) { _set.picked[p.id] = true; }); // a set of exactly 3 comes pre-ticked
   // Built ONCE per open. Ticking and choosing a size only flip classes on these nodes, so
   // nothing reloads, reorders or changes height.
-  document.getElementById('set-title').textContent = '// ' + set.name;
+  document.getElementById('set-title').textContent = set.name;
+  document.getElementById('set-sub').innerHTML = photos.length === SET_MIN
+    ? 'Set of ' + SET_MIN + ' · <b>' + bulkPct(SET_MIN) + '% off</b> · free shipping'
+    : photos.length + ' photos · pick any ' + SET_MIN + ' or more · <b>3 for ' + bulkPct(3) + '% off · 5 for ' + bulkPct(5) + '% · 10 for ' + bulkPct(10) + '%</b> · free shipping';
   document.getElementById('set-grid').innerHTML = photos.map(function (p) {
-    return '<button type="button" class="set-tile" data-id="' + p.id + '" onclick="toggleSetPhoto(\'' + p.id + '\')"><img src="' + thumbURL(p.src || '', 480, 62) + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'' + (p.src || '') + '\'"><span class="set-tick"></span><span class="set-na">not in this size</span></button>';
+    var ar = (p.img_w && p.img_h) ? (p.img_w + ' / ' + p.img_h) : '2 / 3';
+    return '<button type="button" class="set-tile" style="--ar:' + ar + '" data-id="' + p.id + '" onclick="toggleSetPhoto(\'' + p.id + '\')"><img src="' + thumbURL(p.src || '', 760, 70) + '" srcset="' + thumbSrcset(p.src || '', [480, 760, 1100]) + '" sizes="(max-width:600px) 48vw, 280px" alt="" loading="lazy" onerror="this.onerror=null;this.removeAttribute(\'srcset\');this.src=\'' + thumbURL(p.src || '', 960, 70) + '\'"><span class="set-tick"></span><span class="set-na">not in this size</span></button>';
   }).join('');
   var sizes = setAllSizes();
   document.getElementById('set-sizes').innerHTML = sizes.length
@@ -3096,9 +3143,42 @@ function openSetModal(slug) {
     : '<div class="set-hint">No print sizes are available for this set yet.</div>';
   renderSetModal();
   document.getElementById('set-modal').classList.add('open');
+  document.documentElement.classList.add('set-open');
+  var body = document.querySelector('#set-modal .set-body'); if (body) body.scrollTop = 0;
+  document.title = set.name + ' — Print Set | Stuart Singleton';
+  if (!opts.noPush) {
+    var path = '/sets/' + encodeURIComponent(set.slug);
+    if (location.pathname !== path) history.pushState({ page: 'set', slug: set.slug }, '', path);
+    _setRoute = true;
+  }
   try { addHover('#set-modal button'); } catch (e) {}
+  return true;
 }
-function closeSetModal() { var m = document.getElementById('set-modal'); if (m) m.classList.remove('open'); }
+function setModalHide() {
+  var m = document.getElementById('set-modal'); if (m) m.classList.remove('open');
+  document.documentElement.classList.remove('set-open');
+  try { setRouteMeta('/shop'); } catch (e) {}
+}
+function closeSetModal() {
+  setModalHide();
+  if (/^\/sets\//.test(location.pathname)) {
+    if (_setRoute) { history.back(); } // popstate below finishes the job and keeps the shop open
+    else { history.replaceState({ page: 'shop' }, '', '/shop'); }
+  }
+}
+// Registered before the site-wide popstate handler (which would otherwise send Back
+// all the way out of the shop), so it can claim set-page history moves for itself.
+window.addEventListener('popstate', function (e) {
+  if (/^\/sets\//.test(location.pathname) && e.state && e.state.page === 'set') {
+    if (openSetModal(e.state.slug, { noPush: true })) { _setRoute = true; e.stopImmediatePropagation(); }
+    return;
+  }
+  if (_setRoute) {
+    _setRoute = false;
+    setModalHide();
+    e.stopImmediatePropagation();
+  }
+});
 function toggleSetPhoto(id) {
   var p = _set.photos.find(function (x) { return String(x.id) === String(id); }); if (!p) return;
   if (!_set.picked[p.id] && _set.sku && !setPhotoHas(p, _set.sku)) return; // can't be printed at the chosen size
@@ -6355,6 +6435,44 @@ function applyProductSeo(photo) {
     } else {
       setTimeout(openShop, 50);
     }
+  }
+})();
+
+// ══ URL ROUTING — direct /sets and /sets/<slug> access ══
+// Lands in the shop exactly like a cold /shop load, then opens the set page on top
+// (pushState, so closing it leaves you in the shop). /sets alone scrolls to the sets.
+(function() {
+  var m = /^\/sets(?:\/([^\/]+))?\/?$/.exec(window.location.pathname);
+  if (!m) return;
+  var slug = m[1] ? decodeURIComponent(m[1]) : null;
+  var t0 = Date.now();
+  var go = function () {
+    try { navigate('shop'); } catch (e) {}
+    photosReady.then(function () {
+      var landing = document.getElementById('landing');
+      if (landing) { landing.classList.add('hidden', 'gone'); }
+      var page = document.getElementById('photos-page');
+      if (page) {
+        page.classList.remove('gone', 'hidden');
+        page.classList.add('page-enter'); window.scrollTo(0, 0);
+        page.style.opacity = '1'; page.style.transform = 'none'; page.style.pointerEvents = 'auto';
+      }
+      try { setShopMode(true); } catch (e) {}
+      try { renderShop(); } catch (e) {}
+      try { addHover('#photos-page .back-btn, #photos-page a'); } catch (e) {}
+      // wait for the sets fetch AND for navigate()'s 520ms mode switch (it rewrites the URL to /shop)
+      (function waitSets(tries) {
+        if ((!SHOP_SETS_DONE || Date.now() - t0 < 700) && tries < 60) { setTimeout(function () { waitSets(tries + 1); }, 150); return; }
+        try { renderShop(); } catch (e) {}
+        if (slug) { try { openSetModal(slug); } catch (e) {} }
+        else { var el = document.querySelector('.shop-sets'); if (el) el.scrollIntoView({ block: 'start' }); }
+      })(0);
+    });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(go, 50); });
+  } else {
+    setTimeout(go, 50);
   }
 })();
 
