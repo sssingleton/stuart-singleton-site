@@ -638,6 +638,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cart-bulk .row { display: flex; justify-content: space-between; color: #3a7a3a; }
   @media (max-width: 600px) { .shop-sets { grid-template-columns: 1fr; gap: 12px; } .shop-set-imgs { height: 150px; } }
 
+  /* print sets row in the shop header: a collapsed bar you tap to open */
+  .shop-sets-wrap { margin-top: 18px; border: 1px solid #e2ded5; background: #fff; }
+  .shop-sets-wrap > summary { list-style: none; cursor: none; display: flex; align-items: center; gap: 12px; padding: 13px 16px; transition: background .2s; }
+  .shop-sets-wrap > summary::-webkit-details-marker { display: none; }
+  .shop-sets-wrap > summary:hover { background: #faf8f4; }
+  .sss-name { font-family: var(--sans); font-size: 15px; font-weight: 600; color: #1a1a1a; display: flex; align-items: center; gap: 8px; }
+  .sss-n { font-family: var(--mono); font-size: 9px; font-weight: 400; color: #fff; background: #1a1a1a; border-radius: 9px; padding: 2px 7px; letter-spacing: .04em; }
+  .sss-note { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #2f6b2f; flex: 1; }
+  .sss-chev { width: 9px; height: 9px; border-right: 1.5px solid #1a1a1a; border-bottom: 1.5px solid #1a1a1a; transform: rotate(45deg) translate(-2px, -2px); transition: transform .2s; flex: 0 0 auto; }
+  .shop-sets-wrap[open] .sss-chev { transform: rotate(-135deg) translate(-2px, -2px); }
+  .shop-sets-wrap .shop-sets { margin: 0; padding: 0 16px 16px; }
+  @media (max-width: 600px) { .sss-note { font-size: 8px; letter-spacing: .1em; } .shop-sets-wrap > summary { padding: 12px 13px; gap: 10px; } .shop-sets-wrap .shop-sets { padding: 0 12px 12px; } }
+
   /* ── Set page (/sets/<slug>): the picker as its own full page, not a dimmed modal ── */
   #set-modal { background: #faf8f4; backdrop-filter: none; align-items: stretch; justify-content: stretch; }
   #set-modal .set-inner { width: 100vw; height: 100dvh; max-height: none; border: 0; border-radius: 0; box-shadow: none; background: #faf8f4; }
@@ -3099,8 +3112,15 @@ function shopSetsHTML() {
       : photos.length + ' photos · pick any ' + SET_MIN + ' or more · <b>from ' + bulkPct(SET_MIN) + '% off</b>';
     cards.push('<div class="shop-set" onclick="openSetModal(\'' + setEsc(set.slug) + '\')"><div class="shop-set-imgs">' + imgs + '</div><div class="shop-set-body"><div class="shop-set-kicker">Print set</div><div class="shop-set-name">' + setEsc(set.name) + '</div><div class="shop-set-note">' + note + '</div><button class="shop-card-buy" type="button">Build your set</button></div></div>');
   });
-  return cards.length ? '<div class="shop-sets">' + cards.join('') + '</div>' : '';
+  if (!cards.length) return '';
+  // Collapsed by default so the sets don't push the filters and prints down the page.
+  // SHOP_SETS_OPEN survives renderShop() redraws (filters re-render the header).
+  return '<details class="shop-sets-wrap"' + (SHOP_SETS_OPEN ? ' open' : '') + ' ontoggle="SHOP_SETS_OPEN=this.open">'
+    + '<summary><span class="sss-name">Print sets <span class="sss-n">' + cards.length + '</span></span>'
+    + '<span class="sss-note">pick 3 or more · from ' + bulkPct(SET_MIN) + '% off</span><span class="sss-chev" aria-hidden="true"></span></summary>'
+    + '<div class="shop-sets">' + cards.join('') + '</div></details>';
 }
+var SHOP_SETS_OPEN = false;
 
 // ── Set picker: tick 3 or more photos from the set, choose one size, add them all. ──
 var _set = { set: null, photos: [], picked: {}, sku: null };
@@ -6465,7 +6485,7 @@ function applyProductSeo(photo) {
         if ((!SHOP_SETS_DONE || Date.now() - t0 < 700) && tries < 60) { setTimeout(function () { waitSets(tries + 1); }, 150); return; }
         try { renderShop(); } catch (e) {}
         if (slug) { try { openSetModal(slug); } catch (e) {} }
-        else { var el = document.querySelector('.shop-sets'); if (el) el.scrollIntoView({ block: 'start' }); }
+        else { SHOP_SETS_OPEN = true; try { renderShop(); } catch (e) {} var el = document.querySelector('.shop-sets-wrap'); if (el) el.scrollIntoView({ block: 'start' }); }
       })(0);
     });
   };
