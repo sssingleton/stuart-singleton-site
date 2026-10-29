@@ -832,6 +832,157 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .photo-item:hover .photo-request-btn { opacity: 1; pointer-events: all; }
   .photo-request-btn:hover { color: #aaa; border-color: #333; }
 
+
+  /* ===== WHITE GALLERY (Cosmos-style) =====
+     Gallery mode is white, like cosmos.so: wide gutters, no chrome on the tiles,
+     print sets stacked into one tile that pops open, and a photo view with the
+     collections it belongs to and similar photos underneath. */
+  html:has(#photos-page.gal-on:not(.gone)), html:has(#photos-page.gal-on:not(.gone)) body { background: #fff; }
+  #photos-page.gal-on { background: #fff; }
+  #photos-page.gal-on .page-nav { background: #fff; color: #bbb; }
+  #photos-page.gal-on .page-nav span[style] { color: #ddd !important; }
+  #photos-page.gal-on .back-btn { color: #9a9a9a; }
+  #photos-page.gal-on .back-btn:hover { color: #111; }
+  #photos-page.gal-on .photos-eyebrow { color: #a3a3a3; }
+  #photos-page.gal-on .photos-hero { color: #111; }
+  #photos-page.gal-on .photos-sub { color: #8c8c8c; }
+  #photos-page.gal-on .pm-btn { border-color: #e6e6e6; color: #9a9a9a; }
+  #photos-page.gal-on .pm-btn:hover { border-color: #bdbdbd; color: #333; }
+  #photos-page.gal-on .pm-btn.active { border-color: #111; color: #111; }
+  #photos-page.gal-on .photos-ig, #photos-page.gal-on .photo-links, #photos-page.gal-on .photo-links a { color: #8c8c8c; }
+  #photos-page.gal-on .cam-btn { border-color: #ececec; color: #9a9a9a; }
+  #photos-page.gal-on .cam-btn:hover { border-color: #c9c9c9; color: #333; }
+  #photos-page.gal-on .cam-btn.active { border-color: #111; color: #111; }
+  #photos-page.gal-on .cam-btn .cam-count { color: #c6c6c6; }
+  #photos-page.gal-on .cam-btn.active .cam-count { color: #888; }
+  #photos-page.gal-on .tag-group-label { color: #c4c4c4; }
+  #photos-page.gal-on .photo-tag { color: #8f8f8f; }
+  #photos-page.gal-on .photo-tag:hover { color: #111; }
+  #photos-page.gal-on .photo-tag.active { color: #111; text-decoration: underline; text-underline-offset: 4px; }
+  #photos-page.gal-on .tag-clear { color: #9a9a9a; }
+  #photos-page.gal-on .tag-clear:hover { color: #111; }
+  #photos-page.gal-on .tag-toggle { color: #777; border-color: #e6e6e6; }
+  #photos-page.gal-on .tag-toggle-count { color: #111; }
+  #photos-page.gal-on .tag-cloud.open .tag-toggle { color: #111; border-color: #bbb; }
+  #photos-page.gal-on .gallery-more button { color: #888; border-color: #e6e6e6; }
+  #photos-page.gal-on .gallery-more button:hover { color: #111; border-color: #999; }
+  #photos-page.gal-on .gallery-more .gm-count { color: #b5b5b5; }
+  #photos-page.gal-on .photo-masonry { --gg: 24px; gap: var(--gg); }
+  #photos-page.gal-on .photo-col { gap: var(--gg); }
+  #photos-page.gal-on .photo-item { background: #f3f3f1; border-radius: 4px; }
+  #photos-page.gal-on .photo-item img { filter: none; transition: filter .3s; }
+  #photos-page.gal-on .photo-item:hover img { transform: none; filter: brightness(.93); }
+  #photos-page.gal-on .photo-item-label, #photos-page.gal-on .photo-item .photo-buy-btn, #photos-page.gal-on .photo-item .photo-request-btn { display: none; }
+  @media (max-width: 900px) { #photos-page.gal-on .photo-masonry { --gg: 14px; } }
+  @media (max-width: 600px) { #photos-page.gal-on .photo-masonry { --gg: 8px; } #photos-page.gal-on .photo-item { border-radius: 3px; } }
+
+  /* stacked print set tile */
+  #photos-page.gal-on .photo-item.stack-item { background: none; overflow: visible; border-radius: 0; }
+  .stk-cards { position: relative; width: 100%; }
+  .stk-cards img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 4px; background: #f0f0ee;
+    transition: transform .45s cubic-bezier(.2,.9,.25,1), filter .3s; }
+  .stk-cards .stk-cover { position: relative; height: auto; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+  #photos-page.gal-on .photo-item.stack-item { margin-top: 14px; }
+  .stk-cards .stk-b1 { transform: translateY(-7px) scale(.94, .97); transform-origin: 50% 0; filter: brightness(.9); box-shadow: 0 1px 6px rgba(0,0,0,.08); }
+  .stk-cards .stk-b2 { transform: translateY(-14px) scale(.87, .94); transform-origin: 50% 0; filter: brightness(.8); box-shadow: 0 1px 6px rgba(0,0,0,.08); }
+  @media (hover: hover) {
+    .stack-item:hover .stk-b1 { transform: translate(12px,-10px) rotate(4deg); filter: brightness(.97); }
+    .stack-item:hover .stk-b2 { transform: translate(-12px,-12px) rotate(-5deg); filter: brightness(.94); }
+    .stack-item:hover .stk-cover { transform: translateY(3px); filter: brightness(.97); }
+  }
+  .stk-count { position: absolute; top: 9px; right: 9px; z-index: 3; display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,.94); color: #111; font-family: var(--sans); font-size: 12px; font-weight: 600;
+    padding: 4px 9px 4px 7px; border-radius: 99px; box-shadow: 0 1px 6px rgba(0,0,0,.12); }
+  .stk-count svg { width: 12px; height: 12px; }
+  .stk-cap { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 9px 2px 0; }
+  .stk-name { font-family: var(--sans); font-size: 13px; font-weight: 600; color: #111; line-height: 1.25; }
+  .stk-n { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #9a9a9a; white-space: nowrap; }
+  @media (max-width: 600px) {
+    #photos-page.gal-on .photo-item.stack-item { margin-top: 10px; }
+    .stk-cards .stk-b1 { transform: translateY(-5px) scale(.94, .97); }
+    .stk-cards .stk-b2 { transform: translateY(-10px) scale(.87, .94); }
+    .stk-name { font-size: 12px; } .stk-n { display: none; }
+    .stk-count { top: 6px; right: 6px; font-size: 11px; padding: 3px 7px 3px 6px; }
+  }
+
+  /* shared overlay chrome: photo view (#pd) and opened set (#sx) */
+  .gx-ov { position: fixed; inset: 0; z-index: 900; background: #fff; overflow-y: auto; overflow-x: hidden;
+    overscroll-behavior: contain; -webkit-overflow-scrolling: touch; color: #111; font-family: var(--sans); }
+  .gx-ov[hidden] { display: none; }
+  #sx { z-index: 905; }
+  .gx-back { position: fixed; top: 22px; left: 24px; z-index: 5; width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid #e8e8e8; background: rgba(255,255,255,.92); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center; cursor: none; transition: border-color .2s, transform .2s; }
+  @media (hover: hover) { .gx-back:hover { border-color: #bbb; transform: translateX(-2px); } }
+  .gx-back svg { width: 18px; height: 18px; stroke: #111; }
+  .gx-grid { display: flex; align-items: flex-start; gap: var(--gg, 24px); }
+  .gx-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: var(--gg, 24px); }
+  .gx-tile { display: block; width: 100%; padding: 0; border: 0; background: #f3f3f1; border-radius: 4px; overflow: hidden; cursor: none; position: relative; }
+  .gx-tile img { display: block; width: 100%; height: auto; transition: filter .3s; }
+  .gx-tile:hover img { filter: brightness(.93); }
+
+  /* photo view */
+  .pd-top { display: grid; grid-template-columns: minmax(0,1fr) 400px; border-bottom: 1px solid #eee; }
+  .pd-stage { height: calc(100vh - 96px); min-height: 440px; padding: 44px 72px; display: flex; align-items: center; justify-content: center; border-right: 1px solid #eee; }
+  .pd-img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+  .pd-side { padding: 40px 36px 32px; display: flex; flex-direction: column; gap: 22px; height: calc(100vh - 96px); min-height: 440px; position: sticky; top: 0; }
+  .pd-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .pd-cam { font-family: var(--mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: #9a9a9a; }
+  .pd-icon { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #e8e8e8; background: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: none; transition: border-color .2s; position: relative; }
+  .pd-icon:hover { border-color: #bbb; }
+  .pd-icon svg { width: 16px; height: 16px; stroke: #111; }
+  .pd-icon .pd-copied { position: absolute; right: 50px; white-space: nowrap; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #2f6b2f; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .pd-icon.done .pd-copied { opacity: 1; }
+  .pd-in { font-size: 15px; color: #8c8c8c; }
+  .pd-in b { color: #111; font-weight: 600; }
+  .pd-colls { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; margin: -4px -4px 0; padding: 4px; }
+  .pd-coll { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 12px; border: 1px solid #ececec; border-radius: 14px; background: #fff; cursor: none; transition: border-color .2s, box-shadow .2s; font-family: var(--sans); }
+  @media (hover: hover) { .pd-coll:hover { border-color: #d0d0d0; box-shadow: 0 2px 12px rgba(0,0,0,.05); } }
+  .pd-coll-th { width: 56px; height: 56px; border-radius: 8px; overflow: hidden; flex: 0 0 auto; background: #f0f0ee; position: relative; }
+  .pd-coll-th img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pd-coll.is-set .pd-coll-th::after { content: ''; position: absolute; inset: 0; border-radius: 8px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+  .pd-coll-tx { min-width: 0; }
+  .pd-coll-name { font-size: 16px; font-weight: 600; color: #111; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pd-coll-sub { font-size: 13px; color: #8c8c8c; margin-top: 3px; }
+  .pd-coll-sub .pd-badge { display: inline-block; font-family: var(--mono); font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: #2f6b2f; border: 1px solid #cfe0cf; border-radius: 99px; padding: 2px 7px; margin-left: 6px; vertical-align: 1px; }
+  .pd-actions { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
+  .pd-buy { width: 100%; min-height: 54px; border-radius: 99px; border: 1px solid #111; background: #111; color: #fff; font-family: var(--sans); font-size: 16px; font-weight: 600; cursor: none; transition: background .2s, transform .15s; }
+  @media (hover: hover) { .pd-buy:hover { background: #333; } }
+  .pd-buy:active { transform: scale(.985); }
+  .pd-buy.ghost { background: #fff; color: #111; border-color: #d6d6d6; }
+  @media (hover: hover) { .pd-buy.ghost:hover { border-color: #111; } }
+  .pd-note { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #a3a3a3; text-align: center; }
+  .pd-sim { padding: 40px 72px 80px; }
+  .pd-sim h3 { font-size: 24px; font-weight: 500; letter-spacing: -.01em; margin: 0 0 26px; color: #111; }
+  .pd-fade { opacity: 0; }
+
+  /* opened set */
+  .sx-head { padding: 92px 72px 30px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .sx-eyebrow { font-family: var(--mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #9a9a9a; margin-bottom: 10px; }
+  .sx-title { font-size: clamp(28px, 4vw, 46px); font-weight: 600; letter-spacing: -.02em; line-height: 1.05; margin: 0; }
+  .sx-sub { font-size: 15px; color: #8c8c8c; margin-top: 10px; }
+  .sx-sub b { color: #2f6b2f; font-weight: 600; }
+  .sx-shop { min-height: 50px; padding: 0 26px; border-radius: 99px; border: 1px solid #111; background: #111; color: #fff; font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: none; transition: background .2s; }
+  @media (hover: hover) { .sx-shop:hover { background: #333; } }
+  .sx-body { padding: 0 72px 90px; max-width: 1500px; margin: 0 auto; }
+  .sx-body .gx-tile { box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+
+  @media (max-width: 900px) {
+    .pd-top { grid-template-columns: 1fr; border-bottom: 0; }
+    .pd-stage { height: auto; min-height: 0; padding: 78px 0 0; border-right: 0; }
+    .pd-img { width: 100%; max-height: 74vh; }
+    .pd-side { height: auto; min-height: 0; position: static; padding: 18px 18px 28px; border-bottom: 1px solid #eee; }
+    .pd-actions { order: -1; margin-top: 0; }
+    .pd-colls { overflow: visible; }
+    .pd-sim { padding: 28px 18px 60px; }
+    .pd-sim h3 { font-size: 20px; margin-bottom: 18px; }
+    .gx-back { top: 14px; left: 14px; width: 42px; height: 42px; }
+    .sx-head { padding: 74px 20px 22px; }
+    .sx-shop { width: 100%; }
+    .sx-body { padding: 0 14px 60px; }
+  }
+  @media (hover: none), (pointer: coarse) { .gx-back, .pd-icon, .pd-coll, .pd-buy, .sx-shop, .gx-tile { cursor: pointer; } }
+
   /* print modal — WHITE shop-matching theme */
   #print-modal, #request-modal {
     position: fixed; inset: 0; z-index: 950;
@@ -1972,7 +2123,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- PHOTOS PAGE -->
-<div class="screen hidden gone" id="photos-page">
+<div class="screen hidden gone gal-on" id="photos-page">
   <div class="page-inner">
     <div class="page-nav">
       <button class="back-btn" onclick="goBack()">← back</button>
@@ -2642,6 +2793,15 @@ async function loadPhotos() {
   } catch {
     PHOTOS = FALLBACK_PHOTOS;
   }
+  // Print sets stack in the gallery, so give their fetch a moment to land before the
+  // first render (it is usually already back). If it's slow, render now and restack later.
+  try {
+    var setsP = (typeof loadShopSets === 'function') ? loadShopSets() : null;
+    if (setsP && !SHOP_SETS_DONE) {
+      await Promise.race([setsP, new Promise(r => setTimeout(r, 1200))]);
+      if (!SHOP_SETS_DONE) setsP.then(() => { try { if (!shopMode && photoMode === 'gallery') renderPhotos(); } catch (e) {} });
+    }
+  } catch (e) {}
   renderCameraFilter();
   renderTagCloud();
   renderPhotos();
@@ -2847,20 +3007,35 @@ let galleryShown = 0;
 let galleryColH = [];
 let galleryObserver = null;
 function galleryPageSize() { return window.innerWidth <= 600 ? 30 : 48; }
+function galleryGap() { return window.innerWidth <= 600 ? 8 : window.innerWidth <= 900 ? 14 : 24; }
 function galleryColCount() {
-  if (window.innerWidth <= 600) return 3;
+  // White gallery (Cosmos-style): ~200px+ columns with wide gutters, 2 across on phones.
+  if (window.innerWidth <= 600) return 2;
   const m = document.getElementById('photo-masonry');
   const w = m ? m.clientWidth : window.innerWidth;
-  return Math.max(2, Math.floor((w + 2) / 182)); // ~180px columns + 2px gap, like the old CSS
+  const g = galleryGap();
+  return Math.min(7, Math.max(3, Math.floor((w + g) / (200 + g))));
+}
+// Height of one item in column-width units, so the shortest-column dealer accounts
+// for the gutters and the caption under a stack.
+function galleryColW() {
+  const m = document.getElementById('photo-masonry');
+  const n = galleryColCount(), g = galleryGap();
+  return Math.max(80, ((m ? m.clientWidth : window.innerWidth) - g * (n - 1)) / n);
+}
+function galleryItemH(p, colW) {
+  const g = galleryGap();
+  return photoRatio(p.stack ? p.cover : p) + g / colW + (p.stack ? 48 / colW : 0);
 }
 function photoItemHTML(p) {
+  if (p.stack) return stackItemHTML(p);
   const tags = getTagsArray(p);
   const badge = p.for_sale
     ? `<button class="photo-buy-btn" onclick="event.stopPropagation();openPrintModal('${p.id}')">Buy Print</button>`
     : `<button class="photo-request-btn" onclick="event.stopPropagation();openRequestModal('${p.id}')">Request a print</button>`;
-  const itemClick = p.for_sale ? `openPrintModal('${p.id}')` : `openRequestModal('${p.id}')`;
-  return `<div class="photo-item ${p.span||''}" onclick="${itemClick}">
-      <img src="${thumbURL(p.src, 300, 62)}" srcset="${thumbSrcset(p.src, [200, 300, 480, 760])}" sizes="(max-width:600px) 32vw, 200px"${dimAttrs(p)} alt="${tags[0]||''}" loading="lazy" decoding="async" data-pid="${p.id}" onerror="thumbRetry(this)">
+  const itemClick = `openPhotoDetail('${p.id}', this)`;
+  return `<div class="photo-item ${p.span||''}" data-pid="${p.id}" onclick="${itemClick}">
+      <img src="${thumbURL(p.src, 300, 62)}" srcset="${thumbSrcset(p.src, [200, 300, 480, 760])}" sizes="(max-width:600px) 46vw, 240px"${dimAttrs(p)} alt="${tags[0]||''}" loading="lazy" decoding="async" data-pid="${p.id}" onerror="thumbRetry(this)">
       <div class="photo-item-label">${tags.join(' · ')}</div>
       ${badge}
     </div>`;
@@ -2897,13 +3072,14 @@ function dealGalleryItems(items) {
   const masonry = document.getElementById('photo-masonry');
   const cols = masonry ? masonry.querySelectorAll('.photo-col') : [];
   if (!cols.length) return 0;
+  const colW = galleryColW(); // read once: reading layout per tile would force a reflow each time
   items.forEach(p => {
     let k = 0;
     for (let i = 1; i < galleryColH.length; i++) if (galleryColH[i] < galleryColH[k]) k = i;
     cols[k].insertAdjacentHTML('beforeend', photoItemHTML(p));
-    galleryColH[k] += photoRatio(p);
+    galleryColH[k] += galleryItemH(p, colW);
   });
-  addHover('.photo-buy-btn,.photo-request-btn');
+  addHover('.photo-buy-btn,.photo-request-btn,.photo-item');
   return items.length;
 }
 function appendGalleryPage() {
@@ -2955,11 +3131,443 @@ function renderPhotos() {
     const tags = getTagsArray(p);
     return activeTags.size === 0 || [...activeTags].every(t => tags.includes(t));
   });
+  galleryVisible = stackGallerySets(galleryVisible);
   galleryShown = 0;
   layoutGallery();
   const emptyEl = document.getElementById('shop-empty');
   if (emptyEl) emptyEl.style.display = 'none';
 }
+
+
+// ══ GALLERY STACKS + PHOTO VIEW (Cosmos-style) ══════════════════════════════
+// Print sets (print_sets, active ones only) collapse into ONE stacked tile at the
+// position of their first photo. Clicking it pops the set open over the page, each
+// photo flying out of the stack into its own place. Clicking any photo opens the
+// photo view: the photo big, the collections it's in (its print sets, then its
+// place / people / subject / look tags), a buy button, and similar photos below
+// ranked by shared tags + perceptual hash (photos.phash). Both views are real
+// history entries (/photos?photo=<id>, /photos?set=<slug>), so the phone Back
+// button closes them instead of leaving the gallery.
+const GX_REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const GX_EASE = 'cubic-bezier(.2,.9,.25,1)';
+function gxEsc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function gxTitle(t) { return String(t).replace(/\b([a-z])/g, (m, c) => c.toUpperCase()).replace(/\bDc\b/, 'DC').replace(/\bJfk\b/, 'JFK').replace(/\bBts\b/, 'BTS'); }
+function gxPhoto(id) { return PHOTOS.find(p => String(p.id) === String(id)); }
+function gxActiveSets() { return (typeof SHOP_SETS !== 'undefined' && SHOP_SETS ? SHOP_SETS : []).filter(s => s && s.slug && s.active !== false && Array.isArray(s.photo_ids)); }
+function gxSetMembers(set) { return set.photo_ids.map(gxPhoto).filter(p => p && !p.hidden); }
+function gxSetBySlug(slug) { return gxActiveSets().find(s => s.slug === slug); }
+function gxSetsOf(p) { return gxActiveSets().filter(s => s.photo_ids.some(id => String(id) === String(p.id))); }
+function gxCanShopSet(set) { try { return set.family === 'paper' && setPhotos(set).length >= SET_MIN; } catch (e) { return false; } }
+const GX_STACK_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4.5" y="4.5" width="9" height="9" rx="1.5"/><path d="M2.5 11V3.5a1 1 0 0 1 1-1H11"/></svg>';
+const GX_BACK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
+
+// Replace each print set's photos in the visible list with one stack item, placed
+// where its first visible photo was. A set with only one photo left after filtering
+// stays a normal photo.
+function stackGallerySets(list) {
+  const sets = gxActiveSets();
+  if (!sets.length) return list;
+  const pos = new Map(list.map((p, i) => [String(p.id), i]));
+  const owner = new Map(); // photo id -> stack
+  const stacks = [];
+  sets.forEach(set => {
+    const members = set.photo_ids.map(String).filter(id => pos.has(id) && !owner.has(id));
+    if (members.length < 2) return;
+    members.sort((a, b) => pos.get(a) - pos.get(b));
+    const photos = members.map(id => list[pos.get(id)]);
+    const st = { stack: true, id: 'set-' + set.slug, set, photos, cover: photos[0] };
+    members.forEach(id => owner.set(id, st));
+    stacks.push(st);
+  });
+  if (!stacks.length) return list;
+  const out = [], placed = new Set();
+  list.forEach(p => {
+    const st = owner.get(String(p.id));
+    if (!st) { out.push(p); return; }
+    if (!placed.has(st)) { placed.add(st); out.push(st); }
+  });
+  return out;
+}
+function stackItemHTML(st) {
+  const c = st.cover, b1 = st.photos[1], b2 = st.photos[2] || st.photos[1];
+  const ar = (c.img_w && c.img_h) ? (c.img_w + ' / ' + c.img_h) : '3 / 2';
+  const img = (p, cls) => `<img class="${cls}" src="${thumbURL(p.src, 300, 62)}" srcset="${thumbSrcset(p.src, [200, 300, 480, 760])}" sizes="(max-width:600px) 46vw, 240px" alt="" loading="lazy" decoding="async" data-pid="${p.id}" onerror="thumbRetry(this)">`;
+  return `<div class="photo-item stack-item" data-set="${gxEsc(st.set.slug)}" onclick="openStack('${gxEsc(st.set.slug)}', this)" role="button" aria-label="${gxEsc(st.set.name)}, ${st.photos.length} photos">
+      <div class="stk-cards" style="aspect-ratio:${ar}">
+        ${img(b2, 'stk-b2')}${img(b1, 'stk-b1')}${img(c, 'stk-cover')}
+        <span class="stk-count">${GX_STACK_ICON}${st.photos.length}</span>
+      </div>
+      <div class="stk-cap"><span class="stk-name">${gxEsc(st.set.name)}</span><span class="stk-n">${st.photos.length} photos</span></div>
+    </div>`;
+}
+
+// Deal tiles into N columns by known aspect ratio (same idea as the gallery).
+function gxGridHTML(photos, n, eager) {
+  const cols = Array.from({ length: n }, () => []), h = new Array(n).fill(0);
+  photos.forEach(p => {
+    let k = 0; for (let i = 1; i < n; i++) if (h[i] < h[k]) k = i;
+    cols[k].push(p); h[k] += photoRatio(p) + 0.08;
+  });
+  return cols.map(c => '<div class="gx-col">' + c.map(p =>
+    `<button type="button" class="gx-tile" data-pid="${p.id}" onclick="openPhotoDetail('${p.id}', this)"><img src="${thumbURL(p.src, eager ? 300 : 480, eager ? 62 : 66)}" srcset="${thumbSrcset(p.src, [300, 480, 760, 1100])}" sizes="(max-width:600px) 46vw, ${eager ? 360 : 300}px"${dimAttrs(p)} alt="" loading="${eager ? 'eager' : 'lazy'}" decoding="async" data-pid="${p.id}" onerror="thumbRetry(this)"></button>`
+  ).join('') + '</div>').join('');
+}
+
+// ── perceptual similarity ──
+const GX_BITS = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
+function gxHam(a, b) {
+  if (!a || !b || a.length !== b.length) return 64;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d += GX_BITS[(parseInt(a[i], 16) ^ parseInt(b[i], 16)) & 15];
+  return d;
+}
+const GX_WEAK_TAGS = new Set(['color', 'outdoor', 'indoor', 'day', 'travel', 'unedited']);
+function gxSimilar(p, limit) {
+  const pt = new Set(getTagsArray(p).map(t => t.toLowerCase()));
+  const pSets = new Set(gxSetsOf(p).map(s => s.slug));
+  const scored = [];
+  PHOTOS.forEach(q => {
+    if (q === p || q.hidden) return;
+    const qt = getTagsArray(q).map(t => t.toLowerCase());
+    let inter = 0, w = 0;
+    const all = new Set([...pt, ...qt]);
+    all.forEach(t => { const wt = GX_WEAK_TAGS.has(t) ? 0.35 : 1; w += wt; if (pt.has(t) && qt.includes(t)) inter += wt; });
+    const tagSim = w ? inter / w : 0;
+    const ham = gxHam(p.phash, q.phash);
+    const hashSim = Math.max(0, (30 - ham) / 30);
+    // black & white only next to black & white, color next to color
+    const bwP = pt.has('black & white'), bwQ = qt.includes('black & white');
+    let score = 0.58 * tagSim + 0.34 * hashSim + (photoCamera(q) === photoCamera(p) ? 0.05 : 0) - (bwP !== bwQ ? 0.18 : 0);
+    const inSameSet = gxSetsOf(q).some(s => pSets.has(s.slug));
+    scored.push({ q, score, inSameSet });
+  });
+  scored.sort((a, b) => b.score - a.score);
+  const out = []; let sameSet = 0;
+  for (const s of scored) {
+    if (s.inSameSet) { if (sameSet >= 2) continue; sameSet++; } // the set is one click away already
+    out.push(s.q);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+// Collections a photo belongs to: its print sets, then tag collections.
+const GX_COLL_GROUPS = [['places', 'Place'], ['people', 'People'], ['subject', 'Subject'], ['look', 'Look']];
+function gxCollections(p) {
+  const out = [], used = new Set([String(p.id)]);
+  const mates = new Set(); gxSetsOf(p).forEach(set => set.photo_ids.forEach(id => mates.add(String(id))));
+  const pick = list => {
+    const ok = q => !used.has(String(q.id));
+    const th = list.find(q => ok(q) && !mates.has(String(q.id))) || list.find(ok) || list[0];
+    if (th) used.add(String(th.id));
+    return th;
+  };
+  gxSetsOf(p).forEach(set => {
+    const m = gxSetMembers(set);
+    if (m.length < 2) return;
+    const th = m.find(x => x !== p && !used.has(String(x.id))) || m[0]; used.add(String(th.id));
+    out.push({ kind: 'set', set, name: set.name, count: m.length, th });
+  });
+  const cam = photoCamera(p);
+  const tags = getTagsArray(p).map(t => t.toLowerCase()).filter(t => !GX_WEAK_TAGS.has(t));
+  const tagColls = [];
+  tags.forEach(t => {
+    const g = TAG_GROUP_OF[t] || 'more';
+    const rank = GX_COLL_GROUPS.findIndex(x => x[0] === g);
+    const members = PHOTOS.filter(q => !q.hidden && photoCamera(q) === cam && getTagsArray(q).map(x => x.toLowerCase()).includes(t));
+    if (members.length < 2) return;
+    tagColls.push({ kind: 'tag', tag: t, name: gxTitle(t), count: members.length, members, group: rank < 0 ? 'Collection' : GX_COLL_GROUPS[rank][1], rank: rank < 0 ? 9 : rank });
+  });
+  tagColls.sort((a, b) => a.rank - b.rank || a.count - b.count);
+  const chosen = tagColls.slice(0, Math.max(2, 5 - out.length));
+  chosen.forEach(c => { c.th = pick(c.members); delete c.members; });
+  return out.concat(chosen);
+}
+
+// ── overlay plumbing ──
+let gxPd = null, gxSx = null, gxCurrent = null, gxStack = null, gxAfterUnwind = null;
+function gxEnsure() {
+  if (gxPd) return;
+  gxPd = document.createElement('div');
+  gxPd.id = 'pd'; gxPd.className = 'gx-ov'; gxPd.hidden = true;
+  gxPd.setAttribute('role', 'dialog'); gxPd.setAttribute('aria-modal', 'true');
+  gxPd.innerHTML = `<button type="button" class="gx-back" aria-label="Back" onclick="gxBack()">${GX_BACK_ICON}</button>
+    <div class="pd-top"><div class="pd-stage"><img class="pd-img" alt=""></div><aside class="pd-side"></aside></div>
+    <section class="pd-sim"><h3>Similar photos</h3><div class="gx-grid pd-sim-grid"></div></section>`;
+  document.body.appendChild(gxPd);
+  gxSx = document.createElement('div');
+  gxSx.id = 'sx'; gxSx.className = 'gx-ov'; gxSx.hidden = true;
+  gxSx.setAttribute('role', 'dialog'); gxSx.setAttribute('aria-modal', 'true');
+  gxSx.innerHTML = `<button type="button" class="gx-back" aria-label="Back" onclick="gxBack()">${GX_BACK_ICON}</button><div class="sx-head"></div><div class="sx-body"><div class="gx-grid sx-grid"></div></div>`;
+  document.body.appendChild(gxSx);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && (!gxPd.hidden || !gxSx.hidden) && !document.querySelector('#print-modal.open,#request-modal.open,#set-modal.open')) gxBack(); });
+}
+function gxDepth() { return (history.state && history.state.gxd) || 0; }
+function gxPush(state, url) {
+  const d = gxDepth() + 1;
+  history.pushState(Object.assign({ gxd: d }, state), '', url);
+}
+// Back arrow / Esc: step back through our own history entries; if we were opened
+// by a cold link (depth 0), just close and tidy the URL.
+function gxBack() {
+  if (gxDepth() > 0) { history.back(); return; }
+  gxCloseAll();
+  history.replaceState({ page: 'photos' }, '', '/photos');
+}
+// Pop every overlay entry off history, then run fn (used when a click leaves the
+// overlays for the gallery or the shop).
+function gxUnwind(fn) {
+  const d = gxDepth();
+  if (d > 0) { gxAfterUnwind = fn; history.go(-d); return; }
+  gxCloseAll(true);
+  if (/[?&](photo|set)=/.test(location.search)) history.replaceState({ page: 'photos' }, '', '/photos');
+  fn && fn();
+}
+function gxCloseAll(instant) {
+  if (!gxPd) return;
+  if (!gxSx.hidden) gxCloseStack(instant);
+  if (!gxPd.hidden) gxCloseDetail(instant);
+}
+window.addEventListener('popstate', function (e) {
+  const st = e.state || {};
+  if (st.gx === 'photo') { gxCloseStack(); openPhotoDetail(st.id, null, { noPush: true }); e.stopImmediatePropagation(); return; }
+  if (st.gx === 'set') { openStack(st.slug, null, { noPush: true, under: st.under }); e.stopImmediatePropagation(); return; }
+  const wasOpen = gxPd && (!gxPd.hidden || !gxSx.hidden);
+  if (wasOpen || gxAfterUnwind) {
+    gxCloseAll();
+    e.stopImmediatePropagation();
+    if (gxAfterUnwind) { const fn = gxAfterUnwind; gxAfterUnwind = null; setTimeout(fn, 0); }
+  }
+});
+
+// FLIP: animate el from fromRect into where it now sits.
+function gxFlip(el, fromRect, opts) {
+  if (GX_REDUCED || !fromRect || !el.animate) return null;
+  const to = el.getBoundingClientRect();
+  if (!to.width || !to.height || !fromRect.width) return null;
+  const k = [
+    { transformOrigin: '0 0', transform: `translate(${fromRect.left - to.left}px,${fromRect.top - to.top}px) scale(${fromRect.width / to.width},${fromRect.height / to.height})` + (opts && opts.rot ? ` rotate(${opts.rot}deg)` : ''), opacity: opts && opts.o0 != null ? opts.o0 : 1 },
+    { transformOrigin: '0 0', transform: 'none', opacity: 1 }];
+  return el.animate(opts && opts.reverse ? k.reverse() : k, { duration: (opts && opts.dur) || 560, delay: (opts && opts.delay) || 0, easing: GX_EASE, fill: 'both' });
+}
+function gxFadeIn(el, delay, dy) {
+  if (GX_REDUCED || !el || !el.animate) return;
+  el.animate([{ opacity: 0, transform: `translateY(${dy == null ? 14 : dy}px)` }, { opacity: 1, transform: 'none' }], { duration: 480, delay: delay || 0, easing: GX_EASE, fill: 'both' });
+}
+function gxInView(r) { return r && r.width && r.bottom > 0 && r.top < window.innerHeight; }
+
+// ── photo view ──
+let gxSrcEl = null;
+function openPhotoDetail(id, srcEl, opts) {
+  opts = opts || {};
+  const p = gxPhoto(id); if (!p) return;
+  gxEnsure();
+  const wasOpen = !gxPd.hidden;
+  const sameOpen = wasOpen && gxCurrent && String(gxCurrent.id) === String(p.id);
+  const srcImg = srcEl ? (srcEl.tagName === 'IMG' ? srcEl : srcEl.querySelector('img.stk-cover, img')) : null;
+  const fromRect = srcImg ? srcImg.getBoundingClientRect() : null;
+  const quick = srcImg && (srcImg.currentSrc || srcImg.src);
+  if (!opts.noPush) gxPush({ gx: 'photo', id: p.id }, '/photos?photo=' + encodeURIComponent(p.id));
+  if (sameOpen) { if (!gxSx.hidden) gxCloseStack(); return; }
+  try { ssTrack('photo_view', { id: p.id, m: { from: wasOpen ? 'similar' : (srcEl && srcEl.closest && srcEl.closest('#sx') ? 'set' : 'gallery') } }); } catch (e) {}
+  gxCurrent = p;
+  // the tile we came from stays as a gap while its photo is "lifted" into the view
+  if (gxSrcEl) gxSrcEl.style.visibility = '';
+  gxSrcEl = (!wasOpen && srcImg && srcImg.closest('#photo-masonry')) ? srcImg : null;
+
+  const img = gxPd.querySelector('.pd-img');
+  img.removeAttribute('srcset');
+  if (p.img_w && p.img_h) { img.width = p.img_w; img.height = p.img_h; } else { img.removeAttribute('width'); img.removeAttribute('height'); }
+  img.src = quick || thumbURL(p.src, 480, 66);
+  img.alt = getTagsArray(p).slice(0, 3).join(', ');
+  gxRenderSide(p);
+  const n = window.innerWidth <= 600 ? 2 : window.innerWidth <= 900 ? 3 : Math.min(6, Math.max(3, Math.floor((window.innerWidth - 144 + 24) / 244)));
+  const grid = gxPd.querySelector('.pd-sim-grid');
+  grid.style.setProperty('--gg', galleryGap() + 'px');
+  const sim = gxSimilar(p, n * 5);
+  grid.innerHTML = gxGridHTML(sim, n);
+  gxPd.querySelector('.pd-sim').style.display = sim.length ? '' : 'none';
+
+  gxPd.hidden = false;
+  gxPd.scrollTop = 0;
+  document.documentElement.classList.add('gx-open');
+  if (!GX_REDUCED && !wasOpen) gxPd.animate([{ backgroundColor: 'rgba(255,255,255,0)' }, { backgroundColor: '#fff' }], { duration: 320, easing: 'ease-out' });
+  if (gxSrcEl) gxSrcEl.style.visibility = 'hidden';
+  requestAnimationFrame(() => {
+    const flipped = fromRect && gxFlip(img, fromRect, { dur: 600 });
+    if (!flipped) gxFadeIn(img, 0, 8);
+    gxFadeIn(gxPd.querySelector('.pd-side'), 140);
+    gxFadeIn(gxPd.querySelector('.pd-sim'), 240, 24);
+    gxFadeIn(gxPd.querySelector('.gx-back'), 160, 0);
+  });
+  // swap in a sharp copy once it's loaded (no flash: the small one stays until then)
+  const stage = gxPd.querySelector('.pd-stage');
+  const want = Math.min(2048, Math.ceil(Math.max(stage.clientWidth, 500) * Math.min(2, window.devicePixelRatio || 1)));
+  const w = [760, 1100, 1600, 2048].find(x => x >= want) || 2048;
+  const hi = new Image();
+  hi.onload = () => { if (gxCurrent === p) img.src = hi.src; };
+  hi.src = thumbURL(p.src, w, 80);
+  addHover('#pd button');
+  if (!gxSx.hidden) gxCloseStack(true);
+}
+function gxRenderSide(p) {
+  const side = gxPd.querySelector('.pd-side');
+  const colls = gxCollections(p);
+  const cam = (typeof CAMERA_LABELS !== 'undefined' && CAMERA_LABELS[photoCamera(p)]) || '';
+  const card = (c, i) => `<button type="button" class="pd-coll${c.kind === 'set' ? ' is-set' : ''}" onclick="gxOpenColl(${i}, this)">
+      <span class="pd-coll-th"><img src="${thumbURL(c.th.src, 200, 60)}" alt="" loading="lazy" onerror="thumbRetry(this)" data-pid="${c.th.id}"></span>
+      <span class="pd-coll-tx"><div class="pd-coll-name">${gxEsc(c.name)}</div>
+      <div class="pd-coll-sub">${c.count} photos · ${c.kind === 'set' ? 'Print set' + (gxCanShopSet(c.set) ? '<span class="pd-badge">' + bulkPct(SET_MIN) + '% off</span>' : '') : gxEsc(c.group)}</div></span></button>`;
+  side._colls = colls;
+  side.innerHTML = `<div class="pd-meta"><span class="pd-cam">${gxEsc(cam)}</span>
+      <button type="button" class="pd-icon" aria-label="Copy link" onclick="gxCopyLink(this)"><span class="pd-copied">Link copied</span><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></button></div>
+    ${colls.length ? `<div class="pd-in">In <b>${colls.length} collection${colls.length === 1 ? '' : 's'}</b></div><div class="pd-colls">${colls.map(card).join('')}</div>` : ''}
+    <div class="pd-actions">${p.for_sale
+      ? `<button type="button" class="pd-buy" onclick="openPrintModal('${p.id}')">Buy a print</button><div class="pd-note">Fine art paper or framed · free shipping</div>`
+      : `<button type="button" class="pd-buy ghost" onclick="openRequestModal('${p.id}')">Request a print</button><div class="pd-note">Not listed yet · ask and I'll make it available</div>`}</div>`;
+}
+function gxOpenColl(i, el) {
+  const c = (gxPd.querySelector('.pd-side')._colls || [])[i]; if (!c) return;
+  if (c.kind === 'set') { openStack(c.set.slug, el.querySelector('img'), { under: gxCurrent && gxCurrent.id }); return; }
+  const p = gxCurrent;
+  try { ssTrack('collection_open', { id: p && p.id, m: { tag: c.tag } }); } catch (e) {}
+  gxUnwind(() => {
+    if (p) activeCamera = photoCamera(p);
+    activeTags = new Set([c.tag]);
+    renderCameraFilter(); renderTagCloud(); renderPhotos();
+    const m = document.getElementById('tag-cloud') || document.getElementById('photo-masonry');
+    if (m) window.scrollTo({ top: Math.max(0, m.getBoundingClientRect().top + window.scrollY - 80), behavior: GX_REDUCED ? 'auto' : 'smooth' });
+  });
+}
+function gxCopyLink(btn) {
+  const p = gxCurrent; if (!p) return;
+  const url = location.origin + '/photos?photo=' + p.id;
+  const done = () => { btn.classList.add('done'); setTimeout(() => btn.classList.remove('done'), 1600); };
+  try { navigator.clipboard.writeText(url).then(done, done); } catch (e) { done(); }
+}
+function gxCloseDetail(instant) {
+  if (!gxPd || gxPd.hidden) return;
+  const img = gxPd.querySelector('.pd-img');
+  const tile = gxSrcEl, tr = tile && tile.isConnected ? tile.getBoundingClientRect() : null;
+  const finish = () => {
+    gxPd.hidden = true; gxCurrent = null;
+    if (gxSrcEl) gxSrcEl.style.visibility = '';
+    gxSrcEl = null;
+    if (gxSx.hidden) document.documentElement.classList.remove('gx-open');
+    img.getAnimations && img.getAnimations().forEach(a => a.cancel());
+  };
+  if (instant || GX_REDUCED || !img.animate) { finish(); return; }
+  gxPd.querySelector('.pd-side').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+  gxPd.querySelector('.pd-sim').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+  if (gxInView(tr) && gxPd.scrollTop < 200) {
+    const a = gxFlip(img, tr, { reverse: true, dur: 420 });
+    gxPd.animate([{ backgroundColor: '#fff' }, { backgroundColor: 'rgba(255,255,255,0)' }], { duration: 420, easing: 'ease-in', fill: 'forwards' });
+    const end = () => { gxPd.getAnimations().forEach(x => x.cancel()); gxPd.querySelectorAll('.pd-side,.pd-sim').forEach(x => x.getAnimations().forEach(y => y.cancel())); finish(); };
+    if (a) a.onfinish = end; else end();
+  } else {
+    gxPd.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: 'forwards' }).onfinish = () => {
+      gxPd.getAnimations().forEach(x => x.cancel()); gxPd.querySelectorAll('.pd-side,.pd-sim').forEach(x => x.getAnimations().forEach(y => y.cancel())); finish();
+    };
+  }
+}
+
+// ── opened set ──
+let gxStackEl = null;
+function openStack(slug, srcEl, opts) {
+  opts = opts || {};
+  const set = gxSetBySlug(slug); if (!set) return;
+  gxEnsure();
+  if (!gxSx.hidden && gxStack && gxStack.slug === slug) { if (!opts.under && !gxPd.hidden) gxCloseDetail(); return; }
+  const members = gxSetMembers(set); if (!members.length) return;
+  if (!opts.noPush) gxPush({ gx: 'set', slug, under: opts.under || null }, '/photos?set=' + encodeURIComponent(slug));
+  try { ssTrack('set_stack_open', { m: { set: slug } }); } catch (e) {}
+  gxStack = set;
+  // the photo view stays underneath only when the set was opened from it
+  if (!opts.under && !gxPd.hidden) gxCloseDetail(true);
+  const cover = srcEl ? (srcEl.classList && srcEl.classList.contains('stack-item') ? srcEl.querySelector('.stk-cards') : srcEl) : null;
+  const fromRect = cover ? cover.getBoundingClientRect() : null;
+  gxStackEl = (srcEl && srcEl.classList && srcEl.classList.contains('stack-item')) ? srcEl : null;
+
+  const shop = gxCanShopSet(set);
+  const n = members.length;
+  gxSx.querySelector('.sx-head').innerHTML = `<div><div class="sx-eyebrow">Print set · ${n} photos</div><h2 class="sx-title">${gxEsc(set.name)}</h2>
+    <div class="sx-sub">${shop ? `Pick any ${SET_MIN} or more · <b>${bulkPct(SET_MIN)}% off</b> · free shipping` : 'A series, shot together'}</div></div>
+    ${shop ? `<button type="button" class="sx-shop" onclick="gxShopSet('${gxEsc(slug)}')">Shop this set →</button>` : ''}`;
+  const cols = window.innerWidth <= 600 ? 2 : Math.min(4, Math.max(2, n <= 4 ? n : Math.floor((window.innerWidth - 144) / 300)));
+  const grid = gxSx.querySelector('.sx-grid');
+  grid.style.setProperty('--gg', (window.innerWidth <= 600 ? 10 : 22) + 'px');
+  grid.innerHTML = gxGridHTML(members, cols, true);
+  gxSx.hidden = false; gxSx.scrollTop = 0;
+  document.documentElement.classList.add('gx-open');
+  if (gxStackEl) gxStackEl.style.visibility = 'hidden';
+  if (!GX_REDUCED) gxSx.animate([{ backgroundColor: 'rgba(255,255,255,0)' }, { backgroundColor: 'rgba(255,255,255,1)' }], { duration: 360, easing: 'ease-out' });
+  requestAnimationFrame(() => {
+    // each photo flies out of the stack into its place, back cards first
+    const tiles = [...grid.querySelectorAll('.gx-tile')];
+    const order = members.map(p => tiles.find(t => t.dataset.pid === String(p.id))).filter(Boolean);
+    order.forEach((t, i) => {
+      if (!fromRect || GX_REDUCED) { gxFadeIn(t, i * 40, 18); return; }
+      const r = t.getBoundingClientRect();
+      // land the tile's centre on the stack, scaled to the stack's width
+      const s = fromRect.width / r.width;
+      const fr = { left: fromRect.left + (fromRect.width - r.width * s) / 2, top: fromRect.top + (fromRect.height - r.height * s) / 2, width: r.width * s, height: r.height * s };
+      const rot = i === 0 ? 0 : (i % 2 ? 4 : -4.5);
+      gxFlip(t, fr, { dur: 720, delay: 60 + i * 45, rot, o0: i < 3 ? 1 : 0 });
+    });
+    gxFadeIn(gxSx.querySelector('.sx-head'), 120, 10);
+    gxFadeIn(gxSx.querySelector('.gx-back'), 160, 0);
+  });
+  addHover('#sx button');
+}
+function gxShopSet(slug) {
+  try { ssTrack('set_stack_shop', { m: { set: slug } }); } catch (e) {}
+  gxUnwind(() => { try { setPhotoMode('shop'); openSetModal(slug); } catch (e) {} });
+}
+function gxCloseStack(instant) {
+  if (!gxSx || gxSx.hidden) return;
+  const el = gxStackEl;
+  const cover = el && el.isConnected ? el.querySelector('.stk-cards') : null;
+  const cr = cover ? cover.getBoundingClientRect() : null;
+  const finish = () => {
+    gxSx.hidden = true; gxStack = null;
+    gxSx.querySelectorAll('.gx-tile').forEach(t => t.getAnimations().forEach(a => a.cancel()));
+    gxSx.getAnimations().forEach(a => a.cancel());
+    if (gxStackEl) gxStackEl.style.visibility = '';
+    gxStackEl = null;
+    if (gxPd.hidden) document.documentElement.classList.remove('gx-open');
+  };
+  if (instant || GX_REDUCED) { finish(); return; }
+  gxSx.querySelector('.sx-head').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+  if (gxInView(cr) && gxSx.scrollTop < 300) {
+    const tiles = [...gxSx.querySelectorAll('.gx-tile')];
+    let last = null;
+    tiles.forEach((t, i) => {
+      const r = t.getBoundingClientRect();
+      const s = cr.width / r.width;
+      const fr = { left: cr.left + (cr.width - r.width * s) / 2, top: cr.top + (cr.height - r.height * s) / 2, width: r.width * s, height: r.height * s };
+      last = gxFlip(t, fr, { reverse: true, dur: 420, delay: (tiles.length - 1 - i) * 20, rot: i === 0 ? 0 : (i % 2 ? 4 : -4.5) }) || last;
+    });
+    gxSx.animate([{ backgroundColor: 'rgba(255,255,255,1)' }, { backgroundColor: 'rgba(255,255,255,0)' }], { duration: 440, easing: 'ease-in', fill: 'forwards' });
+    if (last) last.onfinish = finish; else finish();
+  } else {
+    gxSx.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: 'forwards' }).onfinish = finish;
+  }
+}
+
+// Cold links: /photos?photo=<id> and /photos?set=<slug>
+(function () {
+  if (location.pathname !== '/photos') return;
+  const q = new URLSearchParams(location.search);
+  const pid = q.get('photo'), slug = q.get('set');
+  if (!pid && !slug) return;
+  photosReady.then(() => Promise.race([SHOP_SETS_P || Promise.resolve(), new Promise(r => setTimeout(r, 1500))])).then(() => {
+    // let the page reveal + navigate()'s 520ms mode timer finish first
+    setTimeout(() => {
+      if (pid && gxPhoto(pid)) { history.replaceState({ gx: 'photo', id: pid, gxd: 0 }, '', location.pathname + location.search); openPhotoDetail(pid, null, { noPush: true }); }
+      else if (slug && gxSetBySlug(slug)) { history.replaceState({ gx: 'set', slug, gxd: 0 }, '', location.pathname + location.search); openStack(slug, null, { noPush: true }); }
+    }, 700);
+  });
+})();
 
 // === SHOP FILTERS ===
 // Structured, tag-driven filters for the storefront. Reads the existing
@@ -3078,18 +3686,22 @@ function renderShopFilters() {
 // bulk tier, applied in the cart and enforced by create-checkout-session.
 var SHOP_SETS = null;
 var SHOP_SETS_DONE = false; // true once the print_sets fetch has answered (even if empty)
+var SHOP_SETS_P = null; // resolves once the print_sets fetch answers; the gallery waits briefly on it so stacks don't pop in
 function loadShopSets() {
-  if (SHOP_SETS !== null) return;
+  if (SHOP_SETS !== null) return SHOP_SETS_P;
   SHOP_SETS = [];
+  var _res; SHOP_SETS_P = new Promise(function (r) { _res = r; });
   try {
-    sb.from('print_sets').select('name,slug,photo_ids,family,sort,created_at').order('sort', { ascending: true }).order('created_at', { ascending: false })
+    sb.from('print_sets').select('name,slug,photo_ids,family,sort,created_at,active').order('sort', { ascending: true }).order('created_at', { ascending: false })
       .then(function (r) {
         SHOP_SETS_DONE = true;
+        setTimeout(_res, 0);
         if (r.error || !r.data || !r.data.length) return;
         SHOP_SETS = r.data;
         try { if (typeof shopMode !== 'undefined' && shopMode) renderShop(); } catch (e) {}
-      });
-  } catch (e) {}
+      }, function () { SHOP_SETS_DONE = true; _res(); });
+  } catch (e) { _res(); }
+  return SHOP_SETS_P;
 }
 try { loadShopSets(); } catch (e) {} // fetch early so the shop doesn't redraw and shift when sets arrive
 var SET_MIN = 3; // a set is a pool of photos; the buyer picks at least this many
@@ -3719,6 +4331,8 @@ function setPhotoMode(mode) {
   // Both commerce modes wear the warm-paper theme; only the gallery is near-black.
   if (page) page.classList.toggle('shop-on', isShop);
   if (page) page.classList.toggle('book-on', isBook);
+  if (page) page.classList.toggle('gal-on', photoMode === 'gallery');
+  if (photoMode !== 'gallery') { try { gxCloseAll(true); } catch (e) {} }
   if (gBtn) gBtn.classList.toggle('active', photoMode === 'gallery');
   if (sBtn) sBtn.classList.toggle('active', isShop);
   if (bBtn) bBtn.classList.toggle('active', isBook);
