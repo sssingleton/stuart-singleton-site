@@ -1276,6 +1276,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bulk-meta { color: #555; margin-top: 3px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
   .bulk-meta select { background: #111; color: #999; border: 1px solid #222; font-family: var(--mono); font-size: 9px; padding: 1px 2px; }
   .bulk-st { text-align: right; white-space: nowrap; }
+  .bulk-row:not(.attach) .bulk-st.err { grid-column: 2 / -1; text-align: left; white-space: normal; overflow-wrap: anywhere; }
+  .bulk-role { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; padding: 1px 7px; border: 1px solid #333; background: #111; color: #bbb; cursor: none; }
+  .bulk-role.master { border-color: #3a6a3a; color: #7c7; }
+  .bulk-role.web { border-color: #6a5a2a; color: #db8; }
+  .bulk-role:disabled { opacity: .5; }
   .bulk-st.ok { color: #4a8; } .bulk-st.err { color: #c44; } .bulk-st.dup { color: #a80; } .bulk-st.busy { color: #aaa; }
   .bulk-st button { margin-left: 6px; padding: 3px 8px; }
   .bulk-conf { display: inline-block; padding: 0 5px; border: 1px solid #333; }
@@ -4378,6 +4383,16 @@ function showTagSuggestions() {
 // half-finished upload can never show up in the public gallery or shop.
 const BULK_V2 = /[?&]v2(?:[=&]|$)/.test(location.search);
 const BULK_CONCURRENCY = 3;
+// Files with a long edge above this are treated as full-res originals (kept as the print
+// master); at or below it they are web-size already and go up as the gallery image only.
+// Tap the chip on a row to override. 2400 matches the "web-sized" line thumbRetry() uses.
+const BULK_MASTER_MIN_EDGE = 2400;
+function bulkToggleRole(key) {
+  const it = bulk.items.find(function (i) { return i.key === key; });
+  if (!it || bulk.running || it.masterPath || it.assetsDone) return;
+  it.role = it.role === 'master' ? 'web' : 'master';
+  bulkRender();
+}
 const BULK_OK_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 let bulk = { mode: 'new', items: [], running: false, seq: 0, candidates: null };
 
@@ -4485,6 +4500,7 @@ function bulkAddFiles(fileList) {
       span: '', w: 0, h: 0, sha: null, preview: null, thumb: null, phash: null,
       // resume markers (retry continues from the first missing step)
       previewPath: null, previewBucket: null, photoId: null, masterPath: null, assetsDone: false,
+      role: null, // 'master' = full-res original (web copy made, file kept as print master) | 'web' = already web-size, no master
       // attach mode
       match: null, pick: false
     });
@@ -4530,7 +4546,7 @@ function bulkRowHTML(it) {
     const span = it.span === 'tall' ? 'tall' : (it.span === 'span-2' ? 'wide' : 'normal');
     return '<div class="bulk-row">' + thumb +
       '<div style="min-width:0"><div class="bulk-name">' + bulkEsc(it.file.name) + '</div>' +
-      '<div class="bulk-meta">' + camSel + '<span>' + [dims, it.w ? span : '', mb, it.exif].filter(Boolean).map(bulkEsc).join(' · ') + '</span></div></div>' +
+      '<div class="bulk-meta">' + camSel + bulkRoleChip(it) + '<span>' + [dims, it.w ? span : '', mb, it.exif].filter(Boolean).map(bulkEsc).join(' · ') + '</span></div></div>' +
       stHTML + '</div>';
   }
   // attach mode
@@ -4549,6 +4565,15 @@ function bulkRowHTML(it) {
   return '<div class="bulk-row attach">' + box + thumb + other +
     '<div style="min-width:0"><div class="bulk-name">' + bulkEsc(it.file.name) + '</div>' +
     '<div class="bulk-meta">' + info + '<span>' + bulkEsc(mb) + '</span></div>' + stHTML + '</div></div>';
+}
+function bulkRoleChip(it) {
+  if (!it.role) return '';
+  const locked = bulk.running || !!it.masterPath || it.assetsDone;
+  const tip = it.role === 'master'
+    ? 'Full-res original: a 2048px web copy goes in the gallery and this file is kept as the print master. Tap if this file is already web-size.'
+    : 'Web-size file: goes in the gallery as is, no print master (small print sizes only until you attach one). Tap if this is the full-res original.';
+  return '<button type="button" class="bulk-role ' + it.role + '" title="' + bulkEsc(tip) + '"' + (locked ? ' disabled' : '') +
+    ' onclick="bulkToggleRole(' + it.key + ')">' + (it.role === 'master' ? 'Master ✓' : 'Web only') + '</button>';
 }
 let _bulkRenderQueued = false;
 function bulkRender() {
@@ -4632,6 +4657,7 @@ async function bulkPrep(it) {
       if (img.decode) { try { await img.decode(); } catch (e) {} }
       const w = img.naturalWidth, h = img.naturalHeight;
       it.w = w; it.h = h;
+      if (!it.role) it.role = Math.max(w, h) > BULK_MASTER_MIN_EDGE ? 'master' : 'web';
       it.span = h > w ? 'tall' : (w / h >= 2.0 ? 'span-2' : '');
       // 2048px web preview (new mode only — attach mode keeps the web image as is)
       const s = Math.min(1, PREVIEW_MAX_EDGE / Math.max(w, h));
@@ -4760,6 +4786,8 @@ async function bulkUploadOne(it, opts) {
   if (!it.previewPath) {
     const bucket = bucketForCamera(cam);
     const path = 'photo_' + bulkStamp() + '.jpg';
+    // A web-size JPEG goes up untouched (no second JPEG pass); anything else uses the 2048px copy.
+    if (it.role === 'web' && it.type === 'image/jpeg' && Math.max(it.w, it.h) <= PREVIEW_MAX_EDGE) it.preview = { blob: it.file, w: it.w, h: it.h };
     await bulkTry(function () { return sb.storage.from(bucket).upload(path, it.preview.blob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false }).then(bulkUnwrap); }, 'preview upload');
     it.previewPath = path; it.previewBucket = bucket;
   }
@@ -4772,7 +4800,7 @@ async function bulkUploadOne(it, opts) {
     it.photoId = ins.data.id;
   }
   // 3. untouched original → private masters bucket
-  if (!it.masterPath) {
+  if (it.role !== 'web' && !it.masterPath) {
     it.msg = 'uploading original…'; bulkRender();
     const mpath = it.photoId + '/master_' + Date.now() + '.' + bulkExt(it);
     await bulkTry(function () { return sb.storage.from(MASTERS_BUCKET).upload(mpath, it.file, { contentType: it.type, upsert: false }).then(bulkUnwrap); }, 'original upload');
@@ -4780,10 +4808,15 @@ async function bulkUploadOne(it, opts) {
   }
   // 4. asset rows (preview first so the dims trigger keeps img_w = web image)
   if (!it.assetsDone) {
-    await bulkTry(function () {
+    const previewRow = { photo_id: it.photoId, variant: 'preview', bucket: it.previewBucket, path: it.previewPath, width: it.preview.w, height: it.preview.h, bytes: it.preview.blob.size, is_display_default: true, is_print_default: false, sha256: it.role === 'web' ? it.sha : null };
+    if (it.role === 'web') {
+      await bulkTry(function () { return sb.from('photo_assets').insert(previewRow).then(bulkUnwrap); }, 'save versions');
+    } else await bulkTry(function () {
       return sb.from('photo_assets').insert([
-        { photo_id: it.photoId, variant: 'preview', bucket: it.previewBucket, path: it.previewPath, width: it.preview.w, height: it.preview.h, bytes: it.preview.blob.size, is_display_default: true },
-        { photo_id: it.photoId, variant: 'print-master', bucket: MASTERS_BUCKET, path: it.masterPath, width: it.w, height: it.h, bytes: it.file.size, is_print_default: true, sha256: it.sha }
+        // Both rows list every column: a multi-row insert sends NULL for any key a row
+        // leaves out, and is_print_default / is_display_default are NOT NULL.
+        { photo_id: it.photoId, variant: 'preview', bucket: it.previewBucket, path: it.previewPath, width: it.preview.w, height: it.preview.h, bytes: it.preview.blob.size, is_display_default: true, is_print_default: false, sha256: null },
+        { photo_id: it.photoId, variant: 'print-master', bucket: MASTERS_BUCKET, path: it.masterPath, width: it.w, height: it.h, bytes: it.file.size, is_display_default: false, is_print_default: true, sha256: it.sha }
       ]).then(bulkUnwrap);
     }, 'save versions');
     it.assetsDone = true;
@@ -4791,9 +4824,9 @@ async function bulkUploadOne(it, opts) {
   // 5. go live (or stay a draft)
   if (opts.publish) {
     await bulkTry(function () { return sb.from('photos').update({ hidden: false }).eq('id', it.photoId).then(bulkUnwrap); }, 'publish');
-    it.status = 'done'; it.msg = 'live · #' + it.photoId;
+    it.status = 'done'; it.msg = 'live · #' + it.photoId + (it.role === 'web' ? ' · web only' : '');
   } else {
-    it.status = 'draft'; it.msg = 'hidden draft · #' + it.photoId;
+    it.status = 'draft'; it.msg = 'hidden draft · #' + it.photoId + (it.role === 'web' ? ' · web only' : '');
   }
   it.preview = null; // free the blob
   bulkRender();
