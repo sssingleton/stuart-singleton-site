@@ -5646,14 +5646,15 @@ function setsSectionHTML() {
         <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
           <button class="cam-btn active" data-setfam="paper" onclick="setsSetFamily('paper')">Paper</button>
           <button class="cam-btn" data-setfam="framed" onclick="setsSetFamily('framed')">Framed</button>
-          <button class="admin-btn" onclick="setsSave()" style="margin-left:auto;">Save set</button>
+          <button class="admin-edit-btn" id="sets-cancel" onclick="setsCancelEdit()" style="margin-left:auto;display:none;">cancel edit</button>
+          <button class="admin-btn" id="sets-save-btn" onclick="setsSave()" style="margin-left:auto;">Save set</button>
         </div>
         <div id="sets-preview" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
         <div id="sets-status" style="font-size:9px;color:#555;letter-spacing:.1em;margin:8px 0;min-height:14px;line-height:1.5;"></div>
         <div id="sets-list" style="display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto;"></div>
       </div>`;
 }
-var setsState = { family: 'paper', photos: {}, timer: null };
+var setsState = { family: 'paper', photos: {}, timer: null, editing: null };
 function setsParseIds(txt) {
   var seen = {}, out = [];
   (String(txt || '').match(/\d+/g) || []).forEach(function (n) { n = parseInt(n, 10); if (n > 0 && !seen[n]) { seen[n] = 1; out.push(n); } });
@@ -5705,6 +5706,17 @@ async function setsSave() {
   if (chk.unsellable.length) return setsSay('not for sale or hidden: ' + chk.unsellable.join(', '), true);
   var slug = setsSlug(name);
   if (!slug) return setsSay('name needs letters or numbers', true);
+  if (setsState.editing) {
+    // Editing keeps the set's slug, so /sets/<slug> links already shared keep working
+    // even if the name changes. On/off state is left as it was.
+    var ed = setsState.editing;
+    var u = await sb.from('print_sets').update({ name: name, photo_ids: chk.ids, family: setsState.family, updated_at: new Date().toISOString() }).eq('id', ed.id);
+    if (u.error) return setsSay('update failed: ' + u.error.message, true);
+    setsCancelEdit(true);
+    setsSay('updated "' + name + '" (' + chk.ids.length + ' photos)' + (ed.active ? ' · live now' : ' · still off'));
+    loadSets();
+    return;
+  }
   var r = await sb.from('print_sets').insert({ name: name, slug: slug, photo_ids: chk.ids, family: setsState.family, active: false });
   if (r.error) return setsSay(r.error.code === '23505' ? 'a set with that name already exists' : 'save failed: ' + r.error.message, true);
   document.getElementById('sets-name').value = ''; document.getElementById('sets-ids').value = '';
@@ -5726,6 +5738,7 @@ async function loadSets() {
         '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;font-size:10px;color:#888;">' +
           '<span style="flex:1;">' + bulkEsc(s.name) + ' <span style="color:#444;">· ' + s.family + ' · ' + (s.photo_ids || []).length + ' photos</span></span>' +
           '<button class="admin-edit-btn' + (s.active ? ' admin-span-active' : '') + '" onclick="setsToggle(\'' + s.id + '\',' + (!s.active) + ')">' + (s.active ? 'on ✓' : 'off') + '</button>' +
+          '<button class="admin-edit-btn" onclick="setsEdit(\'' + s.id + '\')">edit</button>' +
           '<button class="admin-edit-btn" onclick="setsLoadForEdit(\'' + s.id + '\')">copy ids</button>' +
           '<button class="admin-edit-btn" data-armed="0" onclick="setsDelete(this,\'' + s.id + '\')">delete</button>' +
         '</div><div style="display:flex;gap:6px;flex-wrap:wrap;">' + setsThumbs(s.photo_ids || [], byId) + '</div></div>';
@@ -5742,6 +5755,26 @@ function setsLoadForEdit(id) {
   var s = (setsState.sets || []).find(function (x) { return x.id === id; }); if (!s) return;
   document.getElementById('sets-ids').value = (s.photo_ids || []).join(', ');
   setsSetFamily(s.family); setsPreview();
+}
+// Load a saved set into the form; Save then updates it in place instead of making a new one.
+function setsEdit(id) {
+  var s = (setsState.sets || []).find(function (x) { return x.id === id; }); if (!s) return;
+  setsState.editing = { id: s.id, active: !!s.active };
+  document.getElementById('sets-name').value = s.name || '';
+  document.getElementById('sets-ids').value = (s.photo_ids || []).join(', ');
+  setsSetFamily(s.family || 'paper');
+  var btn = document.getElementById('sets-save-btn'); if (btn) { btn.textContent = 'Update set'; btn.style.marginLeft = '0'; }
+  var c = document.getElementById('sets-cancel'); if (c) c.style.display = '';
+  setsPreview().then(function () { setsSay('editing "' + s.name + '" · add or remove IDs, then Update set'); });
+  var sec = document.getElementById('sets-section'); if (sec) sec.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+function setsCancelEdit(quiet) {
+  setsState.editing = null;
+  var btn = document.getElementById('sets-save-btn'); if (btn) { btn.textContent = 'Save set'; btn.style.marginLeft = 'auto'; }
+  var c = document.getElementById('sets-cancel'); if (c) c.style.display = 'none';
+  document.getElementById('sets-name').value = ''; document.getElementById('sets-ids').value = '';
+  document.getElementById('sets-preview').innerHTML = '';
+  if (!quiet) setsSay('');
 }
 async function setsDelete(btn, id) {
   // two clicks instead of a browser confirm dialog
