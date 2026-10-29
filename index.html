@@ -2745,7 +2745,7 @@ function setAdminCamera(cam) {
   document.querySelectorAll('#admin-camera-picker .cam-btn').forEach(function(b){
     b.classList.toggle('active', b.dataset.cam === cam);
   });
-  if (BULK_V2) bulkRender(); // bulk rows without an EXIF camera follow the picker
+  bulkRender(); // bulk rows without an EXIF camera follow the picker
   loadAdminPhotos();
 }
 
@@ -3686,60 +3686,67 @@ function detectAspectRatio(file) {
 // ══ ADMIN: OPTIMIZE WEB PREVIEWS ══
 // Gallery/shop images are served through Supabase's on-the-fly resize, which is
 // slow on huge originals and outright fails (400/422) on files over ~25MB. This
-// downsizes any oversized PUBLIC web image in-browser (long edge 2048px, q0.85)
-// and overwrites it in place. Print masters live in a separate private bucket
-// and are NOT touched, so print quality is unaffected. Safe to run repeatedly.
+// downsizes oversized PUBLIC web images in-browser (long edge 2048px, q0.85)
+// and overwrites them in place. Print masters live in the private masters
+// bucket and are NOT touched.
+//
+// What needs doing comes from the DB (RPC admin_photos_to_optimize reads the
+// real stored file sizes), so there are no per-photo HEAD requests and anything
+// already shrunk below the threshold is never looked at again.
+// Photos WITHOUT a print-master are skipped: their public file is the only
+// full-res copy, so shrinking it would lose the original. Add a master first.
 const PREVIEW_MAX_EDGE = 2048;
 const PREVIEW_SIZE_THRESHOLD = 2 * 1048576; // only shrink files bigger than 2MB
+const PREVIEW_TRANSFORM_LIMIT = 25 * 1048576; // Supabase resize refuses above this
 
 async function optimizeWebPreviews() {
   const status = document.getElementById('optimize-status');
   const btn = document.getElementById('optimize-previews-btn');
   const setS = (m) => { if (status) status.textContent = m; };
   if (btn) btn.disabled = true;
-  setS('scanning photos…');
+  setS('checking which photos still need it…');
   try {
-    // All photos (every camera) — the heavy ones are what we care about.
-    const res = await sb.from('photos').select('id, src, camera');
+    const res = await sb.rpc('admin_photos_to_optimize', { min_bytes: PREVIEW_SIZE_THRESHOLD });
     if (res.error) throw res.error;
     const rows = res.data || [];
+    const todo = rows.filter(r => r.has_master);
+    const noMaster = rows.filter(r => !r.has_master);
+    const brokenNoMaster = noMaster.filter(r => r.bytes > PREVIEW_TRANSFORM_LIMIT);
+    const skipNote = noMaster.length
+      ? ' · skipped ' + noMaster.length + ' with no print master (original kept)' +
+        (brokenNoMaster.length ? ' — #' + brokenNoMaster.map(r => r.id).join(', #') + ' too big to show: add a master, then run again' : '')
+      : '';
 
-    // Find which are oversized by HEADing the public file.
-    const heavy = [];
-    for (const p of rows) {
-      const marker = '/storage/v1/object/public/';
-      const i = (p.src || '').indexOf(marker);
-      if (i === -1) continue;
-      const rest = p.src.slice(i + marker.length);          // "photos/photo_x.jpg"
-      const bucket = rest.slice(0, rest.indexOf('/'));
-      const path = rest.slice(rest.indexOf('/') + 1);
-      try {
-        const h = await fetch(p.src.split('?')[0], { method: 'HEAD' });
-        const sz = parseInt(h.headers.get('content-length') || '0', 10);
-        if (sz > PREVIEW_SIZE_THRESHOLD) heavy.push({ id: p.id, bucket, path, src: p.src.split('?')[0], sz });
-      } catch (e) { /* skip unreachable */ }
-    }
+    if (!todo.length) { setS('✓ nothing to optimize' + skipNote + '.'); return; }
 
-    if (!heavy.length) { setS('✓ nothing to optimize — all web images are already small.'); if (btn) btn.disabled = false; return; }
-
-    let done = 0, saved = 0, failed = 0;
-    for (const h of heavy) {
+    let done = 0, saved = 0;
+    const failed = [];
+    for (const h of todo) {
       done++;
-      setS('optimizing ' + done + ' / ' + heavy.length + ' (' + h.path + ')…');
-      try {
-        const blob = await downscaleImage(h.src, PREVIEW_MAX_EDGE, 0.85);
-        if (!blob) { failed++; continue; }
-        // Overwrite the same object in place — DB src stays valid, no row change.
-        const up = await sb.storage.from(h.bucket).upload(h.path, blob, {
-          contentType: 'image/jpeg', upsert: true, cacheControl: '3600'
-        });
-        if (up.error) throw up.error;
-        saved += (h.sz - blob.size);
-      } catch (e) { failed++; console.warn('optimize failed for', h.path, e); }
+      setS('optimizing ' + done + ' / ' + todo.length + ' (#' + h.id + ')…');
+      const src = sb.storage.from(h.bucket).getPublicUrl(h.path).data.publicUrl;
+      let ok = false, lastErr = null;
+      for (let attempt = 1; attempt <= 2 && !ok; attempt++) {
+        try {
+          const blob = await downscaleImage(src, PREVIEW_MAX_EDGE, 0.85);
+          if (!blob) throw new Error('could not decode image');
+          // Overwrite the same object in place — DB src stays valid, no row change.
+          const up = await sb.storage.from(h.bucket).upload(h.path, blob, {
+            contentType: 'image/jpeg', upsert: true, cacheControl: '3600'
+          });
+          if (up.error) throw up.error;
+          saved += (h.bytes - blob.size);
+          ok = true;
+        } catch (e) {
+          lastErr = e;
+          if (attempt === 1) await new Promise(r => setTimeout(r, 1500));
+        }
+      }
+      if (!ok) { failed.push('#' + h.id + ' (' + ((lastErr && lastErr.message) || lastErr) + ')'); console.warn('optimize failed for', h.bucket + '/' + h.path, lastErr); }
     }
-    setS('✓ done — optimized ' + (heavy.length - failed) + ' of ' + heavy.length +
-         (failed ? ' (' + failed + ' failed)' : '') +
-         ', saved ~' + (saved / 1048576).toFixed(1) + 'MB. Reloading…');
+    setS('✓ optimized ' + (todo.length - failed.length) + ' of ' + todo.length +
+         ', saved ~' + (saved / 1048576).toFixed(1) + 'MB' +
+         (failed.length ? ' · failed: ' + failed.join(', ') : '') + skipNote + '. Reloading…');
     await loadPhotos();
     await loadAdminPhotos();
   } catch (err) {
@@ -3749,23 +3756,44 @@ async function optimizeWebPreviews() {
   }
 }
 
-// Draw an image onto a canvas at a capped long edge and return a JPEG blob.
-function downscaleImage(url, maxEdge, quality) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = function () {
-      let w = img.naturalWidth, hgt = img.naturalHeight;
-      const longEdge = Math.max(w, hgt);
-      if (longEdge > maxEdge) { const s = maxEdge / longEdge; w = Math.round(w * s); hgt = Math.round(hgt * s); }
-      const c = document.createElement('canvas');
-      c.width = w; c.height = hgt;
-      c.getContext('2d').drawImage(img, 0, 0, w, hgt);
-      c.toBlob((b) => resolve(b), 'image/jpeg', quality);
-    };
-    img.onerror = function () { resolve(null); };
-    img.src = url;
-  });
+// Fetch an image fresh (bypassing any cached copy) and return a JPEG blob with
+// its long edge capped. createImageBitmap decodes straight to the target size,
+// which uses far less memory than decoding a 40MP original at full size — the
+// main reason big files used to fail. Falls back to <img> + canvas.
+async function downscaleImage(url, maxEdge, quality) {
+  const resp = await fetch(url, { cache: 'no-store' });
+  if (!resp.ok) throw new Error('download ' + resp.status);
+  const srcBlob = await resp.blob();
+  let source = null, w = 0, h = 0;
+  try {
+    const probe = await createImageBitmap(srcBlob);
+    w = probe.width; h = probe.height;
+    const s = Math.min(1, maxEdge / Math.max(w, h));
+    w = Math.round(w * s); h = Math.round(h * s);
+    if (s < 1) {
+      probe.close();
+      source = await createImageBitmap(srcBlob, { resizeWidth: w, resizeHeight: h, resizeQuality: 'high' });
+    } else {
+      source = probe;
+    }
+  } catch (e) {
+    source = await new Promise((resolve) => {
+      const img = new Image();
+      const objUrl = URL.createObjectURL(srcBlob);
+      img.onload = () => { URL.revokeObjectURL(objUrl); resolve(img); };
+      img.onerror = () => { URL.revokeObjectURL(objUrl); resolve(null); };
+      img.src = objUrl;
+    });
+    if (!source) return null;
+    w = source.naturalWidth; h = source.naturalHeight;
+    const s = Math.min(1, maxEdge / Math.max(w, h));
+    w = Math.round(w * s); h = Math.round(h * s);
+  }
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  c.getContext('2d').drawImage(source, 0, 0, w, h);
+  if (source.close) source.close();
+  return await new Promise((resolve) => c.toBlob((b) => resolve(b), 'image/jpeg', quality));
 }
 
 async function uploadAndSave() {
@@ -4258,7 +4286,7 @@ function bulkEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, funct
 function bulkSectionHTML() {
   return `
       <div class="admin-section" id="bulk-section">
-        <div class="admin-section-title">Bulk Upload <span style="color:#2a2a2a;">(v2)</span></div>
+        <div class="admin-section-title">Bulk Upload</div>
         <div class="bulk-modes">
           <button class="cam-btn active" data-bulkmode="new" onclick="bulkSetMode('new')">New photos</button>
           <button class="cam-btn" data-bulkmode="attach" onclick="bulkSetMode('attach')">Attach print masters</button>
@@ -4862,7 +4890,7 @@ var SETS_IN = 'width:100%;box-sizing:border-box;background:#0a0a0a;border:1px so
 function setsSectionHTML() {
   return `
       <div class="admin-section" id="sets-section">
-        <div class="admin-section-title">Print Sets <span style="color:#2a2a2a;">(v2)</span></div>
+        <div class="admin-section-title">Print Sets</div>
         <input type="text" id="sets-name" placeholder="set name, e.g. Riviera Trio" style="${SETS_IN}">
         <textarea id="sets-ids" rows="2" placeholder="paste 3 or more photo IDs, e.g. 384, 391, 396, 402, 410 — buyers pick at least 3" style="${SETS_IN}resize:vertical;" oninput="setsPreviewSoon()"></textarea>
         <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
@@ -4982,7 +5010,7 @@ function getAdminPanelHTML(fullpage) {
   const colsOpen  = fullpage ? '<div class="admin-cols"><div class="admin-col-left">' : '';
   const colsSplit = fullpage ? '</div><div class="admin-col-right">' : '';
   const colsClose = fullpage ? '</div></div>' : '';
-  return colsOpen + (BULK_V2 ? bulkSectionHTML() + setsSectionHTML() : '') + `
+  return colsOpen + bulkSectionHTML() + setsSectionHTML() + `
       <div class="admin-section">
         <div class="admin-section-title">Add Photo</div>
         <div id="admin-camera-picker" style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
@@ -5096,7 +5124,7 @@ function showAdminPanel() {
   panel.style.display = 'block';
   document.getElementById('admin-login').style.display = 'none';
   initUploadArea();
-  if (BULK_V2) { initBulkUploader(); loadSets(); }
+  initBulkUploader(); loadSets();
   adminCamera = 'fujifilm-xt5';
   addHover('#admin-camera-picker .cam-btn');
   loadAdminPhotos();
