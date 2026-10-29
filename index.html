@@ -890,9 +890,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .stack-item:hover .stk-b2 { transform: translate(-12px,-12px) rotate(-5deg); filter: brightness(.94); }
     .stack-item:hover .stk-cover { transform: translateY(3px); filter: brightness(.97); }
   }
-  .stk-count { position: absolute; top: 9px; right: 9px; z-index: 3; display: inline-flex; align-items: center; gap: 5px;
-    background: rgba(255,255,255,.94); color: #111; font-family: var(--sans); font-size: 12px; font-weight: 600;
-    padding: 4px 9px 4px 7px; border-radius: 99px; box-shadow: 0 1px 6px rgba(0,0,0,.12); }
+  .stk-count { position: absolute; top: 8px; right: 8px; z-index: 3; display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,.95); color: #111; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; padding: 4px 7px; }
   .stk-count svg { width: 12px; height: 12px; }
   .stk-cap { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 9px 2px 0; }
   .stk-name { font-family: var(--sans); font-size: 13px; font-weight: 600; color: #111; line-height: 1.25; }
@@ -902,7 +901,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .stk-cards .stk-b1 { transform: translateY(-5px) scale(.94, .97); }
     .stk-cards .stk-b2 { transform: translateY(-10px) scale(.87, .94); }
     .stk-name { font-size: 12px; } .stk-n { display: none; }
-    .stk-count { top: 6px; right: 6px; font-size: 11px; padding: 3px 7px 3px 6px; }
+    .stk-count { top: 6px; right: 6px; font-size: 9px; padding: 3px 6px; }
   }
 
   /* shared overlay chrome: photo view (#pd) and opened set (#sx) */
@@ -910,11 +909,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     overscroll-behavior: contain; -webkit-overflow-scrolling: touch; color: #111; font-family: var(--sans); }
   .gx-ov[hidden] { display: none; }
   #sx { z-index: 905; }
-  .gx-back { position: fixed; top: 22px; left: 24px; z-index: 5; width: 46px; height: 46px; border-radius: 50%;
-    border: 1px solid #e8e8e8; background: rgba(255,255,255,.92); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center; cursor: none; transition: border-color .2s, transform .2s; }
-  @media (hover: hover) { .gx-back:hover { border-color: #bbb; transform: translateX(-2px); } }
-  .gx-back svg { width: 18px; height: 18px; stroke: #111; }
+  /* top bar inside the overlays: the same "← back / photos / …" line as the page nav */
+  .gx-nav { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 18px; padding: 20px 72px;
+    background: rgba(255,255,255,.96); font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #bbb; }
+  .gx-back { background: none; border: 0; padding: 0; font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #9a9a9a; cursor: none; transition: color .2s; }
+  .gx-sl { color: #ddd; }
+  .gx-crumb { color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  @media (hover: hover) { .gx-back:hover { color: #111; } }
   .gx-grid { display: flex; align-items: flex-start; gap: var(--gg, 24px); }
   .gx-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: var(--gg, 24px); }
   .gx-tile { display: block; width: 100%; padding: 0; border: 0; background: #f3f3f1; border-radius: 4px; overflow: hidden; cursor: none; position: relative; }
@@ -923,61 +924,62 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* photo view */
   .pd-top { display: grid; grid-template-columns: minmax(0,1fr) 400px; border-bottom: 1px solid #eee; }
-  .pd-stage { height: calc(100vh - 96px); min-height: 440px; padding: 44px 72px; display: flex; align-items: center; justify-content: center; border-right: 1px solid #eee; }
+  .pd-stage { height: calc(100vh - 150px); min-height: 420px; padding: 20px 72px 44px; display: flex; align-items: center; justify-content: center; border-right: 1px solid #eee; }
   .pd-img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
-  .pd-side { padding: 40px 36px 32px; display: flex; flex-direction: column; gap: 22px; height: calc(100vh - 96px); min-height: 440px; position: sticky; top: 0; }
+  .pd-side { padding: 20px 36px 40px; display: flex; flex-direction: column; gap: 20px; height: calc(100vh - 150px); min-height: 420px; }
   .pd-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
   .pd-cam { font-family: var(--mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: #9a9a9a; }
-  .pd-icon { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #e8e8e8; background: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: none; transition: border-color .2s; position: relative; }
-  .pd-icon:hover { border-color: #bbb; }
-  .pd-icon svg { width: 16px; height: 16px; stroke: #111; }
-  .pd-icon .pd-copied { position: absolute; right: 50px; white-space: nowrap; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #2f6b2f; opacity: 0; transition: opacity .2s; pointer-events: none; }
-  .pd-icon.done .pd-copied { opacity: 1; }
-  .pd-in { font-size: 15px; color: #8c8c8c; }
-  .pd-in b { color: #111; font-weight: 600; }
-  .pd-colls { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; margin: -4px -4px 0; padding: 4px; }
-  .pd-coll { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 12px; border: 1px solid #ececec; border-radius: 14px; background: #fff; cursor: none; transition: border-color .2s, box-shadow .2s; font-family: var(--sans); }
-  @media (hover: hover) { .pd-coll:hover { border-color: #d0d0d0; box-shadow: 0 2px 12px rgba(0,0,0,.05); } }
-  .pd-coll-th { width: 56px; height: 56px; border-radius: 8px; overflow: hidden; flex: 0 0 auto; background: #f0f0ee; position: relative; }
-  .pd-coll-th img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .pd-coll.is-set .pd-coll-th::after { content: ''; position: absolute; inset: 0; border-radius: 8px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
-  .pd-coll-tx { min-width: 0; }
-  .pd-coll-name { font-size: 16px; font-weight: 600; color: #111; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pd-coll-sub { font-size: 13px; color: #8c8c8c; margin-top: 3px; }
-  .pd-coll-sub .pd-badge { display: inline-block; font-family: var(--mono); font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: #2f6b2f; border: 1px solid #cfe0cf; border-radius: 99px; padding: 2px 7px; margin-left: 6px; vertical-align: 1px; }
+  .pd-icon { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; padding: 7px 14px; background: transparent; border: 1px solid #e6e6e6; color: #9a9a9a; cursor: none; transition: all .2s; }
+  .pd-icon.done { border-color: #2f6b2f; color: #2f6b2f; }
+  .pd-in { font-family: var(--mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #a3a3a3; }
+  .pd-in b { color: #111; font-weight: 400; }
+  .pd-colls { display: flex; flex-direction: column; overflow-y: auto; border-top: 1px solid #ececec; }
+  .pd-coll { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 12px 0; border: 0; border-bottom: 1px solid #ececec; background: #fff; cursor: none; font-family: var(--sans); }
+  .pd-coll-th { width: 48px; height: 48px; overflow: hidden; flex: 0 0 auto; background: #f0f0ee; }
+  .pd-coll-th img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter .3s; }
+  .pd-coll-tx { min-width: 0; flex: 1; }
+  .pd-coll-name { font-size: 15px; font-weight: 600; color: #111; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pd-coll-sub { font-family: var(--mono); font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase; color: #a3a3a3; margin-top: 5px; }
+  .pd-coll-sub .pd-badge { color: #2f6b2f; margin-left: 4px; }
+  .pd-coll::after { content: '→'; font-family: var(--mono); font-size: 11px; color: #ccc; padding-right: 2px; transition: color .2s, transform .2s; }
   .pd-actions { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
-  .pd-buy { width: 100%; min-height: 54px; border-radius: 99px; border: 1px solid #111; background: #111; color: #fff; font-family: var(--sans); font-size: 16px; font-weight: 600; cursor: none; transition: background .2s, transform .15s; }
-  @media (hover: hover) { .pd-buy:hover { background: #333; } }
-  .pd-buy:active { transform: scale(.985); }
-  .pd-buy.ghost { background: #fff; color: #111; border-color: #d6d6d6; }
-  @media (hover: hover) { .pd-buy.ghost:hover { border-color: #111; } }
-  .pd-note { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #a3a3a3; text-align: center; }
+  .pd-buy { width: 100%; padding: 15px 0; border: 1px solid #111; background: #111; color: #fff; font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; cursor: none; transition: background .2s, color .2s; }
+  .pd-buy.ghost { background: #fff; color: #111; }
+  .pd-note { font-family: var(--mono); font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: #a3a3a3; text-align: center; }
+  @media (hover: hover) {
+    .pd-icon:hover { border-color: #111; color: #111; }
+    .pd-coll:hover .pd-coll-name { text-decoration: underline; text-underline-offset: 3px; }
+    .pd-coll:hover::after { color: #111; transform: translateX(3px); }
+    .pd-coll:hover img { filter: brightness(.93); }
+    .pd-buy:hover { background: #fff; color: #111; }
+    .pd-buy.ghost:hover { background: #111; color: #fff; }
+  }
   .pd-sim { padding: 40px 72px 80px; }
-  .pd-sim h3 { font-size: 24px; font-weight: 500; letter-spacing: -.01em; margin: 0 0 26px; color: #111; }
+  .pd-sim h3 { font-family: var(--mono); font-size: 10px; font-weight: 400; letter-spacing: .2em; text-transform: uppercase; margin: 0 0 22px; color: #9a9a9a; }
   .pd-fade { opacity: 0; }
 
   /* opened set */
-  .sx-head { padding: 92px 72px 30px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .sx-head { padding: 22px 72px 30px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .sx-eyebrow { font-family: var(--mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #9a9a9a; margin-bottom: 10px; }
   .sx-title { font-size: clamp(28px, 4vw, 46px); font-weight: 600; letter-spacing: -.02em; line-height: 1.05; margin: 0; }
-  .sx-sub { font-size: 15px; color: #8c8c8c; margin-top: 10px; }
-  .sx-sub b { color: #2f6b2f; font-weight: 600; }
-  .sx-shop { min-height: 50px; padding: 0 26px; border-radius: 99px; border: 1px solid #111; background: #111; color: #fff; font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: none; transition: background .2s; }
-  @media (hover: hover) { .sx-shop:hover { background: #333; } }
+  .sx-sub { font-family: var(--mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: #9a9a9a; margin-top: 14px; }
+  .sx-sub b { color: #2f6b2f; font-weight: 400; }
+  .sx-shop { padding: 14px 26px; border: 1px solid #111; background: #111; color: #fff; font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; cursor: none; transition: background .2s, color .2s; }
+  @media (hover: hover) { .sx-shop:hover { background: #fff; color: #111; } }
   .sx-body { padding: 0 72px 90px; max-width: 1500px; margin: 0 auto; }
   .sx-body .gx-tile { box-shadow: 0 1px 2px rgba(0,0,0,.05); }
 
   @media (max-width: 900px) {
     .pd-top { grid-template-columns: 1fr; border-bottom: 0; }
-    .pd-stage { height: auto; min-height: 0; padding: 78px 0 0; border-right: 0; }
+    .pd-stage { height: auto; min-height: 0; padding: 0; border-right: 0; }
     .pd-img { width: 100%; max-height: 74vh; }
     .pd-side { height: auto; min-height: 0; position: static; padding: 18px 18px 28px; border-bottom: 1px solid #eee; }
     .pd-actions { order: -1; margin-top: 0; }
     .pd-colls { overflow: visible; }
     .pd-sim { padding: 28px 18px 60px; }
     .pd-sim h3 { font-size: 20px; margin-bottom: 18px; }
-    .gx-back { top: 14px; left: 14px; width: 42px; height: 42px; }
-    .sx-head { padding: 74px 20px 22px; }
+    .gx-nav { padding: 16px 18px; gap: 12px; }
+    .sx-head { padding: 14px 20px 22px; }
     .sx-shop { width: 100%; }
     .sx-body { padding: 0 14px 60px; }
   }
@@ -3159,7 +3161,6 @@ function gxSetBySlug(slug) { return gxActiveSets().find(s => s.slug === slug); }
 function gxSetsOf(p) { return gxActiveSets().filter(s => s.photo_ids.some(id => String(id) === String(p.id))); }
 function gxCanShopSet(set) { try { return set.family === 'paper' && setPhotos(set).length >= SET_MIN; } catch (e) { return false; } }
 const GX_STACK_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4.5" y="4.5" width="9" height="9" rx="1.5"/><path d="M2.5 11V3.5a1 1 0 0 1 1-1H11"/></svg>';
-const GX_BACK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
 
 // Replace each print set's photos in the visible list with one stack item, placed
 // where its first visible photo was. A set with only one photo left after filtering
@@ -3291,14 +3292,14 @@ function gxEnsure() {
   gxPd = document.createElement('div');
   gxPd.id = 'pd'; gxPd.className = 'gx-ov'; gxPd.hidden = true;
   gxPd.setAttribute('role', 'dialog'); gxPd.setAttribute('aria-modal', 'true');
-  gxPd.innerHTML = `<button type="button" class="gx-back" aria-label="Back" onclick="gxBack()">${GX_BACK_ICON}</button>
+  gxPd.innerHTML = `<div class="gx-nav"><button type="button" class="gx-back" onclick="gxBack()">← back</button><span class="gx-sl">/</span><span>photos</span><span class="gx-sl">/</span><span class="gx-crumb"></span></div>
     <div class="pd-top"><div class="pd-stage"><img class="pd-img" alt=""></div><aside class="pd-side"></aside></div>
     <section class="pd-sim"><h3>Similar photos</h3><div class="gx-grid pd-sim-grid"></div></section>`;
   document.body.appendChild(gxPd);
   gxSx = document.createElement('div');
   gxSx.id = 'sx'; gxSx.className = 'gx-ov'; gxSx.hidden = true;
   gxSx.setAttribute('role', 'dialog'); gxSx.setAttribute('aria-modal', 'true');
-  gxSx.innerHTML = `<button type="button" class="gx-back" aria-label="Back" onclick="gxBack()">${GX_BACK_ICON}</button><div class="sx-head"></div><div class="sx-body"><div class="gx-grid sx-grid"></div></div>`;
+  gxSx.innerHTML = `<div class="gx-nav"><button type="button" class="gx-back" onclick="gxBack()">← back</button><span class="gx-sl">/</span><span>photos</span><span class="gx-sl">/</span><span class="gx-crumb"></span></div><div class="sx-head"></div><div class="sx-body"><div class="gx-grid sx-grid"></div></div>`;
   document.body.appendChild(gxSx);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && (!gxPd.hidden || !gxSx.hidden) && !document.querySelector('#print-modal.open,#request-modal.open,#set-modal.open')) gxBack(); });
 }
@@ -3381,6 +3382,7 @@ function openPhotoDetail(id, srcEl, opts) {
   img.src = quick || thumbURL(p.src, 480, 66);
   img.alt = getTagsArray(p).slice(0, 3).join(', ');
   gxRenderSide(p);
+  { const c = gxPd.querySelector('.pd-side')._colls; gxPd.querySelector('.gx-crumb').textContent = (c && c[0] ? c[0].name : (CAMERA_LABELS[photoCamera(p)] || 'photo')); }
   const n = window.innerWidth <= 600 ? 2 : window.innerWidth <= 900 ? 3 : Math.min(6, Math.max(3, Math.floor((window.innerWidth - 144 + 24) / 244)));
   const grid = gxPd.querySelector('.pd-sim-grid');
   grid.style.setProperty('--gg', galleryGap() + 'px');
@@ -3398,7 +3400,7 @@ function openPhotoDetail(id, srcEl, opts) {
     if (!flipped) gxFadeIn(img, 0, 8);
     gxFadeIn(gxPd.querySelector('.pd-side'), 140);
     gxFadeIn(gxPd.querySelector('.pd-sim'), 240, 24);
-    gxFadeIn(gxPd.querySelector('.gx-back'), 160, 0);
+    gxFadeIn(gxPd.querySelector('.gx-nav'), 160, 0);
   });
   // swap in a sharp copy once it's loaded (no flash: the small one stays until then)
   const stage = gxPd.querySelector('.pd-stage');
@@ -3417,13 +3419,13 @@ function gxRenderSide(p) {
   const card = (c, i) => `<button type="button" class="pd-coll${c.kind === 'set' ? ' is-set' : ''}" onclick="gxOpenColl(${i}, this)">
       <span class="pd-coll-th"><img src="${thumbURL(c.th.src, 200, 60)}" alt="" loading="lazy" onerror="thumbRetry(this)" data-pid="${c.th.id}"></span>
       <span class="pd-coll-tx"><div class="pd-coll-name">${gxEsc(c.name)}</div>
-      <div class="pd-coll-sub">${c.count} photos · ${c.kind === 'set' ? 'Print set' + (gxCanShopSet(c.set) ? '<span class="pd-badge">' + bulkPct(SET_MIN) + '% off</span>' : '') : gxEsc(c.group)}</div></span></button>`;
+      <div class="pd-coll-sub">${c.kind === 'set' ? 'Print set' : gxEsc(c.group)} · ${c.count} photos${c.kind === 'set' && gxCanShopSet(c.set) ? '<span class="pd-badge">· ' + bulkPct(SET_MIN) + '% off</span>' : ''}</div></span></button>`;
   side._colls = colls;
   side.innerHTML = `<div class="pd-meta"><span class="pd-cam">${gxEsc(cam)}</span>
-      <button type="button" class="pd-icon" aria-label="Copy link" onclick="gxCopyLink(this)"><span class="pd-copied">Link copied</span><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></button></div>
-    ${colls.length ? `<div class="pd-in">In <b>${colls.length} collection${colls.length === 1 ? '' : 's'}</b></div><div class="pd-colls">${colls.map(card).join('')}</div>` : ''}
+      <button type="button" class="pd-icon" onclick="gxCopyLink(this)">Copy link</button></div>
+    ${colls.length ? `<div class="pd-in">In <b>${colls.length}</b> collection${colls.length === 1 ? '' : 's'}</div><div class="pd-colls">${colls.map(card).join('')}</div>` : ''}
     <div class="pd-actions">${p.for_sale
-      ? `<button type="button" class="pd-buy" onclick="openPrintModal('${p.id}')">Buy a print</button><div class="pd-note">Fine art paper or framed · free shipping</div>`
+      ? `<button type="button" class="pd-buy" onclick="openPrintModal('${p.id}')">Buy a print →</button><div class="pd-note">Fine art paper or framed · free shipping</div>`
       : `<button type="button" class="pd-buy ghost" onclick="openRequestModal('${p.id}')">Request a print</button><div class="pd-note">Not listed yet · ask and I'll make it available</div>`}</div>`;
 }
 function gxOpenColl(i, el) {
@@ -3442,7 +3444,7 @@ function gxOpenColl(i, el) {
 function gxCopyLink(btn) {
   const p = gxCurrent; if (!p) return;
   const url = location.origin + '/photos?photo=' + p.id;
-  const done = () => { btn.classList.add('done'); setTimeout(() => btn.classList.remove('done'), 1600); };
+  const done = () => { btn.classList.add('done'); btn.textContent = 'Copied ✓'; setTimeout(() => { btn.classList.remove('done'); btn.textContent = 'Copy link'; }, 1600); };
   try { navigator.clipboard.writeText(url).then(done, done); } catch (e) { done(); }
 }
 function gxCloseDetail(instant) {
@@ -3490,6 +3492,7 @@ function openStack(slug, srcEl, opts) {
 
   const shop = gxCanShopSet(set);
   const n = members.length;
+  gxSx.querySelector('.gx-crumb').textContent = 'sets';
   gxSx.querySelector('.sx-head').innerHTML = `<div><div class="sx-eyebrow">Print set · ${n} photos</div><h2 class="sx-title">${gxEsc(set.name)}</h2>
     <div class="sx-sub">${shop ? `Pick any ${SET_MIN} or more · <b>${bulkPct(SET_MIN)}% off</b> · free shipping` : 'A series, shot together'}</div></div>
     ${shop ? `<button type="button" class="sx-shop" onclick="gxShopSet('${gxEsc(slug)}')">Shop this set →</button>` : ''}`;
@@ -3515,7 +3518,7 @@ function openStack(slug, srcEl, opts) {
       gxFlip(t, fr, { dur: 720, delay: 60 + i * 45, rot, o0: i < 3 ? 1 : 0 });
     });
     gxFadeIn(gxSx.querySelector('.sx-head'), 120, 10);
-    gxFadeIn(gxSx.querySelector('.gx-back'), 160, 0);
+    gxFadeIn(gxSx.querySelector('.gx-nav'), 160, 0);
   });
   addHover('#sx button');
 }
