@@ -5,7 +5,12 @@
  *   meta-catalog.csv       (Meta Commerce Manager: Catalog > Data sources > scheduled feed URL)
  *   tiktok-catalog.csv     (TikTok Ads catalog)
  * Row id = <photoId>-<sku minus GLOBAL->, e.g. 14-FAP-8X12. /checkout.html relies on this format.
- * Keeps hand-written titles/descriptions already in pinterest-catalog.csv; new photos get generated copy.
+ * Title + description come from product-copy.json ({photoId: {title, blurb}}), written per photo
+ * from the image itself. The print line (real size range + framed) is appended per photo here.
+ * Photos missing from product-copy.json fall back to the old tag-built copy and are listed as a
+ * warning at the end of the run: add them to product-copy.json so every title stays unique.
+ * Changing a title or blurb is safe: ids, links and prices don't depend on it. Do NOT edit a
+ * photo's tags to change its name; the /print/<slug> URL is built from the tags.
  * Run from repo root:  node generate-feeds.js
  */
 const fs = require('fs');
@@ -60,8 +65,17 @@ async function main() {
   for (const it of items) if (await ensureImage(it)) local.add(it.id);
   const keep = new Set(items.map(i => `${i.id}.jpg`));
   for (const f of fs.readdirSync(IMG_DIR)) if (!keep.has(f)) { try { fs.unlinkSync(path.join(IMG_DIR, f)); } catch (e) {} }
+  const COPY = fs.existsSync('product-copy.json') ? JSON.parse(fs.readFileSync('product-copy.json', 'utf8')) : {};
+  const noCopy = [];
+  const sizeTxt = s => s.label.replace(/\s*Framed$/i, '').replace(/in\b/, '"').replace('x', '×');
   const rows = [];
   for (const it of items) {
+    const copy = COPY[String(it.id)];
+    if (!copy) noCopy.push(it.id);
+    const paper = it.offeredSizes.filter(s => !s.framed);
+    const anyFramed = it.offeredSizes.some(s => s.framed);
+    const range = paper.length > 1 ? `${sizeTxt(paper[0])} to ${sizeTxt(paper[paper.length - 1])}` : (paper.length ? sizeTxt(paper[0]) : '');
+    const printLine = `Fine art photograph by Nashville photographer Stuart Singleton. Giclée print on archival paper${range ? `, ${range}` : ''}${anyFramed ? ', framed options available' : ''}. Printed on demand, free shipping.`;
     const tags = it.tags.map(t => t.trim().toLowerCase());
     const bw = tags.some(t => t.includes('black'));
     const subj = tags.filter(t => !SKIP.has(t)).map(t => t.replace(/\b\w/g, c => c.toUpperCase()));
@@ -73,8 +87,8 @@ async function main() {
       const old = prior[id];
       rows.push({
         id,
-        title: old?.title || `${name}${bw ? ' in Black & White' : ''} — ${size}`.slice(0, 150),
-        description: old?.description || `Original fine-art photograph by Nashville-based photographer Stuart Singleton${it.camera === 'fujifilm-xt5' ? ', shot on a Fujifilm X-T5' : ''}. ${it.sentence.replace(/ No\. \d+$/, '').replace(/,? by Stuart Singleton$/, '')}${bw ? ', in black and white' : ''}. Museum-quality giclée print on archival fine-art paper${s.framed ? ', framed' : ''}. Printed on demand, free shipping.`,
+        title: copy ? copy.title.slice(0, 150) : old?.title || `${name}${bw ? ' in Black & White' : ''} — ${size}`.slice(0, 150),
+        description: copy ? `${copy.blurb} ${printLine}` : old?.description || `Original fine-art photograph by Nashville-based photographer Stuart Singleton${it.camera === 'fujifilm-xt5' ? ', shot on a Fujifilm X-T5' : ''}. ${it.sentence.replace(/ No\. \d+$/, '').replace(/,? by Stuart Singleton$/, '')}${bw ? ', in black and white' : ''}. Museum-quality giclée print on archival fine-art paper${s.framed ? ', framed' : ''}. Printed on demand, free shipping.`,
         link: it.printPage,
         image_link: image,
         priceNum: s.priceUSD.toFixed(2),
@@ -97,5 +111,6 @@ async function main() {
   write('tiktok-catalog.csv', ['sku_id','title','description','availability','condition','price','currency','link','image_link','brand','google_product_category','item_group_id'],
     rows.map(r => ({ ...r, sku_id: r.id, price: r.priceNum, currency: 'USD' })));
   console.log(`feeds: ${items.length} photos, ${rows.length} rows (pinterest/meta/tiktok), ${local.size} images on site CDN`);
+  if (noCopy.length) console.warn(`  ! ${noCopy.length} photo(s) have no entry in product-copy.json (generic title used): ${noCopy.join(', ')}`);
 }
 main().catch(e => { console.error(e); process.exit(1); });
