@@ -5,10 +5,11 @@
  *   meta-catalog.csv       (Meta Commerce Manager: Catalog > Data sources > scheduled feed URL)
  *   tiktok-catalog.csv     (TikTok Ads catalog)
  * Row id = <photoId>-<sku minus GLOBAL->, e.g. 14-FAP-8X12. /checkout.html relies on this format.
- * Title + description come from product-copy.json ({photoId: {title, blurb}}), written per photo
- * from the image itself. The print line (real size range + framed) is appended per photo here.
- * Photos missing from product-copy.json fall back to the old tag-built copy and are listed as a
- * warning at the end of the run: add them to product-copy.json so every title stays unique.
+ * Title + description come from the photos table (photos.title / photos.description, written per
+ * photo from the image and editable in the DB). product-copy.json is only a fallback for a photo
+ * whose DB fields are empty. The print line (real size range + framed) is appended per photo here.
+ * Photos with no copy anywhere fall back to the old tag-built copy and are listed as a warning at
+ * the end of the run: give them a title + description in the DB so every title stays unique.
  * Changing a title or blurb is safe: ids, links and prices don't depend on it. Do NOT edit a
  * photo's tags to change its name; the /print/<slug> URL is built from the tags.
  * Run from repo root:  node generate-feeds.js
@@ -70,7 +71,7 @@ async function main() {
   const sizeTxt = s => s.label.replace(/\s*Framed$/i, '').replace(/in\b/, '"').replace('x', '×');
   const rows = [];
   for (const it of items) {
-    const copy = COPY[String(it.id)];
+    const copy = it.hasCopy ? { title: it.title, blurb: `${it.sentence}.` } : COPY[String(it.id)];
     if (!copy) noCopy.push(it.id);
     const paper = it.offeredSizes.filter(s => !s.framed);
     const anyFramed = it.offeredSizes.some(s => s.framed);
@@ -111,6 +112,6 @@ async function main() {
   write('tiktok-catalog.csv', ['sku_id','title','description','availability','condition','price','currency','link','image_link','brand','google_product_category','item_group_id'],
     rows.map(r => ({ ...r, sku_id: r.id, price: r.priceNum, currency: 'USD' })));
   console.log(`feeds: ${items.length} photos, ${rows.length} rows (pinterest/meta/tiktok), ${local.size} images on site CDN`);
-  if (noCopy.length) console.warn(`  ! ${noCopy.length} photo(s) have no entry in product-copy.json (generic title used): ${noCopy.join(', ')}`);
+  if (noCopy.length) console.warn(`  ! ${noCopy.length} photo(s) have no title/description in the DB (generic title used): ${noCopy.join(', ')}`);
 }
 main().catch(e => { console.error(e); process.exit(1); });

@@ -86,6 +86,14 @@ function jsonLd(item) {
     artwork.height = { '@type': 'QuantitativeValue', value: item.pixelHeight, unitCode: 'E37' };
   }
   if (offers) artwork.offers = offers;
+  // Where it was taken (place level only; exact coordinates stay private in photo_geo).
+  if (item.place || item.region || item.country) {
+    const address = { '@type': 'PostalAddress' };
+    if (item.place) address.addressLocality = item.place;
+    if (item.region) address.addressRegion = item.region;
+    if (item.country) address.addressCountry = item.country;
+    artwork.contentLocation = { '@type': 'Place', name: item.landmark || item.locationLine, address };
+  }
   if (item.camera) artwork.creator.knowsAbout = item.camera;
   artwork.creator['@id'] = `${SITE}/#person`;
   artwork.creator.url = `${SITE}/`;
@@ -144,7 +152,10 @@ function aboutBlock(item) {
   const d = (item.pixelWidth && item.pixelHeight)
     ? ` The source file measures ${item.pixelWidth} by ${item.pixelHeight} pixels, so every offered size prints at 200 DPI or sharper.`
     : '';
-  return `<h2>About this print</h2>
+  const where = item.locationLine
+    ? `\n    <p class="muted">Taken in ${esc(item.locationLine)}${item.landmark ? ` (${esc(item.landmark)})` : ''}.</p>`
+    : '';
+  return `<h2>About this print</h2>${where}
     <p>${esc(item.sentence || item.description)}. Produced as a giclee print on archival fine art paper. Sizes are offered only at the photo's native aspect ratio, so the image is never cropped.${d}</p>
     <p>Every print is made on demand by a professional print lab. Free shipping to 35 countries across North America, the UK, Europe, Australia, New Zealand and Japan (framed prints: US, UK and Europe). Secure checkout via Stripe.</p>`;
 }

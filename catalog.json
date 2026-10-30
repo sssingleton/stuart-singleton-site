@@ -11,13 +11,13 @@
   "shop": "https://stuartsingleton.com/shop",
   "currency": "USD",
   "priceModel": "All-in pricing with free worldwide shipping. Unframed prints $29 to $115. Framed prints $119 to $245. A size is offered only when the photo has enough resolution to print it sharply at 200 DPI without cropping.",
-  "generatedAt": "2026-10-30T17:09:02.194Z",
+  "generatedAt": "2026-10-30T18:02:29.545Z",
   "count": 233,
   "products": [
     {
       "id": 463,
-      "title": "Monte Carlo / Monaco / Europe No. 3",
-      "description": "photograph of europe in Monte Carlo, Monaco, by Stuart Singleton No. 3",
+      "title": "Balconies Above a Garden, Monte Carlo",
+      "description": "Rows of apartment balconies rising above a quiet garden with a wood fence and clipped shrubs in Monte Carlo. Calm Monaco architecture",
       "url": "https://stuartsingleton.com/p?id=463",
       "printPage": "https://stuartsingleton.com/print/monte-carlo-monaco-europe-463",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378364303_pyf6.jpg?width=1200&quality=80&resize=contain",
@@ -90,8 +90,8 @@
     },
     {
       "id": 462,
-      "title": "Franklin / Dark / Abstract No. 11",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 11",
+      "title": "Scattered Magenta Glow, Franklin",
+      "description": "Magenta blossom lights scattered across the dark in Franklin, Tennessee, sharp and blurred at once",
       "url": "https://stuartsingleton.com/p?id=462",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-462",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378103346_2b42.jpg?width=1200&quality=80&resize=contain",
@@ -167,8 +167,8 @@
     },
     {
       "id": 461,
-      "title": "Franklin / Dark / Abstract No. 10",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 10",
+      "title": "Pink and Blue Flower Lights, Franklin",
+      "description": "Pink flower lights with a column of blue blooms glowing through the dark in Franklin, Tennessee",
       "url": "https://stuartsingleton.com/p?id=461",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-461",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378101585_7ae2.jpg?width=1200&quality=80&resize=contain",
@@ -244,8 +244,8 @@
     },
     {
       "id": 460,
-      "title": "Franklin / Dark / Abstract No. 9",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 9",
+      "title": "Falling Pink Light Bokeh, Franklin",
+      "description": "Pink light dissolving into round bokeh as it falls through the frame in Franklin, Tennessee. Soft, abstract night color",
       "url": "https://stuartsingleton.com/p?id=460",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-460",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378075467_vupv.jpg?width=1200&quality=80&resize=contain",
@@ -321,8 +321,8 @@
     },
     {
       "id": 459,
-      "title": "Franklin / Dark / Abstract No. 8",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 8",
+      "title": "Pink Blossom Lights on a Dark Branch, Franklin",
+      "description": "Pink blossom lights wrapped along a dark branch at night in Franklin, Tennessee",
       "url": "https://stuartsingleton.com/p?id=459",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-459",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378075463_4hp1.jpg?width=1200&quality=80&resize=contain",
@@ -398,8 +398,8 @@
     },
     {
       "id": 458,
-      "title": "Franklin / Dark / Abstract No. 7",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 7",
+      "title": "Magenta Blossom Lights Up Close, Franklin",
+      "description": "Magenta blossom lights up close, each little flower glowing white at its center, Franklin, Tennessee",
       "url": "https://stuartsingleton.com/p?id=458",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-458",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378075047_s6hw.jpg?width=1200&quality=80&resize=contain",
@@ -475,8 +475,8 @@
     },
     {
       "id": 457,
-      "title": "Franklin / Dark / Abstract No. 6",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 6",
+      "title": "Strands of Pink and Blue Blossom Lights, Franklin",
+      "description": "Strands of pink and blue flower lights curving through the dark in Franklin, Tennessee",
       "url": "https://stuartsingleton.com/p?id=457",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-457",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378056746_2fwu.jpg?width=1200&quality=80&resize=contain",
@@ -552,8 +552,8 @@
     },
     {
       "id": 456,
-      "title": "Franklin / Dark / Abstract No. 5",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 5",
+      "title": "Cascade of Pink Light, Franklin",
+      "description": "A cascade of pink blossom lights falling into soft focus in Franklin, Tennessee. Dreamy, almost liquid color",
       "url": "https://stuartsingleton.com/p?id=456",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-456",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378056062_t1w3.jpg?width=1200&quality=80&resize=contain",
@@ -629,8 +629,8 @@
     },
     {
       "id": 455,
-      "title": "Franklin / Dark / Abstract No. 4",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 4",
+      "title": "Cluster of Magenta Flower Lights, Franklin",
+      "description": "A tight cluster of magenta flower lights with a few blue blooms, glowing against the night in Franklin, Tennessee",
       "url": "https://stuartsingleton.com/p?id=455",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-455",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378055882_dfd8.jpg?width=1200&quality=80&resize=contain",
@@ -706,8 +706,8 @@
     },
     {
       "id": 454,
-      "title": "Franklin / Dark / Abstract No. 3",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 3",
+      "title": "Glowing Pink Blossom Lights, Franklin",
+      "description": "Pink blossom lights glowing sharp in the center and melting into soft bokeh around the edges, Franklin, Tennessee",
       "url": "https://stuartsingleton.com/p?id=454",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-454",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378037626_13fp.jpg?width=1200&quality=80&resize=contain",
@@ -783,8 +783,8 @@
     },
     {
       "id": 453,
-      "title": "Franklin / Dark / Abstract No. 2",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton No. 2",
+      "title": "Field of Magenta Lights, Franklin",
+      "description": "Hundreds of tiny magenta blossom lights scattered through the dark in Franklin, Tennessee. A dense, sparkling abstract",
       "url": "https://stuartsingleton.com/p?id=453",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-453",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378037626_m6bn.jpg?width=1200&quality=80&resize=contain",
@@ -860,8 +860,8 @@
     },
     {
       "id": 452,
-      "title": "Franklin / Dark / Abstract",
-      "description": "photograph of franklin, dark, abstract, tennessee, neon in Nashville, by Stuart Singleton",
+      "title": "Magenta Blossom Lights With Blue Accents, Franklin",
+      "description": "Flower shaped lights glowing magenta in the dark in Franklin, Tennessee, a few blue blossoms breaking up the pink",
       "url": "https://stuartsingleton.com/p?id=452",
       "printPage": "https://stuartsingleton.com/print/franklin-dark-abstract-452",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793378037626_krld.jpg?width=1200&quality=80&resize=contain",
@@ -937,8 +937,8 @@
     },
     {
       "id": 451,
-      "title": "Franklin No. 9",
-      "description": "photograph of franklin, by Stuart Singleton No. 9",
+      "title": "Firefighter Helmet Close Up, Franklin",
+      "description": "A firefighter's helmet and coat seen close from the side in Franklin, Tennessee, reflective stripes glowing in the dark",
       "url": "https://stuartsingleton.com/p?id=451",
       "printPage": "https://stuartsingleton.com/print/franklin-451",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793376464118_h631.jpg?width=1200&quality=80&resize=contain",
@@ -1007,8 +1007,8 @@
     },
     {
       "id": 450,
-      "title": "Franklin No. 8",
-      "description": "photograph of franklin, by Stuart Singleton No. 8",
+      "title": "Turnout Coat and Helmet, Franklin",
+      "description": "A tighter, warmer frame of the same corner in Franklin, Tennessee: reflective stripes catching the bulb light against deep red wood and shadow",
       "url": "https://stuartsingleton.com/p?id=450",
       "printPage": "https://stuartsingleton.com/print/franklin-450",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793376457578_dkv5.jpg?width=1200&quality=80&resize=contain",
@@ -1077,8 +1077,8 @@
     },
     {
       "id": 449,
-      "title": "Franklin No. 7",
-      "description": "photograph of franklin, by Stuart Singleton No. 7",
+      "title": "Turnout Gear and Its Reflection, Franklin",
+      "description": "Firefighter turnout gear and its reflection in a dim wood paneled room in Franklin, Tennessee",
       "url": "https://stuartsingleton.com/p?id=449",
       "printPage": "https://stuartsingleton.com/print/franklin-449",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793376457178_7bkw.jpg?width=1200&quality=80&resize=contain",
@@ -1147,8 +1147,8 @@
     },
     {
       "id": 448,
-      "title": "Franklin No. 6",
-      "description": "photograph of franklin, by Stuart Singleton No. 6",
+      "title": "Firefighter Coat by a Wood Bench, Franklin",
+      "description": "A turnout coat and helmet hang above a wood bench in Franklin, Tennessee, their reflection waiting in the mirror beside them",
       "url": "https://stuartsingleton.com/p?id=448",
       "printPage": "https://stuartsingleton.com/print/franklin-448",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793376456968_vsre.jpg?width=1200&quality=80&resize=contain",
@@ -1217,8 +1217,8 @@
     },
     {
       "id": 447,
-      "title": "Franklin No. 5",
-      "description": "photograph of franklin, by Stuart Singleton No. 5",
+      "title": "Helmet and Coat in the Mirror, Franklin",
+      "description": "A firefighter's helmet and coat close up beside a mirror that repeats them, in a dark wood interior in Franklin, Tennessee",
       "url": "https://stuartsingleton.com/p?id=447",
       "printPage": "https://stuartsingleton.com/print/franklin-447",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793376448441_ky3k.jpg?width=1200&quality=80&resize=contain",
@@ -1287,8 +1287,8 @@
     },
     {
       "id": 446,
-      "title": "Franklin No. 4",
-      "description": "photograph of franklin, by Stuart Singleton No. 4",
+      "title": "Firefighter's Gear Under Edison Bulbs, Franklin",
+      "description": "A firefighter's helmet and turnout coat hang in a dark wood interior in Franklin, Tennessee, lit by warm Edison bulbs and doubled in a mirror",
       "url": "https://stuartsingleton.com/p?id=446",
       "printPage": "https://stuartsingleton.com/print/franklin-446",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793376448441_b87r.jpg?width=1200&quality=80&resize=contain",
@@ -1357,8 +1357,8 @@
     },
     {
       "id": 445,
-      "title": "Franklin No. 3",
-      "description": "photograph of franklin, by Stuart Singleton No. 3",
+      "title": "Turnout Gear Under a Neon Sign, Franklin",
+      "description": "A firefighter's helmet and turnout coat in a dark wood room in Franklin, Tennessee, a neon motorcycle sign glowing in the mirror",
       "url": "https://stuartsingleton.com/p?id=445",
       "printPage": "https://stuartsingleton.com/print/franklin-445",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793376448441_gv1l.jpg?width=1200&quality=80&resize=contain",
@@ -1427,8 +1427,8 @@
     },
     {
       "id": 444,
-      "title": "Vermont / Trees / Sky No. 7",
-      "description": "photograph of vermont, trees, sky, by Stuart Singleton No. 7",
+      "title": "Pines and Fading Hills, Vermont",
+      "description": "A tall pine frames a valley of hazy Vermont hills, red fall underbrush below and a pale pink flare drifting in from the left. Quiet, dreamlike landscape color",
       "url": "https://stuartsingleton.com/p?id=444",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-sky-444",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793325934163_vnfq.jpg?width=1200&quality=80&resize=contain",
@@ -1499,8 +1499,8 @@
     },
     {
       "id": 442,
-      "title": "Vermont / Trees / Sky No. 5",
-      "description": "photograph of vermont, trees, sky, by Stuart Singleton No. 5",
+      "title": "Tall Pine Over a Blue Valley, Vermont",
+      "description": "A tall pine standing over a blue Vermont valley, soft pink light and haze drifting through the frame",
       "url": "https://stuartsingleton.com/p?id=442",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-sky-442",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793325930656_kdxb.jpg?width=1200&quality=80&resize=contain",
@@ -1571,8 +1571,8 @@
     },
     {
       "id": 443,
-      "title": "Vermont / Trees / Sky No. 6",
-      "description": "photograph of vermont, trees, sky, by Stuart Singleton No. 6",
+      "title": "Fog in the Valley, Vermont",
+      "description": "Low fog settling into a Vermont valley below dark trees and red fall brush",
       "url": "https://stuartsingleton.com/p?id=443",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-sky-443",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793325930304_gibg.jpg?width=1200&quality=80&resize=contain",
@@ -1643,8 +1643,8 @@
     },
     {
       "id": 441,
-      "title": "Vermont / Trees / Sky No. 4",
-      "description": "photograph of vermont, trees, sky, by Stuart Singleton No. 4",
+      "title": "Pine and Pink Light Leak, Vermont",
+      "description": "A tall pine and a valley of Vermont hills, a pink light leak curving across the left of the frame",
       "url": "https://stuartsingleton.com/p?id=441",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-sky-441",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793325930481_nel4.jpg?width=1200&quality=80&resize=contain",
@@ -1715,8 +1715,8 @@
     },
     {
       "id": 440,
-      "title": "Vermont / Trees / Sky No. 3",
-      "description": "photograph of vermont, trees, sky, by Stuart Singleton No. 3",
+      "title": "Hazy Valley and Red Brush, Vermont",
+      "description": "A hazy blue valley in Vermont, a red autumn shrub glowing against the dark woods below",
       "url": "https://stuartsingleton.com/p?id=440",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-sky-440",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793325924207_m1fj.jpg?width=1200&quality=80&resize=contain",
@@ -1787,8 +1787,8 @@
     },
     {
       "id": 439,
-      "title": "Vermont / Trees / Sky No. 2",
-      "description": "photograph of vermont, trees, sky, by Stuart Singleton No. 2",
+      "title": "Blue Ridges Above a Dark Forest, Vermont",
+      "description": "Blue Vermont ridgelines stacked in haze above a dark forest, with red fall brush along the bottom of the frame",
       "url": "https://stuartsingleton.com/p?id=439",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-sky-439",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793325924207_c9fl.jpg?width=1200&quality=80&resize=contain",
@@ -1859,8 +1859,8 @@
     },
     {
       "id": 438,
-      "title": "Vermont / Trees / Sky",
-      "description": "photograph of vermont, trees, sky, by Stuart Singleton",
+      "title": "Misty Ridgelines, Vermont",
+      "description": "Layers of blue mountain ridges fade into haze above a dark forest in Vermont, red autumn brush in the foreground and a soft pink light leak across the frame",
       "url": "https://stuartsingleton.com/p?id=438",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-sky-438",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793325924207_72ss.jpg?width=1200&quality=80&resize=contain",
@@ -1931,8 +1931,8 @@
     },
     {
       "id": 436,
-      "title": "Nashville / Tennessee No. 6",
-      "description": "photograph of tennessee in Nashville, by Stuart Singleton No. 6",
+      "title": "Escalator Light and Shadow, Nashville",
+      "description": "A Nashville escalator split between deep shadow and warm light, with a tower reflected in the dark glass",
       "url": "https://stuartsingleton.com/p?id=436",
       "printPage": "https://stuartsingleton.com/print/nashville-tennessee-436",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305663899_6l22.jpg?width=1200&quality=80&resize=contain",
@@ -2002,8 +2002,8 @@
     },
     {
       "id": 437,
-      "title": "Nashville / Tennessee No. 7",
-      "description": "photograph of tennessee in Nashville, by Stuart Singleton No. 7",
+      "title": "Golden Light on an Escalator, Nashville",
+      "description": "Golden light running along a brushed steel escalator in Nashville, city reflections in the glass above",
       "url": "https://stuartsingleton.com/p?id=437",
       "printPage": "https://stuartsingleton.com/print/nashville-tennessee-437",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305663899_dxai.jpg?width=1200&quality=80&resize=contain",
@@ -2067,8 +2067,8 @@
     },
     {
       "id": 435,
-      "title": "Nashville / Tennessee No. 5",
-      "description": "photograph of tennessee in Nashville, by Stuart Singleton No. 5",
+      "title": "Escalator Shadows, Nashville",
+      "description": "Deep shadow and a sliver of warm light along an escalator in Nashville, a city building reflected in the glass",
       "url": "https://stuartsingleton.com/p?id=435",
       "printPage": "https://stuartsingleton.com/print/nashville-tennessee-435",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305663898_rf7m.jpg?width=1200&quality=80&resize=contain",
@@ -2132,8 +2132,8 @@
     },
     {
       "id": 434,
-      "title": "Puerto Rico / Plants / Flowers No. 14",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 14",
+      "title": "Abstract Orange Bloom Blur, Puerto Rico",
+      "description": "An orange bloom blurred almost to abstraction over dark leaves and white light in Puerto Rico",
       "url": "https://stuartsingleton.com/p?id=434",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-434",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305114065_gfgd.jpg?width=1200&quality=80&resize=contain",
@@ -2204,8 +2204,8 @@
     },
     {
       "id": 433,
-      "title": "Puerto Rico / Plants / Flowers No. 13",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 13",
+      "title": "Red Blossoms Among Dark Leaves, Puerto Rico",
+      "description": "Red blossoms scattered among sweeping dark leaves in Puerto Rico, soft pink light behind",
       "url": "https://stuartsingleton.com/p?id=433",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-433",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305113683_ygke.jpg?width=1200&quality=80&resize=contain",
@@ -2276,8 +2276,8 @@
     },
     {
       "id": 432,
-      "title": "Puerto Rico / Plants / Flowers No. 12",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 12",
+      "title": "Burst of Red Blossoms, Puerto Rico",
+      "description": "A full burst of red blossoms filling the frame against dark leaves and pale pink sky in Puerto Rico",
       "url": "https://stuartsingleton.com/p?id=432",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-432",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305113598_cxh7.jpg?width=1200&quality=80&resize=contain",
@@ -2348,8 +2348,8 @@
     },
     {
       "id": 431,
-      "title": "Puerto Rico / Plants / Flowers No. 11",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 11",
+      "title": "Pink and Red Blossom Haze, Puerto Rico",
+      "description": "A haze of pink light and red blossoms over a dark garden in Puerto Rico. Soft, film-like color",
       "url": "https://stuartsingleton.com/p?id=431",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-431",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305106474_6nqn.jpg?width=1200&quality=80&resize=contain",
@@ -2420,8 +2420,8 @@
     },
     {
       "id": 429,
-      "title": "Puerto Rico / Plants / Flowers No. 9",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 9",
+      "title": "Bright Red Blooms Up Close, Puerto Rico",
+      "description": "Bright red blooms up close against sweeping dark leaves and a blush pink sky in Puerto Rico",
       "url": "https://stuartsingleton.com/p?id=429",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-429",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305106374_fpdk.jpg?width=1200&quality=80&resize=contain",
@@ -2492,8 +2492,8 @@
     },
     {
       "id": 430,
-      "title": "Puerto Rico / Plants / Flowers No. 10",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 10",
+      "title": "Dreamy Red Blossoms in Motion, Puerto Rico",
+      "description": "Red blossoms softened into a dreamy, ghosted layer over dark foliage in Puerto Rico",
       "url": "https://stuartsingleton.com/p?id=430",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-430",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305106416_8wzd.jpg?width=1200&quality=80&resize=contain",
@@ -2564,8 +2564,8 @@
     },
     {
       "id": 428,
-      "title": "Puerto Rico / Plants / Flowers No. 8",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 8",
+      "title": "Faded Red Blossoms, Puerto Rico",
+      "description": "Faded red blossoms drifting through soft pink light in Puerto Rico, the leaves dissolving into shadow",
       "url": "https://stuartsingleton.com/p?id=428",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-428",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305095156_9u2i.jpg?width=1200&quality=80&resize=contain",
@@ -2636,8 +2636,8 @@
     },
     {
       "id": 427,
-      "title": "Puerto Rico / Plants / Flowers No. 7",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 7",
+      "title": "Red Blossoms on a Pink Haze, Puerto Rico",
+      "description": "Red blossoms floating on a pale pink haze above dark leaves in Puerto Rico",
       "url": "https://stuartsingleton.com/p?id=427",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-427",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305095156_mav5.jpg?width=1200&quality=80&resize=contain",
@@ -2708,8 +2708,8 @@
     },
     {
       "id": 426,
-      "title": "Puerto Rico / Plants / Flowers No. 6",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 6",
+      "title": "Diagonal Row of Red Blossoms, Puerto Rico",
+      "description": "A diagonal row of red blossoms crossing a pink and green haze in Puerto Rico. Dreamy botanical color",
       "url": "https://stuartsingleton.com/p?id=426",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-426",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305095156_zf7n.jpg?width=1200&quality=80&resize=contain",
@@ -2780,8 +2780,8 @@
     },
     {
       "id": 425,
-      "title": "Puerto Rico / Plants / Flowers No. 5",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 5",
+      "title": "Single Red Cluster in the Dark, Puerto Rico",
+      "description": "A single cluster of red flowers glowing low in the frame against deep shadow and a pink sky in Puerto Rico",
       "url": "https://stuartsingleton.com/p?id=425",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-425",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793303553268_92ks.jpg?width=1200&quality=80&resize=contain",
@@ -2852,8 +2852,8 @@
     },
     {
       "id": 424,
-      "title": "Puerto Rico / Plants / Flowers No. 4",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 4",
+      "title": "Red Blossoms in Soft Focus, Puerto Rico",
+      "description": "Red blossoms in soft focus over dark foliage in Puerto Rico. A gentle, painterly flower study",
       "url": "https://stuartsingleton.com/p?id=424",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-424",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793303553081_cduf.jpg?width=1200&quality=80&resize=contain",
@@ -2924,8 +2924,8 @@
     },
     {
       "id": 423,
-      "title": "Puerto Rico / Plants / Flowers No. 3",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 3",
+      "title": "Red Blooms and Dark Leaves, Puerto Rico",
+      "description": "Red blooms and broad dark leaves in Puerto Rico, the flowers sharp against a hazy pink background",
       "url": "https://stuartsingleton.com/p?id=423",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-423",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793303492034_74d3.jpg?width=1200&quality=80&resize=contain",
@@ -2996,8 +2996,8 @@
     },
     {
       "id": 422,
-      "title": "Puerto Rico / Plants / Flowers No. 2",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton No. 2",
+      "title": "Red Flower Cluster in Shadow, Puerto Rico",
+      "description": "A cluster of red flowers held in deep green shadow in Puerto Rico, with a pale pink sky above",
       "url": "https://stuartsingleton.com/p?id=422",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-422",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793303492035_nerg.jpg?width=1200&quality=80&resize=contain",
@@ -3068,8 +3068,8 @@
     },
     {
       "id": 421,
-      "title": "Puerto Rico / Plants / Flowers",
-      "description": "photograph of plants, flowers in Puerto Rico, by Stuart Singleton",
+      "title": "Red Blossoms Against a Pink Sky, Puerto Rico",
+      "description": "A cluster of red blossoms rising against a soft pink sky in Puerto Rico, dark leaves in the foreground",
       "url": "https://stuartsingleton.com/p?id=421",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-flowers-421",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793303492035_6zvt.jpg?width=1200&quality=80&resize=contain",
@@ -3140,8 +3140,8 @@
     },
     {
       "id": 420,
-      "title": "Nashville / Tennessee No. 4",
-      "description": "photograph of tennessee in Nashville, by Stuart Singleton No. 4",
+      "title": "Escalator and Glass Tower Reflection, Nashville",
+      "description": "A glass tower reflected in a dark escalator window in Nashville, a band of warm light running down the steel",
       "url": "https://stuartsingleton.com/p?id=420",
       "printPage": "https://stuartsingleton.com/print/nashville-tennessee-420",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793302106218_flrf.jpg?width=1200&quality=80&resize=contain",
@@ -3211,8 +3211,8 @@
     },
     {
       "id": 419,
-      "title": "Nashville / Tennessee No. 3",
-      "description": "photograph of tennessee in Nashville, by Stuart Singleton No. 3",
+      "title": "Downtown Reflected in an Escalator, Nashville",
+      "description": "Downtown Nashville reflected in the glass beside an escalator, warm light on brushed steel against deep blue shadow",
       "url": "https://stuartsingleton.com/p?id=419",
       "printPage": "https://stuartsingleton.com/print/nashville-tennessee-419",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793302106217_hb4i.jpg?width=1200&quality=80&resize=contain",
@@ -3282,8 +3282,8 @@
     },
     {
       "id": 418,
-      "title": "Nashville / Tennessee No. 2",
-      "description": "photograph of tennessee in Nashville, by Stuart Singleton No. 2",
+      "title": "Escalator Rail and City Reflection, Nashville",
+      "description": "The rail of a Nashville escalator cutting a diagonal through deep shadow, a city building reflected in the glass",
       "url": "https://stuartsingleton.com/p?id=418",
       "printPage": "https://stuartsingleton.com/print/nashville-tennessee-418",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793302106218_zov6.jpg?width=1200&quality=80&resize=contain",
@@ -3353,8 +3353,8 @@
     },
     {
       "id": 417,
-      "title": "Nashville / Tennessee",
-      "description": "photograph of tennessee in Nashville, by Stuart Singleton",
+      "title": "Escalator Reflections in Warm Light, Nashville",
+      "description": "Warm light along a stainless escalator, with downtown Nashville towers reflected in the dark glass above",
       "url": "https://stuartsingleton.com/p?id=417",
       "printPage": "https://stuartsingleton.com/print/nashville-tennessee-417",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793298022360.jpg?width=1200&quality=80&resize=contain",
@@ -3424,8 +3424,8 @@
     },
     {
       "id": 416,
-      "title": "Nashville / Tennessee / Ethereal No. 2",
-      "description": "photograph of tennessee, ethereal in Nashville, by Stuart Singleton No. 2",
+      "title": "Glass Tower and Crane Reflection, Nashville",
+      "description": "A glass tower, a construction crane and steel cross bracing layered in reflection in Nashville. Cool blue city abstract",
       "url": "https://stuartsingleton.com/p?id=416",
       "printPage": "https://stuartsingleton.com/print/nashville-tennessee-ethereal-416",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793219633827.jpg?width=1200&quality=80&resize=contain",
@@ -3497,8 +3497,8 @@
     },
     {
       "id": 415,
-      "title": "Nashville / Tennessee / Ethereal",
-      "description": "photograph of tennessee, ethereal in Nashville, by Stuart Singleton",
+      "title": "Steel Beams and Glass Reflections, Nashville",
+      "description": "Steel beams and layered glass reflections of downtown Nashville, cool blue towers and warm light on the street below",
       "url": "https://stuartsingleton.com/p?id=415",
       "printPage": "https://stuartsingleton.com/print/nashville-tennessee-ethereal-415",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793219573636.jpg?width=1200&quality=80&resize=contain",
@@ -3570,8 +3570,8 @@
     },
     {
       "id": 414,
-      "title": "Vermont / Trees / Fall No. 10",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton No. 10",
+      "title": "Window and Black Shutter in Autumn, Vermont",
+      "description": "An eight pane window and a black shutter framing Vermont trees in full fall color",
       "url": "https://stuartsingleton.com/p?id=414",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-414",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793216550806.jpg?width=1200&quality=80&resize=contain",
@@ -3643,8 +3643,8 @@
     },
     {
       "id": 413,
-      "title": "Vermont / Trees / Fall No. 9",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton No. 9",
+      "title": "Bare Branches and Fall Color Through Glass, Vermont",
+      "description": "Bare branches and peak orange foliage through a single window cross in Vermont, a reflection glowing faintly in the glass",
       "url": "https://stuartsingleton.com/p?id=413",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-413",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793216439152.jpg?width=1200&quality=80&resize=contain",
@@ -3716,8 +3716,8 @@
     },
     {
       "id": 412,
-      "title": "Vermont / Trees / Fall No. 8",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton No. 8",
+      "title": "Autumn Window From Below, Vermont",
+      "description": "Looking up through a many paned window at Vermont autumn trees and blue sky, the white frame cutting the color into a grid",
       "url": "https://stuartsingleton.com/p?id=412",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-412",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793216236683.jpg?width=1200&quality=80&resize=contain",
@@ -3789,8 +3789,8 @@
     },
     {
       "id": 411,
-      "title": "Vermont / Trees / Fall No. 7",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton No. 7",
+      "title": "Grid of Autumn Panes, Vermont",
+      "description": "A tall grid of window panes, each one filled with orange and gold Vermont foliage under a clear blue sky",
       "url": "https://stuartsingleton.com/p?id=411",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-411",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793214609352.jpg?width=1200&quality=80&resize=contain",
@@ -3862,8 +3862,8 @@
     },
     {
       "id": 410,
-      "title": "Vermont / Trees / Fall No. 6",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton No. 6",
+      "title": "Fall Foliage and Window Sill, Vermont",
+      "description": "A wider look through the same Vermont window, white sill in the foreground and burning orange trees beyond. Soft reflections give it a dreamy, layered feel",
       "url": "https://stuartsingleton.com/p?id=410",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-410",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793212709533.jpg?width=1200&quality=80&resize=contain",
@@ -3935,8 +3935,8 @@
     },
     {
       "id": 409,
-      "title": "Vermont / Trees / Fall No. 5",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton No. 5",
+      "title": "Autumn Trees and Distant Hills Through Glass, Vermont",
+      "description": "Vermont fall trees and a line of distant blue hills seen through a paned window, color and reflection blending in the glass",
       "url": "https://stuartsingleton.com/p?id=409",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-409",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793212230654.jpg?width=1200&quality=80&resize=contain",
@@ -4008,8 +4008,8 @@
     },
     {
       "id": 408,
-      "title": "Vermont / Trees / Fall No. 4",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton No. 4",
+      "title": "Six Pane Window and Autumn Glow, Vermont",
+      "description": "A six pane window filled with Vermont autumn color, a warm lamp reflection glowing in the lower glass",
       "url": "https://stuartsingleton.com/p?id=408",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-408",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793211177235.jpg?width=1200&quality=80&resize=contain",
@@ -4081,8 +4081,8 @@
     },
     {
       "id": 407,
-      "title": "Vermont / Trees / Fall No. 3",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton No. 3",
+      "title": "Window Cross Against Autumn Trees, Vermont",
+      "description": "A white window cross set against burning orange trees and blue sky in Vermont, with the sill catching the light below",
       "url": "https://stuartsingleton.com/p?id=407",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-407",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793211110636.jpg?width=1200&quality=80&resize=contain",
@@ -4154,8 +4154,8 @@
     },
     {
       "id": 406,
-      "title": "Vermont / Trees / Fall No. 2",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton No. 2",
+      "title": "Fall Foliage Through Three Panes, Vermont",
+      "description": "A wide view of Vermont fall color through three window panes, gold and rust leaves with a soft glowing reflection in the glass",
       "url": "https://stuartsingleton.com/p?id=406",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-406",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793211046177.jpg?width=1200&quality=80&resize=contain",
@@ -4227,8 +4227,8 @@
     },
     {
       "id": 405,
-      "title": "Vermont / Trees / Fall",
-      "description": "photograph of vermont, trees, fall, sky, by Stuart Singleton",
+      "title": "Autumn Through a Window, Vermont",
+      "description": "Peak Vermont foliage seen through an old paned window, orange and gold leaves against a deep blue sky with a faint reflection layered in the glass",
       "url": "https://stuartsingleton.com/p?id=405",
       "printPage": "https://stuartsingleton.com/print/vermont-trees-fall-405",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793210966049.jpg?width=1200&quality=80&resize=contain",
@@ -4300,8 +4300,8 @@
     },
     {
       "id": 404,
-      "title": "Franklin No. 2",
-      "description": "photograph of franklin, by Stuart Singleton No. 2",
+      "title": "Firefighter Gear and Neon Motorcycle, Franklin",
+      "description": "A firefighter's helmet and turnout coat hang in a dark wood interior in Franklin, Tennessee, beside a mirror and a glowing neon motorcycle sign",
       "url": "https://stuartsingleton.com/p?id=404",
       "printPage": "https://stuartsingleton.com/print/franklin-404",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1790023425133.jpg?width=1200&quality=80&resize=contain",
@@ -4370,8 +4370,8 @@
     },
     {
       "id": 403,
-      "title": "Sky / Franklin / Tennessee",
-      "description": "photograph of sky, franklin, tennessee, by Stuart Singleton",
+      "title": "The Factory Water Tower, Franklin, Tennessee",
+      "description": "The red Factory at Franklin water tower against a bright blue sky and big summer clouds in Franklin, Tennessee. A classic small town landmark",
       "url": "https://stuartsingleton.com/p?id=403",
       "printPage": "https://stuartsingleton.com/print/sky-franklin-tennessee-403",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1790015546258.jpg?width=1200&quality=80&resize=contain",
@@ -4435,8 +4435,8 @@
     },
     {
       "id": 402,
-      "title": "Virginia / Cars",
-      "description": "photograph of virginia, cars, by Stuart Singleton",
+      "title": "Abandoned Ford Truck, Virginia",
+      "description": "A rusting orange Ford work truck sits in tall grass at the edge of a Virginia tree line, slowly being taken back by the field. Warm Americana color under a soft summer sky",
       "url": "https://stuartsingleton.com/p?id=402",
       "printPage": "https://stuartsingleton.com/print/virginia-cars-402",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789586765002.jpg?width=1200&quality=80&resize=contain",
@@ -4507,8 +4507,8 @@
     },
     {
       "id": 401,
-      "title": "Neon / Nashville / Abstract",
-      "description": "photograph of neon, abstract in Nashville, by Stuart Singleton",
+      "title": "Red and Blue Neon Tubes, Nashville",
+      "description": "Red and pale blue neon tubes glowing against a dark wall in Nashville. A minimal, graphic abstract with deep red shadows",
       "url": "https://stuartsingleton.com/p?id=401",
       "printPage": "https://stuartsingleton.com/print/neon-nashville-abstract-401",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789586461294.jpg?width=1200&quality=80&resize=contain",
@@ -4577,8 +4577,8 @@
     },
     {
       "id": 400,
-      "title": "Abingdon / Dark / Ethereal",
-      "description": "photograph of abingdon, dark, ethereal, virginia, by Stuart Singleton",
+      "title": "Dark Office Interior at Night, Abingdon, Virginia",
+      "description": "A dim office interior glowing at night in Abingdon, Virginia. Moody, ethereal interior photography",
       "url": "https://stuartsingleton.com/p?id=400",
       "printPage": "https://stuartsingleton.com/print/abingdon-dark-ethereal-400",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789401424755.jpg?width=1200&quality=80&resize=contain",
@@ -4649,8 +4649,8 @@
     },
     {
       "id": 399,
-      "title": "Virginia No. 2",
-      "description": "photograph of virginia, by Stuart Singleton No. 2",
+      "title": "Golden Grasses at Sunset, Virginia",
+      "description": "Tall golden millet grasses against a soft sunset sky in Virginia, framed through a dreamy foreground blur. Nature photography",
       "url": "https://stuartsingleton.com/p?id=399",
       "printPage": "https://stuartsingleton.com/print/virginia-399",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789224223037.jpg?width=1200&quality=80&resize=contain",
@@ -4720,8 +4720,8 @@
     },
     {
       "id": 398,
-      "title": "Virginia",
-      "description": "photograph of virginia, by Stuart Singleton",
+      "title": "Wild Grasses Through a Lens Edge, Virginia",
+      "description": "Golden wild grasses and pines in the Virginia countryside, softly framed in camera. Dreamy nature photography",
       "url": "https://stuartsingleton.com/p?id=398",
       "printPage": "https://stuartsingleton.com/print/virginia-398",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789224106662.jpg?width=1200&quality=80&resize=contain",
@@ -4791,8 +4791,8 @@
     },
     {
       "id": 397,
-      "title": "Nashville No. 7",
-      "description": "photograph of nashville in Nashville, by Stuart Singleton No. 7",
+      "title": "Lone Lamp Post at Night, Nashville",
+      "description": "A single ornate lamp post glowing in the dark in Nashville. Minimal, cinematic night photography",
       "url": "https://stuartsingleton.com/p?id=397",
       "printPage": "https://stuartsingleton.com/print/nashville-397",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789136507643.jpg?width=1200&quality=80&resize=contain",
@@ -4860,8 +4860,8 @@
     },
     {
       "id": 396,
-      "title": "Nashville No. 6",
-      "description": "photograph of nashville in Nashville, by Stuart Singleton No. 6",
+      "title": "Distant Lamp Post in the Dark, Nashville",
+      "description": "A small glowing lamp post alone on a dark lawn in Nashville. Minimal night photography with lots of negative space",
       "url": "https://stuartsingleton.com/p?id=396",
       "printPage": "https://stuartsingleton.com/print/nashville-396",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789136381940.jpg?width=1200&quality=80&resize=contain",
@@ -4929,8 +4929,8 @@
     },
     {
       "id": 395,
-      "title": "Eze / Europe / Plants No. 9",
-      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 9",
+      "title": "Old Stone Rooftops, Eze",
+      "description": "Weathered stone houses and terracotta roofs in the medieval hilltop village of Eze. South of France travel photography",
       "url": "https://stuartsingleton.com/p?id=395",
       "printPage": "https://stuartsingleton.com/print/eze-europe-plants-395",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789087500812.jpg?width=1200&quality=80&resize=contain",
@@ -5004,8 +5004,8 @@
     },
     {
       "id": 394,
-      "title": "Eze / Europe / Plants No. 8",
-      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 8",
+      "title": "Giant Cacti in the Exotic Garden, Eze",
+      "description": "Towering cacti reaching into the sky in the exotic garden at Eze on the Cote d'Azur. Botanical travel photography",
       "url": "https://stuartsingleton.com/p?id=394",
       "printPage": "https://stuartsingleton.com/print/eze-europe-plants-394",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789087225833.jpg?width=1200&quality=80&resize=contain",
@@ -5078,8 +5078,8 @@
     },
     {
       "id": 393,
-      "title": "Eze / Europe / Plants No. 7",
-      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 7",
+      "title": "Eze Rooftops Above the Mediterranean",
+      "description": "Terracotta rooftops of Eze village above a hazy Mediterranean sea. French Riviera travel photography",
       "url": "https://stuartsingleton.com/p?id=393",
       "printPage": "https://stuartsingleton.com/print/eze-europe-plants-393",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789087109826.jpg?width=1200&quality=80&resize=contain",
@@ -5152,8 +5152,8 @@
     },
     {
       "id": 392,
-      "title": "Eze / Europe / Plants No. 6",
-      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 6",
+      "title": "Cactus Garden Above the Sea, Eze",
+      "description": "Cacti and stone walls in the Jardin Exotique at Eze on the Cote d'Azur. Sunny south of France photography",
       "url": "https://stuartsingleton.com/p?id=392",
       "printPage": "https://stuartsingleton.com/print/eze-europe-plants-392",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789086983959.jpg?width=1200&quality=80&resize=contain",
@@ -5226,8 +5226,8 @@
     },
     {
       "id": 391,
-      "title": "Europe / Monte Carlo / Monaco No. 2",
-      "description": "photograph of europe, water in Monte Carlo, Monaco, by Stuart Singleton No. 2",
+      "title": "Harbor at Night, Monte Carlo",
+      "description": "Lit towers and the harbor waterfront in Monte Carlo at night. Moody Monaco night photography",
       "url": "https://stuartsingleton.com/p?id=391",
       "printPage": "https://stuartsingleton.com/print/europe-monte-carlo-monaco-391",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1789070530251.jpg?width=1200&quality=80&resize=contain",
@@ -5299,8 +5299,8 @@
     },
     {
       "id": 390,
-      "title": "Europe / Ocean / Monte Carlo No. 2",
-      "description": "photograph of europe, ocean, water in Monte Carlo, Monaco, by Stuart Singleton No. 2",
+      "title": "Superyacht on the Sea, Monte Carlo",
+      "description": "A superyacht silhouetted on the Mediterranean off Monte Carlo. Moody Monaco seascape photography",
       "url": "https://stuartsingleton.com/p?id=390",
       "printPage": "https://stuartsingleton.com/print/europe-ocean-monte-carlo-390",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788897266173.jpg?width=1200&quality=80&resize=contain",
@@ -5372,8 +5372,8 @@
     },
     {
       "id": 389,
-      "title": "Europe / Ocean / Monte Carlo",
-      "description": "photograph of europe, ocean, water in Monte Carlo, Monaco, by Stuart Singleton",
+      "title": "Storm Clouds Over the Sea, Monte Carlo",
+      "description": "Dramatic storm clouds and a cruise ship on the Mediterranean off Monte Carlo. Moody French Riviera seascape photography",
       "url": "https://stuartsingleton.com/p?id=389",
       "printPage": "https://stuartsingleton.com/print/europe-ocean-monte-carlo-389",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788897215175.jpg?width=1200&quality=80&resize=contain",
@@ -5445,8 +5445,8 @@
     },
     {
       "id": 388,
-      "title": "Eze / Europe / Plants No. 5",
-      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 5",
+      "title": "Mediterranean View From Eze",
+      "description": "Sunlight on the Mediterranean and an island seen from the hilltop village of Eze. French Riviera travel photography",
       "url": "https://stuartsingleton.com/p?id=388",
       "printPage": "https://stuartsingleton.com/print/eze-europe-plants-388",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788459462697.jpg?width=1200&quality=80&resize=contain",
@@ -5519,8 +5519,8 @@
     },
     {
       "id": 387,
-      "title": "Eze / Europe / Plants No. 4",
-      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 4",
+      "title": "Eze Village Above the Sea",
+      "description": "Stone buildings and cypress trees of Eze above the glittering Mediterranean. South of France photography",
       "url": "https://stuartsingleton.com/p?id=387",
       "printPage": "https://stuartsingleton.com/print/eze-europe-plants-387",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788375043565.jpg?width=1200&quality=80&resize=contain",
@@ -5593,8 +5593,8 @@
     },
     {
       "id": 386,
-      "title": "Eze / Europe / Plants No. 3",
-      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 3",
+      "title": "Cliffside Plants, Eze",
+      "description": "Yuccas and wild plants clinging to a rocky cliff in Eze. Botanical French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=386",
       "printPage": "https://stuartsingleton.com/print/eze-europe-plants-386",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788373528573.jpg?width=1200&quality=80&resize=contain",
@@ -5667,8 +5667,8 @@
     },
     {
       "id": 385,
-      "title": "Eze / Europe / Plants No. 2",
-      "description": "photograph of eze, europe, plants in France, by Stuart Singleton No. 2",
+      "title": "Castle Ruins and Agave, Eze",
+      "description": "The ruined castle walls of Eze rising above agave plants. Historic south of France travel photography",
       "url": "https://stuartsingleton.com/p?id=385",
       "printPage": "https://stuartsingleton.com/print/eze-europe-plants-385",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788297583422.jpg?width=1200&quality=80&resize=contain",
@@ -5735,8 +5735,8 @@
     },
     {
       "id": 384,
-      "title": "Eze / Europe / Plants",
-      "description": "photograph of eze, europe, plants in France, by Stuart Singleton",
+      "title": "Prickly Pear Cactus and Statue, Eze",
+      "description": "Prickly pear cactus with a statue on the cliffs of the Eze exotic garden. Sunny French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=384",
       "printPage": "https://stuartsingleton.com/print/eze-europe-plants-384",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788297319991.jpg?width=1200&quality=80&resize=contain",
@@ -5809,8 +5809,8 @@
     },
     {
       "id": 383,
-      "title": "Monaco / Monte Carlo / Sky No. 3",
-      "description": "photograph of sky, europe in Monaco, Monte Carlo, by Stuart Singleton No. 3",
+      "title": "Skyline Under Storm Clouds, Monte Carlo",
+      "description": "Belle Epoque buildings and a tall tower beneath dark storm clouds in Monte Carlo. Moody Monaco architecture photography",
       "url": "https://stuartsingleton.com/p?id=383",
       "printPage": "https://stuartsingleton.com/print/monaco-monte-carlo-sky-383",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788297146727.jpg?width=1200&quality=80&resize=contain",
@@ -5883,8 +5883,8 @@
     },
     {
       "id": 382,
-      "title": "Monaco / Monte Carlo / Sky No. 2",
-      "description": "photograph of sky, europe in Monaco, Monte Carlo, by Stuart Singleton No. 2",
+      "title": "Tower Under a Dark Sky, Monte Carlo",
+      "description": "A tall tan apartment tower against a stormy sky in Monte Carlo. Moody Monaco architecture photography",
       "url": "https://stuartsingleton.com/p?id=382",
       "printPage": "https://stuartsingleton.com/print/monaco-monte-carlo-sky-382",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788296790631.jpg?width=1200&quality=80&resize=contain",
@@ -5957,8 +5957,8 @@
     },
     {
       "id": 380,
-      "title": "Cars / Virginia No. 3",
-      "description": "black and white photograph of cars, virginia, by Stuart Singleton No. 3",
+      "title": "Abandoned Trucks in a Field, Virginia",
+      "description": "Two old trucks overgrown in a grassy field in Virginia, in black and white. Nostalgic Americana photography",
       "url": "https://stuartsingleton.com/p?id=380",
       "printPage": "https://stuartsingleton.com/print/cars-virginia-380",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1788292011530.JPG?width=1200&quality=80&resize=contain",
@@ -6011,8 +6011,8 @@
     },
     {
       "id": 379,
-      "title": "Cars / Virginia No. 2",
-      "description": "black and white photograph of cars, virginia, by Stuart Singleton No. 2",
+      "title": "Vintage Truck Grille, Virginia",
+      "description": "The chrome grille of an abandoned vintage truck in tall grass in Virginia, in black and white. Americana photography",
       "url": "https://stuartsingleton.com/p?id=379",
       "printPage": "https://stuartsingleton.com/print/cars-virginia-379",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1788291971369.JPG?width=1200&quality=80&resize=contain",
@@ -6065,8 +6065,8 @@
     },
     {
       "id": 378,
-      "title": "Cars",
-      "description": "black and white photograph of cars, by Stuart Singleton",
+      "title": "Old Farm Trucks in the Grass",
+      "description": "Weathered farm trucks parked in the grass, in black and white. Nostalgic rural Americana photography",
       "url": "https://stuartsingleton.com/p?id=378",
       "printPage": "https://stuartsingleton.com/print/cars-378",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1788291896051.JPG?width=1200&quality=80&resize=contain",
@@ -6118,8 +6118,8 @@
     },
     {
       "id": 377,
-      "title": "Cars / Virginia",
-      "description": "black and white photograph of cars, virginia, by Stuart Singleton",
+      "title": "Forgotten Trucks, Virginia",
+      "description": "A row of forgotten trucks under a wide sky in the Virginia countryside, in black and white. Americana photography",
       "url": "https://stuartsingleton.com/p?id=377",
       "printPage": "https://stuartsingleton.com/print/cars-virginia-377",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1788291863329.JPG?width=1200&quality=80&resize=contain",
@@ -6172,8 +6172,8 @@
     },
     {
       "id": 374,
-      "title": "Puerto Rico / Hotel / San Juan",
-      "description": "photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Tropical Leaves and Hotel, San Juan",
+      "description": "Tropical leaves silhouetted against a pastel hotel in San Juan. Warm Puerto Rico travel photography",
       "url": "https://stuartsingleton.com/p?id=374",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-hotel-san-juan-374",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1788285528165.jpg?width=1200&quality=80&resize=contain",
@@ -6245,8 +6245,8 @@
     },
     {
       "id": 372,
-      "title": "Europe / France / Beaulieu sur Mer",
-      "description": "photograph of europe in France, Beaulieu sur Mer, by Stuart Singleton",
+      "title": "Street Signs and Mountains, Beaulieu sur Mer",
+      "description": "Green street signs for the Mairie and Club de Voile with the mountains of Beaulieu sur Mer behind. South of France travel photography",
       "url": "https://stuartsingleton.com/p?id=372",
       "printPage": "https://stuartsingleton.com/print/europe-france-beaulieu-sur-mer-372",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1786977775709.jpg?width=1200&quality=80&resize=contain",
@@ -6318,8 +6318,8 @@
     },
     {
       "id": 371,
-      "title": "Puerto Rico / San Juan No. 5",
-      "description": "photograph of puerto rico, san juan in Puerto Rico, San Juan, by Stuart Singleton No. 5",
+      "title": "Teal Wall and Yellow Awning Door, San Juan",
+      "description": "A weathered door under a yellow striped awning on a teal wall in San Juan. Colorful Puerto Rico doors photography",
       "url": "https://stuartsingleton.com/p?id=371",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-371",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1786976642708.jpg?width=1200&quality=80&resize=contain",
@@ -6389,8 +6389,8 @@
     },
     {
       "id": 370,
-      "title": "Beaulieu sur Mer / Europe / France No. 6",
-      "description": "photograph of europe, water, ocean in Beaulieu sur Mer, France, by Stuart Singleton No. 6",
+      "title": "Sea Through Railings, Beaulieu sur Mer",
+      "description": "The Mediterranean and coastline seen through iron railings in Beaulieu sur Mer. Calm French Riviera seascape photography",
       "url": "https://stuartsingleton.com/p?id=370",
       "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-europe-france-370",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1784144295478.jpg?width=1200&quality=80&resize=contain",
@@ -6463,8 +6463,8 @@
     },
     {
       "id": 369,
-      "title": "Franklin / Long Exposure / Plants No. 2",
-      "description": "black and white photograph of franklin, long exposure, plants, by Stuart Singleton No. 2",
+      "title": "Flowers in Motion, Franklin, Tennessee",
+      "description": "A cluster of flowers in a soft long exposure swirl in Franklin, Tennessee, in black and white. Experimental flower photography",
       "url": "https://stuartsingleton.com/p?id=369",
       "printPage": "https://stuartsingleton.com/print/franklin-long-exposure-plants-369",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1783893122727.JPG?width=1200&quality=80&resize=contain",
@@ -6517,8 +6517,8 @@
     },
     {
       "id": 368,
-      "title": "Franklin / Long Exposure / Plants",
-      "description": "black and white photograph of franklin, long exposure, plants, by Stuart Singleton",
+      "title": "Swirling Flowers, Franklin, Tennessee",
+      "description": "Flowers spinning in an in-camera motion blur in Franklin, Tennessee, in black and white. Abstract botanical photography",
       "url": "https://stuartsingleton.com/p?id=368",
       "printPage": "https://stuartsingleton.com/print/franklin-long-exposure-plants-368",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1783893100868.JPG?width=1200&quality=80&resize=contain",
@@ -6571,8 +6571,8 @@
     },
     {
       "id": 367,
-      "title": "Dark / Nashville / Snow No. 2",
-      "description": "photograph of dark, snow in Nashville, by Stuart Singleton No. 2",
+      "title": "Ice Storm Branches at Night, Nashville",
+      "description": "Branches coated in ice glowing orange against a dark sky after the Nashville ice storm. Moody winter nature photography",
       "url": "https://stuartsingleton.com/p?id=367",
       "printPage": "https://stuartsingleton.com/print/dark-nashville-snow-367",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1783694156903.jpg?width=1200&quality=80&resize=contain",
@@ -6642,8 +6642,8 @@
     },
     {
       "id": 366,
-      "title": "Dark / Nashville / Snow",
-      "description": "photograph of dark, snow in Nashville, by Stuart Singleton",
+      "title": "Icicles on Branches, Nashville",
+      "description": "Icicles hanging from glowing branches during the Nashville ice storm. Dramatic winter nature photography",
       "url": "https://stuartsingleton.com/p?id=366",
       "printPage": "https://stuartsingleton.com/print/dark-nashville-snow-366",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1783694093311.jpg?width=1200&quality=80&resize=contain",
@@ -6713,8 +6713,8 @@
     },
     {
       "id": 365,
-      "title": "Puerto Rico / San Juan / Plants",
-      "description": "photograph of plants in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Croton Leaves at Night, San Juan",
+      "description": "Bright patterned croton leaves against a dark background in San Juan. Tropical botanical photography",
       "url": "https://stuartsingleton.com/p?id=365",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-plants-365",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1783606135360.jpg?width=1200&quality=80&resize=contain",
@@ -6785,8 +6785,8 @@
     },
     {
       "id": 364,
-      "title": "Beaulieu sur Mer / Europe / France No. 5",
-      "description": "photograph of europe, trees in Beaulieu sur Mer, France, by Stuart Singleton No. 5",
+      "title": "Palm Silhouettes at Dusk, Beaulieu sur Mer",
+      "description": "Palm trees and pines silhouetted against a dusky sky in Beaulieu sur Mer. Moody French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=364",
       "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-europe-france-364",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1783462399431.jpg?width=1200&quality=80&resize=contain",
@@ -6859,8 +6859,8 @@
     },
     {
       "id": 363,
-      "title": "Dark / Hotel / Plants",
-      "description": "photograph of dark, hotel, plants in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Hotel Balconies and Palm Shadows, San Juan",
+      "description": "Warm light and palm shadows on hotel balconies at night in San Juan. Cinematic Puerto Rico night photography",
       "url": "https://stuartsingleton.com/p?id=363",
       "printPage": "https://stuartsingleton.com/print/dark-hotel-plants-363",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1783352292672.jpg?width=1200&quality=80&resize=contain",
@@ -6934,8 +6934,8 @@
     },
     {
       "id": 362,
-      "title": "Puerto Rico / San Juan / Hotel",
-      "description": "photograph of hotel, dark in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Lit Hotel Edge at Night, San Juan",
+      "description": "The glowing edge of a hotel against the night sky in San Juan. Minimal Puerto Rico architecture photography",
       "url": "https://stuartsingleton.com/p?id=362",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-hotel-362",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1783352235727.jpg?width=1200&quality=80&resize=contain",
@@ -7008,8 +7008,8 @@
     },
     {
       "id": 361,
-      "title": "Monaco / Monte Carlo / Sky",
-      "description": "photograph of sky, europe in Monaco, Monte Carlo, by Stuart Singleton",
+      "title": "Monte Carlo Skyline and Mountains",
+      "description": "The Monte Carlo skyline beneath low clouds and mountains. French Riviera city photography",
       "url": "https://stuartsingleton.com/p?id=361",
       "printPage": "https://stuartsingleton.com/print/monaco-monte-carlo-sky-361",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1783296728500.jpg?width=1200&quality=80&resize=contain",
@@ -7082,8 +7082,8 @@
     },
     {
       "id": 360,
-      "title": "Nashville No. 5",
-      "description": "photograph of nashville in Nashville, by Stuart Singleton No. 5",
+      "title": "Ribbed Office Tower Against a Pale Sky, Nashville",
+      "description": "A ribbed modernist office tower against a pale green sky in Nashville. Minimal architecture photography",
       "url": "https://stuartsingleton.com/p?id=360",
       "printPage": "https://stuartsingleton.com/print/nashville-360",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1783016003800.jpg?width=1200&quality=80&resize=contain",
@@ -7153,8 +7153,8 @@
     },
     {
       "id": 359,
-      "title": "Dark / Nashville No. 2",
-      "description": "photograph of dark in Nashville, by Stuart Singleton No. 2 No. 2",
+      "title": "Red PARK Sign in the Dark, Nashville",
+      "description": "A vintage red PARK sign glowing in a dark Nashville garage. Bold street sign photography",
       "url": "https://stuartsingleton.com/p?id=359",
       "printPage": "https://stuartsingleton.com/print/dark-nashville-359",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1783015936222.jpg?width=1200&quality=80&resize=contain",
@@ -7223,8 +7223,8 @@
     },
     {
       "id": 358,
-      "title": "Europe / Eze / Sky No. 2",
-      "description": "photograph of europe, eze, sky, trees, by Stuart Singleton No. 2",
+      "title": "Hillside Villas Above the Coast, Eze",
+      "description": "Hillside villas and green slopes along the coast near Eze. French Riviera landscape photography",
       "url": "https://stuartsingleton.com/p?id=358",
       "printPage": "https://stuartsingleton.com/print/europe-eze-sky-358",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1782763433991.jpg?width=1200&quality=80&resize=contain",
@@ -7297,8 +7297,8 @@
     },
     {
       "id": 357,
-      "title": "Europe / Eze / Sky",
-      "description": "photograph of europe, eze, sky, trees, by Stuart Singleton",
+      "title": "Dark Forest Garden, Eze",
+      "description": "Dense greenery and shadows in the gardens of Eze. Moody French Riviera nature photography",
       "url": "https://stuartsingleton.com/p?id=357",
       "printPage": "https://stuartsingleton.com/print/europe-eze-sky-357",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1782676198221.jpg?width=1200&quality=80&resize=contain",
@@ -7370,8 +7370,8 @@
     },
     {
       "id": 356,
-      "title": "Monaco / Monte Carlo / Europe",
-      "description": "photograph of europe, sky in Monaco, Monte Carlo, by Stuart Singleton",
+      "title": "White Art Deco Building, Monte Carlo",
+      "description": "A white curved Art Deco apartment building in Monte Carlo. Bright Monaco architecture photography",
       "url": "https://stuartsingleton.com/p?id=356",
       "printPage": "https://stuartsingleton.com/print/monaco-monte-carlo-europe-356",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1782675940970.jpg?width=1200&quality=80&resize=contain",
@@ -7444,8 +7444,8 @@
     },
     {
       "id": 352,
-      "title": "JFK / New York / Hotel No. 8",
-      "description": "photograph of jfk, hotel in New York, by Stuart Singleton No. 8",
+      "title": "TWA Hotel Lounge Seating, JFK",
+      "description": "Red carpet and curved mid century seats in the TWA Hotel lounge at JFK. Retro architecture photography",
       "url": "https://stuartsingleton.com/p?id=352",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotel-352",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781751830028.jpg?width=1200&quality=80&resize=contain",
@@ -7517,8 +7517,8 @@
     },
     {
       "id": 351,
-      "title": "Paris / Europe / France No. 8",
-      "description": "black and white photograph of europe in Paris, France, by Stuart Singleton No. 8",
+      "title": "Institut de France Through an Archway, Paris",
+      "description": "The dome of the Institut de France framed by a stone archway, with walkers in silhouette. Black and white Paris photography",
       "url": "https://stuartsingleton.com/p?id=351",
       "printPage": "https://stuartsingleton.com/print/paris-europe-france-351",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781749385832.jpg?width=1200&quality=80&resize=contain",
@@ -7588,8 +7588,8 @@
     },
     {
       "id": 350,
-      "title": "Europe / Paris / France No. 2",
-      "description": "photograph of europe in Paris, France, by Stuart Singleton No. 2 No. 2",
+      "title": "Golden Building and Autumn Trees, Paris",
+      "description": "A golden Parisian building with a teal roof framed by autumn leaves. Colorful Paris travel photography",
       "url": "https://stuartsingleton.com/p?id=350",
       "printPage": "https://stuartsingleton.com/print/europe-paris-france-350",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781752055627.jpg?width=1200&quality=80&resize=contain",
@@ -7662,8 +7662,8 @@
     },
     {
       "id": 349,
-      "title": "Europe / Paris / France",
-      "description": "photograph of europe in Paris, France, by Stuart Singleton No. 5",
+      "title": "Grand Facade in Teal Light, Paris",
+      "description": "An ornate Parisian facade and iron gates in dreamy teal light. Paris architecture photography",
       "url": "https://stuartsingleton.com/p?id=349",
       "printPage": "https://stuartsingleton.com/print/europe-paris-france-349",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781747921890.jpg?width=1200&quality=80&resize=contain",
@@ -7736,8 +7736,8 @@
     },
     {
       "id": 348,
-      "title": "Paris / Europe / France No. 7",
-      "description": "black and white photograph of europe in Paris, France, by Stuart Singleton No. 7",
+      "title": "Glass Roof Arcade, Paris",
+      "description": "A glass roofed Parisian arcade stretching into the distance, in black and white. Classic Paris architecture photography",
       "url": "https://stuartsingleton.com/p?id=348",
       "printPage": "https://stuartsingleton.com/print/paris-europe-france-348",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781747613199.jpg?width=1200&quality=80&resize=contain",
@@ -7807,8 +7807,8 @@
     },
     {
       "id": 347,
-      "title": "Paris / Europe / France No. 6",
-      "description": "black and white photograph of europe in Paris, France, by Stuart Singleton No. 6",
+      "title": "Spiral Stone Staircase, Paris",
+      "description": "A worn spiral staircase curling under a vaulted ceiling in Paris, in black and white. Moody architecture photography",
       "url": "https://stuartsingleton.com/p?id=347",
       "printPage": "https://stuartsingleton.com/print/paris-europe-france-347",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781747568715.jpg?width=1200&quality=80&resize=contain",
@@ -7878,8 +7878,8 @@
     },
     {
       "id": 346,
-      "title": "Paris / Europe / France No. 5",
-      "description": "black and white photograph of europe in Paris, France, by Stuart Singleton No. 5",
+      "title": "Curving Staircase and Porthole Windows, Paris",
+      "description": "A sweeping staircase and round porthole windows in Paris, in black and white. Minimal architecture photography",
       "url": "https://stuartsingleton.com/p?id=346",
       "printPage": "https://stuartsingleton.com/print/paris-europe-france-346",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781746954705.jpg?width=1200&quality=80&resize=contain",
@@ -7949,8 +7949,8 @@
     },
     {
       "id": 345,
-      "title": "Beaulieu sur Mer / Europe / France No. 4",
-      "description": "photograph of europe, ocean, flowers in Beaulieu sur Mer, France, by Stuart Singleton No. 4",
+      "title": "Orange Flowers and Palms, Beaulieu sur Mer",
+      "description": "Orange lantana flowers in bloom under palms in Beaulieu sur Mer. Bright French Riviera garden photography",
       "url": "https://stuartsingleton.com/p?id=345",
       "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-europe-france-345",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781746806680.jpg?width=1200&quality=80&resize=contain",
@@ -8023,8 +8023,8 @@
     },
     {
       "id": 344,
-      "title": "Monte Carlo / Monaco / Europe No. 2",
-      "description": "photograph of europe in Monte Carlo, Monaco, by Stuart Singleton No. 2 No. 2",
+      "title": "Stacked Balconies, Monte Carlo",
+      "description": "Rows of balconies on an apartment tower in Monte Carlo. Monaco architecture photography",
       "url": "https://stuartsingleton.com/p?id=344",
       "printPage": "https://stuartsingleton.com/print/monte-carlo-monaco-europe-344",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781722749408.jpg?width=1200&quality=80&resize=contain",
@@ -8097,8 +8097,8 @@
     },
     {
       "id": 343,
-      "title": "Monte Carlo / Monaco / Europe",
-      "description": "photograph of europe in Monte Carlo, Monaco, by Stuart Singleton No. 2",
+      "title": "Balconies and Trees, Monte Carlo",
+      "description": "Balconies and greenery on a Monte Carlo apartment block. Monaco architecture photography",
       "url": "https://stuartsingleton.com/p?id=343",
       "printPage": "https://stuartsingleton.com/print/monte-carlo-monaco-europe-343",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781722698150.jpg?width=1200&quality=80&resize=contain",
@@ -8171,8 +8171,8 @@
     },
     {
       "id": 342,
-      "title": "Dark / Nashville",
-      "description": "photograph of dark in Nashville, by Stuart Singleton No. 3",
+      "title": "Crumbling Brick Ruins, Nashville",
+      "description": "Crumbling brick walls and concrete in an abandoned Nashville building. Moody urban exploration photography",
       "url": "https://stuartsingleton.com/p?id=342",
       "printPage": "https://stuartsingleton.com/print/dark-nashville-342",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781538200711.jpg?width=1200&quality=80&resize=contain",
@@ -8244,8 +8244,8 @@
     },
     {
       "id": 341,
-      "title": "Dark",
-      "description": "photograph of dark, by Stuart Singleton",
+      "title": "Empty Warehouse Window, Nashville",
+      "description": "Light through a single window in an empty Nashville warehouse. Moody urban interior photography",
       "url": "https://stuartsingleton.com/p?id=341",
       "printPage": "https://stuartsingleton.com/print/dark-341",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781538147864.jpg?width=1200&quality=80&resize=contain",
@@ -8315,8 +8315,8 @@
     },
     {
       "id": 340,
-      "title": "Cannes / Dark / France",
-      "description": "black and white photograph of dark in Cannes, France, by Stuart Singleton",
+      "title": "Le Suquet Clock Tower, Cannes",
+      "description": "The clock tower of Le Suquet above the old town of Cannes, in black and white. French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=340",
       "printPage": "https://stuartsingleton.com/print/cannes-dark-france-340",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781495567953.jpg?width=1200&quality=80&resize=contain",
@@ -8386,8 +8386,8 @@
     },
     {
       "id": 338,
-      "title": "Saint Jean Cap Ferrat / France",
-      "description": "photograph of saint jean cap ferrat in France, by Stuart Singleton",
+      "title": "Draped Windows at Villa Ephrussi, Saint Jean Cap Ferrat",
+      "description": "Scalloped curtains framing the gardens at Villa Ephrussi de Rothschild. Elegant French Riviera interior photography",
       "url": "https://stuartsingleton.com/p?id=338",
       "printPage": "https://stuartsingleton.com/print/saint-jean-cap-ferrat-france-338",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781494935973.jpg?width=1200&quality=80&resize=contain",
@@ -8454,26 +8454,28 @@
       ]
     },
     {
-      "id": 210,
-      "title": "France / Europe / Paris No. 5",
-      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 5",
-      "url": "https://stuartsingleton.com/p?id=210",
-      "printPage": "https://stuartsingleton.com/print/france-europe-paris-210",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837662818.JPG?width=1200&quality=80&resize=contain",
+      "id": 205,
+      "title": "Golden Eiffel Tower at Night, Paris",
+      "description": "The Eiffel Tower glowing gold at night from below. Classic Paris night photography",
+      "url": "https://stuartsingleton.com/p?id=205",
+      "printPage": "https://stuartsingleton.com/print/paris-europe-france-205",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837313969.JPG?width=1200&quality=80&resize=contain",
       "tags": [
         "travel",
-        "day",
-        "france",
-        "europe",
-        "black & white",
         "paris",
-        "outdoor"
+        "night",
+        "city",
+        "architecture",
+        "color",
+        "outdoor",
+        "europe",
+        "france"
       ],
       "camera": "nomo",
-      "aspectRatio": "4032:2688",
+      "aspectRatio": "2688:4032",
       "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
       "availability": "InStock",
       "printReady": true,
       "priceRangeUSD": {
@@ -8508,20 +8510,123 @@
       ]
     },
     {
-      "id": 208,
-      "title": "Beaulieu sur Mer / Hotel / Trees",
-      "description": "black and white photograph of hotel, trees, europe in Beaulieu sur Mer, France, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=208",
-      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-trees-208",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837549589.JPG?width=1200&quality=80&resize=contain",
+      "id": 171,
+      "title": "Ryman Auditorium at Night, Nashville",
+      "description": "The Ryman Auditorium glowing at night in downtown Nashville, in black and white. Iconic Nashville architecture photography",
+      "url": "https://stuartsingleton.com/p?id=171",
+      "printPage": "https://stuartsingleton.com/print/nashville-171",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
+        "nashville",
+        "black & white",
+        "outdoor",
+        "night"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 172,
+      "title": "Light and Shadow Window Abstract, Nashville",
+      "description": "A street light seen through a bright window in Nashville, in black and white. Minimal abstract photography",
+      "url": "https://stuartsingleton.com/p?id=172",
+      "printPage": "https://stuartsingleton.com/print/nashville-172",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
+        "day",
+        "black & white",
+        "nashville",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 177,
+      "title": "High Rise and Palms, San Juan",
+      "description": "A white high rise above palm trees in San Juan, in black and white. Puerto Rico architecture photography",
+      "url": "https://stuartsingleton.com/p?id=177",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "black & white",
-        "beaulieu sur mer",
-        "hotel",
-        "night",
-        "trees",
-        "europe",
-        "france",
+        "city",
+        "day",
+        "outdoor",
+        "puerto rico",
+        "san juan",
         "travel"
       ],
       "camera": "nomo",
@@ -8563,172 +8668,9 @@
       ]
     },
     {
-      "id": 213,
-      "title": "Beaulieu sur Mer / Hotel / France",
-      "description": "black and white photograph of hotel, europe in Beaulieu sur Mer, France, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=213",
-      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-france-213",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837882421.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "beaulieu sur mer",
-        "travel",
-        "black & white",
-        "outdoor",
-        "night",
-        "hotel",
-        "france",
-        "europe"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 215,
-      "title": "France / Europe / Saint Paul de Vence",
-      "description": "black and white photograph of europe, saint paul de vence in France, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=215",
-      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-215",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837953945.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "black & white",
-        "outdoor",
-        "night",
-        "france",
-        "europe",
-        "saint paul de vence"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 216,
-      "title": "France / Europe / Saint Paul de Vence No. 2",
-      "description": "black and white photograph of europe, saint paul de vence in France, by Stuart Singleton No. 2",
-      "url": "https://stuartsingleton.com/p?id=216",
-      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-216",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837975622.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "black & white",
-        "outdoor",
-        "night",
-        "france",
-        "europe",
-        "saint paul de vence"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
       "id": 178,
-      "title": "Hotel / Puerto Rico / San Juan",
-      "description": "black and white photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Window Grid and Palms, San Juan",
+      "description": "Palms reflected in tall hotel windows in San Juan, in black and white. Minimal architecture photography",
       "url": "https://stuartsingleton.com/p?id=178",
       "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-178",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835914027.JPG?width=1200&quality=80&resize=contain",
@@ -8782,9 +8724,65 @@
       ]
     },
     {
+      "id": 179,
+      "title": "Palm Reflections in Hotel Windows, San Juan",
+      "description": "Palm trees reflected in a grid of hotel windows in San Juan, in black and white. Architecture photography",
+      "url": "https://stuartsingleton.com/p?id=179",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-179",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835940660.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "black & white",
+        "city",
+        "hotel",
+        "night",
+        "outdoor",
+        "travel",
+        "puerto rico",
+        "san juan"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
       "id": 180,
-      "title": "Hotel / Puerto Rico / San Juan No. 3",
-      "description": "black and white photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton No. 3",
+      "title": "Hotel at Night With Palms, San Juan",
+      "description": "A hotel glowing under clouds and palms at night in San Juan, in black and white. Puerto Rico night photography",
       "url": "https://stuartsingleton.com/p?id=180",
       "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-180",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835959539.JPG?width=1200&quality=80&resize=contain",
@@ -8839,8 +8837,8 @@
     },
     {
       "id": 182,
-      "title": "Ethereal / Nashville",
-      "description": "black and white photograph of ethereal in Nashville, by Stuart Singleton",
+      "title": "Glowing Lamp Post in the Fog, Nashville",
+      "description": "A double lamp post glowing in the fog at night in Nashville, in black and white. Ethereal night photography",
       "url": "https://stuartsingleton.com/p?id=182",
       "printPage": "https://stuartsingleton.com/print/ethereal-nashville-182",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836142339.JPG?width=1200&quality=80&resize=contain",
@@ -8891,8 +8889,8 @@
     },
     {
       "id": 191,
-      "title": "Franklin",
-      "description": "black and white photograph of franklin, by Stuart Singleton",
+      "title": "Church Steeple on Main Street, Franklin, Tennessee",
+      "description": "A church steeple and storefronts on a Franklin, Tennessee street, in black and white. Small town street photography",
       "url": "https://stuartsingleton.com/p?id=191",
       "printPage": "https://stuartsingleton.com/print/franklin-191",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836459218.JPG?width=1200&quality=80&resize=contain",
@@ -8942,8 +8940,8 @@
     },
     {
       "id": 192,
-      "title": "Abingdon",
-      "description": "black and white photograph of abingdon, by Stuart Singleton",
+      "title": "Abingdon at Night, Virginia",
+      "description": "A lit building facade at night in Abingdon, Virginia, in black and white. Small town night photography",
       "url": "https://stuartsingleton.com/p?id=192",
       "printPage": "https://stuartsingleton.com/print/abingdon-192",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836498790.JPG?width=1200&quality=80&resize=contain",
@@ -8993,8 +8991,8 @@
     },
     {
       "id": 193,
-      "title": "Washington DC No. 2",
-      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton No. 2",
+      "title": "Walking the National Mall, Washington DC",
+      "description": "A lone walker on a frosty path toward the Washington Monument, in black and white. Quiet DC photography",
       "url": "https://stuartsingleton.com/p?id=193",
       "printPage": "https://stuartsingleton.com/print/washington-dc-193",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836540652.JPG?width=1200&quality=80&resize=contain",
@@ -9045,70 +9043,19 @@
       ]
     },
     {
-      "id": 172,
-      "title": "Nashville No. 4",
-      "description": "black and white photograph of nashville in Nashville, by Stuart Singleton No. 4",
-      "url": "https://stuartsingleton.com/p?id=172",
-      "printPage": "https://stuartsingleton.com/print/nashville-172",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
+      "id": 194,
+      "title": "Smithsonian Castle, Washington DC",
+      "description": "The Smithsonian Castle on the National Mall in Washington DC, in black and white. Moody architecture photography",
+      "url": "https://stuartsingleton.com/p?id=194",
+      "printPage": "https://stuartsingleton.com/print/washington-dc-194",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836594645.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "city",
-        "day",
+        "architecture",
         "black & white",
-        "nashville",
-        "outdoor"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 171,
-      "title": "Nashville No. 3",
-      "description": "black and white photograph of nashville in Nashville, by Stuart Singleton No. 3",
-      "url": "https://stuartsingleton.com/p?id=171",
-      "printPage": "https://stuartsingleton.com/print/nashville-171",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
         "city",
-        "nashville",
-        "black & white",
-        "outdoor",
-        "night"
+        "washington dc",
+        "travel",
+        "day"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -9150,8 +9097,8 @@
     },
     {
       "id": 196,
-      "title": "Sky / Trees / France",
-      "description": "photograph of sky, trees, hotel, europe in France, Beaulieu sur Mer, by Stuart Singleton",
+      "title": "Neon Purple Palm Trees, French Riviera",
+      "description": "Palm trees glowing purple against the night sky on the French Riviera. Dreamy film style night photography",
       "url": "https://stuartsingleton.com/p?id=196",
       "printPage": "https://stuartsingleton.com/print/sky-trees-france-196",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836765947.JPG?width=1200&quality=80&resize=contain",
@@ -9207,8 +9154,8 @@
     },
     {
       "id": 204,
-      "title": "Europe / France / Paris No. 4",
-      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 4",
+      "title": "Les Invalides Dome, Paris",
+      "description": "The gilded dome of Les Invalides in Paris, in black and white. Classic Paris architecture photography",
       "url": "https://stuartsingleton.com/p?id=204",
       "printPage": "https://stuartsingleton.com/print/europe-france-paris-204",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837265928.JPG?width=1200&quality=80&resize=contain",
@@ -9262,8 +9209,8 @@
     },
     {
       "id": 206,
-      "title": "Paris / Europe / France No. 4",
-      "description": "photograph of europe in Paris, France, by Stuart Singleton No. 4",
+      "title": "Eiffel Tower From Below, Paris",
+      "description": "The Eiffel Tower lit at night, looking straight up from its base, in black and white. Iconic Paris photography",
       "url": "https://stuartsingleton.com/p?id=206",
       "printPage": "https://stuartsingleton.com/print/paris-europe-france-206",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837338160.JPG?width=1200&quality=80&resize=contain",
@@ -9317,65 +9264,9 @@
       ]
     },
     {
-      "id": 205,
-      "title": "Paris / Europe / France No. 3",
-      "description": "photograph of europe in Paris, France, by Stuart Singleton No. 3",
-      "url": "https://stuartsingleton.com/p?id=205",
-      "printPage": "https://stuartsingleton.com/print/paris-europe-france-205",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837313969.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "paris",
-        "night",
-        "city",
-        "architecture",
-        "color",
-        "outdoor",
-        "europe",
-        "france"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
       "id": 207,
-      "title": "Europe / France / Hotel",
-      "description": "black and white photograph of europe, hotel in France, by Stuart Singleton",
+      "title": "Cobblestone Lane, Versailles",
+      "description": "A cobblestone lane between pale buildings in Versailles, in black and white. Quiet French street photography",
       "url": "https://stuartsingleton.com/p?id=207",
       "printPage": "https://stuartsingleton.com/print/europe-france-hotel-207",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837448491.JPG?width=1200&quality=80&resize=contain",
@@ -9428,8 +9319,8 @@
     },
     {
       "id": 209,
-      "title": "France / Europe / Paris No. 4",
-      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 4 No. 2",
+      "title": "Gare de Lyon and Street Lamp, Paris",
+      "description": "The Gare de Lyon clock tower behind a street lamp in Paris, in black and white. Paris street photography",
       "url": "https://stuartsingleton.com/p?id=209",
       "printPage": "https://stuartsingleton.com/print/france-europe-paris-209",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837625278.JPG?width=1200&quality=80&resize=contain",
@@ -9481,19 +9372,565 @@
       ]
     },
     {
-      "id": 194,
-      "title": "Washington DC No. 3",
-      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton No. 3",
-      "url": "https://stuartsingleton.com/p?id=194",
-      "printPage": "https://stuartsingleton.com/print/washington-dc-194",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836594645.JPG?width=1200&quality=80&resize=contain",
+      "id": 210,
+      "title": "Gare de Lyon Clock Tower, Paris",
+      "description": "The Gare de Lyon station and clock tower in Paris, in black and white. Classic Paris architecture photography",
+      "url": "https://stuartsingleton.com/p?id=210",
+      "printPage": "https://stuartsingleton.com/print/france-europe-paris-210",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837662818.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "day",
+        "france",
+        "europe",
+        "black & white",
+        "paris",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 215,
+      "title": "Figure in the Streets at Night, Saint-Paul-de-Vence",
+      "description": "A figure walking the narrow stone streets of Saint-Paul-de-Vence at night, in black and white. French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=215",
+      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-215",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837953945.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "black & white",
+        "outdoor",
+        "night",
+        "france",
+        "europe",
+        "saint paul de vence"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 216,
+      "title": "Lantern Lit Alley, Saint-Paul-de-Vence",
+      "description": "A narrow stone alley glows under lanterns at night in the hilltop village of Saint-Paul-de-Vence, in black and white. Old Provence at its quietest",
+      "url": "https://stuartsingleton.com/p?id=216",
+      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-216",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837975622.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "black & white",
+        "outdoor",
+        "night",
+        "france",
+        "europe",
+        "saint paul de vence"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 324,
+      "title": "Palm Trees Against the Sky, French Riviera",
+      "description": "Tall palm trees silhouetted against a pale sky on the Cote d'Azur. Classic French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=324",
+      "printPage": "https://stuartsingleton.com/print/france-europe-324",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798711730.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "france",
+        "europe",
+        "day",
+        "nature",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 325,
+      "title": "Round Window View, Cannes",
+      "description": "A white building framed through a round opening in Cannes. Playful French Riviera architecture photography",
+      "url": "https://stuartsingleton.com/p?id=325",
+      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-325",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798738177.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "cannes",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "outdoor",
+        "city",
+        "hotel"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 326,
+      "title": "Croisette Apartment Buildings, Cannes",
+      "description": "Curved white apartment buildings on a sunny street in Cannes. French Riviera architecture photography",
+      "url": "https://stuartsingleton.com/p?id=326",
+      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-326",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798789506.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "cannes",
+        "city",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "hotel",
+        "outdoor",
+        "travel",
+        "architecture"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 327,
+      "title": "Carlton Hotel Domes, Cannes",
+      "description": "The famous domed Carlton hotel on the Croisette in Cannes. Iconic French Riviera architecture photography",
+      "url": "https://stuartsingleton.com/p?id=327",
+      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-327",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798810119.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "architecture",
-        "black & white",
+        "cannes",
         "city",
-        "washington dc",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "hotel",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 332,
+      "title": "Cobblestone Lane to the Palace, Versailles",
+      "description": "A cobblestone lane leading toward the Palace of Versailles. Historic France travel photography",
+      "url": "https://stuartsingleton.com/p?id=332",
+      "printPage": "https://stuartsingleton.com/print/versailles-europe-france-332",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799246256.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "versailles",
+        "day",
+        "europe",
+        "france",
+        "garden",
+        "hotel",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 333,
+      "title": "Street Corner and Crosswalk, Versailles",
+      "description": "A quiet street corner and crosswalk in Versailles, France. Everyday French street photography",
+      "url": "https://stuartsingleton.com/p?id=333",
+      "printPage": "https://stuartsingleton.com/print/versailles-france-hotel-333",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799271935.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "color",
+        "versailles",
         "travel",
-        "day"
+        "france",
+        "hotel",
+        "garden",
+        "outdoor"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 334,
+      "title": "Rooftops and Terraces, Versailles",
+      "description": "Rooftops, terraces and chimneys in the town of Versailles. Quiet French architecture photography",
+      "url": "https://stuartsingleton.com/p?id=334",
+      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-334",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799484683.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "versailles",
+        "travel",
+        "outdoor"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "2448:3264",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 2448,
+      "pixelHeight": 3264,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 59
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-9X12",
+          "label": "9x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-12X16",
+          "label": "12x16in",
+          "framed": false,
+          "priceUSD": 59
+        }
+      ]
+    },
+    {
+      "id": 335,
+      "title": "Town Courtyard, Versailles",
+      "description": "A pale stone courtyard and mansard roofs in the town of Versailles. Classic French architecture photography",
+      "url": "https://stuartsingleton.com/p?id=335",
+      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-335",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774800482968.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "versailles",
+        "travel",
+        "outdoor"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "2448:3264",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 2448,
+      "pixelHeight": 3264,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 59
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-9X12",
+          "label": "9x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-12X16",
+          "label": "12x16in",
+          "framed": false,
+          "priceUSD": 59
+        }
+      ]
+    },
+    {
+      "id": 208,
+      "title": "Palm Tree at Night, Beaulieu sur Mer",
+      "description": "A single palm glowing white against the night sky in Beaulieu sur Mer, in black and white. Minimal French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=208",
+      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-trees-208",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837549589.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "beaulieu sur mer",
+        "hotel",
+        "night",
+        "trees",
+        "europe",
+        "france",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 213,
+      "title": "Royal Riviera Hotel at Night, Beaulieu sur Mer",
+      "description": "The Royal Riviera hotel glowing at night in Beaulieu sur Mer, in black and white. French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=213",
+      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-france-213",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837882421.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "beaulieu sur mer",
+        "travel",
+        "black & white",
+        "outdoor",
+        "night",
+        "hotel",
+        "france",
+        "europe"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -9535,8 +9972,8 @@
     },
     {
       "id": 203,
-      "title": "France / Versailles No. 2",
-      "description": "black and white photograph of france, versailles in France, Versailles, by Stuart Singleton No. 2",
+      "title": "Quiet Street Corner, Paris",
+      "description": "A quiet street corner and trees in Paris, in black and white. Minimal French street photography",
       "url": "https://stuartsingleton.com/p?id=203",
       "printPage": "https://stuartsingleton.com/print/france-versailles-203",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837209062.JPG?width=1200&quality=80&resize=contain",
@@ -9585,446 +10022,9 @@
       ]
     },
     {
-      "id": 179,
-      "title": "Hotel / Puerto Rico / San Juan No. 2",
-      "description": "black and white photograph of hotel in Puerto Rico, San Juan, by Stuart Singleton No. 2",
-      "url": "https://stuartsingleton.com/p?id=179",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-179",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835940660.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "city",
-        "hotel",
-        "night",
-        "outdoor",
-        "travel",
-        "puerto rico",
-        "san juan"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 177,
-      "title": "Puerto Rico / San Juan No. 4",
-      "description": "black and white photograph of puerto rico, san juan in Puerto Rico, San Juan, by Stuart Singleton No. 4",
-      "url": "https://stuartsingleton.com/p?id=177",
-      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "black & white",
-        "city",
-        "day",
-        "outdoor",
-        "puerto rico",
-        "san juan",
-        "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 324,
-      "title": "France / Europe",
-      "description": "photograph of europe in France, by Stuart Singleton No. 4",
-      "url": "https://stuartsingleton.com/p?id=324",
-      "printPage": "https://stuartsingleton.com/print/france-europe-324",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798711730.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "france",
-        "europe",
-        "day",
-        "nature",
-        "outdoor",
-        "travel"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 325,
-      "title": "Cannes / Europe / France",
-      "description": "photograph of europe, hotel in Cannes, France, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=325",
-      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-325",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798738177.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "cannes",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "outdoor",
-        "city",
-        "hotel"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 326,
-      "title": "Cannes / Europe / France No. 2",
-      "description": "photograph of europe, hotel in Cannes, France, by Stuart Singleton No. 2",
-      "url": "https://stuartsingleton.com/p?id=326",
-      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-326",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798789506.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "cannes",
-        "city",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "hotel",
-        "outdoor",
-        "travel",
-        "architecture"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 327,
-      "title": "Cannes / Europe / France No. 3",
-      "description": "photograph of europe, hotel in Cannes, France, by Stuart Singleton No. 3",
-      "url": "https://stuartsingleton.com/p?id=327",
-      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-327",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798810119.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "cannes",
-        "city",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "hotel",
-        "outdoor",
-        "travel"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 335,
-      "title": "Europe / France / Versailles No. 2",
-      "description": "photograph of europe in France, Versailles, by Stuart Singleton No. 2",
-      "url": "https://stuartsingleton.com/p?id=335",
-      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-335",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774800482968.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "city",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "versailles",
-        "travel",
-        "outdoor"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "2448:3264",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 2448,
-      "pixelHeight": 3264,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 59
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-9X12",
-          "label": "9x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-FAP-12X16",
-          "label": "12x16in",
-          "framed": false,
-          "priceUSD": 59
-        }
-      ]
-    },
-    {
-      "id": 334,
-      "title": "Europe / France / Versailles",
-      "description": "photograph of europe in France, Versailles, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=334",
-      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-334",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799484683.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "city",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "versailles",
-        "travel",
-        "outdoor"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "2448:3264",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 2448,
-      "pixelHeight": 3264,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 59
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-9X12",
-          "label": "9x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-FAP-12X16",
-          "label": "12x16in",
-          "framed": false,
-          "priceUSD": 59
-        }
-      ]
-    },
-    {
-      "id": 333,
-      "title": "Versailles / France / Hotel",
-      "description": "photograph of hotel, garden in Versailles, France, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=333",
-      "printPage": "https://stuartsingleton.com/print/versailles-france-hotel-333",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799271935.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "city",
-        "color",
-        "versailles",
-        "travel",
-        "france",
-        "hotel",
-        "garden",
-        "outdoor"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 332,
-      "title": "Versailles / Europe / France",
-      "description": "photograph of europe, garden, hotel in Versailles, France, by Stuart Singleton",
-      "url": "https://stuartsingleton.com/p?id=332",
-      "printPage": "https://stuartsingleton.com/print/versailles-europe-france-332",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799246256.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "city",
-        "versailles",
-        "day",
-        "europe",
-        "france",
-        "garden",
-        "hotel",
-        "outdoor",
-        "travel"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
       "id": 144,
-      "title": "Lexington / Kentucky",
-      "description": "photograph of lexington, kentucky, by Stuart Singleton",
+      "title": "Face Mural Alley, Lexington, Kentucky",
+      "description": "A giant painted face mural in an alley in downtown Lexington, Kentucky. Urban street art photography",
       "url": "https://stuartsingleton.com/p?id=144",
       "printPage": "https://stuartsingleton.com/print/lexington-kentucky-144",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781491872527.jpg?width=1200&quality=80&resize=contain",
@@ -10096,8 +10096,8 @@
     },
     {
       "id": 143,
-      "title": "Animals / Nashville / Dogs",
-      "description": "photograph of animals, dogs in Nashville, by Stuart Singleton",
+      "title": "Puppy on a Leash, Nashville",
+      "description": "A fluffy white puppy on a leash on a Nashville sidewalk. Sweet everyday street photography",
       "url": "https://stuartsingleton.com/p?id=143",
       "printPage": "https://stuartsingleton.com/print/animals-nashville-dogs-143",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1780667638993.jpg?width=1200&quality=80&resize=contain",
@@ -10168,8 +10168,8 @@
     },
     {
       "id": 339,
-      "title": "Saint Jean Cap Ferrat / France No. 2",
-      "description": "photograph of saint jean cap ferrat in France, by Stuart Singleton No. 2",
+      "title": "Window and Sea View at Villa Ephrussi, Saint Jean Cap Ferrat",
+      "description": "Visitors at a tall window overlooking the sea at Villa Ephrussi de Rothschild. Moody French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=339",
       "printPage": "https://stuartsingleton.com/print/saint-jean-cap-ferrat-france-339",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1781494977991.jpg?width=1200&quality=80&resize=contain",
@@ -10238,8 +10238,8 @@
     },
     {
       "id": 141,
-      "title": "Puerto Rico / Plants / San Juan",
-      "description": "photograph of plants, dark in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Golden Leaves in Shadow, San Juan",
+      "description": "Leaves silhouetted against a warm golden wall in San Juan. Moody Puerto Rico photography",
       "url": "https://stuartsingleton.com/p?id=141",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-plants-san-juan-141",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1778272110965.jpg?width=1200&quality=80&resize=contain",
@@ -10312,8 +10312,8 @@
     },
     {
       "id": 140,
-      "title": "Plants / Flowers / Psychedelic",
-      "description": "photograph of plants, flowers, psychedelic in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Psychedelic Red Flowers, San Juan",
+      "description": "Glowing red flowers in a dreamy blur in San Juan. Psychedelic botanical photography",
       "url": "https://stuartsingleton.com/p?id=140",
       "printPage": "https://stuartsingleton.com/print/plants-flowers-psychedelic-140",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1778272066477.jpg?width=1200&quality=80&resize=contain",
@@ -10387,8 +10387,8 @@
     },
     {
       "id": 137,
-      "title": "Dark / Long Exposure / Nashville",
-      "description": "photograph of dark, long exposure, neon in Nashville, by Stuart Singleton",
+      "title": "You Are OK Neon Sign, Nashville",
+      "description": "A small \"You Are OK\" neon sign glowing in a dark Nashville room. Moody, minimal night photography",
       "url": "https://stuartsingleton.com/p?id=137",
       "printPage": "https://stuartsingleton.com/print/dark-long-exposure-nashville-137",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1778013690443.jpg?width=1200&quality=80&resize=contain",
@@ -10460,8 +10460,8 @@
     },
     {
       "id": 136,
-      "title": "Cars / Long Exposure / Nashville",
-      "description": "photograph of cars, long exposure, ethereal in Nashville, by Stuart Singleton",
+      "title": "Car Light Trails at Night, Nashville",
+      "description": "Car lights streaking through the dark in Nashville. Long exposure night photography",
       "url": "https://stuartsingleton.com/p?id=136",
       "printPage": "https://stuartsingleton.com/print/cars-long-exposure-nashville-136",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1778013598485.jpg?width=1200&quality=80&resize=contain",
@@ -10533,8 +10533,8 @@
     },
     {
       "id": 128,
-      "title": "Lexington / Kentucky / Dark No. 3",
-      "description": "photograph of lexington, kentucky, dark, neon, by Stuart Singleton No. 3",
+      "title": "Chevy Chase Inn Neon Sign, Lexington, Kentucky",
+      "description": "The neon sign of the Chevy Chase Inn bar glowing at night in Lexington, Kentucky. Vintage neon photography",
       "url": "https://stuartsingleton.com/p?id=128",
       "printPage": "https://stuartsingleton.com/print/lexington-kentucky-dark-128",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1778001765831.jpg?width=1200&quality=80&resize=contain",
@@ -10577,8 +10577,8 @@
     },
     {
       "id": 127,
-      "title": "Lexington / Kentucky / Dark No. 2",
-      "description": "photograph of lexington, kentucky, dark, by Stuart Singleton No. 2",
+      "title": "City Lights From Above, Lexington, Kentucky",
+      "description": "Street lights and traffic from above at night in Lexington, Kentucky. Moody night city photography",
       "url": "https://stuartsingleton.com/p?id=127",
       "printPage": "https://stuartsingleton.com/print/lexington-kentucky-dark-127",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1778001147395.jpg?width=1200&quality=80&resize=contain",
@@ -10650,8 +10650,8 @@
     },
     {
       "id": 126,
-      "title": "Lexington / Kentucky / Dark",
-      "description": "photograph of lexington, kentucky, dark, by Stuart Singleton",
+      "title": "Night Streets From a Rooftop, Lexington, Kentucky",
+      "description": "Glowing streets and car trails seen from above in Lexington at night. Cinematic city photography",
       "url": "https://stuartsingleton.com/p?id=126",
       "printPage": "https://stuartsingleton.com/print/lexington-kentucky-dark-126",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1778001120350.jpg?width=1200&quality=80&resize=contain",
@@ -10723,8 +10723,8 @@
     },
     {
       "id": 125,
-      "title": "Nashville / Plants / Dark No. 2",
-      "description": "photograph of plants, dark in Nashville, by Stuart Singleton No. 2",
+      "title": "Plants Against Old Brick at Night, Nashville",
+      "description": "Green plants growing against an old brick wall at night in Nashville. Moody urban nature photography",
       "url": "https://stuartsingleton.com/p?id=125",
       "printPage": "https://stuartsingleton.com/print/nashville-plants-dark-125",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1776616752908.jpg?width=1200&quality=80&resize=contain",
@@ -10795,8 +10795,8 @@
     },
     {
       "id": 124,
-      "title": "Nashville / Plants / Dark",
-      "description": "photograph of plants, dark in Nashville, by Stuart Singleton",
+      "title": "Fire Escape and Brick Wall, Nashville",
+      "description": "A fire escape and crumbling brick wall at dusk in Nashville. Gritty urban architecture photography",
       "url": "https://stuartsingleton.com/p?id=124",
       "printPage": "https://stuartsingleton.com/print/nashville-plants-dark-124",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1776616740217.jpg?width=1200&quality=80&resize=contain",
@@ -10867,8 +10867,8 @@
     },
     {
       "id": 121,
-      "title": "JFK / New York / Hotel No. 7",
-      "description": "photograph of jfk, hotel in New York, by Stuart Singleton No. 7",
+      "title": "TWA Hotel Planter and Glass Walls, JFK",
+      "description": "A round planter under the glass walls of the TWA Hotel at JFK. Mid century modern architecture photography",
       "url": "https://stuartsingleton.com/p?id=121",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotel-121",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775331384532.jpg?width=1200&quality=80&resize=contain",
@@ -10910,8 +10910,8 @@
     },
     {
       "id": 123,
-      "title": "Nashville / Dark No. 2",
-      "description": "photograph of dark in Nashville, by Stuart Singleton No. 2",
+      "title": "Lit Stone Wall in the Dark, Nashville",
+      "description": "Warm light raking across an old stone wall in Nashville. Moody texture photography",
       "url": "https://stuartsingleton.com/p?id=123",
       "printPage": "https://stuartsingleton.com/print/nashville-dark-123",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1776616680867.jpg?width=1200&quality=80&resize=contain",
@@ -10980,8 +10980,8 @@
     },
     {
       "id": 134,
-      "title": "Flowers / Plants",
-      "description": "photograph of flowers, plants, by Stuart Singleton",
+      "title": "Protea and Rose Bouquet",
+      "description": "Protea, tulips and roses glowing in warm light. Rich botanical flower photography",
       "url": "https://stuartsingleton.com/p?id=134",
       "printPage": "https://stuartsingleton.com/print/flowers-plants-134",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1778013350366.jpg?width=1200&quality=80&resize=contain",
@@ -11050,8 +11050,8 @@
     },
     {
       "id": 119,
-      "title": "Trees / Ethereal / Plants",
-      "description": "photograph of trees, ethereal, plants, by Stuart Singleton",
+      "title": "Glowing Trees at Night",
+      "description": "Trees lit by warm street lamps on a dark night. Ethereal, dreamy night photography",
       "url": "https://stuartsingleton.com/p?id=119",
       "printPage": "https://stuartsingleton.com/print/trees-ethereal-plants-119",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775331312247.jpg?width=1200&quality=80&resize=contain",
@@ -11116,8 +11116,8 @@
     },
     {
       "id": 118,
-      "title": "Dark / Paris / Europe No. 2",
-      "description": "photograph of dark, europe in Paris, by Stuart Singleton No. 2",
+      "title": "Haussmann Street View, Paris",
+      "description": "A classic Parisian street lined with Haussmann buildings. Everyday Paris street photography",
       "url": "https://stuartsingleton.com/p?id=118",
       "printPage": "https://stuartsingleton.com/print/dark-paris-europe-118",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775330052018.jpg?width=1200&quality=80&resize=contain",
@@ -11158,8 +11158,8 @@
     },
     {
       "id": 122,
-      "title": "Nashville / Dark",
-      "description": "photograph of dark in Nashville, by Stuart Singleton",
+      "title": "Stone Wall and Lit Doorway, Nashville",
+      "description": "Light falling across a stone wall beside a lit doorway in Nashville. Moody architecture photography",
       "url": "https://stuartsingleton.com/p?id=122",
       "printPage": "https://stuartsingleton.com/print/nashville-dark-122",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1785795073096.jpg?width=1200&quality=80&resize=contain",
@@ -11228,8 +11228,8 @@
     },
     {
       "id": 117,
-      "title": "JFK / New York / Hotel No. 6",
-      "description": "photograph of jfk, hotel in New York, by Stuart Singleton No. 6",
+      "title": "TWA Hotel Sunken Lounge, JFK",
+      "description": "The red sunken lounge and curved windows of the TWA Hotel at JFK. Retro mid century architecture photography",
       "url": "https://stuartsingleton.com/p?id=117",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotel-117",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775330009276.jpg?width=1200&quality=80&resize=contain",
@@ -11271,8 +11271,8 @@
     },
     {
       "id": 116,
-      "title": "JFK / New York / Hotel No. 5",
-      "description": "photograph of jfk, hotel in New York, by Stuart Singleton No. 5",
+      "title": "TWA Hotel Curves and Sky, JFK",
+      "description": "The sweeping white curves of the TWA Hotel against a blue sky at JFK. Modern architecture photography",
       "url": "https://stuartsingleton.com/p?id=116",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotel-116",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329977699.jpg?width=1200&quality=80&resize=contain",
@@ -11313,8 +11313,8 @@
     },
     {
       "id": 115,
-      "title": "JFK / New York / Hotel No. 4",
-      "description": "photograph of jfk, hotel in New York, by Stuart Singleton No. 4",
+      "title": "TWA Flight Center Interior, JFK",
+      "description": "Red carpet bridges and soaring white curves inside the TWA Flight Center at JFK. Mid century modern photography",
       "url": "https://stuartsingleton.com/p?id=115",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotel-115",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329933032.jpg?width=1200&quality=80&resize=contain",
@@ -11356,8 +11356,8 @@
     },
     {
       "id": 114,
-      "title": "Dark / Paris / Europe",
-      "description": "photograph of dark, europe in Paris, by Stuart Singleton",
+      "title": "Paris Cafe Corner at Night",
+      "description": "A glowing Parisian cafe corner and Haussmann building at night. Classic Paris night photography",
       "url": "https://stuartsingleton.com/p?id=114",
       "printPage": "https://stuartsingleton.com/print/dark-paris-europe-114",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329915844.jpg?width=1200&quality=80&resize=contain",
@@ -11398,8 +11398,8 @@
     },
     {
       "id": 113,
-      "title": "JFK / New York / Hotel No. 3",
-      "description": "photograph of jfk, hotel in New York, by Stuart Singleton No. 3",
+      "title": "TWA Hotel Rooftop View, JFK",
+      "description": "The TWA Hotel rooftop and terminal curves under a bright sky at JFK. Architecture photography",
       "url": "https://stuartsingleton.com/p?id=113",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotel-113",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329873589.jpg?width=1200&quality=80&resize=contain",
@@ -11440,8 +11440,8 @@
     },
     {
       "id": 112,
-      "title": "JFK / New York / Hotel No. 2",
-      "description": "photograph of jfk, hotel in New York, by Stuart Singleton No. 2",
+      "title": "TWA Hotel Ceiling Curves, JFK",
+      "description": "Sweeping ceiling curves and windows inside the TWA Hotel at JFK. Mid century modern photography",
       "url": "https://stuartsingleton.com/p?id=112",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotel-112",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329518998.jpg?width=1200&quality=80&resize=contain",
@@ -11483,8 +11483,8 @@
     },
     {
       "id": 109,
-      "title": "JFK / New York / Hotel",
-      "description": "photograph of jfk, hotel in New York, by Stuart Singleton",
+      "title": "TWA Hotel Flight Tube Silhouettes, JFK",
+      "description": "Two travelers silhouetted in the red carpeted flight tube of Eero Saarinen's TWA Hotel at JFK. Mid-century curves and saturated red make a bold piece for an office or a traveler's wall",
       "url": "https://stuartsingleton.com/p?id=109",
       "printPage": "https://stuartsingleton.com/print/jfk-new-york-hotel-109",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775329326511.jpg?width=1200&quality=80&resize=contain",
@@ -11526,8 +11526,8 @@
     },
     {
       "id": 108,
-      "title": "Europe / France / Saint Jean Cap Ferrat",
-      "description": "photograph of europe, saint jean cap ferrat, plants in France, by Stuart Singleton No. 2",
+      "title": "Rose Garden at Villa Ephrussi, Saint Jean Cap Ferrat",
+      "description": "The rose garden and hillside at Villa Ephrussi de Rothschild in Saint Jean Cap Ferrat. French Riviera garden photography",
       "url": "https://stuartsingleton.com/p?id=108",
       "printPage": "https://stuartsingleton.com/print/europe-france-saint-jean-cap-ferrat-108",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247429038.jpg?width=1200&quality=80&resize=contain",
@@ -11569,8 +11569,8 @@
     },
     {
       "id": 107,
-      "title": "Europe / France No. 3",
-      "description": "photograph of europe in France, by Stuart Singleton No. 3",
+      "title": "Striped Awnings From a Train, Cannes",
+      "description": "Striped awnings and apartments seen from a passing train in Cannes. French Riviera travel photography",
       "url": "https://stuartsingleton.com/p?id=107",
       "printPage": "https://stuartsingleton.com/print/europe-france-107",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247354974.jpg?width=1200&quality=80&resize=contain",
@@ -11611,8 +11611,8 @@
     },
     {
       "id": 106,
-      "title": "Europe / France No. 2",
-      "description": "photograph of europe in France, by Stuart Singleton No. 2",
+      "title": "Sunlit Apartment Block From a Train, Cannes",
+      "description": "A sunlit apartment block seen from a train window near Cannes. Film style French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=106",
       "printPage": "https://stuartsingleton.com/print/europe-france-106",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247331526.jpg?width=1200&quality=80&resize=contain",
@@ -11677,8 +11677,8 @@
     },
     {
       "id": 105,
-      "title": "Europe / France",
-      "description": "photograph of europe in France, by Stuart Singleton",
+      "title": "Modern Building From a Train, Cannes",
+      "description": "A modern building angled against a blue sky, seen from a train near Cannes. French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=105",
       "printPage": "https://stuartsingleton.com/print/europe-france-105",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247303554.jpg?width=1200&quality=80&resize=contain",
@@ -11718,8 +11718,8 @@
     },
     {
       "id": 104,
-      "title": "Unedited / Europe / France",
-      "description": "photograph of unedited, europe in France, by Stuart Singleton",
+      "title": "Church Tower From a Train, French Riviera",
+      "description": "A church bell tower above villas seen from a passing train on the Cote d'Azur. Unedited French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=104",
       "printPage": "https://stuartsingleton.com/print/unedited-europe-france-104",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247293299.jpg?width=1200&quality=80&resize=contain",
@@ -11760,8 +11760,8 @@
     },
     {
       "id": 103,
-      "title": "Trees / Plants / Saint Jean Cap Ferrat",
-      "description": "photograph of trees, plants, saint jean cap ferrat, by Stuart Singleton",
+      "title": "Tropical Garden at Villa Ephrussi, Saint Jean Cap Ferrat",
+      "description": "Lush tropical plants in the gardens of Villa Ephrussi de Rothschild. French Riviera botanical photography",
       "url": "https://stuartsingleton.com/p?id=103",
       "printPage": "https://stuartsingleton.com/print/trees-plants-saint-jean-cap-ferrat-103",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247229921.jpg?width=1200&quality=80&resize=contain",
@@ -11803,8 +11803,8 @@
     },
     {
       "id": 102,
-      "title": "Eze / Europe / France No. 3",
-      "description": "photograph of eze, europe in France, by Stuart Singleton No. 3",
+      "title": "Mountain View Through a Stone Arch, Eze",
+      "description": "Hillside villas and mountains framed through a stone archway in Eze. South of France travel photography",
       "url": "https://stuartsingleton.com/p?id=102",
       "printPage": "https://stuartsingleton.com/print/eze-europe-france-102",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247181534.jpg?width=1200&quality=80&resize=contain",
@@ -11845,8 +11845,8 @@
     },
     {
       "id": 100,
-      "title": "Eze / Europe / France No. 2",
-      "description": "photograph of eze, europe in France, by Stuart Singleton No. 2 No. 2",
+      "title": "Eze Church Walls and Blue Sky",
+      "description": "The golden walls of the Eze church under a blue sky. Historic French Riviera architecture photography",
       "url": "https://stuartsingleton.com/p?id=100",
       "printPage": "https://stuartsingleton.com/print/eze-europe-france-100",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247120042.jpg?width=1200&quality=80&resize=contain",
@@ -11888,8 +11888,8 @@
     },
     {
       "id": 99,
-      "title": "Eze / Europe / France",
-      "description": "photograph of eze, europe in France, by Stuart Singleton No. 2",
+      "title": "Golden Church Facade, Eze",
+      "description": "The sunlit walls of Notre Dame de l'Assomption in Eze. French Riviera architecture photography",
       "url": "https://stuartsingleton.com/p?id=99",
       "printPage": "https://stuartsingleton.com/print/eze-europe-france-99",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247094982.jpg?width=1200&quality=80&resize=contain",
@@ -11931,8 +11931,8 @@
     },
     {
       "id": 98,
-      "title": "Europe / Saint Jean Cap Ferrat / France",
-      "description": "photograph of europe, saint jean cap ferrat, plants in France, by Stuart Singleton",
+      "title": "Garden Gate at Villa Ephrussi, Saint Jean Cap Ferrat",
+      "description": "A golden arched garden gate and stone path at Villa Ephrussi de Rothschild. French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=98",
       "printPage": "https://stuartsingleton.com/print/europe-saint-jean-cap-ferrat-france-98",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247052727.jpg?width=1200&quality=80&resize=contain",
@@ -11975,8 +11975,8 @@
     },
     {
       "id": 97,
-      "title": "Eze / Europe",
-      "description": "photograph of eze, europe, by Stuart Singleton",
+      "title": "White Vintage Cart Among the Trees, Eze",
+      "description": "A white vintage three wheeled cart parked under trees in Eze. Charming south of France photography",
       "url": "https://stuartsingleton.com/p?id=97",
       "printPage": "https://stuartsingleton.com/print/eze-europe-97",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775246943388.jpg?width=1200&quality=80&resize=contain",
@@ -12040,8 +12040,8 @@
     },
     {
       "id": 96,
-      "title": "Nashville No. 2",
-      "description": "photograph of nashville in Nashville, by Stuart Singleton No. 2",
+      "title": "Red Graffiti Wall, Nashville",
+      "description": "Black graffiti tags on a bright red wall in Nashville. Bold urban street photography",
       "url": "https://stuartsingleton.com/p?id=96",
       "printPage": "https://stuartsingleton.com/print/nashville-96",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775245316724.jpg?width=1200&quality=80&resize=contain",
@@ -12079,8 +12079,8 @@
     },
     {
       "id": 95,
-      "title": "Villefranche sur Mer / Europe / France No. 2",
-      "description": "photograph of europe in Villefranche sur Mer, France, by Stuart Singleton No. 2",
+      "title": "Chapel Above the Harbor, Villefranche sur Mer",
+      "description": "A painted chapel and pastel buildings above the harbor in Villefranche sur Mer. French Riviera travel photography",
       "url": "https://stuartsingleton.com/p?id=95",
       "printPage": "https://stuartsingleton.com/print/villefranche-sur-mer-europe-france-95",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775245291108.jpg?width=1200&quality=80&resize=contain",
@@ -12121,8 +12121,8 @@
     },
     {
       "id": 94,
-      "title": "Monaco / Monte Carlo",
-      "description": "photograph of monaco, monte carlo in Monaco, Monte Carlo, by Stuart Singleton",
+      "title": "Modernist Balconies and Palm, Monte Carlo",
+      "description": "Angular stone and glass balconies with a palm tree in Monte Carlo. Modernist Monaco architecture photography",
       "url": "https://stuartsingleton.com/p?id=94",
       "printPage": "https://stuartsingleton.com/print/monaco-monte-carlo-94",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775245244936.jpg?width=1200&quality=80&resize=contain",
@@ -12176,8 +12176,8 @@
     },
     {
       "id": 93,
-      "title": "Beaulieu sur Mer / Europe / France No. 3",
-      "description": "photograph of europe in Beaulieu sur Mer, France, by Stuart Singleton No. 3",
+      "title": "Checked Curtains and Light, Beaulieu sur Mer",
+      "description": "Sunlight through checked curtains in Beaulieu sur Mer. Quiet French Riviera interior photography",
       "url": "https://stuartsingleton.com/p?id=93",
       "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-europe-france-93",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775245205074.jpg?width=1200&quality=80&resize=contain",
@@ -12248,8 +12248,8 @@
     },
     {
       "id": 92,
-      "title": "Beaulieu sur Mer / Europe / France No. 2",
-      "description": "photograph of europe, ocean in Beaulieu sur Mer, France, by Stuart Singleton No. 2",
+      "title": "Sea View Through a Window, Beaulieu sur Mer",
+      "description": "Olive trees and the Mediterranean framed by an old window in Beaulieu sur Mer. Calm French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=92",
       "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-europe-france-92",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775245158283.jpg?width=1200&quality=80&resize=contain",
@@ -12321,8 +12321,8 @@
     },
     {
       "id": 91,
-      "title": "Europe / Monaco / Monte Carlo No. 3",
-      "description": "photograph of europe in Monaco, Monte Carlo, by Stuart Singleton No. 3",
+      "title": "Angular Balconies Against Blue Sky, Monte Carlo",
+      "description": "Stone and glass balconies against a deep blue sky in Monte Carlo. Bold Monaco architecture photography",
       "url": "https://stuartsingleton.com/p?id=91",
       "printPage": "https://stuartsingleton.com/print/europe-monaco-monte-carlo-91",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775245105119.jpg?width=1200&quality=80&resize=contain",
@@ -12389,8 +12389,8 @@
     },
     {
       "id": 90,
-      "title": "Villefranche sur Mer / Europe / France",
-      "description": "photograph of europe in Villefranche sur Mer, France, by Stuart Singleton",
+      "title": "Street and Chapel, Villefranche sur Mer",
+      "description": "A sunny street, pastel buildings and a painted chapel in Villefranche sur Mer. French Riviera travel photography",
       "url": "https://stuartsingleton.com/p?id=90",
       "printPage": "https://stuartsingleton.com/print/villefranche-sur-mer-europe-france-90",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775245068343.jpg?width=1200&quality=80&resize=contain",
@@ -12431,8 +12431,8 @@
     },
     {
       "id": 89,
-      "title": "Eze / France / Europe",
-      "description": "photograph of eze, europe in France, by Stuart Singleton",
+      "title": "Eze Clock Tower and Hillside, French Riviera",
+      "description": "The yellow clock tower of Eze above hillside villas. Classic south of France village photography",
       "url": "https://stuartsingleton.com/p?id=89",
       "printPage": "https://stuartsingleton.com/print/eze-france-europe-89",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775245017923.jpg?width=1200&quality=80&resize=contain",
@@ -12475,8 +12475,8 @@
     },
     {
       "id": 86,
-      "title": "Trees / Nashville / Plants",
-      "description": "photograph of trees, plants in Nashville, by Stuart Singleton",
+      "title": "Orange Leaves and Bokeh, Nashville",
+      "description": "Orange autumn leaves glowing over soft white bokeh in Nashville. Dreamy fall nature photography",
       "url": "https://stuartsingleton.com/p?id=86",
       "printPage": "https://stuartsingleton.com/print/trees-nashville-plants-86",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775098616266.jpg?width=1200&quality=80&resize=contain",
@@ -12517,8 +12517,8 @@
     },
     {
       "id": 85,
-      "title": "Nashville",
-      "description": "black and white photograph of nashville in Nashville, by Stuart Singleton",
+      "title": "Convex Mirror Abstract, Nashville",
+      "description": "A curved mirror reflecting a ribbed ceiling in Nashville, in black and white. Abstract photography",
       "url": "https://stuartsingleton.com/p?id=85",
       "printPage": "https://stuartsingleton.com/print/nashville-85",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774801677383.jpg?width=1200&quality=80&resize=contain",
@@ -12557,8 +12557,8 @@
     },
     {
       "id": 84,
-      "title": "Psychedelic / Plants / Puerto Rico",
-      "description": "photograph of psychedelic, plants, ethereal, flowers in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Psychedelic Pink Plant, San Juan",
+      "description": "Pink and coral leaves in a dreamy blur in San Juan. Psychedelic botanical photography",
       "url": "https://stuartsingleton.com/p?id=84",
       "printPage": "https://stuartsingleton.com/print/psychedelic-plants-puerto-rico-84",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774801065109.jpg?width=1200&quality=80&resize=contain",
@@ -12631,8 +12631,8 @@
     },
     {
       "id": 82,
-      "title": "Nashville / Trees No. 2",
-      "description": "photograph of trees in Nashville, by Stuart Singleton No. 2",
+      "title": "Hiker at Radnor Lake, Nashville",
+      "description": "A lone hiker among tall trees at Radnor Lake State Park in Nashville. Moody forest photography",
       "url": "https://stuartsingleton.com/p?id=82",
       "printPage": "https://stuartsingleton.com/print/nashville-trees-82",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774800982711.jpg?width=1200&quality=80&resize=contain",
@@ -12702,8 +12702,8 @@
     },
     {
       "id": 81,
-      "title": "Wildlife / Trees / Plants",
-      "description": "photograph of wildlife, trees, plants in Nashville, by Stuart Singleton",
+      "title": "Frosted Branches Reflected in Icy Water",
+      "description": "Bare branches reflected in icy blue water. Dreamy winter nature photography",
       "url": "https://stuartsingleton.com/p?id=81",
       "printPage": "https://stuartsingleton.com/print/wildlife-trees-plants-81",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1785868416969.jpg?width=1200&quality=80&resize=contain",
@@ -12774,8 +12774,8 @@
     },
     {
       "id": 79,
-      "title": "San Juan / Puerto Rico",
-      "description": "photograph of san juan, puerto rico in San Juan, Puerto Rico, by Stuart Singleton",
+      "title": "Pastel Colonial Buildings, Old San Juan",
+      "description": "Lavender and yellow colonial buildings on a street corner in Old San Juan. Colorful Puerto Rico travel photography",
       "url": "https://stuartsingleton.com/p?id=79",
       "printPage": "https://stuartsingleton.com/print/san-juan-puerto-rico-79",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1785868878785.jpg?width=1200&quality=80&resize=contain",
@@ -12847,8 +12847,8 @@
     },
     {
       "id": 78,
-      "title": "Neon / San Juan",
-      "description": "photograph of neon in San Juan, by Stuart Singleton",
+      "title": "Neon Corner Shop at Night, San Juan",
+      "description": "A neon lit corner shop glowing teal on a quiet San Juan street at night. Cinematic Puerto Rico night photography",
       "url": "https://stuartsingleton.com/p?id=78",
       "printPage": "https://stuartsingleton.com/print/neon-san-juan-78",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774800704370.jpg?width=1200&quality=80&resize=contain",
@@ -12919,8 +12919,8 @@
     },
     {
       "id": 77,
-      "title": "Nashville / Trees",
-      "description": "photograph of trees in Nashville, by Stuart Singleton",
+      "title": "Pale Trees in a Dark Forest, Nashville",
+      "description": "Pale sycamore trunks in a dark Nashville forest. Moody nature photography",
       "url": "https://stuartsingleton.com/p?id=77",
       "printPage": "https://stuartsingleton.com/print/nashville-trees-77",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1785795045160.jpg?width=1200&quality=80&resize=contain",
@@ -12990,8 +12990,8 @@
     },
     {
       "id": 76,
-      "title": "Live Music / Dark / Ethereal",
-      "description": "photograph of live music, dark, ethereal, stage in Nashville, by Stuart Singleton",
+      "title": "Stage Light Blur, Nashville",
+      "description": "Orange and blue stage lights blurred into abstract shapes at a Nashville show. Experimental live music photography",
       "url": "https://stuartsingleton.com/p?id=76",
       "printPage": "https://stuartsingleton.com/print/live-music-dark-ethereal-76",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774800556805.jpg?width=1200&quality=80&resize=contain",
@@ -13032,8 +13032,8 @@
     },
     {
       "id": 75,
-      "title": "Versailles / France / Europe",
-      "description": "black and white photograph of europe in Versailles, France, by Stuart Singleton",
+      "title": "Silhouettes Under an Archway, Versailles",
+      "description": "Visitors silhouetted beneath a stone archway at the Palace of Versailles, in black and white. France travel photography",
       "url": "https://stuartsingleton.com/p?id=75",
       "printPage": "https://stuartsingleton.com/print/versailles-france-europe-75",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1782683935676.jpg?width=1200&quality=80&resize=contain",
@@ -13104,8 +13104,8 @@
     },
     {
       "id": 74,
-      "title": "Dark / Ethereal / Long Exposure No. 2",
-      "description": "photograph of dark, ethereal, long exposure, neon, psychedelic in Nashville, by Stuart Singleton No. 2",
+      "title": "Yellow Light Trail, Long Exposure",
+      "description": "A burst of yellow light and a thin trail in a long exposure. Experimental abstract night photography",
       "url": "https://stuartsingleton.com/p?id=74",
       "printPage": "https://stuartsingleton.com/print/dark-ethereal-long-exposure-74",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774794472464.jpg?width=1200&quality=80&resize=contain",
@@ -13147,8 +13147,8 @@
     },
     {
       "id": 73,
-      "title": "Europe / France / Paris No. 3",
-      "description": "photograph of europe in France, Paris, by Stuart Singleton No. 3 No. 2",
+      "title": "Classical Statue and Autumn Trees, Paris",
+      "description": "A marble statue framed by golden autumn trees and a teal sky in Paris. Warm Paris garden photography",
       "url": "https://stuartsingleton.com/p?id=73",
       "printPage": "https://stuartsingleton.com/print/europe-france-paris-73",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774794370746.jpg?width=1200&quality=80&resize=contain",
@@ -13189,8 +13189,8 @@
     },
     {
       "id": 72,
-      "title": "Dark / Ethereal / Long Exposure",
-      "description": "photograph of dark, ethereal, long exposure, psychedelic in Nashville, by Stuart Singleton",
+      "title": "Abstract Light Streaks, Long Exposure",
+      "description": "Streaks of white and red light in a long exposure. Experimental abstract photography",
       "url": "https://stuartsingleton.com/p?id=72",
       "printPage": "https://stuartsingleton.com/print/dark-ethereal-long-exposure-72",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774794334958.jpg?width=1200&quality=80&resize=contain",
@@ -13261,8 +13261,8 @@
     },
     {
       "id": 71,
-      "title": "Europe / France / Paris No. 2",
-      "description": "black and white photograph of europe in France, Paris, by Stuart Singleton No. 2",
+      "title": "Institut de France Dome Through an Arch, Paris",
+      "description": "Walkers in silhouette under a stone arch facing the Institut de France dome. Black and white Paris photography",
       "url": "https://stuartsingleton.com/p?id=71",
       "printPage": "https://stuartsingleton.com/print/europe-france-paris-71",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774793203122.jpg?width=1200&quality=80&resize=contain",
@@ -13305,8 +13305,8 @@
     },
     {
       "id": 70,
-      "title": "Holidays / Live Music",
-      "description": "photograph of holidays, live music, by Stuart Singleton",
+      "title": "Santa on Stage, Nashville",
+      "description": "Santa Claus under colorful stage lights at a Nashville holiday show. Fun holiday and live music photography",
       "url": "https://stuartsingleton.com/p?id=70",
       "printPage": "https://stuartsingleton.com/print/holidays-live-music-70",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774792839121.jpg?width=1200&quality=80&resize=contain",
@@ -13345,8 +13345,8 @@
     },
     {
       "id": 69,
-      "title": "Washington DC",
-      "description": "black and white photograph of washington dc in Washington DC, by Stuart Singleton",
+      "title": "Washington Monument Under a Dramatic Sky",
+      "description": "The Washington Monument under dramatic clouds, in black and white. Iconic Washington DC photography",
       "url": "https://stuartsingleton.com/p?id=69",
       "printPage": "https://stuartsingleton.com/print/washington-dc-69",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1785869860455.jpg?width=1200&quality=80&resize=contain",
@@ -13413,8 +13413,8 @@
     },
     {
       "id": 68,
-      "title": "Saint Paul de Vence / Europe / Food & Drink",
-      "description": "photograph of saint paul de vence, europe, food & drink, restaurant in France, by Stuart Singleton",
+      "title": "Caprese Lunch, Saint-Paul-de-Vence",
+      "description": "Heirloom tomatoes and mozzarella on a dark plate at lunch in Saint-Paul-de-Vence. South of France food photography",
       "url": "https://stuartsingleton.com/p?id=68",
       "printPage": "https://stuartsingleton.com/print/saint-paul-de-vence-europe-food-and-drink-68",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774465982413.jpg?width=1200&quality=80&resize=contain",
@@ -13456,8 +13456,8 @@
     },
     {
       "id": 12,
-      "title": "Food & Drink / Nashville / Neon",
-      "description": "photograph of food & drink, neon, restaurant, fishmonger in Nashville, by Stuart Singleton",
+      "title": "Neon Kitchen Window at Fishmonger, Nashville",
+      "description": "Neon light and a glowing kitchen window inside Fishmonger in Nashville. Moody restaurant photography",
       "url": "https://stuartsingleton.com/p?id=12",
       "printPage": "https://stuartsingleton.com/print/food-and-drink-nashville-neon-12",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1785870488048.jpg?width=1200&quality=80&resize=contain",
@@ -13529,8 +13529,8 @@
     },
     {
       "id": 14,
-      "title": "France / Versailles",
-      "description": "black and white photograph of france, versailles in France, Versailles, by Stuart Singleton",
+      "title": "Versailles Arcade at Night, Black and White",
+      "description": "Lanterns glow down a stone arcade at the Palace of Versailles after dark, the arches fading into shadow, in black and white. A quiet, timeless view of France's most famous palace",
       "url": "https://stuartsingleton.com/p?id=14",
       "printPage": "https://stuartsingleton.com/print/france-versailles-14",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774127942933.jpg?width=1200&quality=80&resize=contain",
@@ -13599,8 +13599,8 @@
     },
     {
       "id": 21,
-      "title": "Puerto Rico / San Juan No. 3",
-      "description": "photograph of puerto rico, san juan in Puerto Rico, San Juan, by Stuart Singleton No. 3",
+      "title": "Street Lamps and a Glowing Palm, San Juan",
+      "description": "Glowing street lamps above a bright green palm at night in San Juan. Cinematic Puerto Rico night photography",
       "url": "https://stuartsingleton.com/p?id=21",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-21",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774128546300.jpg?width=1200&quality=80&resize=contain",
@@ -13669,8 +13669,8 @@
     },
     {
       "id": 20,
-      "title": "Puerto Rico / San Juan No. 2",
-      "description": "photograph of puerto rico, san juan in Puerto Rico, San Juan, by Stuart Singleton No. 2",
+      "title": "Palms Under Street Lights, San Juan",
+      "description": "Palms glowing green under street lights at night in San Juan. Puerto Rico night photography",
       "url": "https://stuartsingleton.com/p?id=20",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-20",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774128436741.jpg?width=1200&quality=80&resize=contain",
@@ -13739,8 +13739,8 @@
     },
     {
       "id": 15,
-      "title": "Puerto Rico / San Juan",
-      "description": "photograph of puerto rico, san juan in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Teal Apartment Building, San Juan, Puerto Rico",
+      "description": "A white and teal apartment building against a deep blue sky in San Juan. Bright Puerto Rico architecture photography",
       "url": "https://stuartsingleton.com/p?id=15",
       "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-15",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774127997457.jpg?width=1200&quality=80&resize=contain",
@@ -13810,8 +13810,8 @@
     },
     {
       "id": 24,
-      "title": "Europe / Monte Carlo / Monaco",
-      "description": "photograph of europe in Monte Carlo, Monaco, by Stuart Singleton",
+      "title": "Curved Balconies and Palms at Dusk, Monte Carlo",
+      "description": "A curved apartment building and palm trees at dusk in Monte Carlo. Moody Monaco architecture photography",
       "url": "https://stuartsingleton.com/p?id=24",
       "printPage": "https://stuartsingleton.com/print/europe-monte-carlo-monaco-24",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774184445395.jpg?width=1200&quality=80&resize=contain",
@@ -13876,8 +13876,8 @@
     },
     {
       "id": 29,
-      "title": "Flowers / Plants / Puerto Rico",
-      "description": "photograph of flowers, plants in Puerto Rico, San Juan, by Stuart Singleton",
+      "title": "Pink Bougainvillea Close Up, San Juan",
+      "description": "Pink bougainvillea blooms against a white building in San Juan. Colorful tropical flower photography",
       "url": "https://stuartsingleton.com/p?id=29",
       "printPage": "https://stuartsingleton.com/print/flowers-plants-puerto-rico-29",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774184829511.jpg?width=1200&quality=80&resize=contain",
@@ -13950,8 +13950,8 @@
     },
     {
       "id": 31,
-      "title": "Flowers / Plants / Puerto Rico No. 2",
-      "description": "photograph of flowers, plants in Puerto Rico, San Juan, by Stuart Singleton No. 2",
+      "title": "Bougainvillea and White Building, San Juan",
+      "description": "Bright pink bougainvillea in front of a white building and blue sky in San Juan. Vivid Puerto Rico photography",
       "url": "https://stuartsingleton.com/p?id=31",
       "printPage": "https://stuartsingleton.com/print/flowers-plants-puerto-rico-31",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774184923658.jpg?width=1200&quality=80&resize=contain",
@@ -14024,8 +14024,8 @@
     },
     {
       "id": 33,
-      "title": "Trees / Plants / San Juan",
-      "description": "photograph of trees, plants in San Juan, Puerto Rico, by Stuart Singleton",
+      "title": "Palm Frond and White Building, San Juan",
+      "description": "A palm frond against a white building and deep blue sky in San Juan. Bright tropical photography",
       "url": "https://stuartsingleton.com/p?id=33",
       "printPage": "https://stuartsingleton.com/print/trees-plants-san-juan-33",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774185008585.jpg?width=1200&quality=80&resize=contain",
@@ -14096,8 +14096,8 @@
     },
     {
       "id": 38,
-      "title": "France / Europe / Paris",
-      "description": "photograph of europe in France, Paris, by Stuart Singleton",
+      "title": "Golden Paris Street Under a Teal Sky",
+      "description": "A quiet Paris street of golden facades under a teal sky. Wes Anderson inspired Paris photography",
       "url": "https://stuartsingleton.com/p?id=38",
       "printPage": "https://stuartsingleton.com/print/france-europe-paris-38",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774185372311.jpg?width=1200&quality=80&resize=contain",
@@ -14168,8 +14168,8 @@
     },
     {
       "id": 42,
-      "title": "France / Europe / Paris No. 2",
-      "description": "photograph of europe in France, Paris, by Stuart Singleton No. 2",
+      "title": "Saint-Eustache and a Street Sign, Paris",
+      "description": "The Saint-Eustache church behind a Paris street sign under a teal sky. Paris travel photography",
       "url": "https://stuartsingleton.com/p?id=42",
       "printPage": "https://stuartsingleton.com/print/france-europe-paris-42",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774186667967.jpg?width=1200&quality=80&resize=contain",
@@ -14240,8 +14240,8 @@
     },
     {
       "id": 43,
-      "title": "France / Europe / Paris No. 3",
-      "description": "photograph of europe in France, Paris, by Stuart Singleton No. 3",
+      "title": "Saint-Eustache Church Against a Teal Sky, Paris",
+      "description": "The Gothic Saint-Eustache church glowing gold under a teal sky in Paris. Wes Anderson inspired Paris photography",
       "url": "https://stuartsingleton.com/p?id=43",
       "printPage": "https://stuartsingleton.com/print/france-europe-paris-43",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774186718364.jpg?width=1200&quality=80&resize=contain",
@@ -14313,8 +14313,8 @@
     },
     {
       "id": 45,
-      "title": "Europe / Monaco / Monte Carlo",
-      "description": "photograph of europe in Monaco, Monte Carlo, by Stuart Singleton",
+      "title": "Pink Riviera Balconies, Monaco",
+      "description": "Pink and white apartment balconies stacked against a bright blue sky in Monaco. Colorful architecture photography",
       "url": "https://stuartsingleton.com/p?id=45",
       "printPage": "https://stuartsingleton.com/print/europe-monaco-monte-carlo-45",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1785871445556.jpg?width=1200&quality=80&resize=contain",
@@ -14387,8 +14387,8 @@
     },
     {
       "id": 46,
-      "title": "Beaulieu sur Mer / France / Europe",
-      "description": "photograph of europe, ocean, water in Beaulieu sur Mer, France, by Stuart Singleton",
+      "title": "Lighthouse and Lamp Post, Beaulieu sur Mer",
+      "description": "A small lighthouse on the rocks and a classic lamp post above the blue sea in Beaulieu sur Mer. French Riviera seascape photography",
       "url": "https://stuartsingleton.com/p?id=46",
       "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-france-europe-46",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1785871791916.jpg?width=1200&quality=80&resize=contain",
@@ -14461,8 +14461,8 @@
     },
     {
       "id": 49,
-      "title": "San Juan / Water / Puerto Rico",
-      "description": "photograph of water in San Juan, Puerto Rico, by Stuart Singleton",
+      "title": "Pastel Rooftop Pool Reflection, San Juan",
+      "description": "Pastel blue buildings reflected in a still rooftop pool in San Juan. Dreamy Puerto Rico travel photography",
       "url": "https://stuartsingleton.com/p?id=49",
       "printPage": "https://stuartsingleton.com/print/san-juan-water-puerto-rico-49",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774190120670.jpg?width=1200&quality=80&resize=contain",
@@ -14503,8 +14503,8 @@
     },
     {
       "id": 51,
-      "title": "Beaulieu sur Mer / Europe / France",
-      "description": "photograph of europe, ocean in Beaulieu sur Mer, France, by Stuart Singleton",
+      "title": "Coastline and Villas, Beaulieu sur Mer",
+      "description": "Pink villas, a seaside promenade and cliffs along the coast of Beaulieu sur Mer. French Riviera travel photography",
       "url": "https://stuartsingleton.com/p?id=51",
       "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-europe-france-51",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774192242266.jpg?width=1200&quality=80&resize=contain",
@@ -14578,8 +14578,8 @@
     },
     {
       "id": 52,
-      "title": "Paris / Europe / France",
-      "description": "photograph of europe in Paris, France, by Stuart Singleton",
+      "title": "Grande Roue Through the Trees, Paris",
+      "description": "The Paris ferris wheel framed by autumn trees against a blue sky. Paris travel photography",
       "url": "https://stuartsingleton.com/p?id=52",
       "printPage": "https://stuartsingleton.com/print/paris-europe-france-52",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774192458028.jpg?width=1200&quality=80&resize=contain",
@@ -14650,8 +14650,8 @@
     },
     {
       "id": 53,
-      "title": "Paris / Europe / France No. 2",
-      "description": "photograph of europe in Paris, France, by Stuart Singleton No. 2",
+      "title": "Paris Ferris Wheel and Autumn Leaves",
+      "description": "The Grande Roue against a deep blue sky with autumn leaves in Paris. Colorful Paris travel photography",
       "url": "https://stuartsingleton.com/p?id=53",
       "printPage": "https://stuartsingleton.com/print/paris-europe-france-53",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774193090559.jpg?width=1200&quality=80&resize=contain",
@@ -14722,8 +14722,8 @@
     },
     {
       "id": 54,
-      "title": "Europe / France / Paris",
-      "description": "photograph of europe in France, Paris, by Stuart Singleton No. 4",
+      "title": "Parisian Street Corner With Kiosk",
+      "description": "Haussmann facades, a kiosk and passing scooters on a Paris street. Everyday Paris street photography",
       "url": "https://stuartsingleton.com/p?id=54",
       "printPage": "https://stuartsingleton.com/print/europe-france-paris-54",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774193215359.jpg?width=1200&quality=80&resize=contain",
@@ -14766,8 +14766,8 @@
     },
     {
       "id": 60,
-      "title": "Nashville / Animals / Wildlife",
-      "description": "photograph of animals, wildlife in Nashville, by Stuart Singleton",
+      "title": "Autumn Forest in Rust Tones, Nashville",
+      "description": "Tall trees and a carpet of rust colored leaves in a Nashville forest. Autumn nature photography",
       "url": "https://stuartsingleton.com/p?id=60",
       "printPage": "https://stuartsingleton.com/print/nashville-animals-wildlife-60",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774195011406.jpg?width=1200&quality=80&resize=contain",
@@ -14807,8 +14807,8 @@
     },
     {
       "id": 61,
-      "title": "Nashville / Animals / Wildlife No. 2",
-      "description": "photograph of animals, wildlife in Nashville, by Stuart Singleton No. 2",
+      "title": "Fallen Leaves on the Forest Floor, Nashville",
+      "description": "Fallen leaves covering a forest floor in soft focus in Nashville. Warm autumn nature photography",
       "url": "https://stuartsingleton.com/p?id=61",
       "printPage": "https://stuartsingleton.com/print/nashville-animals-wildlife-61",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774198199873.jpg?width=1200&quality=80&resize=contain",
@@ -14848,8 +14848,8 @@
     },
     {
       "id": 62,
-      "title": "Europe / Monaco / Monte Carlo No. 2",
-      "description": "photograph of europe, wildlife in Monaco, Monte Carlo, by Stuart Singleton No. 2",
+      "title": "Dove on a Branch, Monaco",
+      "description": "A dove perched on a branch in a garden in Monaco. Gentle wildlife photography on the French Riviera",
       "url": "https://stuartsingleton.com/p?id=62",
       "printPage": "https://stuartsingleton.com/print/europe-monaco-monte-carlo-62",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774198295017.jpg?width=1200&quality=80&resize=contain",
@@ -14892,8 +14892,8 @@
     },
     {
       "id": 63,
-      "title": "Nashville / Animals / Wildlife No. 3",
-      "description": "photograph of animals, wildlife, trees in Nashville, by Stuart Singleton No. 3",
+      "title": "Deer in the Fall Forest, Nashville",
+      "description": "A young deer standing in fallen leaves in a Nashville forest. Quiet wildlife photography",
       "url": "https://stuartsingleton.com/p?id=63",
       "printPage": "https://stuartsingleton.com/print/nashville-animals-wildlife-63",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1774221444750.jpg?width=1200&quality=80&resize=contain",

@@ -179,7 +179,7 @@ async function fetchCatalog() {
   const headers = { apikey: SUPA_KEY, authorization: `Bearer ${SUPA_KEY}` };
 
   const photosRes = await fetch(
-    `${SUPA_URL}/rest/v1/photos?select=id,tags,camera,src,span,mockup_url,for_sale,hidden` +
+    `${SUPA_URL}/rest/v1/photos?select=id,tags,camera,src,span,mockup_url,for_sale,hidden,title,description,place,region,country,landmark` +
     `&for_sale=eq.true&hidden=eq.false&order=sort_order.asc,created_at.desc`,
     { headers });
   if (!photosRes.ok) throw new Error(`photos fetch ${photosRes.status}: ${await photosRes.text()}`);
@@ -220,13 +220,26 @@ async function fetchCatalog() {
 
     const slug = slugForPhoto(p);
     const desc = describePhoto(p);
+    // photos.title / photos.description (written per photo, editable in the DB) win over the
+    // tag-built fallbacks. The slug still comes from tags, so editing a title never moves a URL.
+    const dbDesc = (p.description || '').trim().replace(/\.\s*$/, '');
+    // "Nashville, Tennessee" / "San Juan, Puerto Rico" / "Eze, French Riviera, France" / "Paris, France"
+    const locBits = (p.country === 'United States' ? [p.place, p.region]
+      : p.region === 'Île-de-France' ? [p.place, p.country]
+      : [p.place, p.region, p.country]).filter(Boolean).filter((v, i, a) => a.indexOf(v) === i);
 
     return {
       id: p.id,
       slug,
-      title: titleForPhoto(p),
-      description: desc.alt,          // image alt text
-      sentence: desc.sentence,        // human-facing, properly cased
+      title: (p.title || '').trim() || titleForPhoto(p),
+      description: dbDesc || desc.alt,     // image alt text
+      sentence: dbDesc || desc.sentence,   // human-facing, properly cased, no trailing period
+      place: p.place || null,
+      region: p.region || null,
+      country: p.country || null,
+      landmark: p.landmark || null,
+      locationLine: locBits.join(', ') || null,
+      hasCopy: !!((p.title || '').trim() && dbDesc),
       tags: tagsArray(p),
       camera: p.camera || null,
       src: p.src,
