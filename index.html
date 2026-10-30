@@ -4676,7 +4676,10 @@ async function loadAdminPhotos() {
       } else if (act === "save") {
         if (!er) return;
         var tags = document.getElementById("et"+id).value.trim();
-        var span = er.dataset.chosenSpan !== undefined ? er.dataset.chosenSpan : btn.closest(".admin-photo-row").dataset.span;
+        // The edit row is a SIBLING of .admin-photo-row, not inside it, so closest() finds nothing.
+        // Look the row up by id instead (fixes "Cannot read properties of null (reading 'dataset')").
+        var prow = list.querySelector('.admin-photo-row[data-id="' + id + '"]');
+        var span = er.dataset.chosenSpan !== undefined ? er.dataset.chosenSpan : (prow ? prow.dataset.span : "");
         sb.from("photos").update({tags:tags, span:span}).eq("id",id).then(function(res){
           if (res.error){alert("Save failed");return;}
           er.style.display="none";
