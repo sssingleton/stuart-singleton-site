@@ -5645,7 +5645,7 @@ function setsSectionHTML() {
       <div class="admin-section" id="sets-section">
         <div class="admin-section-title">Print Sets</div>
         <input type="text" id="sets-name" placeholder="set name, e.g. Riviera Trio" style="${SETS_IN}">
-        <textarea id="sets-ids" rows="2" placeholder="paste 3 or more photo IDs, e.g. 384, 391, 396, 402, 410 — buyers pick at least 3" style="${SETS_IN}resize:vertical;" oninput="setsPreviewSoon()"></textarea>
+        <textarea id="sets-ids" rows="2" placeholder="3 or more photo IDs, e.g. 384, 391, 444-450 (a dash takes every ID in between). Buyers pick at least 3" style="${SETS_IN}resize:vertical;" oninput="setsPreviewSoon()"></textarea>
         <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
           <button class="cam-btn active" data-setfam="paper" onclick="setsSetFamily('paper')">Paper</button>
           <button class="cam-btn" data-setfam="framed" onclick="setsSetFamily('framed')">Framed</button>
@@ -5658,9 +5658,25 @@ function setsSectionHTML() {
       </div>`;
 }
 var setsState = { family: 'paper', photos: {}, timer: null, editing: null };
+// Accepts single IDs and runs: "384, 391, 444-450" → 384, 391, 444, 445 … 450.
+// A run can go backwards (450-444) and keeps that order. Runs longer than
+// SETS_RANGE_MAX are taken as a typo and only the two ends are kept.
+var SETS_RANGE_MAX = 100;
+// IDs that only came from inside a run are listed in out.ranged: if one of them is
+// missing or not for sale, the preview skips it instead of blocking the save.
 function setsParseIds(txt) {
-  var seen = {}, out = [];
-  (String(txt || '').match(/\d+/g) || []).forEach(function (n) { n = parseInt(n, 10); if (n > 0 && !seen[n]) { seen[n] = 1; out.push(n); } });
+  var seen = {}, out = [], typed = {}, inRun = {};
+  function add(n) { if (n > 0 && !seen[n]) { seen[n] = 1; out.push(n); } }
+  var re = /(\d+)(?:\s*(?:-|–|—|to)\s*(\d+))?/gi, m;
+  while ((m = re.exec(String(txt || '')))) {
+    var a = parseInt(m[1], 10), b = m[2] ? parseInt(m[2], 10) : a;
+    typed[a] = 1; typed[b] = 1;
+    if (Math.abs(b - a) >= SETS_RANGE_MAX) { add(a); add(b); continue; }
+    var step = b >= a ? 1 : -1;
+    for (var n = a; n !== b + step; n += step) { if (n !== a && n !== b) inRun[n] = 1; add(n); }
+  }
+  out.ranged = {};
+  Object.keys(inRun).forEach(function (n) { if (!typed[n]) out.ranged[n] = 1; });
   return out;
 }
 function setsSlug(name) { return String(name || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60); }
@@ -5687,15 +5703,20 @@ async function setsFetchPhotos(ids) {
 function setsPreviewSoon() { clearTimeout(setsState.timer); setsState.timer = setTimeout(setsPreview, 350); }
 async function setsPreview() {
   var box = document.getElementById('sets-preview'); if (!box) return null;
-  var ids = setsParseIds(document.getElementById('sets-ids').value);
+  var parsed = setsParseIds(document.getElementById('sets-ids').value);
   try {
-    var byId = await setsFetchPhotos(ids);
+    var byId = await setsFetchPhotos(parsed);
+    var bad = function (id) { return !byId[id] || !byId[id].for_sale || byId[id].hidden; };
+    // Inside a run (444-450), a deleted / not-for-sale / hidden photo is skipped, not an error.
+    var skipped = parsed.filter(function (id) { return parsed.ranged[id] && bad(id); });
+    var ids = parsed.filter(function (id) { return skipped.indexOf(id) < 0; });
     box.innerHTML = setsThumbs(ids, byId);
     var missing = ids.filter(function (id) { return !byId[id]; });
     var unsellable = ids.filter(function (id) { return byId[id] && (!byId[id].for_sale || byId[id].hidden); });
-    if (missing.length) setsSay('no photo with ID ' + missing.join(', '), true);
-    else if (unsellable.length) setsSay('not for sale or hidden: ' + unsellable.join(', '), true);
-    else setsSay(ids.length ? ids.length + ' photos' : '');
+    var skipNote = skipped.length ? ' · skipped ' + skipped.map(function (id) { return '#' + id + (!byId[id] ? ' gone' : byId[id].hidden ? ' hidden' : ' not for sale'); }).join(', ') : '';
+    if (missing.length) setsSay('no photo with ID ' + missing.join(', ') + skipNote, true);
+    else if (unsellable.length) setsSay('not for sale or hidden: ' + unsellable.join(', ') + skipNote, true);
+    else setsSay((ids.length ? ids.length + ' photos' : '') + skipNote);
     return { ids: ids, missing: missing, unsellable: unsellable };
   } catch (e) { setsSay('could not look up photos: ' + (e.message || e), true); return null; }
 }
