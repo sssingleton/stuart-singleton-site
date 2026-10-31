@@ -11,13 +11,13 @@
   "shop": "https://stuartsingleton.com/shop",
   "currency": "USD",
   "priceModel": "All-in pricing with free worldwide shipping. Unframed prints $29 to $115. Framed prints $119 to $245. A size is offered only when the photo has enough resolution to print it sharply at 200 DPI without cropping.",
-  "generatedAt": "2026-10-31T19:31:39.851Z",
+  "generatedAt": "2026-10-31T19:49:20.001Z",
   "count": 263,
   "products": [
     {
       "id": 493,
-      "title": "Vermont / Wildlife No. 19",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 19",
+      "title": "Honeybees and Soft Blue Reflections, Vermont",
+      "description": "A dense cluster of honeybees shifts across the comb behind glass in Vermont, highlighted by warm amber tones and cool blue reflections",
       "url": "https://stuartsingleton.com/p?id=493",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-493",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474740931_2pua.jpg?width=1200&quality=80&resize=contain",
@@ -86,8 +86,8 @@
     },
     {
       "id": 492,
-      "title": "Vermont / Wildlife No. 18",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 18",
+      "title": "Worker Honeybees Crowding in Dark Amber Glow, Vermont",
+      "description": "Worker honeybees pack closely together inside an observation hive in Vermont, their striped amber bodies creating a textured pattern of constant movement",
       "url": "https://stuartsingleton.com/p?id=492",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-492",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474740672_o907.jpg?width=1200&quality=80&resize=contain",
@@ -156,8 +156,8 @@
     },
     {
       "id": 491,
-      "title": "Vermont / Wildlife No. 17",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 17",
+      "title": "Honeybees Crawling Across Dark Comb, Vermont",
+      "description": "A moving blur of worker honeybees covers dark honeycomb cells in Vermont, lit by warm amber glow and soft ambient reflections",
       "url": "https://stuartsingleton.com/p?id=491",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-491",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474739999_337r.jpg?width=1200&quality=80&resize=contain",
@@ -226,8 +226,8 @@
     },
     {
       "id": 490,
-      "title": "Vermont / Wildlife No. 16",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 16",
+      "title": "Honeybees Crowded Behind Reflective Glass, Vermont",
+      "description": "A dense wall of honeybees crawls across an observation frame, illuminated by amber light and subtle glass reflections in Vermont",
       "url": "https://stuartsingleton.com/p?id=490",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-490",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474738562_447x.jpg?width=1200&quality=80&resize=contain",
@@ -296,8 +296,8 @@
     },
     {
       "id": 489,
-      "title": "Vermont / Wildlife No. 15",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 15",
+      "title": "Swarm of Honeybees in Motion, Vermont",
+      "description": "Honeybees create a blurred tapestry of movement and amber light as they crowd together inside an observation hive in Vermont",
       "url": "https://stuartsingleton.com/p?id=489",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-489",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474737265_8e1m.jpg?width=1200&quality=80&resize=contain",
@@ -366,8 +366,8 @@
     },
     {
       "id": 488,
-      "title": "Vermont / Wildlife No. 14",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 14",
+      "title": "Tightly Clustered Honeybees in Warm Light, Vermont",
+      "description": "A dense cluster of honeybees crawls over one another in deep amber light, filling the frame behind an observation glass in Vermont",
       "url": "https://stuartsingleton.com/p?id=488",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-488",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474737049_u8ce.jpg?width=1200&quality=80&resize=contain",
@@ -436,8 +436,8 @@
     },
     {
       "id": 487,
-      "title": "Vermont / Wildlife No. 13",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 13",
+      "title": "Dense Colony of Honeybees, Vermont",
+      "description": "Hundreds of honeybees crowd together in a dense, shifting pattern in Vermont, glowing with warm amber and gold tones",
       "url": "https://stuartsingleton.com/p?id=487",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-487",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474734640_fbxl.jpg?width=1200&quality=80&resize=contain",
@@ -506,8 +506,8 @@
     },
     {
       "id": 486,
-      "title": "Vermont / Wildlife No. 12",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 12",
+      "title": "Cluster of Honeybees in Deep Amber, Vermont",
+      "description": "A dense wall of honeybees crowds the frame in Vermont, their striped bodies catching warm amber light against deep shadows",
       "url": "https://stuartsingleton.com/p?id=486",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-486",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474732013_oc0b.jpg?width=1200&quality=80&resize=contain",
@@ -576,8 +576,8 @@
     },
     {
       "id": 485,
-      "title": "Vermont / Wildlife No. 11",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 11",
+      "title": "Streaks of Honeybees in Amber Light, Vermont",
+      "description": "Motion blur streaks across a dense colony of honeybees in Vermont, blending warm amber light and deep shadows inside an observation hive",
       "url": "https://stuartsingleton.com/p?id=485",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-485",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474730968_cczj.jpg?width=1200&quality=80&resize=contain",
@@ -646,8 +646,8 @@
     },
     {
       "id": 484,
-      "title": "Vermont / Wildlife No. 10",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 10",
+      "title": "Honeybees in Dark Amber Light, Vermont",
+      "description": "A dense cluster of honeybees covers the frame in Vermont, their bodies catching warm amber highlights against deep shadows inside an observation hive",
       "url": "https://stuartsingleton.com/p?id=484",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-484",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474730814_fgzi.jpg?width=1200&quality=80&resize=contain",
@@ -716,8 +716,8 @@
     },
     {
       "id": 483,
-      "title": "Vermont / Wildlife No. 9",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 9",
+      "title": "Honeybees and Golden Wax Cells, Vermont",
+      "description": "A dense cluster of honeybees covers the frame of an observation hive in Vermont, surrounding two golden textured comb cells in deep shadow",
       "url": "https://stuartsingleton.com/p?id=483",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-483",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474728674_wst9.jpg?width=1200&quality=80&resize=contain",
@@ -786,8 +786,8 @@
     },
     {
       "id": 482,
-      "title": "Vermont / Wildlife No. 8",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 8",
+      "title": "Honeybees Swarming on the Comb, Vermont",
+      "description": "A dense colony of honeybees crawls across one another in deep amber light, crowding the frame inside an observation hive in Vermont",
       "url": "https://stuartsingleton.com/p?id=482",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-482",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474727139_bury.jpg?width=1200&quality=80&resize=contain",
@@ -856,8 +856,8 @@
     },
     {
       "id": 481,
-      "title": "Vermont / Wildlife No. 7",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 7",
+      "title": "Swarm of Honeybees Behind Glass, Vermont",
+      "description": "Hundreds of honeybees pack together in a dense cluster behind glass, illuminated by warm amber light in Vermont",
       "url": "https://stuartsingleton.com/p?id=481",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-481",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474727119_x521.jpg?width=1200&quality=80&resize=contain",
@@ -926,8 +926,8 @@
     },
     {
       "id": 480,
-      "title": "Vermont / Wildlife No. 6",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 6",
+      "title": "Honeybees on the Hive Frame, Vermont",
+      "description": "Honeybees crawl across dark comb cells and a wooden frame, packed tightly together in warm amber light in Vermont",
       "url": "https://stuartsingleton.com/p?id=480",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-480",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474722234_lxtj.jpg?width=1200&quality=80&resize=contain",
@@ -996,8 +996,8 @@
     },
     {
       "id": 479,
-      "title": "Vermont / Wildlife No. 5",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 5",
+      "title": "Honeybees and Glass Glare on Comb, Vermont",
+      "description": "A dense cluster of honeybees covers the dark honeycomb cells of an observation hive, surrounding textured wax beneath a burst of light glare in Vermont",
       "url": "https://stuartsingleton.com/p?id=479",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-479",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474722060_aqhu.jpg?width=1200&quality=80&resize=contain",
@@ -1066,8 +1066,8 @@
     },
     {
       "id": 478,
-      "title": "Vermont / Wildlife No. 4",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 4",
+      "title": "Crowded Honeybees in an Observation Hive, Vermont",
+      "description": "A dense colony of honeybees crawls across the comb behind glass, caught beneath a circle of reflected glare in Vermont",
       "url": "https://stuartsingleton.com/p?id=478",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-478",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474721939_spe0.jpg?width=1200&quality=80&resize=contain",
@@ -1136,8 +1136,8 @@
     },
     {
       "id": 477,
-      "title": "Vermont / Wildlife No. 3",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 3",
+      "title": "Tightly Packed Honeybees Behind Glass, Vermont",
+      "description": "A dense mass of honeybees crowds against the glass of an observation hive, glowing with warm amber highlights and soft blue glare in Vermont",
       "url": "https://stuartsingleton.com/p?id=477",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-477",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474712210_dfu4.jpg?width=1200&quality=80&resize=contain",
@@ -1206,8 +1206,8 @@
     },
     {
       "id": 476,
-      "title": "Vermont / Wildlife No. 2",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 2",
+      "title": "Honeybees Packed Behind Observation Glass, Vermont",
+      "description": "A dense colony of honeybees presses tightly against observation glass, highlighted by warm amber light and subtle blue reflections in Vermont",
       "url": "https://stuartsingleton.com/p?id=476",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-476",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474712208_sxk9.jpg?width=1200&quality=80&resize=contain",
@@ -1276,8 +1276,8 @@
     },
     {
       "id": 475,
-      "title": "Vermont / Wildlife",
-      "description": "photograph of vermont, wildlife, by Stuart Singleton",
+      "title": "Honeybees Clustered Behind Glass, Vermont",
+      "description": "A dense swarm of honeybees crowds against the glass of an observation hive in Vermont, lit with deep amber tones and faint blue glare",
       "url": "https://stuartsingleton.com/p?id=475",
       "printPage": "https://stuartsingleton.com/print/vermont-wildlife-475",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474712210_awji.jpg?width=1200&quality=80&resize=contain",
@@ -1346,8 +1346,8 @@
     },
     {
       "id": 474,
-      "title": "Vermont / Long Exposure / Ethereal",
-      "description": "photograph of vermont, long exposure, ethereal, fall, by Stuart Singleton",
+      "title": "Blurred Crosswalk and Autumn Foliage, Vermont",
+      "description": "Intentional camera movement blurs a painted crosswalk leading toward a white storefront and glowing orange autumn foliage in Vermont",
       "url": "https://stuartsingleton.com/p?id=474",
       "printPage": "https://stuartsingleton.com/print/vermont-long-exposure-ethereal-474",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793471175334_4g8f.jpg?width=1200&quality=80&resize=contain",
@@ -1418,8 +1418,8 @@
     },
     {
       "id": 472,
-      "title": "Nashville / Neon / Dark No. 9",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 9",
+      "title": "Cowboy Roundup Neon Sign in the Dark, Nashville",
+      "description": "A neon sign spells out Cowboy Roundup in glowing red and green against deep black shadows in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=472",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-472",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388603917_7uko.jpg?width=1200&quality=80&resize=contain",
@@ -1489,8 +1489,8 @@
     },
     {
       "id": 473,
-      "title": "Nashville / Neon / Dark No. 10",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 10",
+      "title": "Amber Bulbs and Swirling Lens Flare, Nashville",
+      "description": "Glowing ceiling fixtures and small globe bulbs emerge from deep shadows, framed by warm circular lens flares in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=473",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-473",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388603934_stzg.jpg?width=1200&quality=80&resize=contain",
@@ -1560,8 +1560,8 @@
     },
     {
       "id": 471,
-      "title": "Nashville / Neon / Dark No. 8",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 8",
+      "title": "Neon Martini Glass and Cocktails Sign, Nashville",
+      "description": "A glowing green neon martini glass and reversed pink cocktail lettering stand out against deep black shadows in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=471",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-471",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388603898_jrbg.jpg?width=1200&quality=80&resize=contain",
@@ -1631,8 +1631,8 @@
     },
     {
       "id": 468,
-      "title": "Nashville / Neon / Dark No. 5",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 5",
+      "title": "Disco Ball and Amber Bar Lights, Nashville",
+      "description": "A glowing disco ball and a row of small orb lights illuminate a dimly lit bar counter lined with liquor bottles in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=468",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-468",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388590507_u9q8.jpg?width=1200&quality=80&resize=contain",
@@ -1702,8 +1702,8 @@
     },
     {
       "id": 470,
-      "title": "Nashville / Neon / Dark No. 7",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 7",
+      "title": "Disco Ball and Amber Light Rings, Nashville",
+      "description": "A disco ball hangs in deep darkness beneath glowing ceiling fixtures, framed by warm amber lens flares in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=470",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-470",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388590507_fsm6.jpg?width=1200&quality=80&resize=contain",
@@ -1773,8 +1773,8 @@
     },
     {
       "id": 469,
-      "title": "Nashville / Neon / Dark No. 6",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 6",
+      "title": "Green Neon Martini Glass, Nashville",
+      "description": "A green neon martini glass with a glowing olive shines against deep shadows in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=469",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-469",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388590507_oys7.jpg?width=1200&quality=80&resize=contain",
@@ -1838,8 +1838,8 @@
     },
     {
       "id": 467,
-      "title": "Nashville / Neon / Dark No. 4",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 4",
+      "title": "Streaked Neon Sign and Amber Trails, Nashville",
+      "description": "Motion-blurred neon in glowing red and blue streaks across the dark interior above empty bar chairs and amber ceiling lights in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=467",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-467",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388470250_suxv.jpg?width=1200&quality=80&resize=contain",
@@ -1909,8 +1909,8 @@
     },
     {
       "id": 465,
-      "title": "Nashville / Neon / Dark No. 2",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 2",
+      "title": "Hanging Bowl Lights and Exit Sign, Nashville",
+      "description": "Warm bowl-shaped pendant lights hang scattered across a dark ceiling, punctuated by a faint exit sign in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=465",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-465",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388244069_ay2e.jpg?width=1200&quality=80&resize=contain",
@@ -1980,8 +1980,8 @@
     },
     {
       "id": 466,
-      "title": "Nashville / Neon / Dark No. 3",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 3",
+      "title": "Curving Amber Light Trails, Nashville",
+      "description": "Amber pendant lights streak through the darkness in sweeping arcs, trailing across a dim interior ceiling in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=466",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-466",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388244069_e05g.jpg?width=1200&quality=80&resize=contain",
@@ -2051,8 +2051,8 @@
     },
     {
       "id": 464,
-      "title": "Nashville / Neon / Dark",
-      "description": "photograph of neon, dark in Nashville, by Stuart Singleton",
+      "title": "Amber Pendant Lamps in the Dark, Nashville",
+      "description": "Warm amber pendant lights glow across a dark ceiling, with soft reflections framing the edge in Nashville, Tennessee",
       "url": "https://stuartsingleton.com/p?id=464",
       "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-464",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388244069_caro.jpg?width=1200&quality=80&resize=contain",
@@ -10560,18 +10560,110 @@
       ]
     },
     {
-      "id": 193,
-      "title": "Walking the National Mall, Washington DC",
-      "description": "A lone walker on a frosty path toward the Washington Monument, in black and white. Quiet DC photography",
-      "url": "https://stuartsingleton.com/p?id=193",
-      "printPage": "https://stuartsingleton.com/print/washington-dc-193",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836540652.JPG?width=1200&quality=80&resize=contain",
+      "id": 332,
+      "title": "Cobblestone Lane to the Palace, Versailles",
+      "description": "A cobblestone lane leading toward the Palace of Versailles. Historic France travel photography",
+      "url": "https://stuartsingleton.com/p?id=332",
+      "printPage": "https://stuartsingleton.com/print/versailles-europe-france-332",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799246256.jpg?width=1200&quality=80&resize=contain",
       "tags": [
-        "washington dc",
+        "architecture",
+        "city",
+        "versailles",
+        "day",
+        "europe",
+        "france",
+        "garden",
+        "hotel",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 171,
+      "title": "Ryman Auditorium at Night, Nashville",
+      "description": "The Ryman Auditorium glowing at night in downtown Nashville, in black and white. Iconic Nashville architecture photography",
+      "url": "https://stuartsingleton.com/p?id=171",
+      "printPage": "https://stuartsingleton.com/print/nashville-171",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
+        "nashville",
+        "black & white",
+        "outdoor",
+        "night"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 177,
+      "title": "High Rise and Palms, San Juan",
+      "description": "A white high rise above palm trees in San Juan, in black and white. Puerto Rico architecture photography",
+      "url": "https://stuartsingleton.com/p?id=177",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
         "black & white",
         "city",
         "day",
         "outdoor",
+        "puerto rico",
+        "san juan",
         "travel"
       ],
       "camera": "nomo",
@@ -10613,334 +10705,12 @@
       ]
     },
     {
-      "id": 205,
-      "title": "Golden Eiffel Tower at Night, Paris",
-      "description": "The Eiffel Tower glowing gold at night from below. Classic Paris night photography",
-      "url": "https://stuartsingleton.com/p?id=205",
-      "printPage": "https://stuartsingleton.com/print/paris-europe-france-205",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837313969.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "paris",
-        "night",
-        "city",
-        "architecture",
-        "color",
-        "outdoor",
-        "europe",
-        "france"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 204,
-      "title": "Les Invalides Dome, Paris",
-      "description": "The gilded dome of Les Invalides in Paris, in black and white. Classic Paris architecture photography",
-      "url": "https://stuartsingleton.com/p?id=204",
-      "printPage": "https://stuartsingleton.com/print/europe-france-paris-204",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837265928.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "europe",
-        "france",
-        "paris",
-        "outdoor",
-        "travel",
-        "city"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 196,
-      "title": "Neon Purple Palm Trees, French Riviera",
-      "description": "Palm trees glowing purple against the night sky on the French Riviera. Dreamy film style night photography",
-      "url": "https://stuartsingleton.com/p?id=196",
-      "printPage": "https://stuartsingleton.com/print/sky-trees-france-196",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836765947.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "color",
-        "sky",
-        "trees",
-        "travel",
-        "france",
-        "beaulieu sur mer",
-        "outdoor",
-        "night",
-        "hotel",
-        "europe"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 192,
-      "title": "Abingdon at Night, Virginia",
-      "description": "A lit building facade at night in Abingdon, Virginia, in black and white. Small town night photography",
-      "url": "https://stuartsingleton.com/p?id=192",
-      "printPage": "https://stuartsingleton.com/print/abingdon-192",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836498790.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "abingdon",
-        "black & white",
-        "indoor",
-        "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 191,
-      "title": "Church Steeple on Main Street, Franklin, Tennessee",
-      "description": "A church steeple and storefronts on a Franklin, Tennessee street, in black and white. Small town street photography",
-      "url": "https://stuartsingleton.com/p?id=191",
-      "printPage": "https://stuartsingleton.com/print/franklin-191",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836459218.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "franklin",
-        "night",
-        "outdoor",
-        "black & white"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 182,
-      "title": "Glowing Lamp Post in the Fog, Nashville",
-      "description": "A double lamp post glowing in the fog at night in Nashville, in black and white. Ethereal night photography",
-      "url": "https://stuartsingleton.com/p?id=182",
-      "printPage": "https://stuartsingleton.com/print/ethereal-nashville-182",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836142339.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "black & white",
-        "ethereal",
-        "nashville",
-        "night",
-        "outdoor"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 180,
-      "title": "Hotel at Night With Palms, San Juan",
-      "description": "A hotel glowing under clouds and palms at night in San Juan, in black and white. Puerto Rico night photography",
-      "url": "https://stuartsingleton.com/p?id=180",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-180",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835959539.JPG?width=1200&quality=80&resize=contain",
+      "id": 178,
+      "title": "Window Grid and Palms, San Juan",
+      "description": "Palms reflected in tall hotel windows in San Juan, in black and white. Minimal architecture photography",
+      "url": "https://stuartsingleton.com/p?id=178",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-178",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835914027.JPG?width=1200&quality=80&resize=contain",
       "tags": [
         "architecture",
         "black & white",
@@ -11047,12 +10817,12 @@
       ]
     },
     {
-      "id": 178,
-      "title": "Window Grid and Palms, San Juan",
-      "description": "Palms reflected in tall hotel windows in San Juan, in black and white. Minimal architecture photography",
-      "url": "https://stuartsingleton.com/p?id=178",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-178",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835914027.JPG?width=1200&quality=80&resize=contain",
+      "id": 180,
+      "title": "Hotel at Night With Palms, San Juan",
+      "description": "A hotel glowing under clouds and palms at night in San Juan, in black and white. Puerto Rico night photography",
+      "url": "https://stuartsingleton.com/p?id=180",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-180",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835959539.JPG?width=1200&quality=80&resize=contain",
       "tags": [
         "architecture",
         "black & white",
@@ -11103,369 +10873,18 @@
       ]
     },
     {
-      "id": 177,
-      "title": "High Rise and Palms, San Juan",
-      "description": "A white high rise above palm trees in San Juan, in black and white. Puerto Rico architecture photography",
-      "url": "https://stuartsingleton.com/p?id=177",
-      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
+      "id": 182,
+      "title": "Glowing Lamp Post in the Fog, Nashville",
+      "description": "A double lamp post glowing in the fog at night in Nashville, in black and white. Ethereal night photography",
+      "url": "https://stuartsingleton.com/p?id=182",
+      "printPage": "https://stuartsingleton.com/print/ethereal-nashville-182",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836142339.JPG?width=1200&quality=80&resize=contain",
       "tags": [
         "black & white",
-        "city",
-        "day",
-        "outdoor",
-        "puerto rico",
-        "san juan",
-        "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 171,
-      "title": "Ryman Auditorium at Night, Nashville",
-      "description": "The Ryman Auditorium glowing at night in downtown Nashville, in black and white. Iconic Nashville architecture photography",
-      "url": "https://stuartsingleton.com/p?id=171",
-      "printPage": "https://stuartsingleton.com/print/nashville-171",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "city",
+        "ethereal",
         "nashville",
-        "black & white",
-        "outdoor",
-        "night"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 325,
-      "title": "Round Window View, Cannes",
-      "description": "A white building framed through a round opening in Cannes. Playful French Riviera architecture photography",
-      "url": "https://stuartsingleton.com/p?id=325",
-      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-325",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798738177.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "cannes",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "outdoor",
-        "city",
-        "hotel"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 326,
-      "title": "Croisette Apartment Buildings, Cannes",
-      "description": "Curved white apartment buildings on a sunny street in Cannes. French Riviera architecture photography",
-      "url": "https://stuartsingleton.com/p?id=326",
-      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-326",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798789506.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "cannes",
-        "city",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "hotel",
-        "outdoor",
-        "travel",
-        "architecture"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 327,
-      "title": "Carlton Hotel Domes, Cannes",
-      "description": "The famous domed Carlton hotel on the Croisette in Cannes. Iconic French Riviera architecture photography",
-      "url": "https://stuartsingleton.com/p?id=327",
-      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-327",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798810119.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "cannes",
-        "city",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "hotel",
-        "outdoor",
-        "travel"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 332,
-      "title": "Cobblestone Lane to the Palace, Versailles",
-      "description": "A cobblestone lane leading toward the Palace of Versailles. Historic France travel photography",
-      "url": "https://stuartsingleton.com/p?id=332",
-      "printPage": "https://stuartsingleton.com/print/versailles-europe-france-332",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799246256.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "city",
-        "versailles",
-        "day",
-        "europe",
-        "france",
-        "garden",
-        "hotel",
-        "outdoor",
-        "travel"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 333,
-      "title": "Street Corner and Crosswalk, Versailles",
-      "description": "A quiet street corner and crosswalk in Versailles, France. Everyday French street photography",
-      "url": "https://stuartsingleton.com/p?id=333",
-      "printPage": "https://stuartsingleton.com/print/versailles-france-hotel-333",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799271935.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "city",
-        "color",
-        "versailles",
-        "travel",
-        "france",
-        "hotel",
-        "garden",
-        "outdoor"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        }
-      ]
-    },
-    {
-      "id": 334,
-      "title": "Rooftops and Terraces, Versailles",
-      "description": "Rooftops, terraces and chimneys in the town of Versailles. Quiet French architecture photography",
-      "url": "https://stuartsingleton.com/p?id=334",
-      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-334",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799484683.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "city",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "versailles",
-        "travel",
-        "outdoor"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "2448:3264",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 2448,
-      "pixelHeight": 3264,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 59
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-9X12",
-          "label": "9x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-FAP-12X16",
-          "label": "12x16in",
-          "framed": false,
-          "priceUSD": 59
-        }
-      ]
-    },
-    {
-      "id": 213,
-      "title": "Royal Riviera Hotel at Night, Beaulieu sur Mer",
-      "description": "The Royal Riviera hotel glowing at night in Beaulieu sur Mer, in black and white. French Riviera photography",
-      "url": "https://stuartsingleton.com/p?id=213",
-      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-france-213",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837882421.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "beaulieu sur mer",
-        "travel",
-        "black & white",
-        "outdoor",
         "night",
-        "hotel",
-        "france",
-        "europe"
+        "outdoor"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -11506,20 +10925,17 @@
       ]
     },
     {
-      "id": 215,
-      "title": "Figure in the Streets at Night, Saint-Paul-de-Vence",
-      "description": "A figure walking the narrow stone streets of Saint-Paul-de-Vence at night, in black and white. French Riviera photography",
-      "url": "https://stuartsingleton.com/p?id=215",
-      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-215",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837953945.JPG?width=1200&quality=80&resize=contain",
+      "id": 191,
+      "title": "Church Steeple on Main Street, Franklin, Tennessee",
+      "description": "A church steeple and storefronts on a Franklin, Tennessee street, in black and white. Small town street photography",
+      "url": "https://stuartsingleton.com/p?id=191",
+      "printPage": "https://stuartsingleton.com/print/franklin-191",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836459218.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "travel",
-        "black & white",
+        "franklin",
+        "night",
         "outdoor",
-        "night",
-        "france",
-        "europe",
-        "saint paul de vence"
+        "black & white"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -11560,125 +10976,17 @@
       ]
     },
     {
-      "id": 335,
-      "title": "Town Courtyard, Versailles",
-      "description": "A pale stone courtyard and mansard roofs in the town of Versailles. Classic French architecture photography",
-      "url": "https://stuartsingleton.com/p?id=335",
-      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-335",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774800482968.jpg?width=1200&quality=80&resize=contain",
+      "id": 192,
+      "title": "Abingdon at Night, Virginia",
+      "description": "A lit building facade at night in Abingdon, Virginia, in black and white. Small town night photography",
+      "url": "https://stuartsingleton.com/p?id=192",
+      "printPage": "https://stuartsingleton.com/print/abingdon-192",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836498790.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "architecture",
-        "city",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "versailles",
-        "travel",
-        "outdoor"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "2448:3264",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 2448,
-      "pixelHeight": 3264,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 59
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-9X12",
-          "label": "9x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-FAP-12X16",
-          "label": "12x16in",
-          "framed": false,
-          "priceUSD": 59
-        }
-      ]
-    },
-    {
-      "id": 208,
-      "title": "Palm Tree at Night, Beaulieu sur Mer",
-      "description": "A single palm glowing white against the night sky in Beaulieu sur Mer, in black and white. Minimal French Riviera photography",
-      "url": "https://stuartsingleton.com/p?id=208",
-      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-trees-208",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837549589.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
+        "abingdon",
         "black & white",
-        "beaulieu sur mer",
-        "hotel",
-        "night",
-        "trees",
-        "europe",
-        "france",
+        "indoor",
         "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 210,
-      "title": "Gare de Lyon Clock Tower, Paris",
-      "description": "The Gare de Lyon station and clock tower in Paris, in black and white. Classic Paris architecture photography",
-      "url": "https://stuartsingleton.com/p?id=210",
-      "printPage": "https://stuartsingleton.com/print/france-europe-paris-210",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837662818.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "day",
-        "france",
-        "europe",
-        "black & white",
-        "paris",
-        "outdoor"
       ],
       "camera": "nomo",
       "aspectRatio": "4032:2688",
@@ -11719,20 +11027,296 @@
       ]
     },
     {
-      "id": 209,
-      "title": "Gare de Lyon and Street Lamp, Paris",
-      "description": "The Gare de Lyon clock tower behind a street lamp in Paris, in black and white. Paris street photography",
-      "url": "https://stuartsingleton.com/p?id=209",
-      "printPage": "https://stuartsingleton.com/print/france-europe-paris-209",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837625278.JPG?width=1200&quality=80&resize=contain",
+      "id": 196,
+      "title": "Neon Purple Palm Trees, French Riviera",
+      "description": "Palm trees glowing purple against the night sky on the French Riviera. Dreamy film style night photography",
+      "url": "https://stuartsingleton.com/p?id=196",
+      "printPage": "https://stuartsingleton.com/print/sky-trees-france-196",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836765947.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "color",
+        "sky",
+        "trees",
+        "travel",
+        "france",
+        "beaulieu sur mer",
+        "outdoor",
+        "night",
+        "hotel",
+        "europe"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 204,
+      "title": "Les Invalides Dome, Paris",
+      "description": "The gilded dome of Les Invalides in Paris, in black and white. Classic Paris architecture photography",
+      "url": "https://stuartsingleton.com/p?id=204",
+      "printPage": "https://stuartsingleton.com/print/europe-france-paris-204",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837265928.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "black & white",
+        "europe",
+        "france",
+        "paris",
+        "outdoor",
+        "travel",
+        "city"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 205,
+      "title": "Golden Eiffel Tower at Night, Paris",
+      "description": "The Eiffel Tower glowing gold at night from below. Classic Paris night photography",
+      "url": "https://stuartsingleton.com/p?id=205",
+      "printPage": "https://stuartsingleton.com/print/paris-europe-france-205",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837313969.JPG?width=1200&quality=80&resize=contain",
       "tags": [
         "travel",
-        "day",
-        "france",
-        "europe",
-        "black & white",
         "paris",
-        "outdoor"
+        "night",
+        "city",
+        "architecture",
+        "color",
+        "outdoor",
+        "europe",
+        "france"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 193,
+      "title": "Walking the National Mall, Washington DC",
+      "description": "A lone walker on a frosty path toward the Washington Monument, in black and white. Quiet DC photography",
+      "url": "https://stuartsingleton.com/p?id=193",
+      "printPage": "https://stuartsingleton.com/print/washington-dc-193",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836540652.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "washington dc",
+        "black & white",
+        "city",
+        "day",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 194,
+      "title": "Smithsonian Castle, Washington DC",
+      "description": "The Smithsonian Castle on the National Mall in Washington DC, in black and white. Moody architecture photography",
+      "url": "https://stuartsingleton.com/p?id=194",
+      "printPage": "https://stuartsingleton.com/print/washington-dc-194",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836594645.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "black & white",
+        "city",
+        "washington dc",
+        "travel",
+        "day"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 206,
+      "title": "Eiffel Tower From Below, Paris",
+      "description": "The Eiffel Tower lit at night, looking straight up from its base, in black and white. Iconic Paris photography",
+      "url": "https://stuartsingleton.com/p?id=206",
+      "printPage": "https://stuartsingleton.com/print/paris-europe-france-206",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837338160.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "paris",
+        "night",
+        "architecture",
+        "color",
+        "outdoor",
+        "europe",
+        "france",
+        "black & white"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -11827,22 +11411,128 @@
       ]
     },
     {
-      "id": 206,
-      "title": "Eiffel Tower From Below, Paris",
-      "description": "The Eiffel Tower lit at night, looking straight up from its base, in black and white. Iconic Paris photography",
-      "url": "https://stuartsingleton.com/p?id=206",
-      "printPage": "https://stuartsingleton.com/print/paris-europe-france-206",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837338160.JPG?width=1200&quality=80&resize=contain",
+      "id": 209,
+      "title": "Gare de Lyon and Street Lamp, Paris",
+      "description": "The Gare de Lyon clock tower behind a street lamp in Paris, in black and white. Paris street photography",
+      "url": "https://stuartsingleton.com/p?id=209",
+      "printPage": "https://stuartsingleton.com/print/france-europe-paris-209",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837625278.JPG?width=1200&quality=80&resize=contain",
       "tags": [
         "travel",
-        "paris",
-        "night",
-        "architecture",
-        "color",
-        "outdoor",
-        "europe",
+        "day",
         "france",
-        "black & white"
+        "europe",
+        "black & white",
+        "paris",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 210,
+      "title": "Gare de Lyon Clock Tower, Paris",
+      "description": "The Gare de Lyon station and clock tower in Paris, in black and white. Classic Paris architecture photography",
+      "url": "https://stuartsingleton.com/p?id=210",
+      "printPage": "https://stuartsingleton.com/print/france-europe-paris-210",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837662818.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "day",
+        "france",
+        "europe",
+        "black & white",
+        "paris",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 215,
+      "title": "Figure in the Streets at Night, Saint-Paul-de-Vence",
+      "description": "A figure walking the narrow stone streets of Saint-Paul-de-Vence at night, in black and white. French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=215",
+      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-215",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837953945.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "black & white",
+        "outdoor",
+        "night",
+        "france",
+        "europe",
+        "saint paul de vence"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -11972,18 +11662,274 @@
       ]
     },
     {
-      "id": 172,
-      "title": "Light and Shadow Window Abstract, Nashville",
-      "description": "A street light seen through a bright window in Nashville, in black and white. Minimal abstract photography",
-      "url": "https://stuartsingleton.com/p?id=172",
-      "printPage": "https://stuartsingleton.com/print/nashville-172",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
+      "id": 325,
+      "title": "Round Window View, Cannes",
+      "description": "A white building framed through a round opening in Cannes. Playful French Riviera architecture photography",
+      "url": "https://stuartsingleton.com/p?id=325",
+      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-325",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798738177.jpg?width=1200&quality=80&resize=contain",
       "tags": [
-        "city",
+        "cannes",
+        "color",
         "day",
-        "black & white",
-        "nashville",
+        "europe",
+        "france",
+        "outdoor",
+        "city",
+        "hotel"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 326,
+      "title": "Croisette Apartment Buildings, Cannes",
+      "description": "Curved white apartment buildings on a sunny street in Cannes. French Riviera architecture photography",
+      "url": "https://stuartsingleton.com/p?id=326",
+      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-326",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798789506.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "cannes",
+        "city",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "hotel",
+        "outdoor",
+        "travel",
+        "architecture"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 327,
+      "title": "Carlton Hotel Domes, Cannes",
+      "description": "The famous domed Carlton hotel on the Croisette in Cannes. Iconic French Riviera architecture photography",
+      "url": "https://stuartsingleton.com/p?id=327",
+      "printPage": "https://stuartsingleton.com/print/cannes-europe-france-327",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798810119.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "cannes",
+        "city",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "hotel",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 333,
+      "title": "Street Corner and Crosswalk, Versailles",
+      "description": "A quiet street corner and crosswalk in Versailles, France. Everyday French street photography",
+      "url": "https://stuartsingleton.com/p?id=333",
+      "printPage": "https://stuartsingleton.com/print/versailles-france-hotel-333",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799271935.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "color",
+        "versailles",
+        "travel",
+        "france",
+        "hotel",
+        "garden",
         "outdoor"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 334,
+      "title": "Rooftops and Terraces, Versailles",
+      "description": "Rooftops, terraces and chimneys in the town of Versailles. Quiet French architecture photography",
+      "url": "https://stuartsingleton.com/p?id=334",
+      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-334",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799484683.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "versailles",
+        "travel",
+        "outdoor"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "2448:3264",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 2448,
+      "pixelHeight": 3264,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 59
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-9X12",
+          "label": "9x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-12X16",
+          "label": "12x16in",
+          "framed": false,
+          "priceUSD": 59
+        }
+      ]
+    },
+    {
+      "id": 335,
+      "title": "Town Courtyard, Versailles",
+      "description": "A pale stone courtyard and mansard roofs in the town of Versailles. Classic French architecture photography",
+      "url": "https://stuartsingleton.com/p?id=335",
+      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-335",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774800482968.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "versailles",
+        "travel",
+        "outdoor"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "2448:3264",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 2448,
+      "pixelHeight": 3264,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 59
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-9X12",
+          "label": "9x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-12X16",
+          "label": "12x16in",
+          "framed": false,
+          "priceUSD": 59
+        }
+      ]
+    },
+    {
+      "id": 208,
+      "title": "Palm Tree at Night, Beaulieu sur Mer",
+      "description": "A single palm glowing white against the night sky in Beaulieu sur Mer, in black and white. Minimal French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=208",
+      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-trees-208",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837549589.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "beaulieu sur mer",
+        "hotel",
+        "night",
+        "trees",
+        "europe",
+        "france",
+        "travel"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -12024,19 +11970,21 @@
       ]
     },
     {
-      "id": 194,
-      "title": "Smithsonian Castle, Washington DC",
-      "description": "The Smithsonian Castle on the National Mall in Washington DC, in black and white. Moody architecture photography",
-      "url": "https://stuartsingleton.com/p?id=194",
-      "printPage": "https://stuartsingleton.com/print/washington-dc-194",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836594645.JPG?width=1200&quality=80&resize=contain",
+      "id": 213,
+      "title": "Royal Riviera Hotel at Night, Beaulieu sur Mer",
+      "description": "The Royal Riviera hotel glowing at night in Beaulieu sur Mer, in black and white. French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=213",
+      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-france-213",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837882421.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "architecture",
-        "black & white",
-        "city",
-        "washington dc",
+        "beaulieu sur mer",
         "travel",
-        "day"
+        "black & white",
+        "outdoor",
+        "night",
+        "hotel",
+        "france",
+        "europe"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -12088,6 +12036,58 @@
         "city",
         "france",
         "versailles"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 172,
+      "title": "Light and Shadow Window Abstract, Nashville",
+      "description": "A street light seen through a bright window in Nashville, in black and white. Minimal abstract photography",
+      "url": "https://stuartsingleton.com/p?id=172",
+      "printPage": "https://stuartsingleton.com/print/nashville-172",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
+        "day",
+        "black & white",
+        "nashville",
+        "outdoor"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
