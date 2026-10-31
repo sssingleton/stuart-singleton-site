@@ -5571,6 +5571,34 @@ async function bulkStart() {
   bulkRender();
   try { await loadPhotos(); } catch (e) {}
   try { await loadAdminPhotos(); } catch (e) {}
+  if (bulk.mode === 'new' && ok) bulkAutoTitle(jobs.filter(function (it) { return it.photoId && it.status !== 'error'; }).map(function (it) { return it.photoId; }));
+}
+
+// New uploads get a title, description and place written from the image by the
+// auto-title-photos edge function. A cron runs it every 10 minutes anyway; this just
+// starts it right away. Nothing here blocks the upload, and it never overwrites a
+// title that's already there, so editing a title in Supabase is always safe.
+async function bulkAutoTitle(ids) {
+  if (!ids.length) return;
+  const el = document.getElementById('bulk-summary');
+  const note = function (m) { if (el) el.textContent = (el.textContent || '').replace(/ · (writing titles|titles).*$/, '') + ' · ' + m; };
+  note('writing titles…');
+  try {
+    const session = (await sb.auth.getSession()).data.session;
+    let left = ids.slice(), named = 0;
+    while (left.length) {
+      const batch = left.splice(0, 8);
+      const r = await fetch(SUPA_EDGE + '/auto-title-photos', { method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + (session ? session.access_token : SUPA_KEY) },
+        body: JSON.stringify({ ids: batch, limit: batch.length }) });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || r.status);
+      named += (j.done || []).filter(function (d) { return d.written; }).length;
+      note('titles written ' + named + ' / ' + ids.length + (left.length ? '…' : ''));
+    }
+    note('titles written ' + named + ' / ' + ids.length + ' (shop feeds update within 6h)');
+    try { await loadAdminPhotos(); } catch (e) {}
+  } catch (e) { note('titles: will be written by the 10 minute job (' + (e.message || e) + ')'); }
 }
 
 async function bulkRetry(key) {

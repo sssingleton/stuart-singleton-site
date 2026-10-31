@@ -1,0 +1,6 @@
+-- Applied 2026-10-31 (migrations auto_title_job_token + auto_title_cron).
+-- public.app_job_tokens: RLS on, no policies; holds the shared token pg_cron sends to edge functions.
+-- Cron job "auto-title-photos": every 10 min, only when some photo has no title,
+-- POSTs {"limit":8} to /functions/v1/auto-title-photos with header x-job-token.
+-- Check runs:   select * from cron.job_run_details where jobid = (select jobid from cron.job where jobname='auto-title-photos') order by start_time desc limit 5;
+-- Responses:    select id, status_code, content from net._http_response order by id desc limit 5;
