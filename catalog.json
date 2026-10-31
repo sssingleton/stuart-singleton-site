@@ -11,9 +11,2115 @@
   "shop": "https://stuartsingleton.com/shop",
   "currency": "USD",
   "priceModel": "All-in pricing with free worldwide shipping. Unframed prints $29 to $115. Framed prints $119 to $245. A size is offered only when the photo has enough resolution to print it sharply at 200 DPI without cropping.",
-  "generatedAt": "2026-10-30T18:02:29.545Z",
-  "count": 233,
+  "generatedAt": "2026-10-31T19:31:39.851Z",
+  "count": 263,
   "products": [
+    {
+      "id": 493,
+      "title": "Vermont / Wildlife No. 19",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 19",
+      "url": "https://stuartsingleton.com/p?id=493",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-493",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474740931_2pua.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 492,
+      "title": "Vermont / Wildlife No. 18",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 18",
+      "url": "https://stuartsingleton.com/p?id=492",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-492",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474740672_o907.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 491,
+      "title": "Vermont / Wildlife No. 17",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 17",
+      "url": "https://stuartsingleton.com/p?id=491",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-491",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474739999_337r.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 490,
+      "title": "Vermont / Wildlife No. 16",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 16",
+      "url": "https://stuartsingleton.com/p?id=490",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-490",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474738562_447x.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 489,
+      "title": "Vermont / Wildlife No. 15",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 15",
+      "url": "https://stuartsingleton.com/p?id=489",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-489",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474737265_8e1m.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 488,
+      "title": "Vermont / Wildlife No. 14",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 14",
+      "url": "https://stuartsingleton.com/p?id=488",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-488",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474737049_u8ce.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 487,
+      "title": "Vermont / Wildlife No. 13",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 13",
+      "url": "https://stuartsingleton.com/p?id=487",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-487",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474734640_fbxl.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 486,
+      "title": "Vermont / Wildlife No. 12",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 12",
+      "url": "https://stuartsingleton.com/p?id=486",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-486",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474732013_oc0b.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 485,
+      "title": "Vermont / Wildlife No. 11",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 11",
+      "url": "https://stuartsingleton.com/p?id=485",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-485",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474730968_cczj.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 484,
+      "title": "Vermont / Wildlife No. 10",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 10",
+      "url": "https://stuartsingleton.com/p?id=484",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-484",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474730814_fgzi.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 483,
+      "title": "Vermont / Wildlife No. 9",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 9",
+      "url": "https://stuartsingleton.com/p?id=483",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-483",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474728674_wst9.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 482,
+      "title": "Vermont / Wildlife No. 8",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 8",
+      "url": "https://stuartsingleton.com/p?id=482",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-482",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474727139_bury.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 481,
+      "title": "Vermont / Wildlife No. 7",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 7",
+      "url": "https://stuartsingleton.com/p?id=481",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-481",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474727119_x521.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 480,
+      "title": "Vermont / Wildlife No. 6",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 6",
+      "url": "https://stuartsingleton.com/p?id=480",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-480",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474722234_lxtj.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 479,
+      "title": "Vermont / Wildlife No. 5",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 5",
+      "url": "https://stuartsingleton.com/p?id=479",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-479",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474722060_aqhu.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 478,
+      "title": "Vermont / Wildlife No. 4",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 4",
+      "url": "https://stuartsingleton.com/p?id=478",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-478",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474721939_spe0.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 477,
+      "title": "Vermont / Wildlife No. 3",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 3",
+      "url": "https://stuartsingleton.com/p?id=477",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-477",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474712210_dfu4.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 476,
+      "title": "Vermont / Wildlife No. 2",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton No. 2",
+      "url": "https://stuartsingleton.com/p?id=476",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-476",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474712208_sxk9.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 475,
+      "title": "Vermont / Wildlife",
+      "description": "photograph of vermont, wildlife, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=475",
+      "printPage": "https://stuartsingleton.com/print/vermont-wildlife-475",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793474712210_awji.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "vermont",
+        "wildlife",
+        "nature",
+        "day",
+        "color"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 474,
+      "title": "Vermont / Long Exposure / Ethereal",
+      "description": "photograph of vermont, long exposure, ethereal, fall, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=474",
+      "printPage": "https://stuartsingleton.com/print/vermont-long-exposure-ethereal-474",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793471175334_4g8f.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "day",
+        "color",
+        "travel",
+        "vermont",
+        "long exposure",
+        "ethereal",
+        "fall"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 472,
+      "title": "Nashville / Neon / Dark No. 9",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 9",
+      "url": "https://stuartsingleton.com/p?id=472",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-472",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388603917_7uko.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 473,
+      "title": "Nashville / Neon / Dark No. 10",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 10",
+      "url": "https://stuartsingleton.com/p?id=473",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-473",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388603934_stzg.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 471,
+      "title": "Nashville / Neon / Dark No. 8",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 8",
+      "url": "https://stuartsingleton.com/p?id=471",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-471",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388603898_jrbg.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 468,
+      "title": "Nashville / Neon / Dark No. 5",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 5",
+      "url": "https://stuartsingleton.com/p?id=468",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-468",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388590507_u9q8.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 470,
+      "title": "Nashville / Neon / Dark No. 7",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 7",
+      "url": "https://stuartsingleton.com/p?id=470",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-470",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388590507_fsm6.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 469,
+      "title": "Nashville / Neon / Dark No. 6",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 6",
+      "url": "https://stuartsingleton.com/p?id=469",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-469",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388590507_oys7.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "4476:6714",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4476,
+      "pixelHeight": 6714,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 467,
+      "title": "Nashville / Neon / Dark No. 4",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 4",
+      "url": "https://stuartsingleton.com/p?id=467",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-467",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388470250_suxv.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 465,
+      "title": "Nashville / Neon / Dark No. 2",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 2",
+      "url": "https://stuartsingleton.com/p?id=465",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-465",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388244069_ay2e.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7728:5152",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7728,
+      "pixelHeight": 5152,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 466,
+      "title": "Nashville / Neon / Dark No. 3",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton No. 3",
+      "url": "https://stuartsingleton.com/p?id=466",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-466",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388244069_e05g.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7728:5152",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7728,
+      "pixelHeight": 5152,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 464,
+      "title": "Nashville / Neon / Dark",
+      "description": "photograph of neon, dark in Nashville, by Stuart Singleton",
+      "url": "https://stuartsingleton.com/p?id=464",
+      "printPage": "https://stuartsingleton.com/print/nashville-neon-dark-464",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793388244069_caro.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "indoor",
+        "night",
+        "nashville",
+        "neon",
+        "color",
+        "dark"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7728:5152",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7728,
+      "pixelHeight": 5152,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
     {
       "id": 463,
       "title": "Balconies Above a Garden, Monte Carlo",
@@ -8454,6 +10560,59 @@
       ]
     },
     {
+      "id": 193,
+      "title": "Walking the National Mall, Washington DC",
+      "description": "A lone walker on a frosty path toward the Washington Monument, in black and white. Quiet DC photography",
+      "url": "https://stuartsingleton.com/p?id=193",
+      "printPage": "https://stuartsingleton.com/print/washington-dc-193",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836540652.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "washington dc",
+        "black & white",
+        "city",
+        "day",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
       "id": 205,
       "title": "Golden Eiffel Tower at Night, Paris",
       "description": "The Eiffel Tower glowing gold at night from below. Classic Paris night photography",
@@ -8510,18 +10669,21 @@
       ]
     },
     {
-      "id": 171,
-      "title": "Ryman Auditorium at Night, Nashville",
-      "description": "The Ryman Auditorium glowing at night in downtown Nashville, in black and white. Iconic Nashville architecture photography",
-      "url": "https://stuartsingleton.com/p?id=171",
-      "printPage": "https://stuartsingleton.com/print/nashville-171",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
+      "id": 204,
+      "title": "Les Invalides Dome, Paris",
+      "description": "The gilded dome of Les Invalides in Paris, in black and white. Classic Paris architecture photography",
+      "url": "https://stuartsingleton.com/p?id=204",
+      "printPage": "https://stuartsingleton.com/print/europe-france-paris-204",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837265928.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "city",
-        "nashville",
+        "architecture",
         "black & white",
+        "europe",
+        "france",
+        "paris",
         "outdoor",
-        "night"
+        "travel",
+        "city"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -8562,17 +10724,176 @@
       ]
     },
     {
-      "id": 172,
-      "title": "Light and Shadow Window Abstract, Nashville",
-      "description": "A street light seen through a bright window in Nashville, in black and white. Minimal abstract photography",
-      "url": "https://stuartsingleton.com/p?id=172",
-      "printPage": "https://stuartsingleton.com/print/nashville-172",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
+      "id": 196,
+      "title": "Neon Purple Palm Trees, French Riviera",
+      "description": "Palm trees glowing purple against the night sky on the French Riviera. Dreamy film style night photography",
+      "url": "https://stuartsingleton.com/p?id=196",
+      "printPage": "https://stuartsingleton.com/print/sky-trees-france-196",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836765947.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "city",
-        "day",
+        "color",
+        "sky",
+        "trees",
+        "travel",
+        "france",
+        "beaulieu sur mer",
+        "outdoor",
+        "night",
+        "hotel",
+        "europe"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 192,
+      "title": "Abingdon at Night, Virginia",
+      "description": "A lit building facade at night in Abingdon, Virginia, in black and white. Small town night photography",
+      "url": "https://stuartsingleton.com/p?id=192",
+      "printPage": "https://stuartsingleton.com/print/abingdon-192",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836498790.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "abingdon",
         "black & white",
+        "indoor",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 191,
+      "title": "Church Steeple on Main Street, Franklin, Tennessee",
+      "description": "A church steeple and storefronts on a Franklin, Tennessee street, in black and white. Small town street photography",
+      "url": "https://stuartsingleton.com/p?id=191",
+      "printPage": "https://stuartsingleton.com/print/franklin-191",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836459218.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "franklin",
+        "night",
+        "outdoor",
+        "black & white"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 182,
+      "title": "Glowing Lamp Post in the Fog, Nashville",
+      "description": "A double lamp post glowing in the fog at night in Nashville, in black and white. Ethereal night photography",
+      "url": "https://stuartsingleton.com/p?id=182",
+      "printPage": "https://stuartsingleton.com/print/ethereal-nashville-182",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836142339.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "ethereal",
         "nashville",
+        "night",
         "outdoor"
       ],
       "camera": "nomo",
@@ -8614,66 +10935,12 @@
       ]
     },
     {
-      "id": 177,
-      "title": "High Rise and Palms, San Juan",
-      "description": "A white high rise above palm trees in San Juan, in black and white. Puerto Rico architecture photography",
-      "url": "https://stuartsingleton.com/p?id=177",
-      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "black & white",
-        "city",
-        "day",
-        "outdoor",
-        "puerto rico",
-        "san juan",
-        "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 178,
-      "title": "Window Grid and Palms, San Juan",
-      "description": "Palms reflected in tall hotel windows in San Juan, in black and white. Minimal architecture photography",
-      "url": "https://stuartsingleton.com/p?id=178",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-178",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835914027.JPG?width=1200&quality=80&resize=contain",
+      "id": 180,
+      "title": "Hotel at Night With Palms, San Juan",
+      "description": "A hotel glowing under clouds and palms at night in San Juan, in black and white. Puerto Rico night photography",
+      "url": "https://stuartsingleton.com/p?id=180",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-180",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835959539.JPG?width=1200&quality=80&resize=contain",
       "tags": [
         "architecture",
         "black & white",
@@ -8780,12 +11047,12 @@
       ]
     },
     {
-      "id": 180,
-      "title": "Hotel at Night With Palms, San Juan",
-      "description": "A hotel glowing under clouds and palms at night in San Juan, in black and white. Puerto Rico night photography",
-      "url": "https://stuartsingleton.com/p?id=180",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-180",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835959539.JPG?width=1200&quality=80&resize=contain",
+      "id": 178,
+      "title": "Window Grid and Palms, San Juan",
+      "description": "Palms reflected in tall hotel windows in San Juan, in black and white. Minimal architecture photography",
+      "url": "https://stuartsingleton.com/p?id=178",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-178",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835914027.JPG?width=1200&quality=80&resize=contain",
       "tags": [
         "architecture",
         "black & white",
@@ -8836,610 +11103,72 @@
       ]
     },
     {
-      "id": 182,
-      "title": "Glowing Lamp Post in the Fog, Nashville",
-      "description": "A double lamp post glowing in the fog at night in Nashville, in black and white. Ethereal night photography",
-      "url": "https://stuartsingleton.com/p?id=182",
-      "printPage": "https://stuartsingleton.com/print/ethereal-nashville-182",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836142339.JPG?width=1200&quality=80&resize=contain",
+      "id": 177,
+      "title": "High Rise and Palms, San Juan",
+      "description": "A white high rise above palm trees in San Juan, in black and white. Puerto Rico architecture photography",
+      "url": "https://stuartsingleton.com/p?id=177",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "black & white",
-        "ethereal",
+        "city",
+        "day",
+        "outdoor",
+        "puerto rico",
+        "san juan",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 171,
+      "title": "Ryman Auditorium at Night, Nashville",
+      "description": "The Ryman Auditorium glowing at night in downtown Nashville, in black and white. Iconic Nashville architecture photography",
+      "url": "https://stuartsingleton.com/p?id=171",
+      "printPage": "https://stuartsingleton.com/print/nashville-171",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
         "nashville",
-        "night",
-        "outdoor"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 191,
-      "title": "Church Steeple on Main Street, Franklin, Tennessee",
-      "description": "A church steeple and storefronts on a Franklin, Tennessee street, in black and white. Small town street photography",
-      "url": "https://stuartsingleton.com/p?id=191",
-      "printPage": "https://stuartsingleton.com/print/franklin-191",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836459218.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "franklin",
-        "night",
-        "outdoor",
-        "black & white"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 192,
-      "title": "Abingdon at Night, Virginia",
-      "description": "A lit building facade at night in Abingdon, Virginia, in black and white. Small town night photography",
-      "url": "https://stuartsingleton.com/p?id=192",
-      "printPage": "https://stuartsingleton.com/print/abingdon-192",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836498790.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "abingdon",
-        "black & white",
-        "indoor",
-        "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 193,
-      "title": "Walking the National Mall, Washington DC",
-      "description": "A lone walker on a frosty path toward the Washington Monument, in black and white. Quiet DC photography",
-      "url": "https://stuartsingleton.com/p?id=193",
-      "printPage": "https://stuartsingleton.com/print/washington-dc-193",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836540652.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "washington dc",
-        "black & white",
-        "city",
-        "day",
-        "outdoor",
-        "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 194,
-      "title": "Smithsonian Castle, Washington DC",
-      "description": "The Smithsonian Castle on the National Mall in Washington DC, in black and white. Moody architecture photography",
-      "url": "https://stuartsingleton.com/p?id=194",
-      "printPage": "https://stuartsingleton.com/print/washington-dc-194",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836594645.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "city",
-        "washington dc",
-        "travel",
-        "day"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 196,
-      "title": "Neon Purple Palm Trees, French Riviera",
-      "description": "Palm trees glowing purple against the night sky on the French Riviera. Dreamy film style night photography",
-      "url": "https://stuartsingleton.com/p?id=196",
-      "printPage": "https://stuartsingleton.com/print/sky-trees-france-196",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836765947.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "color",
-        "sky",
-        "trees",
-        "travel",
-        "france",
-        "beaulieu sur mer",
-        "outdoor",
-        "night",
-        "hotel",
-        "europe"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 204,
-      "title": "Les Invalides Dome, Paris",
-      "description": "The gilded dome of Les Invalides in Paris, in black and white. Classic Paris architecture photography",
-      "url": "https://stuartsingleton.com/p?id=204",
-      "printPage": "https://stuartsingleton.com/print/europe-france-paris-204",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837265928.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "europe",
-        "france",
-        "paris",
-        "outdoor",
-        "travel",
-        "city"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 206,
-      "title": "Eiffel Tower From Below, Paris",
-      "description": "The Eiffel Tower lit at night, looking straight up from its base, in black and white. Iconic Paris photography",
-      "url": "https://stuartsingleton.com/p?id=206",
-      "printPage": "https://stuartsingleton.com/print/paris-europe-france-206",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837338160.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "paris",
-        "night",
-        "architecture",
-        "color",
-        "outdoor",
-        "europe",
-        "france",
-        "black & white"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 207,
-      "title": "Cobblestone Lane, Versailles",
-      "description": "A cobblestone lane between pale buildings in Versailles, in black and white. Quiet French street photography",
-      "url": "https://stuartsingleton.com/p?id=207",
-      "printPage": "https://stuartsingleton.com/print/europe-france-hotel-207",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837448491.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "black & white",
-        "europe",
-        "france",
-        "day",
-        "hotel",
-        "travel",
-        "outdoor"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 209,
-      "title": "Gare de Lyon and Street Lamp, Paris",
-      "description": "The Gare de Lyon clock tower behind a street lamp in Paris, in black and white. Paris street photography",
-      "url": "https://stuartsingleton.com/p?id=209",
-      "printPage": "https://stuartsingleton.com/print/france-europe-paris-209",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837625278.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "day",
-        "france",
-        "europe",
-        "black & white",
-        "paris",
-        "outdoor"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 210,
-      "title": "Gare de Lyon Clock Tower, Paris",
-      "description": "The Gare de Lyon station and clock tower in Paris, in black and white. Classic Paris architecture photography",
-      "url": "https://stuartsingleton.com/p?id=210",
-      "printPage": "https://stuartsingleton.com/print/france-europe-paris-210",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837662818.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "day",
-        "france",
-        "europe",
-        "black & white",
-        "paris",
-        "outdoor"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 215,
-      "title": "Figure in the Streets at Night, Saint-Paul-de-Vence",
-      "description": "A figure walking the narrow stone streets of Saint-Paul-de-Vence at night, in black and white. French Riviera photography",
-      "url": "https://stuartsingleton.com/p?id=215",
-      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-215",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837953945.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
         "black & white",
         "outdoor",
-        "night",
-        "france",
-        "europe",
-        "saint paul de vence"
+        "night"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -9476,95 +11205,6 @@
           "label": "8x12in Framed",
           "framed": true,
           "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 216,
-      "title": "Lantern Lit Alley, Saint-Paul-de-Vence",
-      "description": "A narrow stone alley glows under lanterns at night in the hilltop village of Saint-Paul-de-Vence, in black and white. Old Provence at its quietest",
-      "url": "https://stuartsingleton.com/p?id=216",
-      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-216",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837975622.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "travel",
-        "black & white",
-        "outdoor",
-        "night",
-        "france",
-        "europe",
-        "saint paul de vence"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 119
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "priceUSD": 119
-        }
-      ]
-    },
-    {
-      "id": 324,
-      "title": "Palm Trees Against the Sky, French Riviera",
-      "description": "Tall palm trees silhouetted against a pale sky on the Cote d'Azur. Classic French Riviera photography",
-      "url": "https://stuartsingleton.com/p?id=324",
-      "printPage": "https://stuartsingleton.com/print/france-europe-324",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798711730.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "france",
-        "europe",
-        "day",
-        "nature",
-        "outdoor",
-        "travel"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "1536:2048",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 29
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
         }
       ]
     },
@@ -9811,6 +11451,115 @@
       ]
     },
     {
+      "id": 213,
+      "title": "Royal Riviera Hotel at Night, Beaulieu sur Mer",
+      "description": "The Royal Riviera hotel glowing at night in Beaulieu sur Mer, in black and white. French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=213",
+      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-france-213",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837882421.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "beaulieu sur mer",
+        "travel",
+        "black & white",
+        "outdoor",
+        "night",
+        "hotel",
+        "france",
+        "europe"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 215,
+      "title": "Figure in the Streets at Night, Saint-Paul-de-Vence",
+      "description": "A figure walking the narrow stone streets of Saint-Paul-de-Vence at night, in black and white. French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=215",
+      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-215",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837953945.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "black & white",
+        "outdoor",
+        "night",
+        "france",
+        "europe",
+        "saint paul de vence"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
       "id": 335,
       "title": "Town Courtyard, Versailles",
       "description": "A pale stone courtyard and mansard roofs in the town of Versailles. Classic French architecture photography",
@@ -9916,21 +11665,378 @@
       ]
     },
     {
-      "id": 213,
-      "title": "Royal Riviera Hotel at Night, Beaulieu sur Mer",
-      "description": "The Royal Riviera hotel glowing at night in Beaulieu sur Mer, in black and white. French Riviera photography",
-      "url": "https://stuartsingleton.com/p?id=213",
-      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-france-213",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837882421.JPG?width=1200&quality=80&resize=contain",
+      "id": 210,
+      "title": "Gare de Lyon Clock Tower, Paris",
+      "description": "The Gare de Lyon station and clock tower in Paris, in black and white. Classic Paris architecture photography",
+      "url": "https://stuartsingleton.com/p?id=210",
+      "printPage": "https://stuartsingleton.com/print/france-europe-paris-210",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837662818.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "beaulieu sur mer",
+        "travel",
+        "day",
+        "france",
+        "europe",
+        "black & white",
+        "paris",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 209,
+      "title": "Gare de Lyon and Street Lamp, Paris",
+      "description": "The Gare de Lyon clock tower behind a street lamp in Paris, in black and white. Paris street photography",
+      "url": "https://stuartsingleton.com/p?id=209",
+      "printPage": "https://stuartsingleton.com/print/france-europe-paris-209",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837625278.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "day",
+        "france",
+        "europe",
+        "black & white",
+        "paris",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 207,
+      "title": "Cobblestone Lane, Versailles",
+      "description": "A cobblestone lane between pale buildings in Versailles, in black and white. Quiet French street photography",
+      "url": "https://stuartsingleton.com/p?id=207",
+      "printPage": "https://stuartsingleton.com/print/europe-france-hotel-207",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837448491.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "europe",
+        "france",
+        "day",
+        "hotel",
+        "travel",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 206,
+      "title": "Eiffel Tower From Below, Paris",
+      "description": "The Eiffel Tower lit at night, looking straight up from its base, in black and white. Iconic Paris photography",
+      "url": "https://stuartsingleton.com/p?id=206",
+      "printPage": "https://stuartsingleton.com/print/paris-europe-france-206",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837338160.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "paris",
+        "night",
+        "architecture",
+        "color",
+        "outdoor",
+        "europe",
+        "france",
+        "black & white"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 216,
+      "title": "Lantern Lit Alley, Saint-Paul-de-Vence",
+      "description": "A narrow stone alley glows under lanterns at night in the hilltop village of Saint-Paul-de-Vence, in black and white. Old Provence at its quietest",
+      "url": "https://stuartsingleton.com/p?id=216",
+      "printPage": "https://stuartsingleton.com/print/france-europe-saint-paul-de-vence-216",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837975622.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
         "travel",
         "black & white",
         "outdoor",
         "night",
-        "hotel",
         "france",
-        "europe"
+        "europe",
+        "saint paul de vence"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 324,
+      "title": "Palm Trees Against the Sky, French Riviera",
+      "description": "Tall palm trees silhouetted against a pale sky on the Cote d'Azur. Classic French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=324",
+      "printPage": "https://stuartsingleton.com/print/france-europe-324",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774798711730.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "france",
+        "europe",
+        "day",
+        "nature",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
+      "id": 172,
+      "title": "Light and Shadow Window Abstract, Nashville",
+      "description": "A street light seen through a bright window in Nashville, in black and white. Minimal abstract photography",
+      "url": "https://stuartsingleton.com/p?id=172",
+      "printPage": "https://stuartsingleton.com/print/nashville-172",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
+        "day",
+        "black & white",
+        "nashville",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 119
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        }
+      ]
+    },
+    {
+      "id": 194,
+      "title": "Smithsonian Castle, Washington DC",
+      "description": "The Smithsonian Castle on the National Mall in Washington DC, in black and white. Moody architecture photography",
+      "url": "https://stuartsingleton.com/p?id=194",
+      "printPage": "https://stuartsingleton.com/print/washington-dc-194",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836594645.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "black & white",
+        "city",
+        "washington dc",
+        "travel",
+        "day"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -11721,10 +13827,9 @@
       "title": "Church Tower From a Train, French Riviera",
       "description": "A church bell tower above villas seen from a passing train on the Cote d'Azur. Unedited French Riviera photography",
       "url": "https://stuartsingleton.com/p?id=104",
-      "printPage": "https://stuartsingleton.com/print/unedited-europe-france-104",
+      "printPage": "https://stuartsingleton.com/print/europe-france-104",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1775247293299.jpg?width=1200&quality=80&resize=contain",
       "tags": [
-        "unedited",
         "travel",
         "color",
         "europe",
