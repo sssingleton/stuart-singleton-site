@@ -11,9 +11,667 @@
   "shop": "https://stuartsingleton.com/shop",
   "currency": "USD",
   "priceModel": "All-in pricing with free worldwide shipping. Unframed prints $29 to $115. Framed prints $119 to $245. A size is offered only when the photo has enough resolution to print it sharply at 200 DPI without cropping.",
-  "generatedAt": "2026-10-31T19:49:20.001Z",
-  "count": 263,
+  "generatedAt": "2026-10-31T20:08:24.098Z",
+  "count": 272,
   "products": [
+    {
+      "id": 502,
+      "title": "Glowing Bulbs and Autumn Woods Through Glass, Vermont",
+      "description": "Warm light bulbs reflect in an arched doorway opening onto iron railings and a dense stand of golden autumn trees in Vermont",
+      "url": "https://stuartsingleton.com/p?id=502",
+      "printPage": "https://stuartsingleton.com/print/reflection-vermont-trees-502",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793477064072_9jie.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "reflection",
+        "nature",
+        "vermont",
+        "travel",
+        "trees",
+        "outdoor",
+        "color",
+        "dark",
+        "fall"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 501,
+      "title": "Silhouetted Figure Behind Arched Glass, Vermont",
+      "description": "A silhouetted figure stands behind an arched glass doorway, layered with glowing interior lights and rich autumn foliage outside in Vermont",
+      "url": "https://stuartsingleton.com/p?id=501",
+      "printPage": "https://stuartsingleton.com/print/reflection-vermont-trees-501",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793477064070_8k1i.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "reflection",
+        "nature",
+        "vermont",
+        "travel",
+        "trees",
+        "outdoor",
+        "color",
+        "dark",
+        "fall"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 500,
+      "title": "Autumn Trees Framed by Dark Glass, Vermont",
+      "description": "Warm interior lights reflect in a dark glass frame opening onto balcony railings and a dense stand of autumn trees in Vermont",
+      "url": "https://stuartsingleton.com/p?id=500",
+      "printPage": "https://stuartsingleton.com/print/reflection-vermont-trees-500",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793477051238_ofyw.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "reflection",
+        "nature",
+        "vermont",
+        "travel",
+        "trees",
+        "outdoor",
+        "color",
+        "dark",
+        "fall"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 498,
+      "title": "Figure and Autumn Woods in Arched Window, Vermont",
+      "description": "A figure in a cap stands framed by an arched doorway in Vermont, surrounded by dark reflections of autumn trees and warm glowing lights",
+      "url": "https://stuartsingleton.com/p?id=498",
+      "printPage": "https://stuartsingleton.com/print/reflection-vermont-trees-498",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793477051238_xm9z.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "reflection",
+        "nature",
+        "vermont",
+        "travel",
+        "trees",
+        "outdoor",
+        "color",
+        "dark",
+        "fall"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7728:5152",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7728,
+      "pixelHeight": 5152,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 499,
+      "title": "Reflected Interior Lights and Autumn Woods, Vermont",
+      "description": "Two glowing interior lights reflect against dark glass framing a view of dense autumn woods and an iron railing in Vermont",
+      "url": "https://stuartsingleton.com/p?id=499",
+      "printPage": "https://stuartsingleton.com/print/reflection-vermont-trees-499",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793477051238_2tsd.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "reflection",
+        "nature",
+        "vermont",
+        "travel",
+        "trees",
+        "outdoor",
+        "color",
+        "dark",
+        "fall"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 497,
+      "title": "Red Geometric Reflections on a Country Church, Vermont",
+      "description": "Vivid red reflections and utility wires crisscross the facade of a wooden country church and bell tower beneath clear skies in Vermont",
+      "url": "https://stuartsingleton.com/p?id=497",
+      "printPage": "https://stuartsingleton.com/print/vermont-ethereal-reflection-497",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793476604535_2rbp.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "color",
+        "vermont",
+        "travel",
+        "outdoor",
+        "day",
+        "ethereal",
+        "reflection"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7728:5152",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7728,
+      "pixelHeight": 5152,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 496,
+      "title": "Clapboard Church Behind Red Wire Reflections, Vermont",
+      "description": "An intricate web of glowing red lines reflects across a traditional clapboard church and bell tower beneath clear skies in Vermont",
+      "url": "https://stuartsingleton.com/p?id=496",
+      "printPage": "https://stuartsingleton.com/print/vermont-ethereal-reflection-496",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793476595022_j10k.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "color",
+        "vermont",
+        "travel",
+        "outdoor",
+        "day",
+        "ethereal",
+        "reflection"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 495,
+      "title": "Church Steeple and Red Light Reflections, Vermont",
+      "description": "Red light reflections and utility lines crisscross a view of a wooden church steeple in Vermont, anchored by two glowing orange lights below",
+      "url": "https://stuartsingleton.com/p?id=495",
+      "printPage": "https://stuartsingleton.com/print/vermont-ethereal-reflection-495",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793476595023_bsr8.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "color",
+        "vermont",
+        "travel",
+        "outdoor",
+        "day",
+        "ethereal",
+        "reflection"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
+    {
+      "id": 494,
+      "title": "Wooden Church Steeple with Looping Red Light, Vermont",
+      "description": "A historic clapboard church steeple in Vermont is overlaid with looping red light reflections and crossing power lines beneath a deep blue sky",
+      "url": "https://stuartsingleton.com/p?id=494",
+      "printPage": "https://stuartsingleton.com/print/vermont-ethereal-reflection-494",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793476595023_66gg.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "color",
+        "vermont",
+        "travel",
+        "outdoor",
+        "day",
+        "ethereal",
+        "reflection"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 245
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "priceUSD": 245
+        }
+      ]
+    },
     {
       "id": 493,
       "title": "Honeybees and Soft Blue Reflections, Vermont",
@@ -4040,7 +4698,7 @@
       "title": "Escalator Light and Shadow, Nashville",
       "description": "A Nashville escalator split between deep shadow and warm light, with a tower reflected in the dark glass",
       "url": "https://stuartsingleton.com/p?id=436",
-      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-436",
+      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-reflection-436",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305663899_6l22.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "nashville",
@@ -4048,7 +4706,8 @@
         "color",
         "tennessee",
         "architecture",
-        "outdoor"
+        "outdoor",
+        "reflection"
       ],
       "camera": "fujifilm-xt5",
       "aspectRatio": "5152:7728",
@@ -4111,7 +4770,7 @@
       "title": "Golden Light on an Escalator, Nashville",
       "description": "Golden light running along a brushed steel escalator in Nashville, city reflections in the glass above",
       "url": "https://stuartsingleton.com/p?id=437",
-      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-437",
+      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-reflection-437",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305663899_dxai.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "nashville",
@@ -4119,7 +4778,8 @@
         "color",
         "tennessee",
         "architecture",
-        "outdoor"
+        "outdoor",
+        "reflection"
       ],
       "camera": "fujifilm-xt5",
       "aspectRatio": "4323:6485",
@@ -4176,7 +4836,7 @@
       "title": "Escalator Shadows, Nashville",
       "description": "Deep shadow and a sliver of warm light along an escalator in Nashville, a city building reflected in the glass",
       "url": "https://stuartsingleton.com/p?id=435",
-      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-435",
+      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-reflection-435",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793305663898_rf7m.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "nashville",
@@ -4184,7 +4844,8 @@
         "color",
         "tennessee",
         "architecture",
-        "outdoor"
+        "outdoor",
+        "reflection"
       ],
       "camera": "fujifilm-xt5",
       "aspectRatio": "3998:5997",
@@ -5249,7 +5910,7 @@
       "title": "Escalator and Glass Tower Reflection, Nashville",
       "description": "A glass tower reflected in a dark escalator window in Nashville, a band of warm light running down the steel",
       "url": "https://stuartsingleton.com/p?id=420",
-      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-420",
+      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-reflection-420",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793302106218_flrf.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "nashville",
@@ -5257,7 +5918,8 @@
         "color",
         "tennessee",
         "architecture",
-        "outdoor"
+        "outdoor",
+        "reflection"
       ],
       "camera": "fujifilm-xt5",
       "aspectRatio": "7728:5152",
@@ -5320,7 +5982,7 @@
       "title": "Downtown Reflected in an Escalator, Nashville",
       "description": "Downtown Nashville reflected in the glass beside an escalator, warm light on brushed steel against deep blue shadow",
       "url": "https://stuartsingleton.com/p?id=419",
-      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-419",
+      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-reflection-419",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793302106217_hb4i.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "nashville",
@@ -5328,7 +5990,8 @@
         "color",
         "tennessee",
         "architecture",
-        "outdoor"
+        "outdoor",
+        "reflection"
       ],
       "camera": "fujifilm-xt5",
       "aspectRatio": "7728:5152",
@@ -5391,7 +6054,7 @@
       "title": "Escalator Rail and City Reflection, Nashville",
       "description": "The rail of a Nashville escalator cutting a diagonal through deep shadow, a city building reflected in the glass",
       "url": "https://stuartsingleton.com/p?id=418",
-      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-418",
+      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-reflection-418",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793302106218_zov6.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "nashville",
@@ -5399,7 +6062,8 @@
         "color",
         "tennessee",
         "architecture",
-        "outdoor"
+        "outdoor",
+        "reflection"
       ],
       "camera": "fujifilm-xt5",
       "aspectRatio": "7728:5152",
@@ -5462,7 +6126,7 @@
       "title": "Escalator Reflections in Warm Light, Nashville",
       "description": "Warm light along a stainless escalator, with downtown Nashville towers reflected in the dark glass above",
       "url": "https://stuartsingleton.com/p?id=417",
-      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-417",
+      "printPage": "https://stuartsingleton.com/print/nashville-tennessee-reflection-417",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1793298022360.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "nashville",
@@ -5470,7 +6134,8 @@
         "color",
         "tennessee",
         "architecture",
-        "outdoor"
+        "outdoor",
+        "reflection"
       ],
       "camera": "fujifilm-xt5",
       "aspectRatio": "7628:5085",
@@ -10560,34 +11225,33 @@
       ]
     },
     {
-      "id": 332,
-      "title": "Cobblestone Lane to the Palace, Versailles",
-      "description": "A cobblestone lane leading toward the Palace of Versailles. Historic France travel photography",
-      "url": "https://stuartsingleton.com/p?id=332",
-      "printPage": "https://stuartsingleton.com/print/versailles-europe-france-332",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799246256.jpg?width=1200&quality=80&resize=contain",
+      "id": 335,
+      "title": "Town Courtyard, Versailles",
+      "description": "A pale stone courtyard and mansard roofs in the town of Versailles. Classic French architecture photography",
+      "url": "https://stuartsingleton.com/p?id=335",
+      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-335",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774800482968.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "architecture",
         "city",
-        "versailles",
+        "color",
         "day",
         "europe",
         "france",
-        "garden",
-        "hotel",
-        "outdoor",
-        "travel"
+        "versailles",
+        "travel",
+        "outdoor"
       ],
       "camera": "campsnap",
-      "aspectRatio": "1536:2048",
+      "aspectRatio": "2448:3264",
       "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 1536,
-      "pixelHeight": 2048,
+      "pixelWidth": 2448,
+      "pixelHeight": 3264,
       "availability": "InStock",
       "printReady": true,
       "priceRangeUSD": {
         "min": 29,
-        "max": 29
+        "max": 59
       },
       "sizes": [
         {
@@ -10595,6 +11259,18 @@
           "label": "6x8in",
           "framed": false,
           "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-9X12",
+          "label": "9x12in",
+          "framed": false,
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-12X16",
+          "label": "12x16in",
+          "framed": false,
+          "priceUSD": 59
         }
       ]
     },
@@ -11777,6 +12453,45 @@
       ]
     },
     {
+      "id": 332,
+      "title": "Cobblestone Lane to the Palace, Versailles",
+      "description": "A cobblestone lane leading toward the Palace of Versailles. Historic France travel photography",
+      "url": "https://stuartsingleton.com/p?id=332",
+      "printPage": "https://stuartsingleton.com/print/versailles-europe-france-332",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799246256.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "versailles",
+        "day",
+        "europe",
+        "france",
+        "garden",
+        "hotel",
+        "outdoor",
+        "travel"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "1536:2048",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 1536,
+      "pixelHeight": 2048,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 29
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "priceUSD": 29
+        }
+      ]
+    },
+    {
       "id": 333,
       "title": "Street Corner and Crosswalk, Versailles",
       "description": "A quiet street corner and crosswalk in Versailles, France. Everyday French street photography",
@@ -11821,56 +12536,6 @@
       "url": "https://stuartsingleton.com/p?id=334",
       "printPage": "https://stuartsingleton.com/print/europe-france-versailles-334",
       "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774799484683.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "city",
-        "color",
-        "day",
-        "europe",
-        "france",
-        "versailles",
-        "travel",
-        "outdoor"
-      ],
-      "camera": "campsnap",
-      "aspectRatio": "2448:3264",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 2448,
-      "pixelHeight": 3264,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 59
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
-          "framed": false,
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-9X12",
-          "label": "9x12in",
-          "framed": false,
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-FAP-12X16",
-          "label": "12x16in",
-          "framed": false,
-          "priceUSD": 59
-        }
-      ]
-    },
-    {
-      "id": 335,
-      "title": "Town Courtyard, Versailles",
-      "description": "A pale stone courtyard and mansard roofs in the town of Versailles. Classic French architecture photography",
-      "url": "https://stuartsingleton.com/p?id=335",
-      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-335",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774800482968.jpg?width=1200&quality=80&resize=contain",
       "tags": [
         "architecture",
         "city",
