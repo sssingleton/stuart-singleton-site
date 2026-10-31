@@ -1,0 +1,69 @@
+# Rebuilds everything that is generated from the photos table and publishes it:
+#   meta-catalog.csv / pinterest-catalog.csv / tiktok-catalog.csv (+ feed-img/)
+#   print/<slug>.html + prints.html, catalog.json, catalog-titles.json, sitemap.xml, robots.txt
+# Meta, Pinterest and TikTok pull the CSVs from stuartsingleton.com on their own
+# schedule, so once this commits, Vercel deploys and the next fetch picks it up.
+#
+# Runs every 6 hours, or on demand: GitHub > Actions > Rebuild shop feeds > Run workflow
+# (also works from the GitHub phone app). No secrets needed: the generators read with
+# the public anon key, same as the site.
+#
+# Only commits when something real changed. Date stamps that the generators write on
+# every run (dateModified, lastmod, generatedAt) are ignored, so a quiet day = no deploy.
+name: Rebuild shop feeds
+
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rebuild-shop-feeds
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate feeds, print pages, catalog, sitemap
+        run: |
+          before_rows=$(wc -l < meta-catalog.csv)
+          before_pages=$(ls print/*.html | wc -l)
+          node generate-feeds.js
+          node generate-print-pages.js
+          node generate-catalog.js
+          node generate-sitemap.js
+          after_rows=$(wc -l < meta-catalog.csv)
+          after_pages=$(ls print/*.html | wc -l)
+          echo "meta-catalog rows: $before_rows -> $after_rows | print pages: $before_pages -> $after_pages"
+          # Safety: a Supabase hiccup or RLS change can come back with few or no photos,
+          # and the generators would then prune live print pages. Refuse a big drop.
+          if [ "$after_rows" -lt $((before_rows * 8 / 10)) ] || [ "$after_pages" -lt $((before_pages * 8 / 10)) ]; then
+            echo "::error::Feed shrank by more than 20%. Not publishing. If photos were really pulled from sale, run the generators by hand."
+            exit 1
+          fi
+
+      - name: Commit and push if anything real changed
+        run: |
+          git add -A feed-img print prints.html meta-catalog.csv pinterest-catalog.csv tiktok-catalog.csv catalog.json catalog-titles.json sitemap.xml robots.txt
+          real=$(git diff --cached -I'"dateModified"' -I'<lastmod>' -I'"generatedAt"' --stat)
+          if [ -z "$real" ]; then
+            echo "No photo changes since the last build. Nothing to publish."
+            exit 0
+          fi
+          echo "$real" | tail -1
+          # Committed as Stuart so Vercel deploys it like his own pushes.
+          git -c user.name="Stuart Singleton" -c user.email="stuartssingleton@gmail.com" \
+            commit -q -m "Rebuild shop feeds + print pages from the photos table (auto)"
+          git pull -q --rebase origin main
+          git push -q origin HEAD:main

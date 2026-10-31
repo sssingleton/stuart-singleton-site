@@ -81,6 +81,7 @@ const robots =
   `Allow: /catalog.json\n` +
   `Allow: /llms.txt\n` +
   `Disallow: /mr.manager\n` +
+  `Disallow: /g/\n` +            // private client galleries (also noindex via vercel.json headers)
   `Disallow: /S137devhub\n` +
   `Disallow: /api/\n\n` +
   `Sitemap: ${SITE}/sitemap.xml\n`;
