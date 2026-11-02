@@ -335,8 +335,22 @@ function numberBy(items, key, mark) {
   }
 }
 
+// Active Print Sets from mr.manager (print_sets table; anon can read rows where active = true).
+// Returns { [photoId]: [{ name, slug, family }] } in set-creation order. Throws on failure so a
+// feed never ships with set labels silently missing (CI keeps the last good feed instead).
+async function fetchActiveSets() {
+  const headers = { apikey: SUPA_KEY, authorization: `Bearer ${SUPA_KEY}` };
+  const r = await fetch(`${SUPA_URL}/rest/v1/print_sets?select=name,slug,family,photo_ids&active=eq.true&order=created_at.asc`, { headers });
+  if (!r.ok) throw new Error(`print_sets fetch ${r.status}: ${await r.text()}`);
+  const byPhoto = {};
+  for (const set of await r.json()) {
+    for (const pid of set.photo_ids || []) (byPhoto[String(pid)] ||= []).push({ name: set.name, slug: set.slug, family: set.family });
+  }
+  return byPhoto;
+}
+
 module.exports = {
-  fetchCatalog, PRINT_SIZES, MIN_PRINT_DPI, RATIO_TOLERANCE, sizesForPhoto,
+  fetchCatalog, fetchActiveSets, PRINT_SIZES, MIN_PRINT_DPI, RATIO_TOLERANCE, sizesForPhoto,
   slugForPhoto, titleForPhoto, describePhoto, classifyTags, renderURL, SITE,
 };
 

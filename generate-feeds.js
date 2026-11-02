@@ -12,11 +12,17 @@
  * the end of the run: give them a title + description in the DB so every title stays unique.
  * Changing a title or blurb is safe: ids, links and prices don't depend on it. Do NOT edit a
  * photo's tags to change its name; the /print/<slug> URL is built from the tags.
+ * Meta feed also carries the mr.manager Print Sets, so Commerce Manager product sets (and the
+ * Instagram Shop collections built from them) can mirror the site's sets:
+ *   internal_label  ['set:<Set Name>','country:<Country>','place:<Place>','finish:paper|framed']
+ *                   (Meta's recommended filter field; editing it never sends items back to review)
+ *   product_type    Fine Art Prints > <Country> > <Region/Place>
+ * A set's family (paper / framed) decides which size rows get its label.
  * Run from repo root:  node generate-feeds.js
  */
 const fs = require('fs');
 const path = require('path');
-const { fetchCatalog } = require('./catalog-data.js');
+const { fetchCatalog, fetchActiveSets } = require('./catalog-data.js');
 const IMG_DIR = 'feed-img';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 // Meta/Pinterest fetch every image in one burst; Supabase Storage answers that with 429s.
@@ -53,6 +59,10 @@ const write = (file, header, rows) => fs.writeFileSync(file, [header.join(','), 
 
 const CAT = 'Home & Garden > Decor > Artwork > Posters, Prints, & Visual Artwork';
 const SKIP = new Set(['color', 'day', 'night', 'outdoor', 'indoor', 'travel', 'nature', 'black & white', 'b&w']);
+// Meta internal_label: single-quoted, comma-separated, <=110 chars, no edge spaces.
+const lbl = v => String(v || '').replace(/['",\[\]]/g, '').replace(/\s+/g, ' ').trim().slice(0, 110);
+const labelList = arr => { const u = [...new Set(arr.map(lbl).filter(x => !/:$/.test(x)))]; return u.length ? `[${u.map(x => `'${x}'`).join(',')}]` : ''; };
+const productType = it => ['Fine Art Prints', ...[it.country, it.region || it.place].filter(Boolean).filter((v, i, a) => a.indexOf(v) === i)].join(' > ');
 
 async function main() {
   const prior = {};
@@ -61,6 +71,7 @@ async function main() {
     rs.forEach(r => { const o = {}; h.forEach((k, i) => o[k] = r[i]); prior[o.id] = o; });
   }
   const { items } = await fetchCatalog();
+  const setsByPhoto = await fetchActiveSets();
   fs.mkdirSync(IMG_DIR, { recursive: true });
   const local = new Set();
   for (const it of items) if (await ensureImage(it)) local.add(it.id);
@@ -101,6 +112,11 @@ async function main() {
         item_group_id: String(it.id),
         color: bw ? 'Black & White' : 'Color',
         size: s.label,
+        product_type: productType(it),
+        internal_label: labelList([
+          ...(setsByPhoto[String(it.id)] || []).filter(x => (x.family === 'framed') === !!s.framed).map(x => `set:${x.name}`),
+          `country:${it.country || ''}`, `place:${it.place || ''}`, `finish:${s.framed ? 'framed' : 'paper'}`,
+        ]),
       });
     }
   }
@@ -108,7 +124,7 @@ async function main() {
   // catalog title (Meta's checkout test flags a mismatch as "product name was incorrect").
   fs.writeFileSync('catalog-titles.json', JSON.stringify(Object.fromEntries(rows.map(r => [r.id, r.title]))));
   write('pinterest-catalog.csv', ['id','title','description','link','image_link','price','availability','google_product_category','brand','item_group_id','condition','color'], rows);
-  write('meta-catalog.csv', ['id','title','description','availability','condition','price','link','image_link','brand','google_product_category','item_group_id','color','size'], rows);
+  write('meta-catalog.csv', ['id','title','description','availability','condition','price','link','image_link','brand','google_product_category','product_type','item_group_id','color','size','internal_label'], rows);
   write('tiktok-catalog.csv', ['sku_id','title','description','availability','condition','price','currency','link','image_link','brand','google_product_category','item_group_id'],
     rows.map(r => ({ ...r, sku_id: r.id, price: r.priceNum, currency: 'USD' })));
   console.log(`feeds: ${items.length} photos, ${rows.length} rows (pinterest/meta/tiktok), ${local.size} images on site CDN`);
