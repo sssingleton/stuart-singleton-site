@@ -86,10 +86,11 @@ async function main() {
     if (!copy) noCopy.push(it.id);
     const paper = it.offeredSizes.filter(s => s.material === 'paper');
     const anyFramed = it.offeredSizes.some(s => s.framed);
-    const anyCanvas = it.offeredSizes.some(s => s.material === 'canvas' || s.material === 'float');
-    const extras = [anyFramed && 'framed', anyCanvas && 'canvas'].filter(Boolean).join(' and ');
     const range = paper.length > 1 ? `${sizeTxt(paper[0])} to ${sizeTxt(paper[paper.length - 1])}` : (paper.length ? sizeTxt(paper[0]) : '');
-    const printLine = `Fine art photograph by Nashville photographer Stuart Singleton. Giclée print on archival paper${range ? `, ${range}` : ''}${extras ? `, ${extras} options available` : ''}. Printed on demand, free shipping.`;
+    // Paper + framed rows keep the exact pre-canvas wording, so adding canvas doesn't rewrite
+    // (and send back to Meta review) every approved item. Canvas rows get their own line.
+    const printLine = `Fine art photograph by Nashville photographer Stuart Singleton. Giclée print on archival paper${range ? `, ${range}` : ''}${anyFramed ? ', framed options available' : ''}. Printed on demand, free shipping.`;
+    const canvasLine = m => `Fine art photograph by Nashville photographer Stuart Singleton. ${m === 'float' ? 'Gallery-wrapped canvas in a wood float frame' : 'Gallery-wrapped canvas on a 1.5 inch stretcher bar'}, mirrored edges, ready to hang. Printed on demand, free shipping.`;
     const tags = it.tags.map(t => t.trim().toLowerCase());
     const bw = tags.some(t => t.includes('black'));
     const subj = tags.filter(t => !SKIP.has(t)).map(t => t.replace(/\b\w/g, c => c.toUpperCase()));
@@ -102,7 +103,7 @@ async function main() {
       rows.push({
         id,
         title: copy ? copy.title.slice(0, 150) : old?.title || `${name}${bw ? ' in Black & White' : ''} — ${size}`.slice(0, 150),
-        description: copy ? `${copy.blurb} ${printLine}` : old?.description || `Original fine-art photograph by Nashville-based photographer Stuart Singleton${it.camera === 'fujifilm-xt5' ? ', shot on a Fujifilm X-T5' : ''}. ${it.sentence.replace(/ No\. \d+$/, '').replace(/,? by Stuart Singleton$/, '')}${bw ? ', in black and white' : ''}. ${s.material === 'canvas' ? 'Gallery-wrapped canvas print, ready to hang' : s.material === 'float' ? 'Canvas print in a float frame, ready to hang' : `Museum-quality giclée print on archival fine-art paper${s.framed ? ', framed' : ''}`}. Printed on demand, free shipping.`,
+        description: copy ? `${copy.blurb} ${s.material === 'canvas' || s.material === 'float' ? canvasLine(s.material) : printLine}` : old?.description || `Original fine-art photograph by Nashville-based photographer Stuart Singleton${it.camera === 'fujifilm-xt5' ? ', shot on a Fujifilm X-T5' : ''}. ${it.sentence.replace(/ No\. \d+$/, '').replace(/,? by Stuart Singleton$/, '')}${bw ? ', in black and white' : ''}. ${s.material === 'canvas' ? 'Gallery-wrapped canvas print, ready to hang' : s.material === 'float' ? 'Canvas print in a float frame, ready to hang' : `Museum-quality giclée print on archival fine-art paper${s.framed ? ', framed' : ''}`}. Printed on demand, free shipping.`,
         link: it.printPage,
         image_link: image,
         priceNum: s.priceUSD.toFixed(2),
