@@ -27,7 +27,7 @@ async function main() {
     url: `${SITE}/catalog.json`,
     shop: `${SITE}/shop`,
     currency: 'USD',
-    priceModel: 'All-in pricing with free worldwide shipping. Unframed prints $29 to $115. Framed prints $119 to $245. A size is offered only when the photo has enough resolution to print it sharply at 200 DPI without cropping.',
+    priceModel: 'All-in pricing with free shipping to most countries. Unframed prints $29 to $115. Framed prints $119 to $245. Canvas $89 to $219, float framed canvas $139 to $319. A size is offered only when the photo has enough resolution to print it sharply without cropping (200 DPI for paper and framed, 150 DPI for canvas).',
     generatedAt,
     count: items.length,
     products: items.map(it => ({

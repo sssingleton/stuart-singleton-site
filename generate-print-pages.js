@@ -58,7 +58,7 @@ function jsonLd(item) {
     availability: `https://schema.org/${item.availability}`,
     offers: item.offeredSizes.map(s => ({
       '@type': 'Offer',
-      name: `${item.title} fine art print, ${s.label}${s.framed ? ' framed' : ''}`,
+      name: `${item.title} ${s.material === 'canvas' ? 'canvas print' : s.material === 'float' ? 'float framed canvas print' : 'fine art print'}, ${s.label}${s.framed && !/framed/i.test(s.label) ? ' framed' : ''}`,
       sku: s.sku,
       price: s.priceUSD.toFixed(2),
       priceCurrency: 'USD',
@@ -137,7 +137,7 @@ function sizesTable(item) {
     return `<p class="muted">This photo is not offered in standard sizes yet. Use the button below to request it as a print.</p>`;
   }
   const rows = item.offeredSizes.map(s =>
-    `      <tr><td>${esc(s.label)}</td><td>${s.framed ? 'Framed fine art print' : 'Fine art print'}</td><td>$${s.priceUSD.toFixed(0)}</td></tr>`
+    `      <tr><td>${esc(s.label)}</td><td>${s.material === 'canvas' ? 'Gallery-wrapped canvas' : s.material === 'float' ? 'Float framed canvas' : s.framed ? 'Framed fine art print' : 'Fine art print'}</td><td>$${s.priceUSD.toFixed(0)}</td></tr>`
   ).join('\n');
   return `<table class="sizes">
       <caption class="sr">Available print sizes and prices</caption>
@@ -375,9 +375,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 // popular tags for keyword-rich H2s, with a FAQ + FAQPage JSON-LD.
 const FAQ = [
   ['How are the prints made?',
-   'Every print is a giclee print on archival fine art paper, produced on demand by a professional print lab and shipped free to 35 countries across North America, the UK, Europe, Australia, New Zealand and Japan. Framed options use a classic frame with the print mounted behind motheye glaze.'],
+   'Every print is a giclee print on archival fine art paper, produced on demand by a professional print lab and shipped free to 35 countries across North America, the UK, Europe, Australia, New Zealand and Japan. Framed options use a classic frame with the print mounted behind motheye glaze. Canvas prints are gallery-wrapped on a 1.5 inch stretcher bar with mirrored edges, on their own or in a float frame.'],
   ['How much do prints cost?',
-   'Unframed fine art prints run from $29 to $115 depending on size. Framed prints are $119 for 8x12 inches and $245 for 16x24 inches. All prices are in USD and include shipping to every country on the list (35 countries; framed prints ship to the US, UK and Europe).'],
+   'Unframed fine art prints run from $29 to $115 depending on size. Framed prints are $119 for 8x12 inches and $245 for 16x24 inches. Canvas prints run from $89 to $219, and float framed canvas from $139 to $319. All prices are in USD and include shipping to most countries on the list; framed and canvas pieces add a courier fee for a few farther destinations, shown before checkout.'],
   ['Why do some photos offer fewer sizes?',
    'A size is offered only when the photo has enough resolution to print sharply at a 200 DPI floor, and only at the photo’s native aspect ratio so the image is never cropped. Larger sizes appear as full-resolution files are added.'],
   ['How do I buy a print?',

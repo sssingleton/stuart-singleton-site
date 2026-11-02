@@ -23,7 +23,7 @@ function parse(){
   return raw.split(',').map(function(s){return s.trim();}).filter(Boolean).map(function(entry){
     var i=entry.lastIndexOf(':'); var id=i>0?entry.slice(0,i):entry; var qty=i>0?parseInt(entry.slice(i+1),10):1;
     var m=id.match(/^(\d+)-(.+)$/); if(!m) return null;
-    var sku='GLOBAL-'+m[2].toUpperCase(); var framed=sku.indexOf('GLOBAL-CFPM')===0;
+    var sku='GLOBAL-'+m[2].toUpperCase(); var framed=sku.indexOf('GLOBAL-CFPM')===0||sku.indexOf('GLOBAL-FRA-CAN')===0;
     return {photoId:parseInt(m[1],10),sku:sku,frameColor:framed?'black':null,variant:'print-master',copies:Math.max(1,Math.min(20,qty||1)),cid:id};
   }).filter(Boolean);
 }

@@ -1027,6 +1027,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .pv-frame.framed.fc-white   { border-color: #f3f1ec; }
   .pv-frame.framed.fc-natural { border-color: #b8966a; }
   .pv-frame.paper { border: 1px solid #e2dfd7; background: #fff; padding: 0; }
+  /* canvas: no frame, the print wraps a 1.5" bar, so show depth instead of a border */
+  .pv-frame.canvas { border: 0; padding: 0; background: #fff; box-shadow: 5px 6px 0 rgba(0,0,0,.16), 0 10px 24px rgba(0,0,0,.22); }
+  /* float canvas: thin frame, dark gap, canvas floating inside it */
+  .pv-frame.float { border-style: solid; border-width: 7px; padding: 7px; background: #1e1e1e; }
+  .pv-frame.float img { box-shadow: 3px 3px 0 rgba(0,0,0,.35); }
+  .pv-frame.float.fc-black   { border-color: #15161a; }
+  .pv-frame.float.fc-white   { border-color: #f3f1ec; }
+  .pv-frame.float.fc-natural { border-color: #b8966a; }
+  .print-mat-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .print-mat-btn {
+    border: 1px solid #d8d5cd; background: #fff;
+    font-family: var(--mono); font-size: 9px; letter-spacing: .12em;
+    color: #6a655c; padding: 8px 12px; cursor: none;
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .print-mat-btn.selected { border-color: #1a1a1a; color: #1a1a1a; background: #f6f5f2; }
+  .print-mat-btn:hover { border-color: #b3aea3; color: #1a1a1a; }
+  .print-mat-desc { font-size: 9px; color: #908b82; letter-spacing: .04em; line-height: 1.6; margin-top: 8px; }
   .pv-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .pv-caption { font-family: var(--mono); font-size: 8px; letter-spacing: .14em; color: #b0aaa0; text-transform: uppercase; text-align: center; margin-top: 12px; }
   .pv-mockup-img { max-width: 88%; max-height: 300px; display: block; box-shadow: 0 8px 22px rgba(0,0,0,.14); }
@@ -1955,25 +1973,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="pv-caption" id="print-preview-caption">select a size to preview your print</div>
     <div class="print-modal-body">
+      <!-- material (paper / framed / canvas / float canvas), shown when a photo offers more than one -->
+      <div id="print-material-section" style="display:none">
+        <span class="print-label">Material</span>
+        <div class="print-mat-row" id="print-material-row"></div>
+        <div class="print-mat-desc" id="print-material-desc"></div>
+      </div>
       <!-- size selector -->
       <div>
-        <span class="print-label">Size + Format</span>
+        <span class="print-label">Size</span>
         <div id="print-size-grid" class="print-size-grid"></div>
       </div>
       <!-- frame color (hidden for FAP) -->
       <div id="print-frame-section" style="display:none">
-        <span class="print-label">Frame Color</span>
+        <span class="print-label" id="print-frame-label">Frame Color</span>
         <div class="print-frame-row">
           <button class="print-frame-btn selected" data-color="black" onclick="selectFrame(this)">Black</button>
           <button class="print-frame-btn" data-color="white" onclick="selectFrame(this)">White</button>
           <button class="print-frame-btn" data-color="natural" onclick="selectFrame(this)">Natural</button>
         </div>
-        <p class="ship-limit-note">
-          Framed prints ship across the US, UK and Europe, but not to Canada, Australia,
-          New Zealand, Japan or Iceland — couriers charge more to fly a frame there than
-          the frame is worth. One of those and you really want one?
+        <p class="ship-limit-note" id="framed-ship-note">
+          Framed prints ship free to the US and most of Europe. Other countries add an express
+          courier fee, shown below before you check out. Somewhere not listed?
           <button type="button" onclick="askAboutShipping('framed')" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Message me</button>
-          and I'll work it out with you. Unframed prints ship to every country listed at checkout.
+          and I'll work it out with you.
         </p>
       </div>
       <div class="ship-status" id="print-ship-status"></div>
@@ -3747,7 +3770,7 @@ var _set = { set: null, photos: [], picked: {}, sku: null };
 function setPhotoSizes(p) {
   var w = p.masterW || p.img_w || 0, h = p.masterH || p.img_h || 0;
   var longest = Math.max(w, h), shortest = Math.min(w, h);
-  return sizesForPhoto(longest, shortest ? longest / shortest : 0).filter(function (s) { return !s.framed; });
+  return sizesForPhoto(longest, shortest ? longest / shortest : 0).filter(function (s) { return sizeMaterial(s) === 'paper'; });
 }
 function setPickedPhotos() { return _set.photos.filter(function (p) { return _set.picked[p.id]; }); }
 // Every paper size ANY photo in the set can be printed at, in catalogue order. This list is
@@ -7408,6 +7431,34 @@ const PRINT_SIZES = [
   { sku: 'GLOBAL-FAP-6X8',    label: '6×8"',   price: 2900,  framed: false, shortIn: 6,  longIn: 8,  ratio: 4/3 },
   { sku: 'GLOBAL-FAP-9X12',   label: '9×12"',  price: 4500,  framed: false, shortIn: 9,  longIn: 12, ratio: 4/3 },
   { sku: 'GLOBAL-FAP-12X16',  label: '12×16"', price: 5900,  framed: false, shortIn: 12, longIn: 16, ratio: 4/3 },
+  // Canvas (2026-11-02). Prodigi GLOBAL-CAN-* = stretched canvas on a 38mm (1.5") bar, MirrorWrap
+  // edges; GLOBAL-FRA-CAN-* = the same canvas in a float frame (black/white/natural). Canvas
+  // texture hides fine detail, so the floor is 150 DPI (min_dpi in print_products, which the
+  // checkout gate reads). Prices + ship-free countries live in print_products; mirror prices here.
+  { sku: 'GLOBAL-CAN-8X12',      label: '8×12" Canvas',        price: 8900,  framed: false, material: 'canvas', shortIn: 8,  longIn: 12, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-CAN-12X18',     label: '12×18" Canvas',       price: 11900, framed: false, material: 'canvas', shortIn: 12, longIn: 18, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-CAN-16X24',     label: '16×24" Canvas',       price: 14900, framed: false, material: 'canvas', shortIn: 16, longIn: 24, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-CAN-20X30',     label: '20×30" Canvas',       price: 17900, framed: false, material: 'canvas', shortIn: 20, longIn: 30, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-CAN-24X36',     label: '24×36" Canvas',       price: 21900, framed: false, material: 'canvas', shortIn: 24, longIn: 36, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-FRA-CAN-8X12',  label: '8×12" Float Canvas',  price: 13900, framed: false, material: 'float',  shortIn: 8,  longIn: 12, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-FRA-CAN-12X18', label: '12×18" Float Canvas', price: 17900, framed: false, material: 'float',  shortIn: 12, longIn: 18, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-FRA-CAN-16X24', label: '16×24" Float Canvas', price: 21900, framed: false, material: 'float',  shortIn: 16, longIn: 24, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-FRA-CAN-24X36', label: '24×36" Float Canvas', price: 31900, framed: false, material: 'float',  shortIn: 24, longIn: 36, ratio: 1.5, minDpi: 150 },
+];
+// paper | framed | canvas | float. Paper is the only material with bulk discounts and a
+// white-border finish; framed + float take a frame colour.
+function sizeMaterial(s) { return (s && s.material) || (s && s.framed ? 'framed' : 'paper'); }
+function skuMaterial(sku) {
+  var u = String(sku || '').toUpperCase();
+  return u.indexOf('GLOBAL-FRA-CAN') === 0 ? 'float' : u.indexOf('GLOBAL-CAN') === 0 ? 'canvas'
+    : u.indexOf('GLOBAL-CFPM') === 0 ? 'framed' : 'paper';
+}
+function materialTakesColor(m) { return m === 'framed' || m === 'float'; }
+var PRINT_MATERIALS = [
+  { id: 'paper',  name: 'Paper',        desc: 'Archival matte fine-art paper, unframed. Ready for a frame of your own.' },
+  { id: 'framed', name: 'Framed',       desc: 'Classic wood frame, white mat, anti-glare glazing. Arrives ready to hang.' },
+  { id: 'canvas', name: 'Canvas',       desc: 'Gallery-wrapped canvas on a 1.5" stretcher bar, mirrored edges so none of the photo is lost. Ready to hang, no frame needed.' },
+  { id: 'float',  name: 'Float canvas', desc: 'The same canvas set inside a thin wood float frame, with a small gap all round. Ready to hang.' },
 ];
 
 // Minimum print quality floor. A size is offered only if the photo's long edge
@@ -7424,13 +7475,16 @@ const RATIO_TOLERANCE = 0.06;
 // photo's aspect ratio (so nothing is ever cropped).
 function sizesForPhoto(longestPx, photoRatio) {
   return PRINT_SIZES.filter(s => {
-    const fitsRes = !longestPx || longestPx >= s.longIn * MIN_PRINT_DPI;
+    const fitsRes = !longestPx || longestPx >= s.longIn * (s.minDpi || MIN_PRINT_DPI);
     const fitsRatio = !photoRatio || Math.abs(s.ratio - photoRatio) <= RATIO_TOLERANCE;
     return fitsRes && fitsRatio;
   });
 }
 
 let _printPhotoId = null;
+let _printMaterial = null;   // material picked in the buy window (remembered across photos)
+let _printFeasible = [];     // every size this photo can print, all materials
+let _printSizeNote = '';
 let _printSku = null;
 let _printFrameColor = 'black';
 let _printPriceCents = 0;
@@ -7509,14 +7563,28 @@ var SHIP_V2 = (function () {
 })();
 if (SHIP_V2) { try { document.documentElement.classList.add('ship-v2'); document.addEventListener('DOMContentLoaded', function () { document.body.classList.add('ship-v2'); }); if (document.body) document.body.classList.add('ship-v2'); } catch (e) {} }
 var SHIP_FEES = null, _shipFeesPromise = null;
+// Ship-free countries PER SKU, from print_products.countries (the same list checkout enforces).
+// Loaded with the fee table. Before it arrives, or if it fails, the old per-type lists are used.
+var PRODUCT_SHIP = null;
 function loadShipFees() {
   if (SHIP_FEES) return Promise.resolve(SHIP_FEES);
   if (_shipFeesPromise) return _shipFeesPromise;
-  _shipFeesPromise = fetch(SUPA_URL + '/rest/v1/shipping_surcharges?select=country,sku,fee_cents', { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } })
+  var hdr = { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } };
+  var prod = fetch(SUPA_URL + '/rest/v1/print_products?select=sku,countries&active=eq.true', hdr)
     .then(function (r) { return r.ok ? r.json() : []; })
-    .then(function (rows) { var m = {}; (rows || []).forEach(function (r) { (m[r.country] = m[r.country] || {})[String(r.sku).toUpperCase()] = r.fee_cents; }); SHIP_FEES = m; return m; })
-    .catch(function () { SHIP_FEES = {}; return SHIP_FEES; });
+    .then(function (rows) { var m = {}; (rows || []).forEach(function (r) { if (r.countries && r.countries.length) m[String(r.sku).toUpperCase()] = r.countries; }); PRODUCT_SHIP = m; })
+    .catch(function () {});
+  var fees = fetch(SUPA_URL + '/rest/v1/shipping_surcharges?select=country,sku,fee_cents', hdr)
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (rows) { var m = {}; (rows || []).forEach(function (r) { (m[r.country] = m[r.country] || {})[String(r.sku).toUpperCase()] = r.fee_cents; }); return m; })
+    .catch(function () { return {}; });
+  _shipFeesPromise = Promise.all([fees, prod]).then(function (res) { SHIP_FEES = res[0]; return SHIP_FEES; });
   return _shipFeesPromise;
+}
+function shipFreeList(sku) {
+  var u = String(sku || '').toUpperCase();
+  if (PRODUCT_SHIP && PRODUCT_SHIP[u]) return PRODUCT_SHIP[u];
+  return skuMaterial(u) === 'paper' ? SHIP_PAPER : SHIP_FRAMED;
 }
 if (SHIP_V2) { try { loadShipFees().then(function () { try { if (document.getElementById('cart-modal').classList.contains('open')) renderCart(); } catch (e) {} }); } catch (e) {} }
 var _shipDestPicked = null;
@@ -7525,7 +7593,7 @@ function shipDest() { return _shipDestPicked || (window._ssGeo && window._ssGeo.
 function shipIsFramed(sku) { return String(sku || '').toUpperCase().indexOf('GLOBAL-CFPM') === 0; }
 // 0 = ships free, n = fee in cents per copy, -1 = can't ship there yet
 function shipItemFee(cc, sku) {
-  if ((shipIsFramed(sku) ? SHIP_FRAMED : SHIP_PAPER).indexOf(cc) !== -1) return 0;
+  if (shipFreeList(sku).indexOf(cc) !== -1) return 0;
   var f = SHIP_FEES && SHIP_FEES[cc] ? SHIP_FEES[cc][String(sku || '').toUpperCase()] : undefined;
   return (f === undefined || f === null) ? -1 : f;
 }
@@ -7612,7 +7680,7 @@ function renderShipStatusV2(el, elId, photoId, safari) {
     }
     if (q.fee > 0) {
       el.className = 'ship-status warn';
-      el.innerHTML = 'Ship to ' + sel + ' · +' + cartMoney(q.fee) + ' express courier shipping (frames fly there by courier)' + safari;
+      el.innerHTML = 'Ship to ' + sel + ' · +' + cartMoney(q.fee) + ' express courier shipping (this piece goes there by courier)' + safari;
       if (!_shipFeeLogged[key]) { _shipFeeLogged[key] = 1; try { ssTrack('ship_fee', { id: photoId, m: { country: cc, cents: q.fee } }); } catch (e) {} }
       return;
     }
@@ -7694,8 +7762,10 @@ function openPrintModal(photoId) {
   document.getElementById('print-checkout-btn').disabled = true;
   { const _ac = document.getElementById('print-addcart-btn'); if (_ac) { _ac.disabled = true; _ac.textContent = 'Add to Cart'; } }
 
-  // Reset frame section
+  // Reset frame + material sections (the material choice itself is remembered across photos)
   document.getElementById('print-frame-section').style.display = 'none';
+  { const _ms = document.getElementById('print-material-section'); if (_ms) _ms.style.display = 'none'; }
+  _printFeasible = [];
   document.querySelectorAll('.print-frame-btn').forEach(b => {
     b.classList.toggle('selected', b.dataset.color === 'black');
   });
@@ -7755,18 +7825,50 @@ function sharePrintPhoto(btn) {
 
 function buildSizeGrid(sizes, note) {
   const grid = document.getElementById('print-size-grid');
+  const matSec = document.getElementById('print-material-section');
   if (!sizes.length) {
+    if (matSec) matSec.style.display = 'none';
     grid.innerHTML = '<div class="print-measuring">This photo isn’t available as a print at the moment — its resolution is below our print-quality floor. Use “Request a larger version”.</div>';
     return;
   }
+  _printFeasible = sizes;
+  _printSizeNote = note || '';
+  const mats = PRINT_MATERIALS.filter(m => sizes.some(s => sizeMaterial(s) === m.id));
+  if (!mats.some(m => m.id === _printMaterial)) _printMaterial = mats[0].id;
+  if (matSec) {
+    matSec.style.display = mats.length > 1 ? 'block' : 'none';
+    document.getElementById('print-material-row').innerHTML = mats.map(m =>
+      `<button class="print-mat-btn${m.id === _printMaterial ? ' selected' : ''}" data-material="${m.id}" onclick="selectMaterial(this.dataset.material)">${m.name}</button>`).join('');
+    const md = PRINT_MATERIALS.find(m => m.id === _printMaterial);
+    document.getElementById('print-material-desc').textContent = md ? md.desc : '';
+  }
+  renderMaterialSizes();
+}
+
+function selectMaterial(id) {
+  if (id === _printMaterial) return;
+  _printMaterial = id;
+  try { ssTrack('material_pick', { id: _printPhotoId, m: { material: id } }); } catch (e) {}
+  buildSizeGrid(_printFeasible, _printSizeNote);
+}
+
+// Sizes for the chosen material. Labels drop the material word (the row above already says it).
+// Keeps the previously chosen size if the new material has it; else the cheapest is preselected.
+function renderMaterialSizes() {
+  const grid = document.getElementById('print-size-grid');
+  const sizes = _printFeasible.filter(s => sizeMaterial(s) === _printMaterial);
+  const prevDims = (PRINT_SIZES.find(s => s.sku === _printSku) || {});
   grid.innerHTML = sizes.map(s => {
     const dollars = (s.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
-    return `<button class="print-size-btn" data-sku="${s.sku}" data-price="${s.price}" data-framed="${s.framed}" data-short="${s.shortIn}" data-long="${s.longIn}" onclick="selectSize(this)">
-      <span class="ps-size">${s.label}</span>
+    const shortLabel = s.label.replace(/\s+(Framed|Float Canvas|Canvas)$/i, '');
+    return `<button class="print-size-btn" data-sku="${s.sku}" data-price="${s.price}" data-framed="${s.framed}" data-material="${sizeMaterial(s)}" data-short="${s.shortIn}" data-long="${s.longIn}" onclick="selectSize(this)">
+      <span class="ps-size">${shortLabel}</span>
       <span class="ps-price">${dollars}</span>
     </button>`;
-  }).join('') + (note ? `<div class="print-size-note">${note}</div>` : '');
-  addHover('.print-size-btn,.print-frame-btn,.print-checkout-btn');
+  }).join('') + (_printSizeNote ? `<div class="print-size-note">${_printSizeNote}</div>` : '');
+  addHover('.print-size-btn,.print-frame-btn,.print-mat-btn,.print-checkout-btn');
+  const same = prevDims.shortIn ? [...grid.querySelectorAll('.print-size-btn')].find(b => +b.dataset.short === prevDims.shortIn && +b.dataset.long === prevDims.longIn) : null;
+  if (same) { selectSize(same); return; }
   // Pre-select the smallest (cheapest) size. Buy It Now / Add to Cart start
   // disabled and only selectSize() enables them, so with nothing selected a
   // first-time visitor clicked a real-looking BUY IT NOW button and got total
@@ -7853,6 +7955,7 @@ function renderPrintPreview() {
   }
 
   const framed = !!(size && size.framed);
+  const mat = size ? sizeMaterial(size) : 'paper';
 
   // If this is a framed size AND a hand-made wall mockup exists for the chosen
   // frame colour, show that photo-real room shot instead of the CSS frame.
@@ -7865,18 +7968,20 @@ function renderPrintPreview() {
     }
   }
 
-  const fc = framed ? ` fc-${_printFrameColor}` : '';
+  const fc = materialTakesColor(mat) ? ` fc-${_printFrameColor}` : '';
   // White-border variant: inset the image inside a white mat so the buyer sees
   // the border in the preview. ~5% padding mirrors the 4%-of-long-edge print border.
-  const bordered = !framed && _printVariant === 'bordered';
+  const bordered = mat === 'paper' && _printVariant === 'bordered';
   const imgStyle = bordered
     ? 'style="display:block;width:100%;height:100%;padding:5%;background:#fff;object-fit:contain"'
     : '';
-  stage.innerHTML = `<div id="print-preview-frame" class="pv-frame ${framed ? 'framed' : 'paper'}${fc}" style="aspect-ratio:${arW}/${arH}">
+  stage.innerHTML = `<div id="print-preview-frame" class="pv-frame ${mat}${fc}" style="aspect-ratio:${arW}/${arH}">
       <img id="print-preview-img" src="${_printPhotoSrc}" alt="" ${imgStyle}>
     </div>`;
-  const finishLabel = framed
+  const finishLabel = mat === 'framed'
     ? ` · ${_printFrameColor} frame`
+    : mat === 'float' ? ` · ${_printFrameColor} float frame`
+    : mat === 'canvas' ? ' · mirrored edges'
     : (bordered ? ' · fine-art paper · white border' : ' · fine-art paper');
   caption.textContent = size
     ? `${size.label}${finishLabel} · actual proportions, no crop`
@@ -7899,7 +8004,7 @@ async function checkBorderedVariant(photoId) {
     if (String(_printPhotoId) !== String(photoId)) return;
     _printHasBordered = true;
     const sec = document.getElementById('print-border-section');
-    if (sec) sec.style.display = 'block';
+    if (sec) sec.style.display = (!_printSku || skuMaterial(_printSku) === 'paper') ? 'block' : 'none';
     addHover('.print-border-btn');
   } catch (_) { /* leave toggle hidden */ }
 }
@@ -7997,7 +8102,12 @@ function selectSize(btn) {
   _printSku = btn.dataset.sku;
   _printPriceCents = parseInt(btn.dataset.price, 10);
   const isFramed = btn.dataset.framed === 'true';
-  document.getElementById('print-frame-section').style.display = isFramed ? 'block' : 'none';
+  const mat = btn.dataset.material || skuMaterial(_printSku);
+  document.getElementById('print-frame-section').style.display = materialTakesColor(mat) ? 'block' : 'none';
+  { const lbl = document.getElementById('print-frame-label'); if (lbl) lbl.textContent = mat === 'float' ? 'Float Frame Color' : 'Frame Color'; }
+  { const fn = document.getElementById('framed-ship-note'); if (fn) fn.style.display = mat === 'framed' ? '' : 'none'; }
+  // White border is a paper finish only.
+  { const bs = document.getElementById('print-border-section'); if (bs) bs.style.display = (mat === 'paper' && _printHasBordered) ? 'block' : 'none'; }
   try { renderShipStatus('print-ship-status', isFramed, _printPhotoId); } catch (e) {}
   document.getElementById('print-checkout-btn').disabled = false;
   { const _ac = document.getElementById('print-addcart-btn'); if (_ac) { _ac.disabled = false; _ac.textContent = 'Add to Cart'; } }
@@ -8049,8 +8159,10 @@ async function submitPrintOrder() {
       body: JSON.stringify({
         photoId: _printPhotoId,
         sku: _printSku,
-        frameColor: _printFrameColor,
-        variant: _printVariant, // 'print-master' (full bleed) or 'bordered'
+        // Frame colour only for materials that have a frame (it used to be sent for paper too,
+        // which put "black frame" on paper lines in Stripe).
+        frameColor: materialTakesColor(skuMaterial(_printSku)) ? _printFrameColor : null,
+        variant: skuMaterial(_printSku) === 'paper' ? _printVariant : 'print-master', // 'print-master' (full bleed) or 'bordered'
         copies,
         destination: shipDestForCheckout([{ sku: _printSku, copies }]),
         successUrl: `${window.location.origin}/print-success`,
@@ -8092,12 +8204,14 @@ function cartSubtotalCents() { return CART.reduce(function (s, it) { return s + 
 var BULK_TIERS = [[10, 25], [5, 20], [3, 15]];
 function bulkPct(n) { for (var i = 0; i < BULK_TIERS.length; i++) if (n >= BULK_TIERS[i][0]) return BULK_TIERS[i][1]; return 0; }
 function cartIsFramed(it) { return String(it.sku || '').toUpperCase().indexOf('GLOBAL-CFPM') === 0; }
-function cartPaperCount() { return CART.reduce(function (n, it) { return n + (cartIsFramed(it) ? 0 : (it.copies || 1)); }, 0); }
+// Bulk tiers are paper only (create-checkout-session v37): framed, canvas and float never discount.
+function cartIsPaper(it) { return skuMaterial(it.sku) === 'paper'; }
+function cartPaperCount() { return CART.reduce(function (n, it) { return n + (cartIsPaper(it) ? (it.copies || 1) : 0); }, 0); }
 function cartTotalCents() {
   var pct = bulkPct(cartPaperCount());
   return CART.reduce(function (s, it) {
     var unit = it.priceCents || 0;
-    if (pct && !cartIsFramed(it)) unit = Math.round(unit * (100 - pct) / 100);
+    if (pct && cartIsPaper(it)) unit = Math.round(unit * (100 - pct) / 100);
     return s + unit * (it.copies || 1);
   }, 0);
 }
@@ -8133,12 +8247,12 @@ function addToCart(btn) {
   try { ssTrack('add_to_cart', { id: _printPhotoId, m: { sku: _printSku, cents: _printPriceCents } }); } catch (e) {}
   var copies = parseInt(document.getElementById('print-copies').value || 1, 10);
   var size = (typeof PRINT_SIZES !== 'undefined') ? PRINT_SIZES.find(function (s) { return s.sku === _printSku; }) : null;
-  var isFramed = _printSku.toUpperCase().indexOf('GLOBAL-CFPM') === 0;
+  var mat = skuMaterial(_printSku);
   var item = {
     photoId: _printPhotoId,
     sku: _printSku,
-    frameColor: isFramed ? _printFrameColor : null,
-    variant: _printVariant || 'print-master',
+    frameColor: materialTakesColor(mat) ? _printFrameColor : null,
+    variant: mat === 'paper' ? (_printVariant || 'print-master') : 'print-master',
     copies: copies,
     priceCents: _printPriceCents,
     sizeLabel: size ? size.label : _printSku,

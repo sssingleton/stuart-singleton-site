@@ -14,7 +14,7 @@
  * photo's tags to change its name; the /print/<slug> URL is built from the tags.
  * Meta feed also carries the mr.manager Print Sets, so Commerce Manager product sets (and the
  * Instagram Shop collections built from them) can mirror the site's sets:
- *   internal_label  ['set:<Set Name>','country:<Country>','place:<Place>','finish:paper|framed']
+ *   internal_label  ['set:<Set Name>','country:<Country>','place:<Place>','finish:paper|framed|canvas|float']
  *                   (Meta's recommended filter field; editing it never sends items back to review)
  *   product_type    Fine Art Prints > <Country> > <Region/Place>
  * A set's family (paper / framed) decides which size rows get its label.
@@ -84,10 +84,12 @@ async function main() {
   for (const it of items) {
     const copy = it.hasCopy ? { title: it.title, blurb: `${it.sentence}.` } : COPY[String(it.id)];
     if (!copy) noCopy.push(it.id);
-    const paper = it.offeredSizes.filter(s => !s.framed);
+    const paper = it.offeredSizes.filter(s => s.material === 'paper');
     const anyFramed = it.offeredSizes.some(s => s.framed);
+    const anyCanvas = it.offeredSizes.some(s => s.material === 'canvas' || s.material === 'float');
+    const extras = [anyFramed && 'framed', anyCanvas && 'canvas'].filter(Boolean).join(' and ');
     const range = paper.length > 1 ? `${sizeTxt(paper[0])} to ${sizeTxt(paper[paper.length - 1])}` : (paper.length ? sizeTxt(paper[0]) : '');
-    const printLine = `Fine art photograph by Nashville photographer Stuart Singleton. Giclée print on archival paper${range ? `, ${range}` : ''}${anyFramed ? ', framed options available' : ''}. Printed on demand, free shipping.`;
+    const printLine = `Fine art photograph by Nashville photographer Stuart Singleton. Giclée print on archival paper${range ? `, ${range}` : ''}${extras ? `, ${extras} options available` : ''}. Printed on demand, free shipping.`;
     const tags = it.tags.map(t => t.trim().toLowerCase());
     const bw = tags.some(t => t.includes('black'));
     const subj = tags.filter(t => !SKIP.has(t)).map(t => t.replace(/\b\w/g, c => c.toUpperCase()));
@@ -100,7 +102,7 @@ async function main() {
       rows.push({
         id,
         title: copy ? copy.title.slice(0, 150) : old?.title || `${name}${bw ? ' in Black & White' : ''} — ${size}`.slice(0, 150),
-        description: copy ? `${copy.blurb} ${printLine}` : old?.description || `Original fine-art photograph by Nashville-based photographer Stuart Singleton${it.camera === 'fujifilm-xt5' ? ', shot on a Fujifilm X-T5' : ''}. ${it.sentence.replace(/ No\. \d+$/, '').replace(/,? by Stuart Singleton$/, '')}${bw ? ', in black and white' : ''}. Museum-quality giclée print on archival fine-art paper${s.framed ? ', framed' : ''}. Printed on demand, free shipping.`,
+        description: copy ? `${copy.blurb} ${printLine}` : old?.description || `Original fine-art photograph by Nashville-based photographer Stuart Singleton${it.camera === 'fujifilm-xt5' ? ', shot on a Fujifilm X-T5' : ''}. ${it.sentence.replace(/ No\. \d+$/, '').replace(/,? by Stuart Singleton$/, '')}${bw ? ', in black and white' : ''}. ${s.material === 'canvas' ? 'Gallery-wrapped canvas print, ready to hang' : s.material === 'float' ? 'Canvas print in a float frame, ready to hang' : `Museum-quality giclée print on archival fine-art paper${s.framed ? ', framed' : ''}`}. Printed on demand, free shipping.`,
         link: it.printPage,
         image_link: image,
         priceNum: s.priceUSD.toFixed(2),
@@ -114,8 +116,8 @@ async function main() {
         size: s.label,
         product_type: productType(it),
         internal_label: labelList([
-          ...(setsByPhoto[String(it.id)] || []).filter(x => (x.family === 'framed') === !!s.framed).map(x => `set:${x.name}`),
-          `country:${it.country || ''}`, `place:${it.place || ''}`, `finish:${s.framed ? 'framed' : 'paper'}`,
+          ...(setsByPhoto[String(it.id)] || []).filter(x => (x.family || 'paper') === s.material).map(x => `set:${x.name}`),
+          `country:${it.country || ''}`, `place:${it.place || ''}`, `finish:${s.material}`,
         ]),
       });
     }

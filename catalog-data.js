@@ -39,13 +39,25 @@ const PRINT_SIZES = [
   { sku: 'GLOBAL-FAP-6X8',         label: '6x8"',         price: 2900,  framed: false, shortIn: 6,  longIn: 8,  ratio: 4/3 },
   { sku: 'GLOBAL-FAP-9X12',        label: '9x12"',        price: 4500,  framed: false, shortIn: 9,  longIn: 12, ratio: 4/3 },
   { sku: 'GLOBAL-FAP-12X16',       label: '12x16"',       price: 5900,  framed: false, shortIn: 12, longIn: 16, ratio: 4/3 },
+  // Canvas (2026-11-02): 150 DPI floor, same as print_products.min_dpi and the checkout gate.
+  { sku: 'GLOBAL-CAN-8X12',      label: '8x12" Canvas',        price: 8900,  framed: false, material: 'canvas', shortIn: 8,  longIn: 12, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-CAN-12X18',     label: '12x18" Canvas',       price: 11900, framed: false, material: 'canvas', shortIn: 12, longIn: 18, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-CAN-16X24',     label: '16x24" Canvas',       price: 14900, framed: false, material: 'canvas', shortIn: 16, longIn: 24, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-CAN-20X30',     label: '20x30" Canvas',       price: 17900, framed: false, material: 'canvas', shortIn: 20, longIn: 30, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-CAN-24X36',     label: '24x36" Canvas',       price: 21900, framed: false, material: 'canvas', shortIn: 24, longIn: 36, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-FRA-CAN-8X12',  label: '8x12" Float Canvas',  price: 13900, framed: false, material: 'float',  shortIn: 8,  longIn: 12, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-FRA-CAN-12X18', label: '12x18" Float Canvas', price: 17900, framed: false, material: 'float',  shortIn: 12, longIn: 18, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-FRA-CAN-16X24', label: '16x24" Float Canvas', price: 21900, framed: false, material: 'float',  shortIn: 16, longIn: 24, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-FRA-CAN-24X36', label: '24x36" Float Canvas', price: 31900, framed: false, material: 'float',  shortIn: 24, longIn: 36, ratio: 1.5, minDpi: 150 },
 ];
+// paper | framed | canvas | float
+const sizeMaterial = s => s.material || (s.framed ? 'framed' : 'paper');
 const MIN_PRINT_DPI = 200;
 const RATIO_TOLERANCE = 0.06;
 
 function sizesForPhoto(longestPx, photoRatio) {
   return PRINT_SIZES.filter(s => {
-    const fitsRes = !longestPx || longestPx >= s.longIn * MIN_PRINT_DPI;
+    const fitsRes = !longestPx || longestPx >= s.longIn * (s.minDpi || MIN_PRINT_DPI);
     const fitsRatio = !photoRatio || Math.abs(s.ratio - photoRatio) <= RATIO_TOLERANCE;
     return fitsRes && fitsRatio;
   });
@@ -253,7 +265,7 @@ async function fetchCatalog() {
       pixelHeight: dims ? dims.h : null,
       aspectRatio: dims ? `${dims.w}:${dims.h}` : null,
       aspectRatioDecimal: ratio ? Number(ratio.toFixed(4)) : null,
-      offeredSizes: offered.map(s => ({ sku: s.sku, label: s.label.replace(/"/g, 'in'), framed: s.framed, priceUSD: +(s.price / 100).toFixed(2) })),
+      offeredSizes: offered.map(s => ({ sku: s.sku, label: s.label.replace(/"/g, 'in'), framed: s.framed, material: sizeMaterial(s), priceUSD: +(s.price / 100).toFixed(2) })),
       priceRangeUSD: priceRange ? { min: +(priceRange.min / 100).toFixed(2), max: +(priceRange.max / 100).toFixed(2) } : null,
       availability: offered.length ? 'InStock' : 'PreOrder',
       printReady: offered.length > 0,
@@ -350,7 +362,7 @@ async function fetchActiveSets() {
 }
 
 module.exports = {
-  fetchCatalog, fetchActiveSets, PRINT_SIZES, MIN_PRINT_DPI, RATIO_TOLERANCE, sizesForPhoto,
+  fetchCatalog, fetchActiveSets, PRINT_SIZES, MIN_PRINT_DPI, RATIO_TOLERANCE, sizesForPhoto, sizeMaterial,
   slugForPhoto, titleForPhoto, describePhoto, classifyTags, renderURL, SITE,
 };
 
