@@ -1026,7 +1026,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .pv-frame.framed.fc-black   { border-color: #15161a; }
   .pv-frame.framed.fc-white   { border-color: #f3f1ec; }
   .pv-frame.framed.fc-natural { border-color: #b8966a; }
-  .pv-frame.paper { border: 1px solid #e2dfd7; background: #fff; padding: 0; }
+  .pv-frame.paper, .pv-frame.poster { border: 1px solid #e2dfd7; background: #fff; padding: 0; }
   /* canvas: no frame, the print wraps a 1.5" bar, so show depth instead of a border */
   .pv-frame.canvas { border: 0; padding: 0; background: #fff; box-shadow: 5px 6px 0 rgba(0,0,0,.16), 0 10px 24px rgba(0,0,0,.22); }
   /* float canvas: thin frame, dark gap, canvas floating inside it */
@@ -7444,6 +7444,11 @@ const PRINT_SIZES = [
   { sku: 'GLOBAL-FRA-CAN-12X18', label: '12×18" Float Canvas', price: 17900, framed: false, material: 'float',  shortIn: 12, longIn: 18, ratio: 1.5, minDpi: 150 },
   { sku: 'GLOBAL-FRA-CAN-16X24', label: '16×24" Float Canvas', price: 21900, framed: false, material: 'float',  shortIn: 16, longIn: 24, ratio: 1.5, minDpi: 150 },
   { sku: 'GLOBAL-FRA-CAN-24X36', label: '24×36" Float Canvas', price: 31900, framed: false, material: 'float',  shortIn: 24, longIn: 36, ratio: 1.5, minDpi: 150 },
+  // Posters (2026-11-03). Prodigi GLOBAL-BLP-* = 170gsm silk poster paper, a lighter, cheaper
+  // tier than the 200gsm matte fine-art paper. 3:2 only, 150 DPI like canvas. No bulk discount.
+  { sku: 'GLOBAL-BLP-8X12',      label: '8×12" Poster',        price: 3500,  framed: false, material: 'poster', shortIn: 8,  longIn: 12, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-BLP-12X18',     label: '12×18" Poster',       price: 3900,  framed: false, material: 'poster', shortIn: 12, longIn: 18, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-BLP-16X24',     label: '16×24" Poster',       price: 4500,  framed: false, material: 'poster', shortIn: 16, longIn: 24, ratio: 1.5, minDpi: 150 },
 ];
 // paper | framed | canvas | float. Paper is the only material with bulk discounts and a
 // white-border finish; framed + float take a frame colour.
@@ -7451,6 +7456,7 @@ function sizeMaterial(s) { return (s && s.material) || (s && s.framed ? 'framed'
 function skuMaterial(sku) {
   var u = String(sku || '').toUpperCase();
   return u.indexOf('GLOBAL-FRA-CAN') === 0 ? 'float' : u.indexOf('GLOBAL-CAN') === 0 ? 'canvas'
+    : u.indexOf('GLOBAL-BLP') === 0 ? 'poster'
     : u.indexOf('GLOBAL-CFPM') === 0 ? 'framed' : 'paper';
 }
 function materialTakesColor(m) { return m === 'framed' || m === 'float'; }
@@ -7459,6 +7465,7 @@ var PRINT_MATERIALS = [
   { id: 'framed', name: 'Framed',       desc: 'Classic wood frame, white mat, anti-glare glazing. Arrives ready to hang.' },
   { id: 'canvas', name: 'Canvas',       desc: 'Gallery-wrapped canvas on a 1.5" stretcher bar, mirrored edges so none of the photo is lost. Ready to hang, no frame needed.' },
   { id: 'float',  name: 'Float canvas', desc: 'The same canvas set inside a thin wood float frame, with a small gap all round. Ready to hang.' },
+  { id: 'poster', name: 'Poster',       desc: 'Lightweight 170gsm satin poster paper. The budget option, unframed. For heirloom quality, pick Paper.' },
 ];
 
 // Minimum print quality floor. A size is offered only if the photo's long edge
@@ -7860,7 +7867,7 @@ function renderMaterialSizes() {
   const prevDims = (PRINT_SIZES.find(s => s.sku === _printSku) || {});
   grid.innerHTML = sizes.map(s => {
     const dollars = (s.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
-    const shortLabel = s.label.replace(/\s+(Framed|Float Canvas|Canvas)$/i, '');
+    const shortLabel = s.label.replace(/\s+(Framed|Float Canvas|Canvas|Poster)$/i, '');
     return `<button class="print-size-btn" data-sku="${s.sku}" data-price="${s.price}" data-framed="${s.framed}" data-material="${sizeMaterial(s)}" data-short="${s.shortIn}" data-long="${s.longIn}" onclick="selectSize(this)">
       <span class="ps-size">${shortLabel}</span>
       <span class="ps-price">${dollars}</span>
@@ -7982,6 +7989,7 @@ function renderPrintPreview() {
     ? ` · ${_printFrameColor} frame`
     : mat === 'float' ? ` · ${_printFrameColor} float frame`
     : mat === 'canvas' ? ' · mirrored edges'
+    : mat === 'poster' ? ' · satin poster paper'
     : (bordered ? ' · fine-art paper · white border' : ' · fine-art paper');
   caption.textContent = size
     ? `${size.label}${finishLabel} · actual proportions, no crop`

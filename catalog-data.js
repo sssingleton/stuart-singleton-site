@@ -49,8 +49,12 @@ const PRINT_SIZES = [
   { sku: 'GLOBAL-FRA-CAN-12X18', label: '12x18" Float Canvas', price: 17900, framed: false, material: 'float',  shortIn: 12, longIn: 18, ratio: 1.5, minDpi: 150 },
   { sku: 'GLOBAL-FRA-CAN-16X24', label: '16x24" Float Canvas', price: 21900, framed: false, material: 'float',  shortIn: 16, longIn: 24, ratio: 1.5, minDpi: 150 },
   { sku: 'GLOBAL-FRA-CAN-24X36', label: '24x36" Float Canvas', price: 31900, framed: false, material: 'float',  shortIn: 24, longIn: 36, ratio: 1.5, minDpi: 150 },
+  // Posters (2026-11-03): 170gsm silk, 150 DPI.
+  { sku: 'GLOBAL-BLP-8X12',      label: '8x12" Poster',        price: 3500,  framed: false, material: 'poster', shortIn: 8,  longIn: 12, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-BLP-12X18',     label: '12x18" Poster',       price: 3900,  framed: false, material: 'poster', shortIn: 12, longIn: 18, ratio: 1.5, minDpi: 150 },
+  { sku: 'GLOBAL-BLP-16X24',     label: '16x24" Poster',       price: 4500,  framed: false, material: 'poster', shortIn: 16, longIn: 24, ratio: 1.5, minDpi: 150 },
 ];
-// paper | framed | canvas | float
+// paper | framed | canvas | float | poster
 const sizeMaterial = s => s.material || (s.framed ? 'framed' : 'paper');
 const MIN_PRINT_DPI = 200;
 const RATIO_TOLERANCE = 0.06;

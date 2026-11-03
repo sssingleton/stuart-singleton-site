@@ -14,7 +14,7 @@
  * photo's tags to change its name; the /print/<slug> URL is built from the tags.
  * Meta feed also carries the mr.manager Print Sets, so Commerce Manager product sets (and the
  * Instagram Shop collections built from them) can mirror the site's sets:
- *   internal_label  ['set:<Set Name>','country:<Country>','place:<Place>','finish:paper|framed|canvas|float']
+ *   internal_label  ['set:<Set Name>','country:<Country>','place:<Place>','finish:paper|framed|canvas|float|poster']
  *                   (Meta's recommended filter field; editing it never sends items back to review)
  *   product_type    Fine Art Prints > <Country> > <Region/Place>
  * A set's family (paper / framed) decides which size rows get its label.
@@ -90,6 +90,7 @@ async function main() {
     // Paper + framed rows keep the exact pre-canvas wording, so adding canvas doesn't rewrite
     // (and send back to Meta review) every approved item. Canvas rows get their own line.
     const printLine = `Fine art photograph by Nashville photographer Stuart Singleton. Giclée print on archival paper${range ? `, ${range}` : ''}${anyFramed ? ', framed options available' : ''}. Printed on demand, free shipping.`;
+    const posterLine = 'Fine art photograph by Nashville photographer Stuart Singleton. Poster print on 170gsm satin poster paper, unframed. Printed on demand, free shipping.';
     const canvasLine = m => `Fine art photograph by Nashville photographer Stuart Singleton. ${m === 'float' ? 'Gallery-wrapped canvas in a wood float frame' : 'Gallery-wrapped canvas on a 1.5 inch stretcher bar'}, mirrored edges, ready to hang. Printed on demand, free shipping.`;
     const tags = it.tags.map(t => t.trim().toLowerCase());
     const bw = tags.some(t => t.includes('black'));
@@ -103,7 +104,7 @@ async function main() {
       rows.push({
         id,
         title: copy ? copy.title.slice(0, 150) : old?.title || `${name}${bw ? ' in Black & White' : ''} — ${size}`.slice(0, 150),
-        description: copy ? `${copy.blurb} ${s.material === 'canvas' || s.material === 'float' ? canvasLine(s.material) : printLine}` : old?.description || `Original fine-art photograph by Nashville-based photographer Stuart Singleton${it.camera === 'fujifilm-xt5' ? ', shot on a Fujifilm X-T5' : ''}. ${it.sentence.replace(/ No\. \d+$/, '').replace(/,? by Stuart Singleton$/, '')}${bw ? ', in black and white' : ''}. ${s.material === 'canvas' ? 'Gallery-wrapped canvas print, ready to hang' : s.material === 'float' ? 'Canvas print in a float frame, ready to hang' : `Museum-quality giclée print on archival fine-art paper${s.framed ? ', framed' : ''}`}. Printed on demand, free shipping.`,
+        description: copy ? `${copy.blurb} ${s.material === 'canvas' || s.material === 'float' ? canvasLine(s.material) : s.material === 'poster' ? posterLine : printLine}` : old?.description || `Original fine-art photograph by Nashville-based photographer Stuart Singleton${it.camera === 'fujifilm-xt5' ? ', shot on a Fujifilm X-T5' : ''}. ${it.sentence.replace(/ No\. \d+$/, '').replace(/,? by Stuart Singleton$/, '')}${bw ? ', in black and white' : ''}. ${s.material === 'canvas' ? 'Gallery-wrapped canvas print, ready to hang' : s.material === 'float' ? 'Canvas print in a float frame, ready to hang' : s.material === 'poster' ? 'Poster print on satin poster paper, unframed' : `Museum-quality giclée print on archival fine-art paper${s.framed ? ', framed' : ''}`}. Printed on demand, free shipping.`,
         link: it.printPage,
         image_link: image,
         priceNum: s.priceUSD.toFixed(2),
