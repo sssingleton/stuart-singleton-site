@@ -3199,7 +3199,9 @@ function stackGallerySets(list) {
     if (members.length < 2) return;
     members.sort((a, b) => pos.get(a) - pos.get(b));
     const photos = members.map(id => list[pos.get(id)]);
-    const st = { stack: true, id: 'set-' + set.slug, set, photos, cover: photos[0] };
+    // Cover = the photo picked in mr.manager (print_sets.cover_photo_id) if it's showing, else the first one.
+    const cover = photos.find(p => set.cover_photo_id != null && String(p.id) === String(set.cover_photo_id)) || photos[0];
+    const st = { stack: true, id: 'set-' + set.slug, set, photos, cover };
     members.forEach(id => owner.set(id, st));
     stacks.push(st);
   });
@@ -3213,7 +3215,7 @@ function stackGallerySets(list) {
   return out;
 }
 function stackItemHTML(st) {
-  const c = st.cover, b1 = st.photos[1], b2 = st.photos[2] || st.photos[1];
+  const c = st.cover, rest = st.photos.filter(p => p !== c), b1 = rest[0], b2 = rest[1] || rest[0];
   const ar = (c.img_w && c.img_h) ? (c.img_w + ' / ' + c.img_h) : '3 / 2';
   const img = (p, cls) => `<img class="${cls}" src="${thumbURL(p.src, 300, 62)}" srcset="${thumbSrcset(p.src, [200, 300, 480, 760])}" sizes="(max-width:600px) 46vw, 240px" alt="" loading="lazy" decoding="async" data-pid="${p.id}" onerror="thumbRetry(this)">`;
   return `<div class="photo-item stack-item" data-set="${gxEsc(st.set.slug)}" onclick="openStack('${gxEsc(st.set.slug)}', this)" role="button" aria-label="${gxEsc(st.set.name)}, ${st.photos.length} photos">
@@ -3718,7 +3720,7 @@ function loadShopSets() {
   SHOP_SETS = [];
   var _res; SHOP_SETS_P = new Promise(function (r) { _res = r; });
   try {
-    sb.from('print_sets').select('name,slug,photo_ids,family,sort,created_at,active').order('sort', { ascending: true }).order('created_at', { ascending: false })
+    sb.from('print_sets').select('name,slug,photo_ids,family,sort,created_at,active,cover_photo_id').order('sort', { ascending: true }).order('created_at', { ascending: false })
       .then(function (r) {
         SHOP_SETS_DONE = true;
         setTimeout(_res, 0);
@@ -3745,6 +3747,8 @@ function shopSetsHTML() {
     if (set.family !== 'paper') return;           // framed sets are not sold as a pick-your-own set yet
     var photos = setPhotos(set);
     if (photos.length < SET_MIN) return;          // sets of 2 never show
+    var ci = photos.findIndex(function (p) { return set.cover_photo_id != null && String(p.id) === String(set.cover_photo_id); });
+    if (ci > 0) photos = [photos[ci]].concat(photos.slice(0, ci), photos.slice(ci + 1)); // cover photo leads the card
     var show = photos.slice(0, 4), extra = photos.length - show.length;
     var imgs = show.map(function (p, i) {
       var more = (extra > 0 && i === show.length - 1) ? '<span class="shop-set-more">+' + extra + '</span>' : '';
@@ -5736,13 +5740,34 @@ function setsSetFamily(f) {
   setsState.family = f;
   document.querySelectorAll('[data-setfam]').forEach(function (b) { b.classList.toggle('active', b.dataset.setfam === f); });
 }
-function setsThumbs(ids, byId) {
-  return ids.map(function (id) {
+// coverId: the set's cover (gets a gold ring + "cover" label; with no pick, the first photo is
+// the cover and is marked dimmer). pick: JS called with the photo id when a thumb is clicked.
+function setsThumbs(ids, byId, coverId, pick) {
+  var eff = (coverId != null && ids.some(function (x) { return String(x) === String(coverId); })) ? coverId : null;
+  return ids.map(function (id, i) {
     var p = byId[id];
     if (!p) return '<div style="width:60px;height:60px;border:1px solid #522;color:#b55;font-size:9px;display:flex;align-items:center;justify-content:center;">#' + id + '?</div>';
     var warn = !p.for_sale ? 'not for sale' : (p.hidden ? 'hidden' : '');
-    return '<div style="position:relative;width:60px;" title="#' + id + ' ' + bulkEsc(p.tags || '') + '"><img src="' + thumbURL(p.src || '', 120, 60) + '" style="width:60px;height:60px;object-fit:cover;display:block;' + (warn ? 'outline:1px solid #b55;' : '') + '"><div style="font-size:8px;color:' + (warn ? '#b55' : '#555') + ';">#' + id + (warn ? ' ' + warn : '') + '</div></div>';
+    var isCover = eff != null ? String(id) === String(eff) : (pick && i === 0);
+    var ring = warn ? 'outline:1px solid #b55;' : (isCover ? 'outline:2px solid ' + (eff != null ? '#d4b24c' : '#555') + ';outline-offset:1px;' : '');
+    var click = pick ? ' onclick="' + pick + '(' + id + ')" style="position:relative;width:60px;cursor:pointer;"' : ' style="position:relative;width:60px;"';
+    var tip = '#' + id + ' ' + bulkEsc(p.tags || '') + (pick ? ' · click to make this the cover' : '');
+    var label = isCover && !warn ? ' <span style="color:' + (eff != null ? '#d4b24c' : '#555') + ';">cover</span>' : '';
+    return '<div' + click + ' title="' + tip + '"><img src="' + thumbURL(p.src || '', 120, 60) + '" style="width:60px;height:60px;object-fit:cover;display:block;' + ring + '"><div style="font-size:8px;color:' + (warn ? '#b55' : '#555') + ';">#' + id + (warn ? ' ' + warn : '') + label + '</div></div>';
   }).join('');
+}
+// Form preview: clicking a thumb picks the cover for Save / Update set.
+function setsPickCover(id) {
+  setsState.cover = (String(setsState.cover) === String(id)) ? null : id;
+  setsPreview();
+}
+// Saved sets list: clicking a thumb sets that set's cover right away.
+async function setsSetCover(setId, photoId) {
+  var s = (setsState.sets || []).find(function (x) { return x.id === setId; }); if (!s) return;
+  var r = await sb.from('print_sets').update({ cover_photo_id: photoId, updated_at: new Date().toISOString() }).eq('id', setId);
+  if (r.error) return setsSay('could not set cover: ' + r.error.message, true);
+  setsSay('cover for "' + s.name + '" is now #' + photoId + (s.active ? ' · live now' : ''));
+  loadSets();
 }
 async function setsFetchPhotos(ids) {
   if (!ids.length) return {};
@@ -5761,13 +5786,13 @@ async function setsPreview() {
     // Inside a run (444-450), a deleted / not-for-sale / hidden photo is skipped, not an error.
     var skipped = parsed.filter(function (id) { return parsed.ranged[id] && bad(id); });
     var ids = parsed.filter(function (id) { return skipped.indexOf(id) < 0; });
-    box.innerHTML = setsThumbs(ids, byId);
+    box.innerHTML = setsThumbs(ids, byId, setsState.cover, 'setsPickCover');
     var missing = ids.filter(function (id) { return !byId[id]; });
     var unsellable = ids.filter(function (id) { return byId[id] && (!byId[id].for_sale || byId[id].hidden); });
     var skipNote = skipped.length ? ' · skipped ' + skipped.map(function (id) { return '#' + id + (!byId[id] ? ' gone' : byId[id].hidden ? ' hidden' : ' not for sale'); }).join(', ') : '';
     if (missing.length) setsSay('no photo with ID ' + missing.join(', ') + skipNote, true);
     else if (unsellable.length) setsSay('not for sale or hidden: ' + unsellable.join(', ') + skipNote, true);
-    else setsSay((ids.length ? ids.length + ' photos' : '') + skipNote);
+    else setsSay((ids.length ? ids.length + ' photos · tap a photo to make it the cover' : '') + skipNote);
     return { ids: ids, missing: missing, unsellable: unsellable };
   } catch (e) { setsSay('could not look up photos: ' + (e.message || e), true); return null; }
 }
@@ -5781,21 +5806,22 @@ async function setsSave() {
   if (chk.unsellable.length) return setsSay('not for sale or hidden: ' + chk.unsellable.join(', '), true);
   var slug = setsSlug(name);
   if (!slug) return setsSay('name needs letters or numbers', true);
+  var cover = (setsState.cover != null && chk.ids.some(function (x) { return String(x) === String(setsState.cover); })) ? Number(setsState.cover) : null;
   if (setsState.editing) {
     // Editing keeps the set's slug, so /sets/<slug> links already shared keep working
     // even if the name changes. On/off state is left as it was.
     var ed = setsState.editing;
-    var u = await sb.from('print_sets').update({ name: name, photo_ids: chk.ids, family: setsState.family, updated_at: new Date().toISOString() }).eq('id', ed.id);
+    var u = await sb.from('print_sets').update({ name: name, photo_ids: chk.ids, family: setsState.family, cover_photo_id: cover, updated_at: new Date().toISOString() }).eq('id', ed.id);
     if (u.error) return setsSay('update failed: ' + u.error.message, true);
     setsCancelEdit(true);
     setsSay('updated "' + name + '" (' + chk.ids.length + ' photos)' + (ed.active ? ' · live now' : ' · still off'));
     loadSets();
     return;
   }
-  var r = await sb.from('print_sets').insert({ name: name, slug: slug, photo_ids: chk.ids, family: setsState.family, active: false });
+  var r = await sb.from('print_sets').insert({ name: name, slug: slug, photo_ids: chk.ids, family: setsState.family, cover_photo_id: cover, active: false });
   if (r.error) return setsSay(r.error.code === '23505' ? 'a set with that name already exists' : 'save failed: ' + r.error.message, true);
   document.getElementById('sets-name').value = ''; document.getElementById('sets-ids').value = '';
-  document.getElementById('sets-preview').innerHTML = '';
+  document.getElementById('sets-preview').innerHTML = ''; setsState.cover = null;
   setsSay('saved "' + name + '" (off until you switch it on)');
   loadSets();
 }
@@ -5816,7 +5842,7 @@ async function loadSets() {
           '<button class="admin-edit-btn" onclick="setsEdit(\'' + s.id + '\')">edit</button>' +
           '<button class="admin-edit-btn" onclick="setsLoadForEdit(\'' + s.id + '\')">copy ids</button>' +
           '<button class="admin-edit-btn" data-armed="0" onclick="setsDelete(this,\'' + s.id + '\')">delete</button>' +
-        '</div><div style="display:flex;gap:6px;flex-wrap:wrap;">' + setsThumbs(s.photo_ids || [], byId) + '</div></div>';
+        '</div><div style="display:flex;gap:6px;flex-wrap:wrap;">' + setsThumbs(s.photo_ids || [], byId, s.cover_photo_id, 'setsSetCover.bind(null,\'' + s.id + '\')') + '</div></div>';
     }).join('');
     setsState.sets = sets;
   } catch (e) { list.innerHTML = '<div style="font-size:9px;color:#b55">could not load sets: ' + bulkEsc(e.message || e) + '</div>'; }
@@ -5835,6 +5861,7 @@ function setsLoadForEdit(id) {
 function setsEdit(id) {
   var s = (setsState.sets || []).find(function (x) { return x.id === id; }); if (!s) return;
   setsState.editing = { id: s.id, active: !!s.active };
+  setsState.cover = s.cover_photo_id != null ? s.cover_photo_id : null;
   document.getElementById('sets-name').value = s.name || '';
   document.getElementById('sets-ids').value = (s.photo_ids || []).join(', ');
   setsSetFamily(s.family || 'paper');
@@ -5844,7 +5871,7 @@ function setsEdit(id) {
   var sec = document.getElementById('sets-section'); if (sec) sec.scrollIntoView({ block: 'start', behavior: 'smooth' });
 }
 function setsCancelEdit(quiet) {
-  setsState.editing = null;
+  setsState.editing = null; setsState.cover = null;
   var btn = document.getElementById('sets-save-btn'); if (btn) { btn.textContent = 'Save set'; btn.style.marginLeft = 'auto'; }
   var c = document.getElementById('sets-cancel'); if (c) c.style.display = 'none';
   document.getElementById('sets-name').value = ''; document.getElementById('sets-ids').value = '';
