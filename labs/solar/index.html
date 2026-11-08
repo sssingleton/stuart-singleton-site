@@ -59,28 +59,25 @@
   :root{
     --paper:#eeebe3; --ink:#151317; --mute:#6d6870; --rule:#cfc9bd;
     --mag:#e0177e; --mag-soft:rgba(224,23,126,.55);
-    --night:#14101a; --gold:#c9a55c; --gold-dim:rgba(201,165,92,.38);
+    --gold:#c9a55c;
     --mono:'Share Tech Mono',monospace; --serif:'Cormorant Garamond',serif; --type:'Courier Prime',monospace;
     --pad:clamp(18px,4.5vw,56px);
   }
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--paper);color:var(--ink)}
   body{font-family:var(--mono);-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
-  /* paper grain */
-  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.33;mix-blend-mode:multiply;
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.3;mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .42 0 0 0 0 .38 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
   a{color:inherit}
   .wrap{max-width:1240px;margin:0 auto;padding:18px var(--pad) 40px;position:relative}
 
-  /* nav */
-  .nav{display:flex;justify-content:space-between;gap:16px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding-bottom:10px}
+  .nav{display:flex;justify-content:space-between;gap:16px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding-bottom:6px}
   .nav a{text-decoration:none}.nav a:hover{color:var(--mag)}
   .nav .crumb span{color:var(--rule);margin:0 .5em}
 
-  /* masthead: scattered serif caps */
-  .mast{position:relative;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;margin:6px 0 0;user-select:none}
-  .mast .L{font-family:var(--serif);font-weight:400;font-size:clamp(64px,13vw,176px);line-height:.8;text-align:center;
-    text-shadow:2px 1px 0 var(--mag-soft);display:block}
+  /* masthead */
+  .mast{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;margin:4px 0 0;user-select:none}
+  .mast .L{font-family:var(--serif);font-weight:400;font-size:clamp(56px,10.5vw,148px);line-height:.8;text-align:center;text-shadow:2px 1px 0 var(--mag-soft);display:block}
   .mast .L:nth-child(1){transform:rotate(-14deg) translateY(4%)}
   .mast .L:nth-child(2){transform:rotate(6deg) translateY(-6%)}
   .mast .L:nth-child(3){transform:rotate(-4deg) translateY(10%)}
@@ -88,131 +85,146 @@
   .mast .L:nth-child(5){transform:rotate(-9deg) translateY(6%)}
   .mast-sub{display:grid;grid-template-columns:repeat(13,1fr);font-size:10px;letter-spacing:.1em;color:var(--mag);text-align:center;margin:8px 0 0}
   .mast-sub i{font-style:normal}
-  .ornament{display:block;width:100%;height:30px;margin:6px 0 4px}
+  .ornament{display:block;width:100%;height:26px;margin:4px 0 0}
+  .lede{font-family:var(--serif);font-size:clamp(18px,2vw,23px);line-height:1.3;margin:14px 0 30px;max-width:780px}
+  .lede em{color:var(--mag)}
 
-  /* intro row */
-  .intro{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(20px,4vw,56px);align-items:start;margin:10px 0 26px}
-  .intro p{font-family:var(--serif);font-size:clamp(19px,2.1vw,25px);line-height:1.25;margin:0}
-  .intro p em{color:var(--mag);font-style:italic}
-  .program{font-size:10.5px;line-height:1.75;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);columns:2;column-gap:24px}
-  .program b{color:var(--mag);font-weight:400}
-  .program div{break-inside:avoid;margin-bottom:6px}
+  /* step headers */
+  .step{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:7px;margin:0 0 14px}
+  .step .n{font-family:var(--type);font-weight:700;font-size:22px;color:var(--mag);line-height:1}
+  .step .t{font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+  .step .s{margin-left:auto;font-size:10px;letter-spacing:.06em;color:var(--mute);text-align:right}
 
-  /* stage */
-  .stage{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(300px,380px);gap:clamp(14px,2.4vw,30px);align-items:start;position:relative}
-  .vcols{display:flex;gap:10px;height:100%;padding-top:4px}
-  .vcol{writing-mode:vertical-rl;font-size:12px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;line-height:1}
-  .vcol .k{color:var(--mag)}
-  .vcol.big{font-family:var(--type);font-size:15px;letter-spacing:.12em}
+  /* row 1: viewer + result */
+  .row1{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,1fr);gap:clamp(18px,3vw,40px);align-items:start}
+  .viewer{position:relative;width:100%;aspect-ratio:3/2;background:#e6e2d8;border:1.5px dashed var(--ink);cursor:pointer;overflow:hidden;user-select:none;touch-action:pan-y}
+  .viewer.dragging{border-color:var(--mag);background:#f3dce8}
+  .viewer.loaded{border-style:solid;cursor:ew-resize;background:#0f0d12}
+  .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:20px}
+  .empty .ringwrap{position:relative;width:min(300px,60%);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
+  .empty .ringwrap svg{position:absolute;inset:-6%;width:112%;height:112%}
+  .empty .big{font-family:var(--serif);font-size:clamp(30px,4vw,48px);line-height:.95;position:relative}
+  .empty .big i{display:block;font-size:.55em;color:var(--mag)}
+  .empty .fmt{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+  .empty .btnlike{display:inline-block;margin-top:2px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--ink);padding:9px 16px;background:var(--paper)}
+  .viewer:hover .btnlike{background:var(--ink);color:var(--paper)}
+  .stagecv{position:absolute;inset:0;display:none}
+  .viewer.loaded .stagecv{display:block}
+  .viewer.loaded .empty{display:none}
+  .stagecv canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+  #cvAfter{clip-path:inset(0 0 0 50%)}
+  .divider{position:absolute;top:0;bottom:0;left:50%;width:0;border-left:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);pointer-events:none}
+  .divider::after{content:'◀ ▶';position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:#fff;color:var(--ink);font-size:9px;letter-spacing:.1em;padding:7px 8px;border-radius:20px;white-space:nowrap}
+  .tag{position:absolute;top:10px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;padding:5px 8px;background:rgba(21,19,23,.78);color:#fff;pointer-events:none}
+  .tag.l{left:10px}.tag.r{right:10px;background:var(--mag)}
+  .busy{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(238,235,227,.86);font-size:11px;letter-spacing:.2em;text-transform:uppercase;z-index:4}
+  .viewer.working .busy{display:flex}
+  .vcap{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:10px;letter-spacing:.08em;color:var(--mute);line-height:1.5}
+  .vcap .linkbtn{flex:none}
+  .note{font-size:9.5px;line-height:1.55;color:var(--mute);margin-top:4px;letter-spacing:.03em}
 
-  .panel{position:relative;aspect-ratio:1/1;background:radial-gradient(circle at 50% 46%,#2a2034 0%,#17121d 55%,#0c0910 100%);overflow:hidden;
-    box-shadow:0 1px 0 rgba(0,0,0,.05),0 24px 60px -30px rgba(20,10,30,.6)}
-  .panel svg.dial{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .panel::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .8 0 0 0 0 .7 0 0 0 0 .5 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
-  .ring{position:absolute;left:-9%;bottom:-8%;width:62%;pointer-events:none;z-index:3;opacity:.92}
-  .drop-hint{position:absolute;left:0;right:0;bottom:2.2%;text-align:center;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);opacity:.75;pointer-events:none;z-index:2}
-  .panel.dragging{outline:2px dashed var(--mag);outline-offset:-10px}
-
-  /* readout column */
-  .side{display:flex;flex-direction:column;gap:18px}
-  .readout{position:relative}
+  .result{display:flex;flex-direction:column;gap:14px}
   .readout svg{width:100%;height:auto;display:block;overflow:visible}
-  .phase{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--mag);margin:-4px 0 0}
+  .phase{font-family:var(--serif);font-style:italic;font-size:21px;color:var(--mag);margin:2px 0 0}
   .lr{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
   .lr div{padding:9px 0 8px}
   .lr div+div{border-left:1px solid var(--rule);padding-left:14px}
   .lr small{display:block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-  .lr b{font-family:var(--type);font-size:26px;font-weight:700;letter-spacing:.02em}
+  .lr b{font-family:var(--type);font-size:28px;font-weight:700}
 
-  .drop{display:block;border:1px dashed var(--ink);padding:16px 14px;text-align:center;cursor:pointer;font-size:11px;letter-spacing:.16em;text-transform:uppercase;transition:background .2s,color .2s}
-  .drop:hover,.drop.dragging{background:var(--ink);color:var(--paper)}
-  .drop small{display:block;margin-top:5px;font-size:9px;letter-spacing:.14em;color:var(--mute)}
-  .drop input{display:none}
-  .status{font-size:10px;letter-spacing:.08em;line-height:1.6;color:var(--mute);min-height:1.6em}
-  .status .warn{color:var(--mag)}
-
-  fieldset{border:0;margin:0;padding:0;display:grid;gap:12px}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  label.f{display:block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-  label.f input,label.f select{display:block;width:100%;margin-top:4px;background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;
-    font-family:var(--type);font-weight:700;font-size:15px;color:var(--ink);padding:4px 0 5px;outline:none}
-  label.f input:focus{border-color:var(--mag)}
-  .linkbtn{background:none;border:0;padding:0;font:inherit;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mag);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-  .seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink)}
-  .seg button{background:none;border:0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:9px 4px;cursor:pointer;color:var(--ink)}
-  .seg button+button{border-left:1px solid var(--ink)}
-  .seg button.on{background:var(--ink);color:var(--paper)}
-  .slider{display:grid;gap:6px}
+  .slider{display:grid;gap:5px}
   .slider .ends{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
   .slider .ends b{color:var(--ink);font-weight:400}
-  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;background:transparent;height:20px;margin:0}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;background:transparent;height:22px;margin:0}
   input[type=range]::-webkit-slider-runnable-track{height:1px;background:var(--ink)}
   input[type=range]::-moz-range-track{height:1px;background:var(--ink)}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--mag);margin-top:-6.5px;border:0}
-  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--mag);border:0}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--mag);margin-top:-7.5px;border:0}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--mag);border:0}
   .actions{display:grid;grid-template-columns:1fr auto;gap:10px}
   .btn{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:13px 14px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;text-align:center}
   .btn.ghost{background:transparent;color:var(--ink)}
   .btn:hover{background:var(--mag);border-color:var(--mag);color:#fff}
   .btn:disabled{opacity:.35;pointer-events:none}
-  .fine{font-size:9.5px;line-height:1.6;letter-spacing:.05em;color:var(--mute)}
+  .fine{font-size:9.5px;line-height:1.6;letter-spacing:.04em;color:var(--mute)}
+
+  /* row 2: dial + settings */
+  .row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(290px,1fr);gap:clamp(18px,3vw,40px);align-items:start;margin-top:46px}
+  .dialbox{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px}
+  .vcols{display:flex;gap:9px;padding-top:2px}
+  .vcol{writing-mode:vertical-rl;font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;white-space:nowrap;line-height:1}
+  .vcol .k{color:var(--mag)}
+  .vcol.big{font-family:var(--type);font-size:14px;letter-spacing:.1em}
+  .panel{position:relative;aspect-ratio:1/1;background:radial-gradient(circle at 50% 46%,#2a2034 0%,#17121d 55%,#0c0910 100%);overflow:hidden}
+  .panel svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .panel::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .8 0 0 0 0 .7 0 0 0 0 .5 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .dialcap{font-size:9.5px;letter-spacing:.06em;color:var(--mute);margin-top:7px;line-height:1.5}
+
+  .settings{display:grid;gap:26px}
+  .status{font-size:10.5px;letter-spacing:.05em;line-height:1.6;padding:9px 11px;border-left:3px solid var(--rule);background:rgba(255,255,255,.35)}
+  .status .warn{color:var(--mag)}
+  .status.warnbox{border-left-color:var(--mag)}
+  fieldset{border:0;margin:0;padding:0;display:grid;gap:12px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  label.f{display:block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+  label.f input{display:block;width:100%;margin-top:4px;background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;font-family:var(--type);font-weight:700;font-size:15px;color:var(--ink);padding:4px 0 5px;outline:none}
+  label.f input:focus{border-color:var(--mag)}
+  label.f input[readonly]{border-bottom-style:dotted;color:var(--mute)}
+  .linkbtn{background:none;border:0;padding:0;font:inherit;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mag);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  .seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink)}
+  .seg button{background:none;border:0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:10px 4px;cursor:pointer;color:var(--ink)}
+  .seg button+button{border-left:1px solid var(--ink)}
+  .seg button.on{background:var(--ink);color:var(--paper)}
 
   /* day strip */
-  .daywrap{margin:34px 0 0}
-  .dayhead{display:flex;justify-content:space-between;align-items:baseline;font-size:10px;letter-spacing:.22em;text-transform:uppercase;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:8px}
-  .dayhead em{font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;font-size:17px;color:var(--mag)}
+  .daywrap{margin:44px 0 0}
+  .daywrap em{font-family:var(--serif);font-style:italic;letter-spacing:0;font-size:16px;color:var(--mag)}
   svg.day{width:100%;height:auto;display:block;overflow:visible}
 
-  /* notes */
-  .notes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,36px);margin:42px 0 0;font-size:11px;line-height:1.7;letter-spacing:.03em}
-  .notes h3{font-family:var(--serif);font-weight:500;font-size:22px;margin:0 0 6px;letter-spacing:0}
+  .notes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,36px);margin:44px 0 0;font-size:11px;line-height:1.7;letter-spacing:.03em}
+  .notes h3{font-family:var(--serif);font-weight:500;font-size:22px;margin:0 0 6px}
   .notes h3 span{color:var(--mag);font-family:var(--mono);font-size:10px;letter-spacing:.2em;margin-right:8px;vertical-align:middle}
   .notes p{margin:0 0 8px;color:#3b373e}
 
-  .foot-mast{display:grid;grid-template-columns:repeat(6,1fr);align-items:center;margin:46px 0 0;user-select:none}
-  .foot-mast .L{font-family:var(--serif);font-size:clamp(54px,11vw,150px);line-height:.85;text-align:center;text-shadow:-2px 1px 0 var(--mag-soft)}
+  .foot-mast{display:grid;grid-template-columns:repeat(6,1fr);align-items:center;margin:44px 0 0;user-select:none}
+  .foot-mast .L{font-family:var(--serif);font-size:clamp(50px,10vw,136px);line-height:.85;text-align:center;text-shadow:-2px 1px 0 var(--mag-soft)}
   .foot-mast .L:nth-child(odd){transform:rotate(-8deg)}
   .foot-mast .L:nth-child(even){transform:rotate(7deg) translateY(8%)}
   .colophon{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;border-top:1px solid var(--ink);margin-top:14px;padding-top:8px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
   .colophon a{text-decoration:none}.colophon a:hover{color:var(--mag)}
 
-  @media (max-width:980px){
-    .stage{grid-template-columns:minmax(0,1fr)}
-    .vcols{order:3;flex-wrap:wrap;height:auto;gap:4px 18px}
-    .vcol{writing-mode:horizontal-tb}
-    .panel{order:1}.vcols{order:2}.side{order:3}
-    .intro{grid-template-columns:1fr}
+  @media (max-width:900px){
+    .row1,.row2{grid-template-columns:minmax(0,1fr)}
     .notes{grid-template-columns:1fr}
+    .viewer{aspect-ratio:4/3}
   }
   @media (max-width:560px){
     .nav > div:last-child{display:none}
-    .dayhead{flex-direction:column;gap:2px}
-    .program{columns:1}
     .mast-sub{font-size:8px}
-    .foot-mast{grid-template-columns:repeat(6,1fr)}
+    .dialbox{grid-template-columns:1fr}
+    .vcols{flex-wrap:wrap;gap:4px 16px;order:2}
+    .vcol{writing-mode:horizontal-tb}
+    .step .s{display:none}
   }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <!-- spray stencil: soft blur, speckled by thresholded grain -->
     <filter id="spray" x="-10%" y="-30%" width="120%" height="160%">
       <feTurbulence type="fractalNoise" baseFrequency="1.9" numOctaves="1" seed="7" result="grain"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="soft"/>
-      <feDisplacementMap in="soft" in2="grain" scale="5" xChannelSelector="R" yChannelSelector="G" result="disp"/>
-      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -3.2 2.35" result="mask"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="soft"/>
+      <feDisplacementMap in="soft" in2="grain" scale="4" xChannelSelector="R" yChannelSelector="G" result="disp"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -3 2.4" result="mask"/>
       <feComposite in="disp" in2="mask" operator="in"/>
     </filter>
     <filter id="sprayHeavy" x="-10%" y="-60%" width="120%" height="220%">
       <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="2" result="grain"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="soft"/>
-      <feDisplacementMap in="soft" in2="grain" scale="9" xChannelSelector="R" yChannelSelector="G" result="disp"/>
-      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -3 2.1" result="mask"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="soft"/>
+      <feDisplacementMap in="soft" in2="grain" scale="6" xChannelSelector="R" yChannelSelector="G" result="disp"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.6 2.2" result="mask"/>
       <feComposite in="disp" in2="mask" operator="in"/>
     </filter>
-    <!-- riso ink: rough edge + dropout grain -->
     <filter id="riso" x="-10%" y="-10%" width="120%" height="120%">
       <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="11" result="t"/>
       <feDisplacementMap in="SourceGraphic" in2="t" scale="7" xChannelSelector="R" yChannelSelector="G" result="d"/>
@@ -230,14 +242,11 @@
   </nav>
 
   <header>
-    <div class="mast" aria-label="Solar">
-      <span class="L">S</span><span class="L">O</span><span class="L">L</span><span class="L">A</span><span class="L">R</span>
-    </div>
+    <div class="mast" aria-label="Solar"><span class="L">S</span><span class="L">O</span><span class="L">L</span><span class="L">A</span><span class="L">R</span></div>
     <div class="mast-sub" aria-hidden="true"><i>W</i><i>H</i><i>I</i><i>T</i><i>E</i><i>·</i><i>B</i><i>A</i><i>L</i><i>A</i><i>N</i><i>C</i><i>E</i></div>
     <svg class="ornament" viewBox="0 0 1200 30" preserveAspectRatio="none" aria-hidden="true">
       <g filter="url(#riso)" fill="none" stroke="#e0177e" stroke-width="2.2">
-        <line x1="0" y1="15" x2="1200" y2="15"/>
-        <line x1="0" y1="10" x2="1200" y2="10" stroke-width="1"/>
+        <line x1="0" y1="15" x2="1200" y2="15"/><line x1="0" y1="10" x2="1200" y2="10" stroke-width="1"/>
         <ellipse cx="90" cy="15" rx="44" ry="9" fill="#eeebe3"/><ellipse cx="340" cy="15" rx="60" ry="9" fill="#eeebe3"/>
         <ellipse cx="610" cy="15" rx="26" ry="9" fill="#eeebe3"/><ellipse cx="840" cy="15" rx="70" ry="9" fill="#eeebe3"/>
         <ellipse cx="1080" cy="15" rx="38" ry="9" fill="#eeebe3"/>
@@ -245,65 +254,95 @@
         <circle cx="1170" cy="15" r="11" fill="#e0177e"/>
       </g>
     </svg>
+    <p class="lede">Drop a photo. Solar WB reads <em>when</em> and <em>where</em> it was shot, works out how high the sun was, and turns that light into a Lightroom white balance. Keep the golden hour, or clean it.</p>
   </header>
 
-  <section class="intro">
-    <p>Drop a photo. Solar WB reads <em>when</em> and <em>where</em> it was shot, works out how high the sun was, and turns the color of that light into a Lightroom white balance. Keep the golden hour, or clean it.</p>
-    <div class="program">
-      <div><b>01.</b> Sun · NOAA solar position from time + GPS</div>
-      <div><b>02.</b> Air · path length through the atmosphere, thinned by altitude</div>
-      <div><b>03.</b> Scatter · Rayleigh + haze strip the blue from low sun</div>
-      <div><b>04.</b> Light · direct sun, open shade or overcast</div>
-      <div><b>05.</b> Grade · move from film (5500K) toward neutral</div>
-      <div><b>06.</b> Out · .xmp preset for Lightroom + ACR</div>
-    </div>
-  </section>
-
-  <section class="stage">
-    <div class="vcols" id="vcols" aria-label="Readings">
-      <div class="vcol big" id="v-time">— · —</div>
-      <div class="vcol"><span class="k">●</span> <span id="v-lat">lat —</span></div>
-      <div class="vcol"><span class="k">●</span> <span id="v-lon">lon —</span></div>
-      <div class="vcol"><span class="k">●</span> <span id="v-alt">alt —</span></div>
-      <div class="vcol"><span class="k">●</span> <span id="v-sun">sun —</span></div>
-      <div class="vcol"><span class="k">●</span> <span id="v-am">air mass —</span></div>
-    </div>
-
-    <div class="panel" id="panel">
-      <svg class="dial" id="dial" viewBox="0 0 700 700" role="img" aria-label="Sun path diagram for the photo's date and place"></svg>
-      <svg class="ring" viewBox="0 0 400 400" aria-hidden="true">
-        <g filter="url(#riso)"><ellipse cx="200" cy="200" rx="168" ry="150" transform="rotate(-18 200 200)" fill="none" stroke="#e0177e" stroke-width="9" stroke-dasharray="560 22 160 30"/></g>
-      </svg>
-      <div class="drop-hint" id="dropHint">drop a photo anywhere</div>
+  <!-- ROW 1 · photo + result -->
+  <section class="row1">
+    <div>
+      <div class="step"><span class="n">01</span><span class="t">Drop your photo</span><span class="s">JPEG · HEIC · Fuji RAF · DNG · stays on your device</span></div>
+      <div class="viewer" id="viewer" tabindex="0" role="button" aria-label="Drop a photo or click to choose one">
+        <div class="empty">
+          <div class="ringwrap">
+            <svg viewBox="0 0 300 300" aria-hidden="true"><g filter="url(#riso)"><ellipse cx="150" cy="150" rx="128" ry="118" transform="rotate(-14 150 150)" fill="none" stroke="#e0177e" stroke-width="8" stroke-dasharray="520 18 150 24"/></g></svg>
+            <div class="big">Drop a<br>photo<i>here</i></div>
+          </div>
+          <span class="btnlike">or click to choose</span>
+          <span class="fmt">iPhone HEIC + Fuji RAF read · nothing uploaded</span>
+        </div>
+        <div class="stagecv" id="stagecv">
+          <canvas id="cvBefore"></canvas><canvas id="cvAfter"></canvas>
+          <div class="divider" id="divider"></div>
+          <span class="tag l">As shot</span><span class="tag r" id="tagAfter">Solar WB</span>
+        </div>
+        <div class="busy" id="busy">developing…</div>
+        <input type="file" id="file" accept="image/*,.raf,.RAF,.dng,.DNG,.heic,.HEIC,.heif,.tif,.tiff" hidden>
+      </div>
+      <div class="vcap"><span id="vcapText">Drag the divider to compare.</span><button type="button" class="linkbtn" id="replaceBtn" hidden>replace photo</button></div>
+      <div class="note" id="previewNote" hidden>Preview shifts the photo from Daylight (5500K) to your setting. Lightroom starts from the camera's own white balance, so the final look can differ a little.</div>
     </div>
 
-    <aside class="side">
+    <aside class="result">
+      <div class="step"><span class="n">04</span><span class="t">Your white balance</span></div>
       <div class="readout">
-        <svg viewBox="0 0 380 150" id="readout" aria-live="polite">
-          <text x="0" y="34" font-family="Courier Prime, monospace" font-weight="700" font-size="42" fill="#151317" opacity=".42" filter="url(#sprayHeavy)" id="r-ghost1">SUN —°</text>
-          <text x="0" y="100" font-family="Courier Prime, monospace" font-weight="700" font-size="76" fill="#151317" filter="url(#spray)" id="r-k">5500K</text>
-          <text x="0" y="146" font-family="Courier Prime, monospace" font-weight="700" font-size="42" fill="#151317" opacity=".42" filter="url(#sprayHeavy)" id="r-ghost2">LIGHT</text>
+        <svg viewBox="0 0 380 132" id="readout" aria-live="polite">
+          <text x="0" y="30" font-family="Courier Prime, monospace" font-weight="700" font-size="30" fill="#151317" opacity=".38" filter="url(#sprayHeavy)" id="r-ghost1">SUN —°</text>
+          <text x="0" y="98" font-family="Courier Prime, monospace" font-weight="700" font-size="76" fill="#151317" filter="url(#spray)" id="r-k">5500K</text>
+          <text x="0" y="128" font-family="Share Tech Mono, monospace" font-size="13" letter-spacing="3" fill="#6d6870" id="r-sub">COLOR OF THE LIGHT</text>
         </svg>
         <div class="phase" id="phase">waiting for a photo</div>
       </div>
-
       <div class="lr">
         <div><small>Lightroom temp</small><b id="o-temp">5500</b></div>
         <div><small>Tint</small><b id="o-tint">+0</b></div>
       </div>
+      <div class="slider">
+        <div class="ends"><span>Film · keep the light</span><b id="corrVal">70% to neutral</b><span>Neutral</span></div>
+        <input type="range" id="in-corr" min="0" max="100" value="70" aria-label="Film to neutral">
+      </div>
+      <div class="slider">
+        <div class="ends"><span>Green</span><b id="tintVal">tint +0</b><span>Magenta</span></div>
+        <input type="range" id="in-tint" min="-40" max="40" value="0" aria-label="Tint">
+      </div>
+      <div class="actions">
+        <button class="btn" id="dl">Download Lightroom preset</button>
+        <button class="btn ghost" id="copy" title="Copy temp + tint">Copy</button>
+      </div>
+      <div class="fine">Kelvin presets are for raw files (RAF, DNG, CR2…). On JPEG and HEIC, Lightroom's temp slider is relative, so use the number as a guide. The light is estimated, not measured: clouds, smoke and bounce light move it.</div>
+    </aside>
+  </section>
 
-      <label class="drop" id="dropBtn">Choose photo
-        <small>JPEG · HEIC · Fuji RAF · TIFF/DNG · stays on your device</small>
-        <input type="file" id="file" accept="image/*,.raf,.RAF,.dng,.DNG,.heic,.HEIC,.tif,.tiff">
-      </label>
-      <div class="status" id="status">No GPS? Paste coordinates from Google Maps below.</div>
+  <!-- ROW 2 · when/where + light -->
+  <section class="row2">
+    <div>
+      <div class="step"><span class="n">02</span><span class="t">Where the sun was</span><span class="s">sun path for the day · you are the center</span></div>
+      <div class="dialbox">
+        <div class="vcols" id="vcols" aria-label="Readings">
+          <div class="vcol big" id="v-time">— · —</div>
+          <div class="vcol"><span class="k">●</span> <span id="v-lat">lat —</span></div>
+          <div class="vcol"><span class="k">●</span> <span id="v-lon">lon —</span></div>
+          <div class="vcol"><span class="k">●</span> <span id="v-alt">alt —</span></div>
+          <div class="vcol"><span class="k">●</span> <span id="v-sun">sun —</span></div>
+          <div class="vcol"><span class="k">●</span> <span id="v-am">air mass —</span></div>
+        </div>
+        <div>
+          <div class="panel"><svg id="dial" viewBox="0 0 700 700" role="img" aria-label="Sun path diagram for the photo's date and place"></svg></div>
+          <div class="dialcap">Rings = sun height · gold beads = each hour · dotted = the solstices · pink line = your shot.</div>
+        </div>
+      </div>
+    </div>
 
+    <div class="settings">
+      <div>
+        <div class="step"><span class="n">03</span><span class="t">Check time, place + light</span></div>
+        <div class="status" id="status">Showing right now in Nashville. Drop a photo to use its time and GPS.</div>
+      </div>
       <fieldset>
         <div class="row">
           <label class="f">Date + time (local)<input type="datetime-local" id="in-dt" step="60"></label>
-          <label class="f">UTC offset<input type="text" id="in-off" placeholder="-06:00" inputmode="text"></label>
+          <label class="f">UTC offset<input type="text" id="in-off" placeholder="-06:00"></label>
         </div>
-        <label class="f">Coordinates (lat, lon) <button type="button" class="linkbtn" id="geoBtn">use my location</button><input type="text" id="in-ll" placeholder="36.1627, -86.7816" inputmode="decimal"></label>
+        <label class="f">Coordinates (lat, lon) · <button type="button" class="linkbtn" id="geoBtn">use my location</button><input type="text" id="in-ll" placeholder="paste from Google Maps: 36.1627, -86.7816" inputmode="decimal"></label>
         <div class="row">
           <label class="f">Altitude (m)<input type="number" id="in-alt" value="180" step="10"></label>
           <label class="f">Sun height<input type="text" id="in-elev" readonly tabindex="-1"></label>
@@ -314,28 +353,14 @@
         </div>
         <div class="slider">
           <div class="ends"><span>Clean air</span><b id="hazeVal">haze 30</b><span>Heavy haze</span></div>
-          <input type="range" id="in-haze" min="0" max="100" value="30">
-        </div>
-        <div class="slider">
-          <div class="ends"><span>Film · keep the light</span><b id="corrVal">70%</b><span>Neutral</span></div>
-          <input type="range" id="in-corr" min="0" max="100" value="70">
-        </div>
-        <div class="slider">
-          <div class="ends"><span>Green</span><b id="tintVal">tint +0</b><span>Magenta</span></div>
-          <input type="range" id="in-tint" min="-40" max="40" value="0">
+          <input type="range" id="in-haze" min="0" max="100" value="30" aria-label="Haze">
         </div>
       </fieldset>
-
-      <div class="actions">
-        <button class="btn" id="dl">Download Lightroom preset</button>
-        <button class="btn ghost" id="copy" title="Copy temp + tint">Copy</button>
-      </div>
-      <div class="fine">Kelvin presets are for raw files (RAF, DNG, CR2…). On JPEGs Lightroom's temp slider is relative, so use the number as a guide. Light is estimated, not measured: clouds, smoke and bounce light move it.</div>
-    </aside>
+    </div>
   </section>
 
   <section class="daywrap">
-    <div class="dayhead"><span>The light, minute by minute</span><em id="dayLabel">pick a date + place</em></div>
+    <div class="step"><span class="n">☼</span><span class="t">The light, minute by minute</span><span class="s"><em id="dayLabel">pick a date + place</em></span></div>
     <svg class="day" id="day" viewBox="0 -14 1200 122"></svg>
   </section>
 
@@ -361,7 +386,7 @@
     <div class="foot-mast" aria-label="Kelvin"><span class="L">K</span><span class="L">E</span><span class="L">L</span><span class="L">V</span><span class="L">I</span><span class="L">N</span></div>
     <div class="colophon">
       <span>Sun: NOAA solar calculator · Air: Kasten–Young air mass · Color: CIE 1931</span>
-      <span>EXIF read with exifr (MIT)</span>
+      <span>EXIF: exifr (MIT) · HEIC: libheif via heic-to (LGPL)</span>
       <a href="/">Stuart Singleton · Nashville</a>
     </div>
   </footer>

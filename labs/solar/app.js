@@ -48,7 +48,7 @@
     if (parent) parent.appendChild(n);
     return n;
   }
-  function status(html) { $('status').innerHTML = html; }
+  function status(html) { const n = $('status'); n.innerHTML = html; n.classList.toggle('warnbox', /class="warn"/.test(html)); }
 
   /* ---------- model ---------- */
   function compute() {
@@ -166,15 +166,9 @@
       n.textContent = ROMAN[hr];
     });
 
-    /* photo plate at the zenith */
-    if (st.photo) {
-      el('image', { href: st.photo, x: C - 66, y: C - 66, width: 132, height: 132, preserveAspectRatio: 'xMidYMid slice', 'clip-path': 'url(#plateClip)', opacity: .92 }, svg);
-    } else {
-      const n = el('text', { x: C, y: C + 4, fill: gold, 'font-family': 'Share Tech Mono, monospace', 'font-size': 10, 'letter-spacing': 3, 'text-anchor': 'middle', opacity: .55 }, svg);
-      n.textContent = 'ZENITH';
-    }
-    el('circle', { cx: C, cy: C, r: 66, fill: 'none', stroke: gold, 'stroke-width': 1.4 }, svg);
-    el('circle', { cx: C, cy: C, r: 71, fill: 'none', stroke: gold, 'stroke-width': .5, opacity: .6 }, svg);
+    /* zenith mark */
+    el('circle', { cx: C, cy: C, r: 3, fill: gold }, svg);
+    el('circle', { cx: C, cy: C, r: 9, fill: 'none', stroke: gold, 'stroke-width': .7, opacity: .7 }, svg);
 
     /* the sun at the photo's moment */
     const e = res.p.elevation, az = res.p.azimuth;
@@ -265,17 +259,100 @@
     $('in-elev').value = `${p.elevation.toFixed(1)}° ${p.elevation >= 0 ? 'up' : 'down'}`;
     $('r-ghost1').textContent = `SUN ${p.elevation.toFixed(1)}°`;
     $('r-k').textContent = sc.kelvin ? Math.round(sc.kelvin) + 'K' : 'NIGHT';
-    $('r-ghost2').textContent = (st.light === 'sun' ? 'DIRECT' : st.light.toUpperCase()) + (wb ? ' → ' + wb : '');
-    $('phase').textContent = (st.source === 'demo' ? 'right now in Nashville · ' : '') + PHASE[sc.phase] + (sc.kelvin ? ' · the light' : '');
+    $('r-sub').textContent = sc.kelvin ? 'COLOR OF THE LIGHT · ' + (st.light === 'sun' ? 'DIRECT SUN' : st.light.toUpperCase()) : 'NO SUNLIGHT';
+    $('phase').textContent = st.source === 'demo' ? 'right now in Nashville · ' + PHASE[sc.phase] : PHASE[sc.phase] + (st.source === 'photo' ? ' at the shot' : '');
     $('o-temp').textContent = wb ? wb : '—';
     $('o-tint').textContent = (st.tint >= 0 ? '+' : '') + st.tint;
     $('dl').disabled = !wb; $('copy').disabled = !wb;
-    /* keep a soft wash of the light colour behind the readout */
-    if (sc.kelvin) {
-      const [r, g, b] = S.kelvinRGB(sc.kelvin);
-      document.querySelector('.readout').style.background = `linear-gradient(90deg, rgba(${r},${g},${b},.35), rgba(${r},${g},${b},0) 85%)`;
-    }
+    $('tagAfter').textContent = wb ? `Solar WB · ${wb}K` : 'Solar WB';
+    schedulePreview(wb);
   }
+
+  /* ---------- photo preview: before / after ---------- */
+  const pv = { base: null, w: 0, h: 0, raf: 0, split: 0.5, toLin: null, toSrgb: null };
+  (function luts() {
+    pv.toLin = new Float32Array(256);
+    for (let i = 0; i < 256; i++) { const c = i / 255; pv.toLin[i] = c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+    pv.toSrgb = new Uint8ClampedArray(4096);
+    for (let i = 0; i < 4096; i++) { const c = i / 4095; pv.toSrgb[i] = Math.round(255 * (c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055)); }
+  })();
+  function loadImage(url) {
+    return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error('decode')); im.src = url; });
+  }
+  let heicLoading = null;
+  function loadHeicDecoder() {
+    if (window.HeicTo) return Promise.resolve();
+    if (!heicLoading) heicLoading = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = '/labs/solar/heic-to.js'; sc.onload = res; sc.onerror = () => rej(new Error('decoder')); document.head.appendChild(sc); });
+    return heicLoading;
+  }
+  async function showPhoto(url, file, isHeic) {
+    const v = $('viewer');
+    v.classList.add('working'); $('busy').textContent = isHeic ? 'decoding HEIC…' : 'developing…';
+    let im = null;
+    if (url) { try { im = await loadImage(url); } catch (e) { im = null; } }
+    if (!im && isHeic) { /* Chrome / Firefox can't show HEIC: decode it here */
+      try {
+        await loadHeicDecoder();
+        const blob = await window.HeicTo({ blob: file, type: 'image/jpeg', quality: 0.9 });
+        url = URL.createObjectURL(blob); im = await loadImage(url);
+      } catch (e) { im = null; }
+    }
+    v.classList.remove('working');
+    if (!im) { st.photo = null; $('vcapText').textContent = 'Read the file, but this browser could not show the picture. The white balance still works.'; render(); return; }
+    st.photo = url;
+    const max = 1600, sc = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight));
+    pv.w = Math.round(im.naturalWidth * sc); pv.h = Math.round(im.naturalHeight * sc);
+    const cb = $('cvBefore'), ca = $('cvAfter');
+    cb.width = ca.width = pv.w; cb.height = ca.height = pv.h;
+    const ctx = cb.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(im, 0, 0, pv.w, pv.h);
+    pv.base = ctx.getImageData(0, 0, pv.w, pv.h);
+    v.style.aspectRatio = String(Math.max(0.8, Math.min(1.8, pv.w / pv.h)));
+    v.classList.add('loaded'); $('replaceBtn').hidden = false; $('previewNote').hidden = false;
+    setSplit(0.5); render();
+  }
+  function schedulePreview(wb) {
+    if (!pv.base) return;
+    cancelAnimationFrame(pv.raf);
+    pv.raf = requestAnimationFrame(() => drawAfter(wb));
+  }
+  function drawAfter(wb) {
+    const ca = $('cvAfter'), ctx = ca.getContext('2d');
+    if (!wb) { ctx.putImageData(pv.base, 0, 0); return; }
+    const w0 = S.whiteLinear(5500), w1 = S.whiteLinear(wb);
+    let gr = w0[0] / w1[0], gg = 1 - st.tint / 220, gb = w0[2] / w1[2];
+    const norm = 1 / Math.max(0.0001, 0.2126 * gr + 0.7152 * gg + 0.0722 * gb); /* hold brightness */
+    gr *= norm; gg *= norm; gb *= norm;
+    const src = pv.base.data, out = ctx.createImageData(pv.w, pv.h), d = out.data, L = pv.toLin, E = pv.toSrgb;
+    for (let i = 0; i < src.length; i += 4) {
+      d[i] = E[Math.min(4095, (L[src[i]] * gr * 4095) | 0)];
+      d[i + 1] = E[Math.min(4095, (L[src[i + 1]] * gg * 4095) | 0)];
+      d[i + 2] = E[Math.min(4095, (L[src[i + 2]] * gb * 4095) | 0)];
+      d[i + 3] = 255;
+    }
+    ctx.putImageData(out, 0, 0);
+  }
+  /* the canvases are letterboxed (object-fit: contain); map the split to the visible picture */
+  function setSplit(f) {
+    pv.split = Math.max(0, Math.min(1, f));
+    const v = $('viewer'), W = v.clientWidth, H = v.clientHeight;
+    const sc = pv.w ? Math.min(W / pv.w, H / pv.h) : 1, dw = pv.w * sc, ox = (W - dw) / 2;
+    const x = ox + dw * pv.split;
+    $('divider').style.left = x + 'px';
+    $('cvAfter').style.clipPath = `inset(0 0 0 ${x}px)`;
+  }
+  (function splitDrag() {
+    const v = $('viewer'); let down = false;
+    const at = e => { const r = v.getBoundingClientRect(), W = r.width, H = r.height; const sc = Math.min(W / pv.w, H / pv.h), dw = pv.w * sc, ox = (W - dw) / 2; return ((e.clientX - r.left) - ox) / dw; };
+    v.addEventListener('pointerdown', e => { if (!v.classList.contains('loaded')) return; down = true; v.setPointerCapture(e.pointerId); setSplit(at(e)); });
+    v.addEventListener('pointermove', e => { if (down) setSplit(at(e)); });
+    v.addEventListener('pointerup', () => { down = false; });
+    v.addEventListener('pointercancel', () => { down = false; });
+    v.addEventListener('click', () => { if (!v.classList.contains('loaded')) $('file').click(); });
+    v.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && !v.classList.contains('loaded')) { e.preventDefault(); $('file').click(); } });
+    $('replaceBtn').addEventListener('click', () => $('file').click());
+    window.addEventListener('resize', () => { if (pv.w) setSplit(pv.split); });
+  })();
 
   function syncInputs() {
     const l = st.local;
@@ -303,14 +380,16 @@
     try {
       t = await exifr.parse(src, { tiff: true, exif: true, gps: true, xmp: false, icc: false, iptc: false, jfif: false, ihdr: false, reviveValues: false, translateValues: false, mergeOutput: true, pick: PICK });
     } catch (e) { t = null; }
+    const ftyp = new TextDecoder().decode(new Uint8Array(buf, 4, Math.min(8, Math.max(0, buf.byteLength - 4))));
+    const isHeic = /^ftyp(heic|heix|hevc|heim|heis|mif1|msf1)/.test(ftyp) || /\.(heic|heif)$/i.test(file.name);
     if (!preview) {
-      if (/^image\/(jpeg|png|webp|gif|avif)$/.test(file.type) || /\.(jpe?g|png|webp)$/i.test(file.name)) preview = URL.createObjectURL(file);
+      if (isHeic || /^image\//.test(file.type) || /\.(jpe?g|png|webp|avif|gif)$/i.test(file.name)) preview = URL.createObjectURL(file);
       else { try { preview = await exifr.thumbnailUrl(src); } catch (e) { preview = null; } }
-      if (!preview && /heic|heif/i.test(file.type + file.name)) preview = URL.createObjectURL(file); /* Safari can show HEIC */
     }
-    st.photo = preview; st.fileName = file.name; st.source = 'photo';
-    $('dropHint').style.display = 'none';
+    st.fileName = file.name; st.source = 'photo';
     applyTags(t || {});
+    $('vcapText').textContent = file.name + ' · drag the divider to compare';
+    await showPhoto(preview, file, isHeic);
   }
 
   function applyTags(t) {
@@ -368,7 +447,7 @@
     render();
   });
   $('in-haze').addEventListener('input', e => { st.haze = e.target.value / 100; $('hazeVal').textContent = 'haze ' + e.target.value; render(); });
-  $('in-corr').addEventListener('input', e => { st.corr = e.target.value / 100; $('corrVal').textContent = e.target.value + '%'; render(); });
+  $('in-corr').addEventListener('input', e => { st.corr = e.target.value / 100; $('corrVal').textContent = e.target.value + '% to neutral'; render(); });
   $('in-tint').addEventListener('input', e => { st.tint = +e.target.value; $('tintVal').textContent = 'tint ' + (st.tint >= 0 ? '+' : '') + st.tint; render(); });
   $('geoBtn').addEventListener('click', () => {
     if (!navigator.geolocation) return status('<span class="warn">location not available in this browser</span>');
@@ -381,15 +460,15 @@
       syncInputs(); render();
     }, () => status('<span class="warn">location permission denied</span>, paste coordinates instead'), { enableHighAccuracy: false, timeout: 10000 });
   });
-  $('file').addEventListener('change', e => { const f = e.target.files[0]; if (f) readFile(f).catch(err => status('<span class="warn">could not read that file</span> (' + err.message + ')')); });
+  $('file').addEventListener('change', e => { const f = e.target.files[0]; e.target.value = ''; if (f) readFile(f).catch(err => status('<span class="warn">could not read that file</span> (' + err.message + ')')); });
 
-  /* drag anywhere */
+  /* drop anywhere on the page; the viewer lights up */
   let dragDepth = 0;
-  window.addEventListener('dragenter', e => { e.preventDefault(); dragDepth++; $('panel').classList.add('dragging'); $('dropBtn').classList.add('dragging'); });
-  window.addEventListener('dragleave', () => { if (--dragDepth <= 0) { dragDepth = 0; $('panel').classList.remove('dragging'); $('dropBtn').classList.remove('dragging'); } });
+  window.addEventListener('dragenter', e => { e.preventDefault(); dragDepth++; $('viewer').classList.add('dragging'); });
+  window.addEventListener('dragleave', () => { if (--dragDepth <= 0) { dragDepth = 0; $('viewer').classList.remove('dragging'); } });
   window.addEventListener('dragover', e => e.preventDefault());
   window.addEventListener('drop', e => {
-    e.preventDefault(); dragDepth = 0; $('panel').classList.remove('dragging'); $('dropBtn').classList.remove('dragging');
+    e.preventDefault(); dragDepth = 0; $('viewer').classList.remove('dragging');
     const f = e.dataTransfer.files && e.dataTransfer.files[0];
     if (f) readFile(f).catch(err => status('<span class="warn">could not read that file</span> (' + err.message + ')'));
   });

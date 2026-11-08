@@ -129,6 +129,13 @@
     return [c(r), c(g), c(b)];
   }
 
-  const api = { sunPosition, airMass, sceneKelvin, beamXYZ, xyzToCCT, kelvinRGB };
+  /* Linear-sRGB white of a blackbody, green = 1 (for the preview's white-balance shift). */
+  function whiteLinear(K) {
+    const [X, Y, Z] = bbXYZ(Math.max(1500, Math.min(25000, K)));
+    const r = 3.2406 * X - 1.5372 * Y - 0.4986 * Z, g = -0.9689 * X + 1.8758 * Y + 0.0415 * Z, b = 0.0557 * X - 0.2040 * Y + 1.0570 * Z;
+    return [r / g, 1, b / g];
+  }
+
+  const api = { sunPosition, airMass, sceneKelvin, beamXYZ, xyzToCCT, kelvinRGB, whiteLinear };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.SolarCore = api;
 })(typeof window !== 'undefined' ? window : this);
