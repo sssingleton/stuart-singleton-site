@@ -1,4 +1,4 @@
-/* Solar WB — UI. Needs exifr + SolarCore. The photo never leaves the browser;
+/* Heliograph — UI. Needs exifr + SolarCore. The photo never leaves the browser;
    only typed/picked places go to Photon (search) and Open-Meteo (time zone + elevation). */
 (function () {
   const $ = id => document.getElementById(id);
@@ -394,7 +394,7 @@
   let heicLoading = null;
   function loadHeicDecoder() {
     if (window.HeicTo) return Promise.resolve();
-    if (!heicLoading) heicLoading = new Promise((res, rej) => { const s = document.createElement('script'); s.src = '/labs/solar/heic-to.js'; s.onload = res; s.onerror = () => rej(new Error('decoder')); document.head.appendChild(s); });
+    if (!heicLoading) heicLoading = new Promise((res, rej) => { const s = document.createElement('script'); s.src = '/labs/heliograph/heic-to.js'; s.onload = res; s.onerror = () => rej(new Error('decoder')); document.head.appendChild(s); });
     return heicLoading;
   }
   async function decodePhoto(url, file, isHeic) {
@@ -647,8 +647,8 @@
   function uuid() { const a = new Uint8Array(16); crypto.getRandomValues(a); return Array.from(a, b => b.toString(16).padStart(2, '0')).join('').toUpperCase(); }
   function presetXMP(wb, tint, res) {
     const ts = (tint >= 0 ? '+' : '') + tint;
-    const name = `Solar WB ${wb}K ${ts}`;
-    const desc = `Sun ${res.p.elevation.toFixed(1)}° at ${fmtLat(st.lat)}, ${fmtLon(st.lon)}, ${Math.round(st.alt)} m. Light ≈ ${Math.round(res.sc.kelvin)}K (${st.light}), ${Math.round(st.corr * 100)}% toward neutral. stuartsingleton.com/solar`;
+    const name = `Heliograph ${wb}K ${ts}`;
+    const desc = `Sun ${res.p.elevation.toFixed(1)}° at ${fmtLat(st.lat)}, ${fmtLon(st.lon)}, ${Math.round(st.alt)} m. Light ≈ ${Math.round(res.sc.kelvin)}K (${st.light}), ${Math.round(st.corr * 100)}% toward neutral. stuartsingleton.com/heliograph`;
     const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
     const alt = v => `\n    <rdf:Alt>\n     <rdf:li xml:lang="x-default">${v}</rdf:li>\n    </rdf:Alt>\n   `;
     return `<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 7.0-c000 1.000000, 0000/00/00-00:00:00        ">
@@ -667,7 +667,7 @@
    <crs:Name>${alt(esc(name))}</crs:Name>
    <crs:ShortName>${alt('')}</crs:ShortName>
    <crs:SortName>${alt('')}</crs:SortName>
-   <crs:Group>${alt('Solar WB')}</crs:Group>
+   <crs:Group>${alt('Heliograph')}</crs:Group>
    <crs:Description>${alt(esc(desc))}</crs:Description>
   </rdf:Description>
  </rdf:RDF>
@@ -678,16 +678,16 @@
     const res = compute(); if (!res || !res.wb) return;
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([presetXMP(res.wb, st.tint, res)], { type: 'application/rdf+xml' }));
-    a.download = `Solar-WB-${res.wb}K${st.tint >= 0 ? '+' : ''}${st.tint}.xmp`;
+    a.download = `Heliograph-${res.wb}K${st.tint >= 0 ? '+' : ''}${st.tint}.xmp`;
     document.body.appendChild(a); a.click(); a.remove();
-    try { window.__ssSend && window.__ssSend('solar_preset_download', null, { k: res.wb }); } catch (e) {}
+    try { window.__ssSend && window.__ssSend('heliograph_preset_download', null, { k: res.wb }); } catch (e) {}
   });
   $('copy').addEventListener('click', async () => {
     const res = compute(); if (!res || !res.wb) return;
     try { await navigator.clipboard.writeText(`Temp ${res.wb} · Tint ${st.tint >= 0 ? '+' : ''}${st.tint}`); $('copy').textContent = 'Copied'; setTimeout(() => $('copy').textContent = 'Copy', 1400); } catch (e) {}
   });
 
-  window.__solar = { st, render, compute, setPlace, think };
+  window.__helio = { st, render, compute, setPlace, think };
 
   /* boot: right now, Nashville */
   try { st.offMin = tzOffset('America/Chicago', localOf(new Date())); } catch (e) {}

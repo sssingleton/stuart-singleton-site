@@ -1,4 +1,4 @@
-/* Solar WB core — sun position (NOAA) + spectral daylight model.
+/* Heliograph core — sun position (NOAA) + spectral daylight model.
    Pure functions, no DOM. Exposes window.SolarCore (or module.exports in node). */
 (function (root) {
   const D2R = Math.PI / 180, R2D = 180 / Math.PI;
