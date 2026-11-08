@@ -33,6 +33,7 @@ const topRoutes = [
   { loc: `${SITE}/book`,   priority: '0.9', changefreq: 'monthly' },
   { loc: `${SITE}/prints`, priority: '0.9', changefreq: 'weekly'  },
   { loc: `${SITE}/camera-gear`, priority: '0.6', changefreq: 'monthly' },
+  { loc: `${SITE}/solar`, priority: '0.5', changefreq: 'monthly' },
 ];
 
 // Per-photo print pages from the slug map.

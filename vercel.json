@@ -11,6 +11,7 @@
     { "source": "/returns", "destination": "/returns.html" },
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/camera-gear", "destination": "/camera-gear.html" },
+    { "source": "/solar", "destination": "/labs/solar/index.html" },
     { "source": "/bradenbachelortripcalculator", "destination": "/bradenbachelortripcalculator.html" },
     { "source": "/print-success", "destination": "/index.html" },
     { "source": "/checkout", "destination": "/checkout.html" },
