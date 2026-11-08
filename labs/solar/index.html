@@ -43,7 +43,7 @@
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <title>Solar White Balance | Stuart Singleton Labs</title>
-<meta name="description" content="Drop a photo. Solar WB reads when and where it was shot, works out how high the sun was, and gives you a Lightroom white balance preset that keeps the light or cleans it. Runs in your browser; nothing is uploaded.">
+<meta name="description" content="Drop a photo. Solar WB reads when and where it was shot, works out how high the sun was, and gives you a Lightroom white balance preset that keeps the light or cleans it. Runs in your browser; your photo is never uploaded.">
 <link rel="canonical" href="https://stuartsingleton.com/solar">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -58,10 +58,9 @@
 <style>
   :root{
     --paper:#eeebe3; --ink:#151317; --mute:#6d6870; --rule:#cfc9bd;
-    --mag:#e0177e; --mag-soft:rgba(224,23,126,.55);
-    --gold:#c9a55c;
+    --mag:#e0177e; --mag-soft:rgba(224,23,126,.55); --gold:#c9a55c;
     --mono:'Share Tech Mono',monospace; --serif:'Cormorant Garamond',serif; --type:'Courier Prime',monospace;
-    --pad:clamp(18px,4.5vw,56px);
+    --pad:clamp(16px,4.5vw,56px);
   }
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--paper);color:var(--ink)}
@@ -69,15 +68,14 @@
   body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.3;mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .42 0 0 0 0 .38 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
   a{color:inherit}
-  .wrap{max-width:1240px;margin:0 auto;padding:18px var(--pad) 40px;position:relative}
+  .wrap{max-width:1280px;margin:0 auto;padding:18px var(--pad) 40px;position:relative}
 
   .nav{display:flex;justify-content:space-between;gap:16px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding-bottom:6px}
   .nav a{text-decoration:none}.nav a:hover{color:var(--mag)}
   .nav .crumb span{color:var(--rule);margin:0 .5em}
 
-  /* masthead */
   .mast{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;margin:4px 0 0;user-select:none}
-  .mast .L{font-family:var(--serif);font-weight:400;font-size:clamp(56px,10.5vw,148px);line-height:.8;text-align:center;text-shadow:2px 1px 0 var(--mag-soft);display:block}
+  .mast .L{font-family:var(--serif);font-weight:400;font-size:clamp(52px,9.5vw,136px);line-height:.8;text-align:center;text-shadow:2px 1px 0 var(--mag-soft);display:block}
   .mast .L:nth-child(1){transform:rotate(-14deg) translateY(4%)}
   .mast .L:nth-child(2){transform:rotate(6deg) translateY(-6%)}
   .mast .L:nth-child(3){transform:rotate(-4deg) translateY(10%)}
@@ -85,53 +83,86 @@
   .mast .L:nth-child(5){transform:rotate(-9deg) translateY(6%)}
   .mast-sub{display:grid;grid-template-columns:repeat(13,1fr);font-size:10px;letter-spacing:.1em;color:var(--mag);text-align:center;margin:8px 0 0}
   .mast-sub i{font-style:normal}
-  .ornament{display:block;width:100%;height:26px;margin:4px 0 0}
-  .lede{font-family:var(--serif);font-size:clamp(18px,2vw,23px);line-height:1.3;margin:14px 0 30px;max-width:780px}
+  .ornament{display:block;width:100%;height:24px;margin:4px 0 0}
+  .lede{font-family:var(--serif);font-size:clamp(18px,1.9vw,22px);line-height:1.3;margin:12px 0 26px;max-width:820px}
   .lede em{color:var(--mag)}
 
-  /* step headers */
-  .step{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:7px;margin:0 0 14px}
+  /* stage */
+  .stage{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,1fr);gap:clamp(20px,3.4vw,48px);align-items:start}
+  .dialcol{position:sticky;top:14px}
+  .panel{position:relative;aspect-ratio:1/1;container-type:inline-size;
+    background:radial-gradient(circle at 50% 48%,#2a2034 0%,#17121d 55%,#0c0910 100%);overflow:hidden;user-select:none}
+  .panel::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .8 0 0 0 0 .7 0 0 0 0 .5 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .panel > svg.dial{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .panel.dragging{outline:3px dashed var(--mag);outline-offset:-8px}
+
+  /* corner cartouches */
+  .cart{position:absolute;z-index:2;color:var(--gold);font-size:max(9px,1.45cqw);letter-spacing:.14em;text-transform:uppercase;line-height:1.45;pointer-events:none;max-width:27%}
+  .cart small{display:block;font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:.02em;font-size:max(12px,2.3cqw);color:#e6cf9a;margin-bottom:2px}
+  .cart b{display:block;font-family:var(--type);font-weight:700;font-size:max(12px,2.4cqw);letter-spacing:.04em;color:#f3e4c0}
+  .cart.tl{left:3.2%;top:3%}.cart.tr{right:3.2%;top:3%;text-align:right}
+  .cart.bl{left:3.2%;bottom:3%}.cart.br{right:3.2%;bottom:3%;text-align:right}
+  .cart.br b{font-size:max(15px,3.4cqw);color:#fff}
+
+  /* photo plate at the centre of the sky */
+  .plate{position:absolute;z-index:3;left:31.25%;top:31.25%;width:37.5%;height:37.5%;border-radius:50%;overflow:hidden;cursor:pointer;
+    background:#efe9dc;box-shadow:0 0 0 1.5px var(--gold),0 0 0 6px rgba(201,165,92,.12),0 0 40px rgba(0,0,0,.45);touch-action:pan-y}
+  .plate:focus-visible{outline:2px solid var(--mag);outline-offset:4px}
+  .plate .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.6cqw}
+  .plate .empty .big{font-family:var(--serif);font-size:max(22px,4.6cqw);line-height:.9;color:var(--ink)}
+  .plate .empty .big i{display:block;font-size:.58em;color:var(--mag)}
+  .plate .empty .sm{font-size:max(8px,1.25cqw);letter-spacing:.2em;text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);padding:.7cqw 1.4cqw;margin-top:.6cqw}
+  .plate:hover .empty .sm{background:var(--ink);color:var(--paper)}
+  .plate canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+  .plate.loaded{cursor:ew-resize;background:#0f0d12}
+  .plate.loaded canvas{display:block}
+  .plate.loaded .empty{display:none}
+  .plate .divider{position:absolute;top:0;bottom:0;left:50%;border-left:2px solid #fff;display:none;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.2)}
+  .plate.loaded .divider{display:block}
+  .plate .divider::after{content:'◀▶';position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:#fff;color:var(--ink);font-size:max(8px,1.1cqw);padding:.6cqw .8cqw;border-radius:2cqw}
+  .platering{position:absolute;z-index:4;left:27%;top:27%;width:46%;height:46%;pointer-events:none;transition:opacity .4s}
+  .panel.has-photo .platering{opacity:0}
+  .plate-tags{position:absolute;z-index:5;left:31.25%;width:37.5%;top:calc(31.25% + 37.5% + 1.2%);display:none;justify-content:space-between;font-size:max(8px,1.15cqw);letter-spacing:.2em;text-transform:uppercase;pointer-events:none}
+  .panel.has-photo .plate-tags{display:flex}
+  .plate-tags span{color:#f3e4c0}.plate-tags span:last-child{color:#ff6fb4}
+  .expand{position:absolute;z-index:6;right:calc(31.25% - 1%);top:calc(31.25% - 1%);width:max(26px,4.2cqw);height:max(26px,4.2cqw);border-radius:50%;border:1px solid var(--gold);background:#17121d;color:var(--gold);font-size:max(12px,1.9cqw);cursor:pointer;display:none;align-items:center;justify-content:center;padding:0}
+  .panel.has-photo .expand{display:flex}
+  .expand:hover{background:var(--mag);border-color:var(--mag);color:#fff}
+
+  /* thinking overlay */
+  .mind{position:absolute;inset:-7%;width:114%;height:114%;pointer-events:none;z-index:8;opacity:0;transition:opacity .25s}
+  .mind.on{opacity:1}
+  .dialcap{font-size:9.5px;letter-spacing:.06em;color:var(--mute);margin-top:8px;line-height:1.55}
+
+  /* steps column */
+  .steps{display:grid;gap:30px}
+  .step{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:7px;margin:0 0 12px}
   .step .n{font-family:var(--type);font-weight:700;font-size:22px;color:var(--mag);line-height:1}
   .step .t{font-size:11px;letter-spacing:.24em;text-transform:uppercase}
   .step .s{margin-left:auto;font-size:10px;letter-spacing:.06em;color:var(--mute);text-align:right}
-
-  /* row 1: viewer + result */
-  .row1{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,1fr);gap:clamp(18px,3vw,40px);align-items:start}
-  .viewer{position:relative;width:100%;aspect-ratio:3/2;background:#e6e2d8;border:1.5px dashed var(--ink);cursor:pointer;overflow:hidden;user-select:none;touch-action:pan-y}
-  .viewer.dragging{border-color:var(--mag);background:#f3dce8}
-  .viewer.loaded{border-style:solid;cursor:ew-resize;background:#0f0d12}
-  .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:20px}
-  .empty .ringwrap{position:relative;width:min(300px,60%);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
-  .empty .ringwrap svg{position:absolute;inset:-6%;width:112%;height:112%}
-  .empty .big{font-family:var(--serif);font-size:clamp(30px,4vw,48px);line-height:.95;position:relative}
-  .empty .big i{display:block;font-size:.55em;color:var(--mag)}
-  .empty .fmt{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
-  .empty .btnlike{display:inline-block;margin-top:2px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--ink);padding:9px 16px;background:var(--paper)}
-  .viewer:hover .btnlike{background:var(--ink);color:var(--paper)}
-  .stagecv{position:absolute;inset:0;display:none}
-  .viewer.loaded .stagecv{display:block}
-  .viewer.loaded .empty{display:none}
-  .stagecv canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-  #cvAfter{clip-path:inset(0 0 0 50%)}
-  .divider{position:absolute;top:0;bottom:0;left:50%;width:0;border-left:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);pointer-events:none}
-  .divider::after{content:'◀ ▶';position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:#fff;color:var(--ink);font-size:9px;letter-spacing:.1em;padding:7px 8px;border-radius:20px;white-space:nowrap}
-  .tag{position:absolute;top:10px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;padding:5px 8px;background:rgba(21,19,23,.78);color:#fff;pointer-events:none}
-  .tag.l{left:10px}.tag.r{right:10px;background:var(--mag)}
-  .busy{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(238,235,227,.86);font-size:11px;letter-spacing:.2em;text-transform:uppercase;z-index:4}
-  .viewer.working .busy{display:flex}
-  .vcap{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:10px;letter-spacing:.08em;color:var(--mute);line-height:1.5}
-  .vcap .linkbtn{flex:none}
-  .note{font-size:9.5px;line-height:1.55;color:var(--mute);margin-top:4px;letter-spacing:.03em}
-
-  .result{display:flex;flex-direction:column;gap:14px}
-  .readout svg{width:100%;height:auto;display:block;overflow:visible}
-  .phase{font-family:var(--serif);font-style:italic;font-size:21px;color:var(--mag);margin:2px 0 0}
-  .lr{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
-  .lr div{padding:9px 0 8px}
-  .lr div+div{border-left:1px solid var(--rule);padding-left:14px}
-  .lr small{display:block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-  .lr b{font-family:var(--type);font-size:28px;font-weight:700}
-
+  .status{font-size:10.5px;letter-spacing:.05em;line-height:1.6;padding:9px 11px;border-left:3px solid var(--rule);background:rgba(255,255,255,.4)}
+  .status .warn{color:var(--mag)}
+  .status.warnbox{border-left-color:var(--mag)}
+  .btnrow{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+  fieldset{border:0;margin:0;padding:0;display:grid;gap:12px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row3{display:grid;grid-template-columns:1.6fr .8fr .8fr;gap:12px}
+  label.f{display:block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);position:relative}
+  label.f input{display:block;width:100%;margin-top:4px;background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;font-family:var(--type);font-weight:700;font-size:15px;color:var(--ink);padding:4px 0 5px;outline:none}
+  label.f input:focus{border-color:var(--mag)}
+  label.f input[readonly]{border-bottom-style:dotted;color:var(--mute)}
+  .search input{font-size:17px;padding:8px 0 8px 22px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='6.5' cy='6.5' r='5' fill='none' stroke='%23151317' stroke-width='1.6'/%3E%3Cpath d='M10.3 10.3 15 15' stroke='%23151317' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat 0 50%}
+  .results{position:absolute;left:0;right:0;top:100%;z-index:20;background:var(--paper);border:1px solid var(--ink);border-top:0;display:none;max-height:280px;overflow:auto;box-shadow:0 14px 30px -14px rgba(0,0,0,.35)}
+  .results.open{display:block}
+  .results button{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--rule);padding:9px 10px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink);cursor:pointer;text-transform:none}
+  .results button b{font-family:var(--serif);font-size:17px;font-weight:500;letter-spacing:0;display:block}
+  .results button:hover,.results button.hi{background:var(--ink);color:var(--paper)}
+  .linkbtn{background:none;border:0;padding:0;font:inherit;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mag);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  .seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink)}
+  .seg button{background:none;border:0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:10px 4px;cursor:pointer;color:var(--ink)}
+  .seg button+button{border-left:1px solid var(--ink)}
+  .seg button.on{background:var(--ink);color:var(--paper)}
   .slider{display:grid;gap:5px}
   .slider .ends{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
   .slider .ends b{color:var(--ink);font-weight:400}
@@ -140,44 +171,28 @@
   input[type=range]::-moz-range-track{height:1px;background:var(--ink)}
   input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--mag);margin-top:-7.5px;border:0}
   input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--mag);border:0}
-  .actions{display:grid;grid-template-columns:1fr auto;gap:10px}
-  .btn{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:13px 14px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;text-align:center}
+  .btn{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:12px 14px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;text-align:center}
   .btn.ghost{background:transparent;color:var(--ink)}
   .btn:hover{background:var(--mag);border-color:var(--mag);color:#fff}
   .btn:disabled{opacity:.35;pointer-events:none}
+  .actions{display:grid;grid-template-columns:1fr auto;gap:10px}
+  .readout svg{width:100%;height:auto;display:block;overflow:visible}
+  .phase{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--mag);margin:0 0 4px}
   .fine{font-size:9.5px;line-height:1.6;letter-spacing:.04em;color:var(--mute)}
+  .attrib{font-size:9px;letter-spacing:.06em;color:var(--mute)}
+  .attrib a{color:var(--mute)}
 
-  /* row 2: dial + settings */
-  .row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(290px,1fr);gap:clamp(18px,3vw,40px);align-items:start;margin-top:46px}
-  .dialbox{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px}
-  .vcols{display:flex;gap:9px;padding-top:2px}
-  .vcol{writing-mode:vertical-rl;font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;white-space:nowrap;line-height:1}
-  .vcol .k{color:var(--mag)}
-  .vcol.big{font-family:var(--type);font-size:14px;letter-spacing:.1em}
-  .panel{position:relative;aspect-ratio:1/1;background:radial-gradient(circle at 50% 46%,#2a2034 0%,#17121d 55%,#0c0910 100%);overflow:hidden}
-  .panel svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .panel::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .8 0 0 0 0 .7 0 0 0 0 .5 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
-  .dialcap{font-size:9.5px;letter-spacing:.06em;color:var(--mute);margin-top:7px;line-height:1.5}
-
-  .settings{display:grid;gap:26px}
-  .status{font-size:10.5px;letter-spacing:.05em;line-height:1.6;padding:9px 11px;border-left:3px solid var(--rule);background:rgba(255,255,255,.35)}
-  .status .warn{color:var(--mag)}
-  .status.warnbox{border-left-color:var(--mag)}
-  fieldset{border:0;margin:0;padding:0;display:grid;gap:12px}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  label.f{display:block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-  label.f input{display:block;width:100%;margin-top:4px;background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;font-family:var(--type);font-weight:700;font-size:15px;color:var(--ink);padding:4px 0 5px;outline:none}
-  label.f input:focus{border-color:var(--mag)}
-  label.f input[readonly]{border-bottom-style:dotted;color:var(--mute)}
-  .linkbtn{background:none;border:0;padding:0;font:inherit;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mag);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-  .seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink)}
-  .seg button{background:none;border:0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:10px 4px;cursor:pointer;color:var(--ink)}
-  .seg button+button{border-left:1px solid var(--ink)}
-  .seg button.on{background:var(--ink);color:var(--paper)}
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:100;background:rgba(12,9,16,.94);display:none;flex-direction:column;padding:18px}
+  .modal.open{display:flex}
+  .modal .bar{display:flex;justify-content:space-between;align-items:center;color:#f3e4c0;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:0 2px 12px}
+  .modal .bar button{background:none;border:1px solid #f3e4c0;color:#f3e4c0;font-family:var(--mono);font-size:11px;letter-spacing:.18em;padding:8px 12px;cursor:pointer;text-transform:uppercase}
+  .modal .view{position:relative;flex:1;cursor:ew-resize;touch-action:pan-y}
+  .modal canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+  .modal .divider{position:absolute;top:0;bottom:0;border-left:2px solid #fff;pointer-events:none}
 
   /* day strip */
-  .daywrap{margin:44px 0 0}
+  .daywrap{margin:46px 0 0}
   .daywrap em{font-family:var(--serif);font-style:italic;letter-spacing:0;font-size:16px;color:var(--mag)}
   svg.day{width:100%;height:auto;display:block;overflow:visible}
 
@@ -185,27 +200,29 @@
   .notes h3{font-family:var(--serif);font-weight:500;font-size:22px;margin:0 0 6px}
   .notes h3 span{color:var(--mag);font-family:var(--mono);font-size:10px;letter-spacing:.2em;margin-right:8px;vertical-align:middle}
   .notes p{margin:0 0 8px;color:#3b373e}
-
   .foot-mast{display:grid;grid-template-columns:repeat(6,1fr);align-items:center;margin:44px 0 0;user-select:none}
-  .foot-mast .L{font-family:var(--serif);font-size:clamp(50px,10vw,136px);line-height:.85;text-align:center;text-shadow:-2px 1px 0 var(--mag-soft)}
+  .foot-mast .L{font-family:var(--serif);font-size:clamp(48px,9.5vw,130px);line-height:.85;text-align:center;text-shadow:-2px 1px 0 var(--mag-soft)}
   .foot-mast .L:nth-child(odd){transform:rotate(-8deg)}
   .foot-mast .L:nth-child(even){transform:rotate(7deg) translateY(8%)}
   .colophon{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;border-top:1px solid var(--ink);margin-top:14px;padding-top:8px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
   .colophon a{text-decoration:none}.colophon a:hover{color:var(--mag)}
 
-  @media (max-width:900px){
-    .row1,.row2{grid-template-columns:minmax(0,1fr)}
+  @media (max-width:940px){
+    .stage{grid-template-columns:minmax(0,1fr)}
+    .dialcol{position:relative;top:0}
     .notes{grid-template-columns:1fr}
-    .viewer{aspect-ratio:4/3}
   }
   @media (max-width:560px){
     .nav > div:last-child{display:none}
     .mast-sub{font-size:8px}
-    .dialbox{grid-template-columns:1fr}
-    .vcols{flex-wrap:wrap;gap:4px 16px;order:2}
-    .vcol{writing-mode:horizontal-tb}
     .step .s{display:none}
+    .row3{grid-template-columns:1fr 1fr}
+    .row3 > :first-child{grid-column:1/-1}
+    .cart{max-width:34%;font-size:8.5px;letter-spacing:.08em}
+    .cart b{font-size:11px}.cart.br b{font-size:14px}
+    #c-ll,.cart.tr br{display:none}
   }
+  @media (prefers-reduced-motion: reduce){ .mind{display:none} }
 </style>
 </head>
 <body>
@@ -220,7 +237,7 @@
     </filter>
     <filter id="sprayHeavy" x="-10%" y="-60%" width="120%" height="220%">
       <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="2" result="grain"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="soft"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.4" result="soft"/>
       <feDisplacementMap in="soft" in2="grain" scale="6" xChannelSelector="R" yChannelSelector="G" result="disp"/>
       <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.6 2.2" result="mask"/>
       <feComposite in="disp" in2="mask" operator="in"/>
@@ -254,108 +271,97 @@
         <circle cx="1170" cy="15" r="11" fill="#e0177e"/>
       </g>
     </svg>
-    <p class="lede">Drop a photo. Solar WB reads <em>when</em> and <em>where</em> it was shot, works out how high the sun was, and turns that light into a Lightroom white balance. Keep the golden hour, or clean it.</p>
+    <p class="lede">Drop a photo in the middle of the sky. Solar WB reads <em>when</em> and <em>where</em> it was shot, works out how high the sun was, and turns that light into a Lightroom white balance. Keep the golden hour, or clean it.</p>
   </header>
 
-  <!-- ROW 1 · photo + result -->
-  <section class="row1">
-    <div>
-      <div class="step"><span class="n">01</span><span class="t">Drop your photo</span><span class="s">JPEG · HEIC · Fuji RAF · DNG · stays on your device</span></div>
-      <div class="viewer" id="viewer" tabindex="0" role="button" aria-label="Drop a photo or click to choose one">
-        <div class="empty">
-          <div class="ringwrap">
-            <svg viewBox="0 0 300 300" aria-hidden="true"><g filter="url(#riso)"><ellipse cx="150" cy="150" rx="128" ry="118" transform="rotate(-14 150 150)" fill="none" stroke="#e0177e" stroke-width="8" stroke-dasharray="520 18 150 24"/></g></svg>
-            <div class="big">Drop a<br>photo<i>here</i></div>
-          </div>
-          <span class="btnlike">or click to choose</span>
-          <span class="fmt">iPhone HEIC + Fuji RAF read · nothing uploaded</span>
-        </div>
-        <div class="stagecv" id="stagecv">
+  <section class="stage">
+    <!-- the dial: photo at the centre, the sky around it -->
+    <div class="dialcol">
+      <div class="panel" id="panel">
+        <svg class="dial" id="dial" viewBox="0 0 800 800" role="img" aria-label="Sun path around your photo for its date and place"></svg>
+
+        <div class="cart tl"><small>when</small><b id="c-date">—</b><span id="c-time">—</span></div>
+        <div class="cart tr"><small>where</small><b id="c-place">—</b><span id="c-ll">—</span><br><span id="c-alt">—</span></div>
+        <div class="cart bl"><small>the sun</small><b id="c-elev">—</b><span id="c-az">—</span><br><span id="c-am">—</span></div>
+        <div class="cart br"><small>the light</small><b id="c-k">—</b><span id="c-phase">—</span></div>
+
+        <div class="plate" id="plate" tabindex="0" role="button" aria-label="Drop a photo or click to choose one">
+          <div class="empty"><div class="big">Drop a<br>photo<i>here</i></div><span class="sm">or click</span></div>
           <canvas id="cvBefore"></canvas><canvas id="cvAfter"></canvas>
           <div class="divider" id="divider"></div>
-          <span class="tag l">As shot</span><span class="tag r" id="tagAfter">Solar WB</span>
         </div>
-        <div class="busy" id="busy">developing…</div>
+        <svg class="platering" viewBox="0 0 300 300" aria-hidden="true"><g filter="url(#riso)"><ellipse cx="150" cy="150" rx="132" ry="124" transform="rotate(-14 150 150)" fill="none" stroke="#e0177e" stroke-width="7" stroke-dasharray="520 18 150 24"/></g></svg>
+        <div class="plate-tags"><span>◀ as shot</span><span>solar wb ▶</span></div>
+        <button class="expand" id="expand" title="View large" aria-label="View photo large">⤢</button>
         <input type="file" id="file" accept="image/*,.raf,.RAF,.dng,.DNG,.heic,.HEIC,.heif,.tif,.tiff" hidden>
       </div>
-      <div class="vcap"><span id="vcapText">Drag the divider to compare.</span><button type="button" class="linkbtn" id="replaceBtn" hidden>replace photo</button></div>
-      <div class="note" id="previewNote" hidden>Preview shifts the photo from Daylight (5500K) to your setting. Lightroom starts from the camera's own white balance, so the final look can differ a little.</div>
+      <canvas class="mind" id="mind" aria-hidden="true"></canvas>
+      <div class="dialcap">You are the centre. Rings = sun height, gold beads = each hour, dotted = the solstices, pink line = your shot. Drag across the photo to compare.</div>
     </div>
 
-    <aside class="result">
-      <div class="step"><span class="n">04</span><span class="t">Your white balance</span></div>
-      <div class="readout">
-        <svg viewBox="0 0 380 132" id="readout" aria-live="polite">
-          <text x="0" y="30" font-family="Courier Prime, monospace" font-weight="700" font-size="30" fill="#151317" opacity=".38" filter="url(#sprayHeavy)" id="r-ghost1">SUN —°</text>
-          <text x="0" y="98" font-family="Courier Prime, monospace" font-weight="700" font-size="76" fill="#151317" filter="url(#spray)" id="r-k">5500K</text>
-          <text x="0" y="128" font-family="Share Tech Mono, monospace" font-size="13" letter-spacing="3" fill="#6d6870" id="r-sub">COLOR OF THE LIGHT</text>
-        </svg>
-        <div class="phase" id="phase">waiting for a photo</div>
-      </div>
-      <div class="lr">
-        <div><small>Lightroom temp</small><b id="o-temp">5500</b></div>
-        <div><small>Tint</small><b id="o-tint">+0</b></div>
-      </div>
-      <div class="slider">
-        <div class="ends"><span>Film · keep the light</span><b id="corrVal">70% to neutral</b><span>Neutral</span></div>
-        <input type="range" id="in-corr" min="0" max="100" value="70" aria-label="Film to neutral">
-      </div>
-      <div class="slider">
-        <div class="ends"><span>Green</span><b id="tintVal">tint +0</b><span>Magenta</span></div>
-        <input type="range" id="in-tint" min="-40" max="40" value="0" aria-label="Tint">
-      </div>
-      <div class="actions">
-        <button class="btn" id="dl">Download Lightroom preset</button>
-        <button class="btn ghost" id="copy" title="Copy temp + tint">Copy</button>
-      </div>
-      <div class="fine">Kelvin presets are for raw files (RAF, DNG, CR2…). On JPEG and HEIC, Lightroom's temp slider is relative, so use the number as a guide. The light is estimated, not measured: clouds, smoke and bounce light move it.</div>
-    </aside>
-  </section>
-
-  <!-- ROW 2 · when/where + light -->
-  <section class="row2">
-    <div>
-      <div class="step"><span class="n">02</span><span class="t">Where the sun was</span><span class="s">sun path for the day · you are the center</span></div>
-      <div class="dialbox">
-        <div class="vcols" id="vcols" aria-label="Readings">
-          <div class="vcol big" id="v-time">— · —</div>
-          <div class="vcol"><span class="k">●</span> <span id="v-lat">lat —</span></div>
-          <div class="vcol"><span class="k">●</span> <span id="v-lon">lon —</span></div>
-          <div class="vcol"><span class="k">●</span> <span id="v-alt">alt —</span></div>
-          <div class="vcol"><span class="k">●</span> <span id="v-sun">sun —</span></div>
-          <div class="vcol"><span class="k">●</span> <span id="v-am">air mass —</span></div>
-        </div>
-        <div>
-          <div class="panel"><svg id="dial" viewBox="0 0 700 700" role="img" aria-label="Sun path diagram for the photo's date and place"></svg></div>
-          <div class="dialcap">Rings = sun height · gold beads = each hour · dotted = the solstices · pink line = your shot.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="settings">
+    <!-- the steps, in order -->
+    <div class="steps">
       <div>
-        <div class="step"><span class="n">03</span><span class="t">Check time, place + light</span></div>
-        <div class="status" id="status">Showing right now in Nashville. Drop a photo to use its time and GPS.</div>
+        <div class="step"><span class="n">01</span><span class="t">Photo</span><span class="s">JPEG · HEIC · Fuji RAF · DNG</span></div>
+        <div class="status" id="status">Showing right now in Nashville. Drop a photo on the dial to use its time and GPS.</div>
+        <div class="btnrow"><button class="btn ghost" id="chooseBtn">Choose photo</button></div>
+        <div class="fine" style="margin-top:8px">Your photo stays in this browser. It is never uploaded, GPS included.</div>
       </div>
-      <fieldset>
-        <div class="row">
-          <label class="f">Date + time (local)<input type="datetime-local" id="in-dt" step="60"></label>
-          <label class="f">UTC offset<input type="text" id="in-off" placeholder="-06:00"></label>
-        </div>
-        <label class="f">Coordinates (lat, lon) · <button type="button" class="linkbtn" id="geoBtn">use my location</button><input type="text" id="in-ll" placeholder="paste from Google Maps: 36.1627, -86.7816" inputmode="decimal"></label>
-        <div class="row">
-          <label class="f">Altitude (m)<input type="number" id="in-alt" value="180" step="10"></label>
-          <label class="f">Sun height<input type="text" id="in-elev" readonly tabindex="-1"></label>
-        </div>
-        <div>
-          <label class="f" style="margin-bottom:6px">Subject lit by</label>
+
+      <div>
+        <div class="step"><span class="n">02</span><span class="t">Place + time</span><span class="s">no GPS? search it</span></div>
+        <fieldset>
+          <label class="f search">Search a place
+            <input type="search" id="in-search" placeholder="Leipers Fork, Eze, a landmark…" autocomplete="off" spellcheck="false">
+            <div class="results" id="results" role="listbox"></div>
+          </label>
+          <label class="f">Coordinates · paste from Google Maps (link or numbers) · <button type="button" class="linkbtn" id="geoBtn">use my location</button><input type="text" id="in-ll" placeholder="36.1627, -86.7816" inputmode="decimal"></label>
+          <div class="row3">
+            <label class="f">Date + time (local)<input type="datetime-local" id="in-dt" step="60"></label>
+            <label class="f">UTC offset<input type="text" id="in-off" placeholder="-06:00"></label>
+            <label class="f">Altitude (m)<input type="number" id="in-alt" value="180" step="10"></label>
+          </div>
+          <div class="attrib">Place search: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a> via Photon · elevation: Open-Meteo · time zone worked out on your device. Only what you type or pick is sent.</div>
+        </fieldset>
+      </div>
+
+      <div>
+        <div class="step"><span class="n">03</span><span class="t">Light on the subject</span></div>
+        <fieldset>
           <div class="seg" id="seg"><button type="button" data-l="sun" class="on">Sun</button><button type="button" data-l="shade">Shade</button><button type="button" data-l="overcast">Overcast</button></div>
+          <div class="slider">
+            <div class="ends"><span>Clean air</span><b id="hazeVal">haze 30</b><span>Heavy haze</span></div>
+            <input type="range" id="in-haze" min="0" max="100" value="30" aria-label="Haze">
+          </div>
+        </fieldset>
+      </div>
+
+      <div>
+        <div class="step"><span class="n">04</span><span class="t">Your white balance</span></div>
+        <div class="readout">
+          <svg viewBox="0 0 380 106" aria-live="polite">
+            <text x="0" y="22" font-family="Share Tech Mono, monospace" font-size="12" letter-spacing="3" fill="#6d6870">LIGHTROOM TEMP</text>
+            <text x="0" y="96" font-family="Courier Prime, monospace" font-weight="700" font-size="80" fill="#151317" filter="url(#spray)" id="r-temp">5500</text>
+            <text x="378" y="94" text-anchor="end" font-family="Courier Prime, monospace" font-weight="700" font-size="20" fill="#151317" opacity=".6" id="r-tint">TINT +0</text>
+          </svg>
         </div>
-        <div class="slider">
-          <div class="ends"><span>Clean air</span><b id="hazeVal">haze 30</b><span>Heavy haze</span></div>
-          <input type="range" id="in-haze" min="0" max="100" value="30" aria-label="Haze">
-        </div>
-      </fieldset>
+        <div class="phase" id="phase">waiting for a photo</div>
+        <fieldset style="margin-top:6px">
+          <div class="slider">
+            <div class="ends"><span>Film · keep the light</span><b id="corrVal">70% to neutral</b><span>Neutral</span></div>
+            <input type="range" id="in-corr" min="0" max="100" value="70" aria-label="Film to neutral">
+          </div>
+          <div class="slider">
+            <div class="ends"><span>Green</span><b id="tintVal">tint +0</b><span>Magenta</span></div>
+            <input type="range" id="in-tint" min="-40" max="40" value="0" aria-label="Tint">
+          </div>
+          <div class="actions">
+            <button class="btn" id="dl">Download Lightroom preset</button>
+            <button class="btn ghost" id="copy" title="Copy temp + tint">Copy</button>
+          </div>
+          <div class="fine">Kelvin presets are for raw files (RAF, DNG, CR2…). On JPEG and HEIC, Lightroom's temp slider is relative, so use the number as a guide. The photo preview shifts from Daylight (5500K) to your setting; Lightroom starts from the camera's own white balance, so the final look can differ a little.</div>
+        </fieldset>
+      </div>
     </div>
   </section>
 
@@ -377,23 +383,29 @@
     </div>
     <div>
       <h3><span>III.</span>Film, not auto</h3>
-      <p>Daylight film was fixed near 5500K, so sunsets came out gold. Setting the white balance to the exact Kelvin of the light cleans that away. The slider moves part of the way from 5500K toward neutral, so you choose how much of the mood stays.</p>
-      <p>Your photo is read in this browser. Nothing is uploaded, GPS included.</p>
+      <p>Daylight film was fixed near 5500K, so sunsets came out gold. Phones and cameras on auto white balance read the picture and pull it back toward neutral. This works from the sun instead, and the slider decides how much of the mood stays.</p>
+      <p>Most useful on raw files, where the white balance is still yours to set.</p>
     </div>
   </section>
 
   <footer>
     <div class="foot-mast" aria-label="Kelvin"><span class="L">K</span><span class="L">E</span><span class="L">L</span><span class="L">V</span><span class="L">I</span><span class="L">N</span></div>
     <div class="colophon">
-      <span>Sun: NOAA solar calculator · Air: Kasten–Young air mass · Color: CIE 1931</span>
-      <span>EXIF: exifr (MIT) · HEIC: libheif via heic-to (LGPL)</span>
+      <span>Sun: NOAA solar calculator · Air: Kasten–Young · Color: CIE 1931</span>
+      <span>EXIF: exifr (MIT) · HEIC: libheif via heic-to (LGPL) · Places © OpenStreetMap</span>
       <a href="/">Stuart Singleton · Nashville</a>
     </div>
   </footer>
 </div>
 
+<div class="modal" id="modal" role="dialog" aria-label="Compare large">
+  <div class="bar"><span>◀ as shot · drag to compare · solar wb ▶</span><button id="closeModal">Close</button></div>
+  <div class="view" id="mview"><canvas id="mBefore"></canvas><canvas id="mAfter"></canvas><div class="divider" id="mdivider"></div></div>
+</div>
+
 <script src="/labs/solar/exifr.umd.js"></script>
 <script src="/labs/solar/core.js"></script>
+<script src="/labs/solar/tz.js"></script>
 <script src="/labs/solar/app.js"></script>
 </body>
 </html>

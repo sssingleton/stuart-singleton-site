@@ -50,7 +50,7 @@
       az = Math.acos(ca) * R2D;
       az = ha > 0 ? mod(az + 180, 360) : mod(540 - az, 360);
     }
-    return { elevation: elev, azimuth: az, declination: decl * R2D, eqTime: eqt, solarNoonUtcMin: mod(720 - 4 * lon - eqt, 1440) };
+    return { elevation: elev, azimuth: az, declination: decl * R2D, eqTime: eqt, solarNoonUtcMin: mod(720 - 4 * lon - eqt, 1440), jd, T, L0, M: mod(M, 360), eps: eps * R2D, hourAngle: ha, zenith: zen, refraction: ref };
   }
 
   /* ---------- spectral daylight model ---------- */
