@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7P9FGW6PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y7P9FGW6PT');
+</script>
+<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  window.__ssSend=function(e,id,m){var o=Object.assign({e:e},base);if(id)o.id=id;if(m)o.m=m;var b=JSON.stringify(o);try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}};
+  window.__ssSend('page_view');
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<title>Turn an Old Computer into a Home Server with Tailscale | Stuart Singleton</title>
+<meta name="description" content="A free, step-by-step guide to turning an old computer into an always-on home server you can reach from anywhere with Tailscale: Linux install, SSH, Docker services, a NAS, access rules, backups and outage planning. Includes an AI playbook for Claude or ChatGPT.">
+<link rel="canonical" href="https://stuartsingleton.com/guides/home-server-tailscale">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Turn an Old Computer into a Home Server | Free Guide">
+<meta property="og:description" content="Always-on Linux server, reachable from your phone anywhere, no open ports. Every step and every place I got stuck, plus an AI playbook.">
+<meta property="og:image" content="https://stuartsingleton.com/og-gallery.jpg">
+<meta property="og:url" content="https://stuartsingleton.com/guides/home-server-tailscale">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "HowTo", "name": "How to turn an old computer into a home server with Tailscale", "description": "A free, step-by-step guide to turning an old computer into an always-on home server you can reach from anywhere with Tailscale: Linux install, SSH, Docker services, a NAS, access rules, backups and outage planning. Includes an AI playbook for Claude or ChatGPT.", "author": {"@type": "Person", "name": "Stuart Singleton", "url": "https://stuartsingleton.com"}, "tool": [{"@type": "HowToTool", "name": "Ubuntu LTS"}, {"@type": "HowToTool", "name": "Tailscale"}, {"@type": "HowToTool", "name": "Docker"}, {"@type": "HowToTool", "name": "balenaEtcher"}, {"@type": "HowToTool", "name": "An AI assistant such as Claude"}], "step": [{"@type": "HowToStep", "name": "Pick the machine"}, {"@type": "HowToStep", "name": "Install Linux"}, {"@type": "HowToStep", "name": "Keep it awake"}, {"@type": "HowToStep", "name": "Install Tailscale on every device"}, {"@type": "HowToStep", "name": "Set up names and SSH"}, {"@type": "HowToStep", "name": "Run services with Docker"}, {"@type": "HowToStep", "name": "Add a NAS"}, {"@type": "HowToStep", "name": "Set access rules"}, {"@type": "HowToStep", "name": "Set up power and updates"}, {"@type": "HowToStep", "name": "Back up"}, {"@type": "HowToStep", "name": "Plan for internet outages"}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif; --pad:clamp(24px,6vw,64px); }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:#050505; color:#fff; min-height:100%; }
+  html { scroll-behavior:smooth; }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:1040px; margin:0 auto; padding:calc(var(--pad) * .9) var(--pad) 80px; }
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#666; margin-bottom:56px; }
+  .nav a { text-decoration:none; color:#888; transition:color .2s; }
+  .nav a:hover { color:#fff; }
+  .nav .links { display:flex; gap:22px; }
+  .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:#666; text-transform:uppercase; margin-bottom:12px; }
+  .hero { font-family:var(--display); font-size:clamp(56px,10vw,112px); line-height:.86; letter-spacing:.02em; margin:0 0 10px; }
+  .sub { font-size:11px; font-weight:400; color:#777; letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; }
+  .lead { max-width:620px; font-size:14px; font-weight:300; line-height:1.7; color:#9a9a9a; margin:0 0 28px; }
+  .lead a, .prose a { color:#ccc; text-decoration:none; border-bottom:1px solid #333; }
+  .lead a:hover, .prose a:hover { color:#fff; border-color:#fff; }
+
+  .btns { display:flex; gap:12px; flex-wrap:wrap; margin:0 0 56px; }
+  .btn { font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:12px 18px; border:1px solid #2a2a2a; color:#999; text-decoration:none; background:none; cursor:pointer; transition:all .2s; }
+  .btn:hover { border-color:#fff; color:#fff; }
+  .btn.solid { background:#f2efe4; color:#050505; border-color:#f2efe4; }
+  .btn.solid:hover { background:#fff; border-color:#fff; }
+
+  .toc { border-top:1px solid #161616; border-bottom:1px solid #161616; padding:18px 0 14px; margin:0 0 64px; columns:2; column-gap:40px; }
+  .toc a { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:#666; text-decoration:none; padding:5px 0; break-inside:avoid; }
+  .toc a span { color:#333; margin-right:10px; }
+  .toc a:hover { color:#fff; }
+
+  section.step { margin:0 0 64px; scroll-margin-top:24px; }
+  .step-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:18px; }
+  .step-h span:last-child { color:#333; margin-left:auto; }
+  h2 { font-family:var(--display); font-size:clamp(34px,5vw,52px); letter-spacing:.03em; line-height:.95; color:#e6e6e6; margin:0 0 18px; font-weight:normal; }
+  h3 { font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#aaa; font-weight:normal; margin:26px 0 10px; }
+  .prose { max-width:680px; }
+  .prose p, .prose li { font-size:14px; font-weight:300; line-height:1.75; color:#a4a4a4; }
+  .prose p { margin:0 0 14px; }
+  .prose ul, .prose ol { margin:0 0 16px; padding-left:20px; }
+  .prose li { margin:0 0 6px; }
+  .prose b, .prose strong { color:#ddd; font-weight:400; }
+  code { font-family:var(--mono); font-size:12px; color:#d8d0b8; background:#111; padding:1px 5px; border-radius:2px; }
+  pre { font-family:var(--mono); font-size:11.5px; line-height:1.6; color:#cfc8b0; background:#0c0c0c; border:1px solid #1a1a1a; padding:14px 16px; overflow-x:auto; margin:0 0 16px; max-width:680px; }
+  pre code { background:none; padding:0; }
+  .lesson { max-width:680px; border-left:2px solid #f2efe4; background:#0b0b0b; padding:12px 16px; margin:4px 0 18px; }
+  .lesson .k { font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:#f2efe4; margin-bottom:6px; }
+  .lesson p { font-size:13px; font-weight:300; line-height:1.65; color:#9a9a9a; margin:0; }
+  .hire { display:inline-block; margin-top:6px; font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#555; text-decoration:none; border-bottom:1px solid #222; }
+  .hire:hover { color:#fff; border-color:#fff; }
+
+  .panel { border:1px solid #1c1c1c; background:#090909; padding:clamp(22px,4vw,36px); margin:0 0 64px; scroll-margin-top:24px; }
+  .panel h2 { margin-bottom:10px; }
+  .panel .lead { margin-bottom:20px; }
+  .copied { font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:#4a8; text-transform:uppercase; align-self:center; }
+
+  .group { margin-bottom:36px; }
+  .group-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:6px; }
+  .group-h span:last-child { color:#333; }
+  .item { display:grid; grid-template-columns:28px 1fr auto; gap:0 18px; align-items:center; padding:20px 0; border-bottom:1px solid #111; text-decoration:none; color:inherit; }
+  .item:hover .t { color:#fff; }
+  .item:hover .cta { border-color:#fff; color:#fff; }
+  .num { font-family:var(--mono); font-size:10px; color:#3a3a3a; letter-spacing:.1em; }
+  .t { font-family:var(--display); font-size:clamp(22px,3vw,30px); letter-spacing:.03em; line-height:1; color:#d8d8d8; transition:color .2s; }
+  .d { font-size:12.5px; font-weight:300; color:#7c7c7c; line-height:1.55; margin-top:6px; max-width:560px; }
+  .cta { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; padding:8px 14px; border:1px solid #2a2a2a; color:#777; white-space:nowrap; transition:all .2s; }
+
+  .f { display:grid; gap:14px; max-width:560px; }
+  .f label { display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:#666; margin-bottom:6px; }
+  .f input, .f textarea, .f select { width:100%; background:#050505; border:1px solid #2a2a2a; color:#eee; font-family:var(--sans); font-size:14px; padding:11px 12px; border-radius:0; }
+  .f textarea { min-height:120px; resize:vertical; }
+  .f input:focus, .f textarea:focus, .f select:focus { outline:none; border-color:#888; }
+  .hp { position:absolute; left:-9999px; }
+  #qst { font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; min-height:16px; }
+
+  .disclosure { margin-top:40px; padding-top:18px; border-top:1px solid #161616; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; line-height:1.8; color:#555; max-width:640px; }
+  .disclosure b { color:#777; font-weight:normal; }
+  footer { margin-top:56px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#3a3a3a; display:flex; gap:22px; flex-wrap:wrap; }
+  footer a { text-decoration:none; color:#555; }
+  footer a:hover { color:#fff; }
+  @media (max-width:600px) {
+    .nav { margin-bottom:40px; }
+    .toc { columns:1; }
+    .item { grid-template-columns:1fr; gap:10px 0; padding:18px 0; }
+    .num { display:none; }
+    .cta { justify-self:start; padding:9px 14px; min-height:34px; display:inline-flex; align-items:center; }
+    .t { font-size:26px; }
+  }
+  @media (hover:none) { .item:hover .t { color:#d8d8d8; } .item:hover .cta { border-color:#2a2a2a; color:#777; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a href="/">Stuart Singleton</a>
+    <div class="links"><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a></div>
+  </nav>
+
+  <div class="eyebrow"><a href="/guides" style="color:inherit;text-decoration:none">Guides</a> · Free · Anyone with an old computer</div>
+  <h1 class="hero">HOME<br>SERVER</h1>
+  <p class="sub">An always-on machine you can reach from anywhere</p>
+  <p class="lead">I turned a 2014 Mac mini that couldn't run a current macOS into an always-on Linux server. It runs my automation, an offline library with a small local AI, and it's reachable from my phone anywhere in the world. I never opened a port on my router. The trick is Tailscale, a private network that connects your devices directly. This guide is the whole setup, including every place I got stuck. Read it, or grab the AI playbook and have Claude or ChatGPT walk you through it.</p>
+  <div class="btns">
+    <a class="btn solid" href="/guides/home-server-tailscale-playbook.txt" download data-ev="playbook_download">Download the AI playbook ↓</a>
+    <a class="btn" href="/contact" data-ev="help_click">Want help setting this up? →</a>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <a href="#what"><span>00</span>What you're building</a>
+    <a href="#machine"><span>01</span>Pick the machine</a>
+    <a href="#install"><span>02</span>Install Linux</a>
+    <a href="#awake"><span>03</span>Keep it awake</a>
+    <a href="#tailscale"><span>04</span>Tailscale everywhere</a>
+    <a href="#names"><span>05</span>Names and SSH</a>
+    <a href="#services"><span>06</span>Run services</a>
+    <a href="#nas"><span>07</span>Add a NAS</a>
+    <a href="#access"><span>08</span>Who can reach what</a>
+    <a href="#power"><span>09</span>Power and updates</a>
+    <a href="#backup"><span>10</span>Backups</a>
+    <a href="#offline"><span>11</span>When the internet is down</a>
+    <a href="#playbook"><span>→</span>AI playbook</a>
+    <a href="#tools"><span>→</span>Tools I use</a>
+  </nav>
+
+  <section class="step" id="what">
+    <div class="step-h"><span>00</span><span>Overview</span><span>Read first</span></div>
+    <h2>What you're building</h2>
+    <div class="prose">
+      <p>A computer that never sleeps, sits at home on a wired connection, and does the jobs your laptop shouldn't. You reach it from your phone, laptop or anywhere else through Tailscale, without exposing anything to the open internet.</p>
+      <ul>
+        <li><b>File sharing</b> you can reach from anywhere.</li>
+        <li><b>Automation</b> like n8n workflows that run while your laptop is closed.</li>
+        <li><b>An offline library:</b> Wikipedia, medical references and repair guides served on your home network, plus a small local AI that answers from them.</li>
+        <li><b>Anything else always-on:</b> home automation, a camera recorder, a print farm controller.</li>
+      </ul>
+      <h3>What it costs</h3>
+      <p>An old computer you already own, a little electricity, and nothing for Tailscale for personal use. Its free Personal plan covers up to 6 users with unlimited personal devices, for non-commercial use. A battery backup and a better drive are the only purchases worth making early.</p>
+      <h3>How long it takes</h3>
+      <p>An afternoon for the base server. Each service after that is an evening.</p>
+    </div>
+  </section>
+
+  <section class="step" id="machine">
+    <div class="step-h"><span>01</span><span>Hardware</span><span>~30 min</span></div>
+    <h2>Pick the machine</h2>
+    <div class="prose">
+      <p>Almost anything works: an old Mac mini, a laptop with a dead screen, a cheap mini PC. What matters is that it's quiet, sips power, and has a wired Ethernet port.</p>
+      <ul>
+        <li><b>Check the exact model before buying parts.</b> On older Mac minis the drive and sometimes the RAM can be upgraded. On newer ones both are soldered, so external storage is the only option. The model decides whether a drive purchase is even possible.</li>
+        <li><b>Swap a spinning hard drive for an SSD</b> if you can. It's the single biggest speed and reliability upgrade for an old machine.</li>
+        <li><b>Plug it into the router with Ethernet.</b> Wi-Fi is the most common reason a home server "randomly" drops off.</li>
+        <li><b>Keep its job list short.</b> An old machine with fixed RAM can do a few things well, not everything.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>My plan was to keep the Mac mini on macOS. Three weeks in, I realized it couldn't run Tailscale at all: the app needs a newer macOS than a 2014 mini can install. Check that your OS can run the current Tailscale client before you plan anything else. If it can't, install Linux. That's what saved the machine.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="install">
+    <div class="step-h"><span>02</span><span>OS</span><span>~1 hour</span></div>
+    <h2>Install Linux</h2>
+    <div class="prose">
+      <p>Ubuntu's current long-term support (LTS) release is the easy default. It gets security updates for years and every tutorial covers it.</p>
+      <ol>
+        <li>Back up anything on the machine first. The install erases it.</li>
+        <li>Download the Ubuntu ISO and write it to a USB stick with balenaEtcher.</li>
+        <li>On a Mac: power off, plug the stick into a port on the back, press power and immediately hold <code>Option</code>. Pick <b>EFI Boot</b>. On a PC, use the boot menu key (often F12).</li>
+        <li>Install, set a strong password, and pick a hostname you'll remember, like <code>server</code>.</li>
+      </ol>
+      <div class="lesson"><div class="k">What broke for me</div><p>After picking EFI Boot, the screen stayed black for a minute or two. That's normal on old Macs. I almost restarted in the middle of it. And if no EFI Boot option shows up at all, the stick didn't write as bootable: rewrite it rather than troubleshooting the computer.</p></div>
+      <div class="lesson"><div class="k">Also caught me</div><p>The installer gave my login account a different name than the computer's hostname. SSH needs the account name, not the computer name, so <code>ssh server@server</code> failed and looked exactly like a network problem. Write down both the username and the hostname the moment the install finishes.</p></div>
+      <p><b>On disk encryption:</b> full disk encryption makes the machine stop at a passphrase prompt after every power cut, with nobody home to type it. If the server stores nothing sensitive itself (your files live on a NAS or are backed up elsewhere), skipping it can be the right trade. Decide on purpose.</p>
+    </div>
+    <a class="hire" href="/contact">Rather have someone set it up? Get in touch →</a>
+  </section>
+
+  <section class="step" id="awake">
+    <div class="step-h"><span>03</span><span>Always on</span><span>~10 min</span></div>
+    <h2>Keep it awake</h2>
+    <div class="prose">
+      <p>Desktop Linux goes to sleep like a laptop. A server that sleeps is a server you can't reach. Turn sleep off at the system level, not just in settings:</p>
+<pre><code>sudo systemctl mask sleep.target suspend.target \
+  hibernate.target hybrid-sleep.target</code></pre>
+      <p>Then in Settings → Power, set Screen Blank to Never and Automatic Suspend to Off. If the machine has a lid, set it to do nothing when closed.</p>
+    </div>
+  </section>
+
+  <section class="step" id="tailscale">
+    <div class="step-h"><span>04</span><span>Network</span><span>~20 min</span></div>
+    <h2>Tailscale everywhere</h2>
+    <div class="prose">
+      <p>Tailscale gives each of your devices a private address on your own network (a "tailnet"). They find each other wherever they are, at home, on cell data, in a hotel. Nothing is exposed to the internet.</p>
+      <ol>
+        <li>Make a Tailscale account. Pick the login you want to own this long-term (more on why in step 8).</li>
+        <li>On the server:
+<pre><code>sudo apt install -y curl
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up</code></pre>
+          Open the link it prints and approve the machine.</li>
+        <li>Install the Tailscale app on your phone and laptop and sign in with the same account.</li>
+        <li>In the admin console, find the server and <b>disable key expiry</b> for it. New tailnets expire each device's login after 180 days by default. That's good for laptops and bad for a server nobody is sitting at. Tagged devices (step 8) have expiry turned off automatically.</li>
+      </ol>
+      <div class="lesson"><div class="k">What broke for me</div><p>Minimal Ubuntu doesn't include <code>curl</code>. The install line failed with "curl not found" and then "tailscale: command not found", which reads like two problems but is one. Install curl from apt first. Not from snap, which sandboxes it.</p></div>
+      <div class="lesson"><div class="k">On a Mac</div><p>Typing <code>tailscale status</code> in the Mac Terminal says "command not found" even when Tailscale is working fine, because the Mac app keeps its command-line tool inside the app. It looks broken and isn't. Use the menu bar app, or add an alias to the full path.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="names">
+    <div class="step-h"><span>05</span><span>Access</span><span>~30 min</span></div>
+    <h2>Names and SSH</h2>
+    <div class="prose">
+      <p>Turn on <b>MagicDNS</b> in the Tailscale admin console (DNS tab). Then you reach machines by name, like <code>server</code>, instead of memorizing addresses.</p>
+      <ul>
+        <li><b>Name it in two places.</b> The name in the Tailscale console and the computer's own hostname are separate settings. Set them to match, or names will disagree in confusing ways later.</li>
+        <li><b>Keep the Tailscale address as a fallback.</b> If <code>ssh you@server</code> fails but <code>ssh you@100.x.y.z</code> works, it's a naming problem, not a network problem. That one test saves an hour.</li>
+        <li><b>Machines shared with other people</b> only resolve by their full name (<code>server.your-tailnet.ts.net</code>), not the short one.</li>
+      </ul>
+      <h3>SSH, so you never sit at it again</h3>
+<pre><code>sudo apt install -y openssh-server
+sudo systemctl enable --now ssh
+sudo ufw allow ssh
+sudo ufw enable</code></pre>
+      <p>From your laptop: <code>ssh yourusername@server</code>. For a desktop view instead, Ubuntu has Remote Desktop under Settings → System.</p>
+      <div class="lesson"><div class="k">What broke for me</div><p>I pasted a whole block of commands into an SSH login at once. The extra lines got eaten as password attempts, the server hung up, and the rest of the commands ran on my own Mac instead. Paste one line at a time and wait for the server's prompt.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="services">
+    <div class="step-h"><span>06</span><span>Jobs</span><span>an evening each</span></div>
+    <h2>Run services</h2>
+    <div class="prose">
+      <p>Use <b>Docker</b>, with one <code>docker-compose.yml</code> per service in a single folder (I use <code>/opt/stack/</code>) that's tracked in git. Then the whole server is a set of files, and rebuilding it from scratch is: install Docker, clone the folder, start everything. An afternoon instead of a weekend of remembering what you installed.</p>
+<pre><code>curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER   # then log out and back in</code></pre>
+      <p>Install Docker from the official script or apt, not snap. Snap's sandbox fights the folder mounts Docker depends on.</p>
+      <h3>Good first services</h3>
+      <ul>
+        <li><b>n8n</b> for automations that run on a schedule.</li>
+        <li><b>Kiwix</b> to serve offline copies of Wikipedia, medical wikis and repair guides to any browser on your network.</li>
+        <li><b>Ollama</b> for a small local AI. On my 2014 mini with no graphics card, a 3 billion parameter model produces about 7 tokens (roughly five words) a second. Slow, but fast enough to read along.</li>
+        <li><b>Watchtower or diun</b> to update containers automatically or tell you when updates exist.</li>
+      </ul>
+      <div class="lesson"><div class="k">Worth knowing</div><p>Home Assistant in Docker is the "Container" version, which has no add-on store. Every tutorial that says "just install the add-on" stops applying, and you wire each piece up yourself. Docker makes it easier to start, not easier to run.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="nas">
+    <div class="step-h"><span>07</span><span>Storage</span><span>~1 hour</span></div>
+    <h2>Add a NAS</h2>
+    <div class="prose">
+      <p>If you have a Synology, put it on the same tailnet and your files follow you everywhere.</p>
+      <ul>
+        <li>Install the official <b>Tailscale</b> package from Synology's Package Center. Use it instead of a subnet router.</li>
+        <li><b>Turn off QuickConnect.</b> It's a door into your NAS from the internet. With Tailscale you don't need it, and leaving both on makes the secure path optional.</li>
+        <li>Make a personal admin account, stop using the built-in <code>admin</code>, and turn on two-factor login.</li>
+        <li>Turn on the firewall: allow your home network and Tailscale, deny the rest.</li>
+        <li>Never run a big operating system upgrade on the NAS over Tailscale. You'll lose the connection halfway through.</li>
+      </ul>
+      <div class="lesson"><div class="k">What I learned</div><p>A Synology can't act as a plug-in drive for one computer. Its USB ports are for drives going into it. For near-local speed, run a second Ethernet cable straight from your computer to the NAS on its own little network. And edit on a fast local SSD, archive to the NAS. Editing 4K video straight off a network share feels broken, and it isn't the NAS's fault.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="access">
+    <div class="step-h"><span>08</span><span>Security</span><span>~1 hour</span></div>
+    <h2>Who can reach what</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Never forward ports on your router.</b> Tailscale is the way in. My router once logged a burst of port scans aimed at my file server. It blocked them and nothing got in, but there's no reason to offer the door.</li>
+        <li><b>If something truly has to be public</b> (an incoming webhook, say), use a tunnel: Cloudflare Tunnel for permanent, Tailscale Funnel for quick tests. Never a router forward.</li>
+        <li><b>One tailnet, with tags and access rules</b>, not separate accounts per project. The access rules (ACLs) say which tagged machines can reach which.</li>
+        <li><b>Make test machines a dead end.</b> Tag them so you can reach them, but they can reach nothing. Anything running untested code shouldn't be able to see your NAS.</li>
+        <li><b>Sharing a machine is not giving a login.</b> When you share your NAS with a collaborator through Tailscale, they still need an account on the NAS itself. Two layers, on purpose.</li>
+        <li><b>Decide early which login owns the tailnet.</b> Moving a tailnet from a personal account to a business account later is not clean.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="step" id="power">
+    <div class="step-h"><span>09</span><span>Unattended</span><span>~20 min</span></div>
+    <h2>Power and updates</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Battery backup (UPS)</b> for the server, the router and the NAS. Short outages stop mattering, and drives don't get cut off mid-write.</li>
+        <li><b>Power back on automatically</b> after an outage, if your machine's firmware has the setting.</li>
+        <li><b>Automatic security updates:</b>
+<pre><code>sudo apt install -y unattended-upgrades
+cat /etc/apt/apt.conf.d/20auto-upgrades</code></pre>
+          Both lines should end in <code>"1"</code>.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>On a fresh Ubuntu install, automatic updates were already installed, so the setup dialog never appeared and I almost assumed it was on. Check that file instead of assuming. A server runs untouched for months, so this one matters.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="backup">
+    <div class="step-h"><span>10</span><span>Safety</span><span>~1 hour</span></div>
+    <h2>Backups</h2>
+    <div class="prose">
+      <ul>
+        <li><b>RAID is not backup.</b> Two mirrored drives protect you from one drive dying, not from fire, theft, ransomware or you deleting the wrong folder.</li>
+        <li>Keep an <b>offsite copy</b>. I use Synology Hyper Backup to Backblaze B2.</li>
+        <li><b>Back up before you load data in.</b> An unbacked NAS that becomes the only copy of everything is the worst position to be in.</li>
+        <li>Your server's setup lives in git (step 6), so the machine is replaceable. Its data is what needs backing up.</li>
+        <li><b>Do one restore test.</b> Pull a single file back from the backup to a different place and open it. An untested backup is a belief, not a backup.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="step" id="offline">
+    <div class="step-h"><span>11</span><span>Outages</span><span>~15 min</span></div>
+    <h2>When the internet is down</h2>
+    <div class="prose">
+      <p>Tailscale needs the internet to set up new connections. If your internet goes out, your devices at home can still reach the server, but only by its <b>local</b> address.</p>
+      <ul>
+        <li>Give the server a fixed local address with a <b>DHCP reservation</b> in your router.</li>
+        <li><b>Write that address on paper</b> and keep it with your router. Save it as a bookmark on your phone too.</li>
+        <li>A battery-powered tablet with Kiwix and copies of the library files works even with no router and no server. That's my last fallback.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel" id="playbook">
+    <div class="eyebrow">Free download · Works with Claude or ChatGPT</div>
+    <h2>The AI playbook</h2>
+    <p class="lead">A text file that turns an AI assistant into a patient sysadmin for this exact setup. Paste it into Claude, ChatGPT or another assistant. It asks what hardware you have, then walks you through each step one command at a time, explains what each command does, and checks the output with you before moving on.</p>
+    <div class="btns" style="margin:0">
+      <a class="btn solid" href="/guides/home-server-tailscale-playbook.txt" download data-ev="playbook_download">Download playbook (.txt) ↓</a>
+      <button class="btn" type="button" id="copyPb" data-ev="playbook_copy">Copy to clipboard</button>
+      <span class="copied" id="copyMsg" hidden>Copied</span>
+    </div>
+  </section>
+
+  <section class="step" id="tools">
+    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
+    <h2>Tools I use</h2>
+    <p class="lead">You can build all of this with a computer you already own. These are the pieces that made mine reliable. Links open on Amazon.</p>
+    <div id="gear"></div>
+  </section>
+
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Tailscale, Ubuntu, Docker, Synology and Backblaze are named because I use them, not because they pay me.</p>
+
+  <footer>
+    <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
+  </footer>
+</div>
+
+<script>
+// Tools list. Same format as camera-gear.html.
+// url = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag).
+// Items with an empty url are skipped; the whole Tools section hides if nothing has a link yet.
+const GEAR = [
+ {
+  "group": "The machine",
+  "items": [
+   {
+    "slug": "hs-mini-pc",
+    "url": "",
+    "title": "Mini PC",
+    "desc": "If you don't have an old computer to reuse. Small, quiet, low power, wired Ethernet. Plenty for a handful of services."
+   },
+   {
+    "slug": "hs-sata-ssd",
+    "url": "",
+    "title": "2.5 inch SATA SSD",
+    "desc": "The best upgrade for an old machine with a spinning hard drive. Check your model takes one first."
+   },
+   {
+    "slug": "hs-usb-stick",
+    "url": "",
+    "title": "USB flash drive, 16GB+",
+    "desc": "For the Linux installer. Get one you can leave in a drawer as a rescue stick."
+   }
+  ]
+ },
+ {
+  "group": "Power and network",
+  "items": [
+   {
+    "slug": "hs-ups",
+    "url": "",
+    "title": "UPS battery backup",
+    "desc": "Keeps the server, router and NAS up through short outages and lets them shut down cleanly on long ones."
+   },
+   {
+    "slug": "hs-ethernet",
+    "url": "",
+    "title": "Cat 6 Ethernet cables",
+    "desc": "Wire the server to the router. Wi-Fi is the usual reason a home server drops off."
+   },
+   {
+    "slug": "hs-travel-router",
+    "url": "",
+    "title": "Travel router with Tailscale built in",
+    "desc": "Puts old devices that can't run Tailscale on your tailnet, and gets you home from any hotel Wi-Fi."
+   }
+  ]
+ },
+ {
+  "group": "Storage",
+  "items": [
+   {
+    "slug": "hs-nas",
+    "url": "",
+    "title": "2-bay NAS",
+    "desc": "Network storage that joins your tailnet with an official Tailscale package. Files everywhere, backups built in."
+   },
+   {
+    "slug": "hs-nas-drives",
+    "url": "",
+    "title": "NAS hard drives",
+    "desc": "Drives rated for running 24/7. Mirror two of them, then back up offsite anyway."
+   }
+  ]
+ }
+];
+
+(function(){
+  var root = document.getElementById('gear'), n = 0, html = '';
+  GEAR.forEach(function(g){
+    var items = g.items.filter(function(it){ return it.url; });
+    if (!items.length) return;
+    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
+    items.forEach(function(it){
+      n++;
+      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
+        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
+        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
+        + '<span class="cta">View on Amazon ↗</span></a>';
+    });
+    html += '</section>';
+  });
+  if (!html) { var s = document.getElementById('tools'); if (s) s.hidden = true; var t = document.querySelector('.toc a[href="#tools"]'); if (t) t.hidden = true; return; }
+  root.innerHTML = html;
+  root.addEventListener('click', function(e){
+    var a = e.target.closest('a.item'); if(!a) return;
+    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide-home-server-tailscale'}); }catch(x){}
+    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide-home-server-tailscale'}); }catch(x){}
+  });
+})();
+
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-ev]'); if(!el) return;
+  var ev = el.getAttribute('data-ev');
+  try{ gtag('event', ev, {guide:'home-server-tailscale'}); }catch(x){}
+  try{ window.__ssSend && window.__ssSend(ev, null, {guide:'home-server-tailscale'}); }catch(x){}
+});
+
+(function(){
+  var btn = document.getElementById('copyPb'); if (!btn) return;
+  btn.addEventListener('click', async function(){
+    var msg = document.getElementById('copyMsg');
+    try {
+      var r = await fetch('/guides/home-server-tailscale-playbook.txt'); var t = await r.text();
+      await navigator.clipboard.writeText(t);
+      msg.textContent = 'Copied. Paste it into your AI assistant.';
+    } catch(x) { msg.textContent = 'Copy failed. Use the download button.'; msg.style.color = '#c44'; }
+    msg.hidden = false;
+  });
+})();
+</script>
+</body>
+</html>

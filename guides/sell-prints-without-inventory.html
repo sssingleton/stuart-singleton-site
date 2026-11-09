@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7P9FGW6PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y7P9FGW6PT');
+</script>
+<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  window.__ssSend=function(e,id,m){var o=Object.assign({e:e},base);if(id)o.id=id;if(m)o.m=m;var b=JSON.stringify(o);try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}};
+  window.__ssSend('page_view');
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<title>How to Sell Photo Prints Without Inventory (Print on Demand Guide) | Stuart Singleton</title>
+<meta name="description" content="A free, practical guide to selling your photography as prints with print on demand: picking a lab, print sizes that match your photos, resolution rules, pricing for 40 to 50 percent margin, free shipping, bulk discounts, test orders, policies and where to sell. Includes an AI playbook.">
+<link rel="canonical" href="https://stuartsingleton.com/guides/sell-prints-without-inventory">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sell Photo Prints Without Inventory | Free Guide">
+<meta property="og:description" content="Print on demand for photographers: sizes, resolution, pricing, shipping, policies and where to sell. What worked and what broke in my own print shop.">
+<meta property="og:image" content="https://stuartsingleton.com/og-shop.jpg">
+<meta property="og:url" content="https://stuartsingleton.com/guides/sell-prints-without-inventory">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "HowTo", "name": "How to sell photo prints without inventory using print on demand", "description": "Sell your photography as prints that a lab makes and ships for you: lab choice, sizes, resolution, pricing, shipping, policies and sales channels.", "author": {"@type": "Person", "name": "Stuart Singleton", "url": "https://stuartsingleton.com"}, "tool": [{"@type": "HowToTool", "name": "A print on demand lab with an API, such as Prodigi"}, {"@type": "HowToTool", "name": "Stripe or a marketplace checkout"}], "step": [{"@type": "HowToStep", "name": "Understand how print on demand works"}, {"@type": "HowToStep", "name": "Choose a print lab"}, {"@type": "HowToStep", "name": "Choose which photos to sell"}, {"@type": "HowToStep", "name": "Prepare full resolution masters"}, {"@type": "HowToStep", "name": "Offer sizes that match each photo"}, {"@type": "HowToStep", "name": "Pick your product tiers"}, {"@type": "HowToStep", "name": "Price for margin"}, {"@type": "HowToStep", "name": "Use live quotes for cost and shipping"}, {"@type": "HowToStep", "name": "Add bulk discounts and sets"}, {"@type": "HowToStep", "name": "Run test orders"}, {"@type": "HowToStep", "name": "Publish policy pages and check sales tax"}, {"@type": "HowToStep", "name": "Choose where to sell"}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif; --pad:clamp(24px,6vw,64px); }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:#050505; color:#fff; min-height:100%; }
+  html { scroll-behavior:smooth; }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:1040px; margin:0 auto; padding:calc(var(--pad) * .9) var(--pad) 80px; }
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#666; margin-bottom:56px; }
+  .nav a { text-decoration:none; color:#888; transition:color .2s; }
+  .nav a:hover { color:#fff; }
+  .nav .links { display:flex; gap:22px; }
+  .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:#666; text-transform:uppercase; margin-bottom:12px; }
+  .hero { font-family:var(--display); font-size:clamp(56px,10vw,112px); line-height:.86; letter-spacing:.02em; margin:0 0 10px; }
+  .sub { font-size:11px; font-weight:400; color:#777; letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; }
+  .lead { max-width:620px; font-size:14px; font-weight:300; line-height:1.7; color:#9a9a9a; margin:0 0 28px; }
+  .lead a, .prose a { color:#ccc; text-decoration:none; border-bottom:1px solid #333; }
+  .lead a:hover, .prose a:hover { color:#fff; border-color:#fff; }
+
+  .btns { display:flex; gap:12px; flex-wrap:wrap; margin:0 0 56px; }
+  .btn { font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:12px 18px; border:1px solid #2a2a2a; color:#999; text-decoration:none; background:none; cursor:pointer; transition:all .2s; }
+  .btn:hover { border-color:#fff; color:#fff; }
+  .btn.solid { background:#f2efe4; color:#050505; border-color:#f2efe4; }
+  .btn.solid:hover { background:#fff; border-color:#fff; }
+
+  .toc { border-top:1px solid #161616; border-bottom:1px solid #161616; padding:18px 0 14px; margin:0 0 64px; columns:2; column-gap:40px; }
+  .toc a { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:#666; text-decoration:none; padding:5px 0; break-inside:avoid; }
+  .toc a span { color:#333; margin-right:10px; }
+  .toc a:hover { color:#fff; }
+
+  section.step { margin:0 0 64px; scroll-margin-top:24px; }
+  .step-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:18px; }
+  .step-h span:last-child { color:#333; margin-left:auto; }
+  h2 { font-family:var(--display); font-size:clamp(34px,5vw,52px); letter-spacing:.03em; line-height:.95; color:#e6e6e6; margin:0 0 18px; font-weight:normal; }
+  h3 { font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#aaa; font-weight:normal; margin:26px 0 10px; }
+  .prose { max-width:680px; }
+  .prose p, .prose li { font-size:14px; font-weight:300; line-height:1.75; color:#a4a4a4; }
+  .prose p { margin:0 0 14px; }
+  .prose ul, .prose ol { margin:0 0 16px; padding-left:20px; }
+  .prose li { margin:0 0 6px; }
+  .prose b, .prose strong { color:#ddd; font-weight:400; }
+  code { font-family:var(--mono); font-size:12px; color:#d8d0b8; background:#111; padding:1px 5px; border-radius:2px; }
+  pre { font-family:var(--mono); font-size:11.5px; line-height:1.6; color:#cfc8b0; background:#0c0c0c; border:1px solid #1a1a1a; padding:14px 16px; overflow-x:auto; margin:0 0 16px; max-width:680px; }
+  pre code { background:none; padding:0; }
+  .lesson { max-width:680px; border-left:2px solid #f2efe4; background:#0b0b0b; padding:12px 16px; margin:4px 0 18px; }
+  .lesson .k { font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:#f2efe4; margin-bottom:6px; }
+  .lesson p { font-size:13px; font-weight:300; line-height:1.65; color:#9a9a9a; margin:0; }
+  .hire { display:inline-block; margin-top:6px; font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#555; text-decoration:none; border-bottom:1px solid #222; }
+  .hire:hover { color:#fff; border-color:#fff; }
+
+  .panel { border:1px solid #1c1c1c; background:#090909; padding:clamp(22px,4vw,36px); margin:0 0 64px; scroll-margin-top:24px; }
+  .panel h2 { margin-bottom:10px; }
+  .panel .lead { margin-bottom:20px; }
+  .copied { font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:#4a8; text-transform:uppercase; align-self:center; }
+
+  .group { margin-bottom:36px; }
+  .group-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:6px; }
+  .group-h span:last-child { color:#333; }
+  .item { display:grid; grid-template-columns:28px 1fr auto; gap:0 18px; align-items:center; padding:20px 0; border-bottom:1px solid #111; text-decoration:none; color:inherit; }
+  .item:hover .t { color:#fff; }
+  .item:hover .cta { border-color:#fff; color:#fff; }
+  .num { font-family:var(--mono); font-size:10px; color:#3a3a3a; letter-spacing:.1em; }
+  .t { font-family:var(--display); font-size:clamp(22px,3vw,30px); letter-spacing:.03em; line-height:1; color:#d8d8d8; transition:color .2s; }
+  .d { font-size:12.5px; font-weight:300; color:#7c7c7c; line-height:1.55; margin-top:6px; max-width:560px; }
+  .cta { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; padding:8px 14px; border:1px solid #2a2a2a; color:#777; white-space:nowrap; transition:all .2s; }
+
+  .f { display:grid; gap:14px; max-width:560px; }
+  .f label { display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:#666; margin-bottom:6px; }
+  .f input, .f textarea, .f select { width:100%; background:#050505; border:1px solid #2a2a2a; color:#eee; font-family:var(--sans); font-size:14px; padding:11px 12px; border-radius:0; }
+  .f textarea { min-height:120px; resize:vertical; }
+  .f input:focus, .f textarea:focus, .f select:focus { outline:none; border-color:#888; }
+  .hp { position:absolute; left:-9999px; }
+  #qst { font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; min-height:16px; }
+
+  .disclosure { margin-top:40px; padding-top:18px; border-top:1px solid #161616; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; line-height:1.8; color:#555; max-width:640px; }
+  .disclosure b { color:#777; font-weight:normal; }
+  footer { margin-top:56px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#3a3a3a; display:flex; gap:22px; flex-wrap:wrap; }
+  footer a { text-decoration:none; color:#555; }
+  footer a:hover { color:#fff; }
+  @media (max-width:600px) {
+    .nav { margin-bottom:40px; }
+    .toc { columns:1; }
+    .item { grid-template-columns:1fr; gap:10px 0; padding:18px 0; }
+    .num { display:none; }
+    .cta { justify-self:start; padding:9px 14px; min-height:34px; display:inline-flex; align-items:center; }
+    .t { font-size:26px; }
+  }
+  @media (hover:none) { .item:hover .t { color:#d8d8d8; } .item:hover .cta { border-color:#2a2a2a; color:#777; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a href="/">Stuart Singleton</a>
+    <div class="links"><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a></div>
+  </nav>
+
+  <div class="eyebrow"><a href="/guides" style="color:inherit;text-decoration:none">Guides</a> · Free · Photographers</div>
+  <h1 class="hero">SELL PRINTS<br>NO INVENTORY</h1>
+  <p class="sub">Print on demand, the way my shop actually runs</p>
+  <p class="lead">Every print on <a href="/shop">my shop</a> is made after someone buys it. A lab prints it, packs it and ships it straight to the buyer. I never touch paper, frames or boxes. This guide is how to set that up so the prints look right, the prices hold a real margin, and buyers aren't scared off at checkout. It's built from my own shop, including the mistakes. Grab the AI playbook if you want Claude or ChatGPT to walk you through it.</p>
+  <div class="btns">
+    <a class="btn solid" href="/guides/sell-prints-without-inventory-playbook.txt" download data-ev="playbook_download">Download the AI playbook ↓</a>
+    <a class="btn" href="/guides/build-your-photo-site#quote" data-ev="quote_jump">Or have me set it up →</a>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <a href="#how"><span>00</span>How it works</a>
+    <a href="#lab"><span>01</span>Choose a lab</a>
+    <a href="#pick"><span>02</span>Which photos to sell</a>
+    <a href="#masters"><span>03</span>Masters and resolution</a>
+    <a href="#sizes"><span>04</span>Sizes that fit</a>
+    <a href="#tiers"><span>05</span>Product tiers</a>
+    <a href="#pricing"><span>06</span>Pricing for margin</a>
+    <a href="#quotes"><span>07</span>Live quotes, shipping</a>
+    <a href="#bulk"><span>08</span>Bulk tiers and sets</a>
+    <a href="#test"><span>09</span>Test orders</a>
+    <a href="#policies"><span>10</span>Policies and tax</a>
+    <a href="#where"><span>11</span>Where to sell</a>
+    <a href="#playbook"><span>→</span>AI playbook</a>
+    <a href="#tools"><span>→</span>Tools I use</a>
+    <a href="#next"><span>→</span>Build the store</a>
+  </nav>
+
+
+  <!-- 00 -->
+  <section class="step" id="how">
+    <div class="step-h"><span>00</span><span>Overview</span><span>Read first</span></div>
+    <h2>How it works</h2>
+    <div class="prose">
+<pre><code>buyer pays you (your site or a marketplace)
+  → order goes to the lab with your full-res file
+  → lab prints, packs, ships to the buyer
+  → you keep the difference between price and lab cost</code></pre>
+      <p>You never buy stock. The lab charges you per order for the print and the shipping, and you set the retail price. Your job is the parts a lab can't do: good photos, files that print well, prices that make sense, and getting people to the shop.</p>
+      <p>There are two kinds of places to sell, and it matters which is which:</p>
+      <ul>
+        <li><b>Places where the sale happens on your checkout:</b> your own site. Highest margin, and you own the customer.</li>
+        <li><b>Marketplaces where the sale has to happen on their checkout:</b> Etsy and similar. You pay their fees, and you get their search traffic. Etsy won't let you send buyers to your own checkout, but it does let a lab fulfil orders behind the scenes.</li>
+      </ul>
+      <p>Everything else (Instagram, Pinterest, TikTok, Reddit) is a billboard that links back to one of those.</p>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section class="step" id="lab">
+    <div class="step-h"><span>01</span><span>Partner</span><span>~1 evening</span></div>
+    <h2>Choose a lab</h2>
+    <div class="prose">
+      <p>I use <b>Prodigi</b>. What I looked for, and what you should check with any lab:</p>
+      <ul>
+        <li><b>An API with a sandbox,</b> so your site can get quotes and place orders automatically, and you can test without real money.</li>
+        <li><b>A quote endpoint</b> that returns the print cost and shipping for a size and a destination. This is what keeps your margins honest.</li>
+        <li><b>Labs in more than one country.</b> Printing close to the buyer means cheaper, faster shipping and no customs surprises.</li>
+        <li><b>The products you want:</b> fine art paper to start, then framed, canvas and others later.</li>
+        <li><b>Marketplace connections.</b> Prodigi connects to Etsy natively, so the same lab can fulfil both your site and an Etsy shop.</li>
+      </ul>
+      <p>Before you sell anything, order a few samples to yourself. You can't judge paper or frame quality from a product page.</p>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="step" id="pick">
+    <div class="step-h"><span>02</span><span>Curate</span><span>~1 evening</span></div>
+    <h2>Which photos to sell</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Make it opt-in, photo by photo.</b> On my site nothing is for sale until I tick a box on that photo. Defaulting everything to "for sale" means you'll eventually sell something you shouldn't.</li>
+        <li><b>Skip photos with recognizable people</b> unless you have a release that covers selling prints. I only sell photos where nobody is identifiable.</li>
+        <li><b>Client photos are not stock.</b> If someone paid you for a shoot, those photos aren't going in your shop.</li>
+        <li><b>Pick photos that hold up big.</b> A photo that works as a phone-sized post can fall apart on a wall. Sharp, simple, strong light.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="step" id="masters">
+    <div class="step-h"><span>03</span><span>Files</span><span>~1 day</span></div>
+    <h2>Masters and resolution</h2>
+    <div class="prose">
+      <p>The lab prints whatever file you send. Send it the full-resolution export (I use full quality sRGB JPEGs), never the web version from your gallery.</p>
+      <p>The rule I use: <b>only offer a size if the file has at least 200 pixels per inch at that size</b> for paper and metal. Canvas is more forgiving, so I use 150 there.</p>
+<pre><code>size      pixels needed at 200 ppi
+8x12      1600 x 2400
+12x18     2400 x 3600
+16x24     3200 x 4800
+24x36     4800 x 7200</code></pre>
+      <p>Store each master's width and height, and let your shop work out which sizes each photo qualifies for. Then a small file automatically offers only small prints.</p>
+      <div class="lesson"><div class="k">What broke for me</div><p>About fifty of my for-sale photos were stuck at the two smallest sizes. Every one was exactly 2048 pixels on the long edge: I'd uploaded the web export and never added the real master. Re-exporting from the originals unlocked the big sizes, which is where most of the money is.</p></div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="step" id="sizes">
+    <div class="step-h"><span>04</span><span>Sizes</span><span>~2 hours</span></div>
+    <h2>Sizes that fit</h2>
+    <div class="prose">
+      <p>Only offer print sizes that match the photo's shape. Then the buyer gets exactly what they saw, with no surprise crop.</p>
+<pre><code>3:2 (most cameras)   4x6 · 8x12 · 12x18 · 16x24 · 24x36
+4:3 (phones, some)   6x8 · 9x12 · 12x16
+4:5 (portrait crop)  4x5 · 8x10 · 16x20</code></pre>
+      <p>Group your sizes into families by ratio and give each photo the family it matches, within a small tolerance. Show the buyer a preview of the print at the chosen size and frame.</p>
+      <div class="lesson"><div class="k">What broke for me</div><p>Ten photos showed no sizes at all. They were all 4:5, and my shop only knew 3:2 and 4:3, so they matched nothing. Either add the size family your photos use, or re-export them at a ratio you already support. I re-exported from the masters at 3:2, which also fixed their resolution.</p></div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="step" id="tiers">
+    <div class="step-h"><span>05</span><span>Products</span><span>start small</span></div>
+    <h2>Product tiers</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Fine art paper.</b> Start here. Cheap to make, cheap to ship flat or rolled, and it looks good.</li>
+        <li><b>Framed.</b> Where much of the profit and the wall appeal are. Also the heaviest and most expensive to ship, so watch the margin by country.</li>
+        <li><b>Canvas and float-framed canvas.</b> Popular with people decorating a room. Add once paper and framed are working.</li>
+        <li><b>A cheaper poster tier.</b> Gives people an easy yes and a lower entry price.</li>
+      </ul>
+      <p>Launch with two or three sizes of paper and one framed option. Every product you add is more to test, price and support. You can always add more once something sells.</p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="step" id="pricing">
+    <div class="step-h"><span>06</span><span>Money</span><span>~half day</span></div>
+    <h2>Pricing for margin</h2>
+    <div class="prose">
+      <p>Work out what you actually pay per order, then price to the margin you want. I aim for roughly 40 to 50 percent after every cost.</p>
+<pre><code>landed cost = print + shipping + any tax the lab charges you
+              + card fee (a few percent plus a fixed fee)
+
+price = landed cost / (1 - target margin), then round
+
+$30 landed, 45% margin → 30 / 0.55 = $54.55 → $55</code></pre>
+      <ul>
+        <li><b>Check the lab's tax line.</b> My lab charges me sales tax on each production order because I'm the buyer on record. It's a real cost; see whether a resale certificate removes it where you live.</li>
+        <li><b>Round prices.</b> $55 reads better than $54.55.</li>
+        <li><b>Check margin by country.</b> Shipping varies a lot by destination. I block any product and country combination that would fall under about 30 percent.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>A framed print to Canada shipped by courier and left me about 15 percent. I only caught it because I priced per country. Framed to Canada is now blocked; Canadian buyers can still order paper.</p></div>
+      <div class="lesson"><div class="k">What broke for me</div><p>My first prices weren't actually too high. The margins were fine. But a low price plus a separate shipping line added up to a total that felt expensive at checkout. I switched to slightly lower, rounder prices with shipping built in and "free shipping" shown. Same money, much better feel.</p></div>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="step" id="quotes">
+    <div class="step-h"><span>07</span><span>Costs</span><span>~half day</span></div>
+    <h2>Live quotes, shipping</h2>
+    <div class="prose">
+      <p>Pull print cost and shipping from the lab's quote API instead of copying numbers into a spreadsheet. Prices and shipping rates change, and a quote that was right in spring can quietly eat your margin by fall.</p>
+      <ul>
+        <li>Re-run quotes for every product and your main countries every few months, and after any lab price change.</li>
+        <li>Paper shipping is often close to flat per shipment, so extra paper prints in one order are cheap to ship. Framed shipping usually goes up with every piece.</li>
+        <li>If your lab offers a budget shipping option for some countries, compare it. A cheaper option on small paper prints can lift margin a lot.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="step" id="bulk">
+    <div class="step-h"><span>08</span><span>Bigger orders</span><span>~half day</span></div>
+    <h2>Bulk tiers and sets</h2>
+    <div class="prose">
+      <p>Because paper shipping barely grows with quantity, multi-print orders are where margin gets better. I offer:</p>
+<pre><code>paper prints only
+3+ prints   15% off
+5+ prints   20% off
+10+ prints  25% off</code></pre>
+      <p>Framed is excluded because frame shipping grows per piece. Enforce the discount on your server, not just in the cart display, so it can't be faked.</p>
+      <p><b>Sets</b> help people buy more than one: a named group of photos that belong together (a city, a series, one trip). Let the buyer pick three or more from the set in one size. Sets also make good pitches for businesses decorating a space.</p>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="step" id="test">
+    <div class="step-h"><span>09</span><span>Proof</span><span>~1 week incl. shipping</span></div>
+    <h2>Test orders</h2>
+    <div class="prose">
+      <ol>
+        <li>Run the whole flow in test mode against the lab's sandbox: pay, confirm the order arrives at the lab, confirm the buyer email.</li>
+        <li>Then place one real order to your own address.</li>
+        <li>Look at the print in daylight next to your screen. If it comes back darker or warmer than you expected, the usual cause is a screen that's too bright and not calibrated, not the lab.</li>
+      </ol>
+      <p>Keep your proof prints. They're useful for showing to people in person and for checking color when you add a new paper or lab.</p>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="step" id="policies">
+    <div class="step-h"><span>10</span><span>Trust</span><span>~2 hours</span></div>
+    <h2>Policies and tax</h2>
+    <div class="prose">
+      <p>You need a shipping and returns page and a contact page before you connect any shopping platform. Pinterest rejected my merchant application until I had both, linked from the shop and every product page.</p>
+      <p>What mine says, in short:</p>
+      <ul>
+        <li>Prints are made to order, so no returns for change of mind.</li>
+        <li>Damaged, defective, wrong or lost: a free reprint or a full refund, and the buyer doesn't send anything back.</li>
+        <li>A claim window (mine is 30 days), how fast I reply, and typical transit times from the lab.</li>
+        <li>Contact through a form, not a published email address, which just gets spammed.</li>
+      </ul>
+      <p><b>Sales tax:</b> prints are physical goods. In the US most states tax them, and many only require you to register once your sales pass a threshold. Digital downloads are often treated differently. Look up your state's rules, and ask an accountant if you're unsure. This guide isn't tax advice.</p>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="step" id="where">
+    <div class="step-h"><span>11</span><span>Channels</span><span>ongoing</span></div>
+    <h2>Where to sell</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Your own site.</b> The hub, the highest margin, and the cheapest place to buy. The <a href="/guides/build-your-photo-site">photo site guide</a> covers building it.</li>
+        <li><b>Etsy.</b> The sale has to finish on Etsy, but the lab can fulfil it. I price Etsy a bit higher than my own site to cover their fees, which keeps my site the best deal.</li>
+        <li><b>Shopping feeds.</b> Instagram and Facebook Shops, Pinterest, TikTok and Google Shopping all take a product catalog generated from your shop.</li>
+        <li><b>Billboards.</b> Pinterest pins, reels, Reddit, curated sites. Link back to the product page; don't lead with "buy my prints."</li>
+        <li><b>Local businesses.</b> Restaurants, offices, short-term rentals and designers buy several prints at a time, which is exactly where bulk pricing pays off.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>Etsy uses one shipping weight per listing, not per size or frame, so per-variant calculated shipping doesn't work. I set free shipping and built it into the price, which also helps in Etsy search.</p></div>
+    </div>
+  </section>
+
+
+  <!-- Playbook -->
+  <section class="panel" id="playbook">
+    <div class="eyebrow">Free download · Works with Claude or ChatGPT</div>
+    <h2>The AI playbook</h2>
+    <p class="lead">A text file that turns Claude, ChatGPT or another assistant into a coach for setting up print on demand. It asks what you shoot, where you want to sell and what margin you want, then walks you through lab setup, files, sizes, pricing math, test orders and policies one step at a time, and checks your numbers before you go live.</p>
+    <div class="btns" style="margin:0">
+      <a class="btn solid" href="/guides/sell-prints-without-inventory-playbook.txt" download data-ev="playbook_download">Download playbook (.txt) ↓</a>
+      <button class="btn" type="button" id="copyPb" data-ev="playbook_copy">Copy to clipboard</button>
+      <span class="copied" id="copyMsg" hidden>Copied</span>
+    </div>
+  </section>
+
+  <!-- Tools -->
+  <section class="step" id="tools">
+    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
+    <h2>Tools I use</h2>
+    <p class="lead">You don't need any of this to sell prints. It's what helps my prints come out the way the photo looked on screen. Links open on Amazon.</p>
+    <div id="gear"></div>
+  </section>
+
+  <section class="panel" id="next">
+    <div class="eyebrow">Next</div>
+    <h2>Need the store itself?</h2>
+    <p class="lead">This guide covers selling prints. The <a href="/guides/build-your-photo-site">photo site guide</a> covers building the site and shop that sell them: gallery, admin, Stripe checkout and the lab connection. Or I can build it for you, with accounts in your name.</p>
+    <div class="btns" style="margin:0">
+      <a class="btn solid" href="/guides/build-your-photo-site">Read the photo site guide →</a>
+      <a class="btn" href="/guides/build-your-photo-site#quote" data-ev="quote_jump">Get a quote</a>
+    </div>
+  </section>
+
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Labs and platforms named here (Prodigi, Stripe, Etsy, Pinterest) are mentioned because I use them, not because they pay me.</p>
+
+  <footer>
+    <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
+  </footer>
+</div>
+<script>
+// Tools list. Same format as camera-gear.html.
+// url  = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag)
+// Items with an empty url are skipped, so paste a link in to make one appear.
+const GEAR = [
+  { group:'Color', items:[
+    { slug:'prints-calibrator', url:'', title:'Monitor color calibrator', desc:'The single biggest fix for prints that come back too dark or the wrong color. Calibrate before you judge a proof.' },
+    { slug:'prints-daylight-lamp', url:'', title:'Daylight desk lamp', desc:'A neutral, bright light for comparing a proof print to your screen. Warm room lighting makes every print look off.' },
+  ]},
+  { group:'Proofs', items:[
+    { slug:'prints-archival-box', url:'', title:'Archival print storage box', desc:'Keeps proof prints flat and clean for showing people in person and checking color later.' },
+  ]},
+  { group:'Shoot', items:[
+    { slug:'xt5-16-80', url:'https://amzn.to/46oFm4o', title:'Fujifilm X-T5 + XF 16-80mm f/4', desc:'Plenty of resolution for 24x36 prints at 200 pixels per inch.' },
+  ]},
+];
+
+(function(){
+  var root = document.getElementById('gear'), n = 0, html = '';
+  GEAR.forEach(function(g){
+    var items = g.items.filter(function(it){ return it.url; });
+    if (!items.length) return;
+    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
+    items.forEach(function(it){
+      n++;
+      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
+        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
+        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
+        + '<span class="cta">View on Amazon ↗</span></a>';
+    });
+    html += '</section>';
+  });
+  root.innerHTML = html;
+  if (!n) { var ts = document.getElementById('tools'); if (ts) ts.hidden = true; var tl = document.querySelector('.toc a[href="#tools"]'); if (tl) tl.hidden = true; }
+  root.addEventListener('click', function(e){
+    var a = e.target.closest('a.item'); if(!a) return;
+    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide'}); }catch(x){}
+    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide'}); }catch(x){}
+  });
+})();
+
+// Download / copy / quote-jump events
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-ev]'); if(!el) return;
+  var ev = el.getAttribute('data-ev');
+  try{ gtag('event', ev); }catch(x){}
+  try{ window.__ssSend && window.__ssSend(ev); }catch(x){}
+});
+
+document.getElementById('copyPb').addEventListener('click', async function(){
+  var msg = document.getElementById('copyMsg');
+  try {
+    var r = await fetch('/guides/sell-prints-without-inventory-playbook.txt'); var t = await r.text();
+    await navigator.clipboard.writeText(t);
+    msg.textContent = 'Copied. Paste it into your AI assistant.';
+  } catch(x) { msg.textContent = 'Copy failed. Use the download button.'; msg.style.color = '#c44'; }
+  msg.hidden = false;
+});
+
+</script>
+</body>
+</html>

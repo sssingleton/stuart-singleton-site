@@ -1,0 +1,94 @@
+SECOND BRAIN FOR AI PLAYBOOK
+From the free guide at https://stuartsingleton.com/guides/second-brain-for-ai
+Written by Stuart Singleton, Nashville. Free to use and share.
+
+HOW TO USE THIS FILE
+1. Download the starter vault from the guide and open it in Obsidian.
+2. Paste everything below the line into Claude, ChatGPT or another AI assistant and send it.
+   If you use Claude Code or the Claude desktop app with the vault folder connected, the
+   assistant can write the files itself. Otherwise it will give you text to paste in.
+
+======================================================================
+
+You are helping me set up and run a "second brain": a folder of markdown notes (an Obsidian
+vault) that you and other AI assistants will read as long-term memory about me and my work.
+Follow this playbook.
+
+## THE VAULT STRUCTURE
+Profile/       who I am, how I work            (Profile/about.md)
+Stack/         tools, accounts, integrations   (Stack/tools-and-integrations.md)
+Projects/      active work                     (index: Projects/_active-projects.md)
+Threads/       running topics not settled yet  (index: Threads/_open-threads.md)
+Decisions/     numbered decisions with reasons (index: Decisions/_decision-log.md)
+Constraints/   rules you follow every session  (Constraints/rules.md)
+Glossary/      my shorthand and acronyms       (Glossary/terms.md)
+Templates/     project.md, thread.md, decision.md
+Root files:    _session-briefing.md (read first), _vault-map.md (read second), CLAUDE.md
+
+## HOW TO WORK WITH ME
+- First ask whether you can read and write files in my vault folder directly. If you can,
+  check whether the starter vault structure is there and read CLAUDE.md, the briefing and the
+  templates before writing anything. If you can't, give me each file's full text to paste,
+  one file at a time, with its path.
+- Run the interview below a few questions at a time. Don't overwhelm me.
+- Write notes in plain, short language. Use [[double bracket links]] between notes.
+- Use fixed status words. Projects: planning | in-progress | blocked | on-hold | shipped.
+  Threads: active | resolved. Decisions: proposed | accepted | superseded.
+- If you're unsure about a fact, write it with <!-- verify --> instead of guessing.
+- Only record what I actually say or decide. Your suggestions are not my decisions.
+
+## THE INTERVIEW
+Part 1, me: name, what I do, where I'm based and my time zone, what I'm best at, what I want
+help with most, how I like answers (length, tone, format), and anything you should always or
+never do.
+Part 2, tools: the apps, services and devices I use for work. (Never ask for passwords or keys.
+Only note where they're kept, if I want.)
+Part 3, projects: my 3 to 5 most active projects. For each: goal in one line, status, what's
+done, what's next, blockers, open questions.
+Part 4, running topics: questions or topics I keep coming back to that aren't projects.
+Part 5, decisions: important choices I've already made that I don't want to revisit, and why.
+Part 6, shorthand: nicknames, acronyms or internal terms I use.
+
+## WHAT TO WRITE FROM THE INTERVIEW
+1. Profile/about.md
+2. Stack/tools-and-integrations.md
+3. One note per project in Projects/ from Templates/project.md, plus one line each in
+   Projects/_active-projects.md (link, status, next step)
+4. One note per running topic in Threads/ from Templates/thread.md, plus a line each in
+   Threads/_open-threads.md
+5. One numbered note per decision in Decisions/ from Templates/decision.md (001, 002, ...),
+   plus a row each in Decisions/_decision-log.md. Delete the example decision and project.
+6. Constraints/rules.md with my always/never rules added under General
+7. Glossary/terms.md
+8. _session-briefing.md: me in 30 seconds, my top 3 rules, top 3 projects, open threads,
+   tools connected. Keep it to one screen.
+9. CLAUDE.md: replace the path placeholder with the real full path of my vault.
+Then show me a summary of every file written and ask me to correct anything.
+
+## RULES FOR EVERY FUTURE SESSION (also written in CLAUDE.md)
+- Read _session-briefing.md first, then _vault-map.md. Open other notes only when the task
+  needs them.
+- Before planning work on something real (code, a document, a page), open the real thing. If a
+  note disagrees with it, the real thing wins; fix the note.
+- After work that changes a project: update the project note and its index line.
+- New decision: list the Decisions folder and use the highest number plus one (don't trust a
+  "next number" note). Add the log row. When a decision changes, write a new one and mark the
+  old one superseded.
+- There is exactly one real vault path. Never write to duplicate folders, backups or sync
+  conflict copies. If you find a second copy of the vault, stop and tell me.
+- Lessons from mistakes go in Constraints/rules.md under Lessons, one line each:
+  - [YYYY-MM-DD] Trigger: <exact situation>. Rule: <what to do>. Why: <one line>.
+  Before a non-trivial task, scan Lessons for matching triggers.
+- When I ask, run a weekly sweep: stale statuses, unanswered <!-- verify --> markers, threads
+  that resolved without being marked, index lines that don't match their notes.
+
+## NEVER STORE
+Passwords, API keys, recovery codes, account or card numbers, or other people's private details
+(health, finances, things told in confidence). If I paste something like that, remind me and
+leave it out.
+
+## CHECK THAT IT WORKS
+At the end, tell me to start a fresh session and ask: "What does my briefing say my top
+project is?" If the assistant can't answer from the file, it isn't reading the vault yet.
+
+Start now: ask whether you can access my vault folder, then begin the interview.

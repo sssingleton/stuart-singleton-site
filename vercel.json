@@ -14,6 +14,8 @@
     { "source": "/returns", "destination": "/returns.html" },
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/camera-gear", "destination": "/camera-gear.html" },
+    { "source": "/guides", "destination": "/guides/index.html" },
+    { "source": "/guides/:slug", "destination": "/guides/:slug.html" },
     { "source": "/heliograph", "destination": "/labs/heliograph/index.html" },
     { "source": "/lut-converter", "destination": "/labs/lut-converter/index.html" },
     { "source": "/bradenbachelortripcalculator", "destination": "/bradenbachelortripcalculator.html" },

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7P9FGW6PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y7P9FGW6PT');
+</script>
+<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  window.__ssSend=function(e,id,m){var o=Object.assign({e:e},base);if(id)o.id=id;if(m)o.m=m;var b=JSON.stringify(o);try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}};
+  window.__ssSend('page_view');
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<title>Build a Second Brain Your AI Can Read (Obsidian + Claude) | Stuart Singleton</title>
+<meta name="description" content="A free guide to building an Obsidian vault that works as long-term memory for Claude or any AI assistant: folder structure, index files, templates, a numbered decision log, rules, and how to keep it true. Includes a free starter vault and an AI playbook.">
+<link rel="canonical" href="https://stuartsingleton.com/guides/second-brain-for-ai">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Build a Second Brain Your AI Can Read | Free Guide">
+<meta property="og:description" content="Plain markdown files that give Claude long-term memory. The structure behind 300+ decisions, a free starter vault, and an AI playbook.">
+<meta property="og:image" content="https://stuartsingleton.com/og-gallery.jpg">
+<meta property="og:url" content="https://stuartsingleton.com/guides/second-brain-for-ai">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "HowTo", "name": "How to build an Obsidian second brain that an AI assistant uses as long-term memory", "description": "A free guide to building an Obsidian vault that works as long-term memory for Claude or any AI assistant: folder structure, index files, templates, a numbered decision log, rules, and how to keep it true. Includes a free starter vault and an AI playbook.", "author": {"@type": "Person", "name": "Stuart Singleton", "url": "https://stuartsingleton.com"}, "tool": [{"@type": "HowToTool", "name": "Obsidian"}, {"@type": "HowToTool", "name": "Claude Code or another AI assistant"}, {"@type": "HowToTool", "name": "A markdown starter vault"}], "step": [{"@type": "HowToStep", "name": "Set up the vault"}, {"@type": "HowToStep", "name": "Create the folders"}, {"@type": "HowToStep", "name": "Write index files"}, {"@type": "HowToStep", "name": "Add templates"}, {"@type": "HowToStep", "name": "Start a numbered decision log"}, {"@type": "HowToStep", "name": "Write rules and lessons"}, {"@type": "HowToStep", "name": "Point the AI at the vault"}, {"@type": "HowToStep", "name": "Keep it true"}, {"@type": "HowToStep", "name": "Keep one vault at one path"}, {"@type": "HowToStep", "name": "Keep secrets out"}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif; --pad:clamp(24px,6vw,64px); }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:#050505; color:#fff; min-height:100%; }
+  html { scroll-behavior:smooth; }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:1040px; margin:0 auto; padding:calc(var(--pad) * .9) var(--pad) 80px; }
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#666; margin-bottom:56px; }
+  .nav a { text-decoration:none; color:#888; transition:color .2s; }
+  .nav a:hover { color:#fff; }
+  .nav .links { display:flex; gap:22px; }
+  .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:#666; text-transform:uppercase; margin-bottom:12px; }
+  .hero { font-family:var(--display); font-size:clamp(56px,10vw,112px); line-height:.86; letter-spacing:.02em; margin:0 0 10px; }
+  .sub { font-size:11px; font-weight:400; color:#777; letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; }
+  .lead { max-width:620px; font-size:14px; font-weight:300; line-height:1.7; color:#9a9a9a; margin:0 0 28px; }
+  .lead a, .prose a { color:#ccc; text-decoration:none; border-bottom:1px solid #333; }
+  .lead a:hover, .prose a:hover { color:#fff; border-color:#fff; }
+
+  .btns { display:flex; gap:12px; flex-wrap:wrap; margin:0 0 56px; }
+  .btn { font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:12px 18px; border:1px solid #2a2a2a; color:#999; text-decoration:none; background:none; cursor:pointer; transition:all .2s; }
+  .btn:hover { border-color:#fff; color:#fff; }
+  .btn.solid { background:#f2efe4; color:#050505; border-color:#f2efe4; }
+  .btn.solid:hover { background:#fff; border-color:#fff; }
+
+  .toc { border-top:1px solid #161616; border-bottom:1px solid #161616; padding:18px 0 14px; margin:0 0 64px; columns:2; column-gap:40px; }
+  .toc a { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:#666; text-decoration:none; padding:5px 0; break-inside:avoid; }
+  .toc a span { color:#333; margin-right:10px; }
+  .toc a:hover { color:#fff; }
+
+  section.step { margin:0 0 64px; scroll-margin-top:24px; }
+  .step-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:18px; }
+  .step-h span:last-child { color:#333; margin-left:auto; }
+  h2 { font-family:var(--display); font-size:clamp(34px,5vw,52px); letter-spacing:.03em; line-height:.95; color:#e6e6e6; margin:0 0 18px; font-weight:normal; }
+  h3 { font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#aaa; font-weight:normal; margin:26px 0 10px; }
+  .prose { max-width:680px; }
+  .prose p, .prose li { font-size:14px; font-weight:300; line-height:1.75; color:#a4a4a4; }
+  .prose p { margin:0 0 14px; }
+  .prose ul, .prose ol { margin:0 0 16px; padding-left:20px; }
+  .prose li { margin:0 0 6px; }
+  .prose b, .prose strong { color:#ddd; font-weight:400; }
+  code { font-family:var(--mono); font-size:12px; color:#d8d0b8; background:#111; padding:1px 5px; border-radius:2px; }
+  pre { font-family:var(--mono); font-size:11.5px; line-height:1.6; color:#cfc8b0; background:#0c0c0c; border:1px solid #1a1a1a; padding:14px 16px; overflow-x:auto; margin:0 0 16px; max-width:680px; }
+  pre code { background:none; padding:0; }
+  .lesson { max-width:680px; border-left:2px solid #f2efe4; background:#0b0b0b; padding:12px 16px; margin:4px 0 18px; }
+  .lesson .k { font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:#f2efe4; margin-bottom:6px; }
+  .lesson p { font-size:13px; font-weight:300; line-height:1.65; color:#9a9a9a; margin:0; }
+  .hire { display:inline-block; margin-top:6px; font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#555; text-decoration:none; border-bottom:1px solid #222; }
+  .hire:hover { color:#fff; border-color:#fff; }
+
+  .panel { border:1px solid #1c1c1c; background:#090909; padding:clamp(22px,4vw,36px); margin:0 0 64px; scroll-margin-top:24px; }
+  .panel h2 { margin-bottom:10px; }
+  .panel .lead { margin-bottom:20px; }
+  .copied { font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:#4a8; text-transform:uppercase; align-self:center; }
+
+  .group { margin-bottom:36px; }
+  .group-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:6px; }
+  .group-h span:last-child { color:#333; }
+  .item { display:grid; grid-template-columns:28px 1fr auto; gap:0 18px; align-items:center; padding:20px 0; border-bottom:1px solid #111; text-decoration:none; color:inherit; }
+  .item:hover .t { color:#fff; }
+  .item:hover .cta { border-color:#fff; color:#fff; }
+  .num { font-family:var(--mono); font-size:10px; color:#3a3a3a; letter-spacing:.1em; }
+  .t { font-family:var(--display); font-size:clamp(22px,3vw,30px); letter-spacing:.03em; line-height:1; color:#d8d8d8; transition:color .2s; }
+  .d { font-size:12.5px; font-weight:300; color:#7c7c7c; line-height:1.55; margin-top:6px; max-width:560px; }
+  .cta { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; padding:8px 14px; border:1px solid #2a2a2a; color:#777; white-space:nowrap; transition:all .2s; }
+
+  .f { display:grid; gap:14px; max-width:560px; }
+  .f label { display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:#666; margin-bottom:6px; }
+  .f input, .f textarea, .f select { width:100%; background:#050505; border:1px solid #2a2a2a; color:#eee; font-family:var(--sans); font-size:14px; padding:11px 12px; border-radius:0; }
+  .f textarea { min-height:120px; resize:vertical; }
+  .f input:focus, .f textarea:focus, .f select:focus { outline:none; border-color:#888; }
+  .hp { position:absolute; left:-9999px; }
+  #qst { font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; min-height:16px; }
+
+  .disclosure { margin-top:40px; padding-top:18px; border-top:1px solid #161616; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; line-height:1.8; color:#555; max-width:640px; }
+  .disclosure b { color:#777; font-weight:normal; }
+  footer { margin-top:56px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#3a3a3a; display:flex; gap:22px; flex-wrap:wrap; }
+  footer a { text-decoration:none; color:#555; }
+  footer a:hover { color:#fff; }
+  @media (max-width:600px) {
+    .nav { margin-bottom:40px; }
+    .toc { columns:1; }
+    .item { grid-template-columns:1fr; gap:10px 0; padding:18px 0; }
+    .num { display:none; }
+    .cta { justify-self:start; padding:9px 14px; min-height:34px; display:inline-flex; align-items:center; }
+    .t { font-size:26px; }
+  }
+  @media (hover:none) { .item:hover .t { color:#d8d8d8; } .item:hover .cta { border-color:#2a2a2a; color:#777; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a href="/">Stuart Singleton</a>
+    <div class="links"><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a></div>
+  </nav>
+
+  <div class="eyebrow"><a href="/guides" style="color:inherit;text-decoration:none">Guides</a> · Free · Anyone who works with AI</div>
+  <h1 class="hero">SECOND<br>BRAIN</h1>
+  <p class="sub">Long-term memory for your AI, in plain text files you own</p>
+  <p class="lead">AI assistants forget everything between chats, and their built-in memory is a few short summaries. So I keep a folder of plain markdown notes that Claude reads at the start of every session and updates as we work: what I'm building, what's been decided and why, what keeps breaking. It now holds over 300 numbered decisions and a few hundred project and thread notes, and it's why Claude can pick up a months-old project without me re-explaining it. This guide is how to build one, with a free starter vault and an AI playbook that sets it up with you.</p>
+  <div class="btns">
+    <a class="btn solid" href="/guides/second-brain-starter-vault.zip" download data-ev="starter_vault_download">Download the starter vault ↓</a>
+    <a class="btn" href="/guides/second-brain-for-ai-playbook.txt" download data-ev="playbook_download">AI playbook (.txt) ↓</a>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <a href="#what"><span>00</span>What you're building</a>
+    <a href="#setup"><span>01</span>Set up the vault</a>
+    <a href="#folders"><span>02</span>The folders</a>
+    <a href="#indexes"><span>03</span>Index files are the front door</a>
+    <a href="#templates"><span>04</span>Templates</a>
+    <a href="#decisions"><span>05</span>The decision log</a>
+    <a href="#rules"><span>06</span>Rules and lessons</a>
+    <a href="#connect"><span>07</span>Point the AI at it</a>
+    <a href="#true"><span>08</span>Keep it true</a>
+    <a href="#sync"><span>09</span>One vault, one path</a>
+    <a href="#never"><span>10</span>What never goes in</a>
+    <a href="#playbook"><span>→</span>Starter vault and playbook</a>
+    <a href="#tools"><span>→</span>Tools I use</a>
+  </nav>
+
+  <section class="step" id="what">
+    <div class="step-h"><span>00</span><span>Overview</span><span>Read first</span></div>
+    <h2>What you're building</h2>
+    <div class="prose">
+      <p>A folder of markdown files, organized so an AI can find what it needs fast and write things back in the right place. You open the same folder in Obsidian to read and edit it yourself.</p>
+      <ul>
+        <li><b>It's yours.</b> Plain text on your own drive. No lock-in, works with any AI, readable in 20 years.</li>
+        <li><b>It's the full record.</b> Built-in AI memory keeps summaries. The vault keeps the reasoning, the history and the links between things.</li>
+        <li><b>It compounds.</b> Every session that ends with a note written makes the next session faster.</li>
+      </ul>
+      <p>Built-in memory and the vault work well together: let the built-in memory hold one-line pointers, and keep the full story in the vault.</p>
+    </div>
+  </section>
+
+  <section class="step" id="setup">
+    <div class="step-h"><span>01</span><span>Setup</span><span>~15 min</span></div>
+    <h2>Set up the vault</h2>
+    <div class="prose">
+      <ol>
+        <li>Install <b>Obsidian</b> (free). It's just a nice editor for a folder of markdown files.</li>
+        <li>Unzip the starter vault (below) somewhere permanent, like a folder in Documents, and open it in Obsidian as a vault.</li>
+        <li>Give your AI access to that folder. <b>Claude Code</b> and the Claude desktop app can read and write files in folders you connect. With a chat-only assistant, paste the briefing file at the start of a session and copy notes back yourself.</li>
+      </ol>
+      <p><b>Keep work and personal separate.</b> I run two vaults: one for projects and business that Claude uses every day, and a personal one for journaling and reflection that it only touches when I ask.</p>
+    </div>
+  </section>
+
+  <section class="step" id="folders">
+    <div class="step-h"><span>02</span><span>Structure</span><span>~15 min</span></div>
+    <h2>The folders</h2>
+    <div class="prose">
+      <p>Flat beats nested. Each folder answers one question, so both you and the AI always know where a note goes.</p>
+<pre><code>Profile/       who you are, how you work, what you're good at
+Stack/         tools, accounts, integrations, tech choices
+Projects/      active work · _active-projects.md is the index
+Threads/       running topics not settled yet · _open-threads.md
+Decisions/     numbered choices with reasons · _decision-log.md
+Constraints/   rules the AI must follow · rules.md
+Glossary/      your shorthand and acronyms · terms.md
+Templates/     project.md, thread.md, decision.md</code></pre>
+      <h3>Where things go</h3>
+      <ul>
+        <li>A fact about you or how you work → <b>Profile</b></li>
+        <li>A tool or account you use → <b>Stack</b></li>
+        <li>A project's status or scope → <b>Projects</b>, linked from the index</li>
+        <li>A choice with a reason behind it → <b>Decisions</b>, numbered</li>
+        <li>A topic you keep coming back to → <b>Threads</b></li>
+        <li>"Always do X" or "never do Y" → <b>Constraints/rules.md</b></li>
+        <li>Your nickname for something → <b>Glossary</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="step" id="indexes">
+    <div class="step-h"><span>03</span><span>Speed</span><span>the key idea</span></div>
+    <h2>Index files are the front door</h2>
+    <div class="prose">
+      <p>An AI that reads your whole vault every session is slow and expensive. Give it a few short files to read first, and let it open deeper notes only when the task needs them.</p>
+      <ul>
+        <li><b><code>_session-briefing.md</code>:</b> you in 30 seconds, the top rules, the top three projects, and what's connected. Read first, every time.</li>
+        <li><b><code>_vault-map.md</code>:</b> what's in each folder, so the AI doesn't have to scan for it.</li>
+        <li><b><code>_active-projects.md</code> and <code>_open-threads.md</code>:</b> one line per item with status and the next step, linked to the full note.</li>
+        <li><b><code>_decision-log.md</code>:</b> a table of every decision, one line each.</li>
+      </ul>
+      <div class="lesson"><div class="k">My rule</div><p>The order is written into my rules file: briefing, then map, then only what the task needs. Targeted reads instead of loading everything. Every file the AI opens costs time and tokens, so the front door does most of the work.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="templates">
+    <div class="step-h"><span>04</span><span>Consistency</span><span>~10 min</span></div>
+    <h2>Templates</h2>
+    <div class="prose">
+      <p>Every project, thread and decision uses the same shape, so the AI reads them the same way every time. Keep them short:</p>
+<pre><code># Project Name
+
+**Status**: planning | in-progress | blocked | on-hold | shipped
+**Started**: 2026-11-09
+**Goal**: one line
+
+## What This Is
+two or three sentences
+
+## Key Decisions
+- [[Decisions/012-short-name]]
+
+## Current State
+what's done, what's next, any blockers
+
+## Open Questions
+- question</code></pre>
+      <p>Use fixed status words. Projects: <code>planning</code>, <code>in-progress</code>, <code>blocked</code>, <code>on-hold</code>, <code>shipped</code>. Threads: <code>active</code>, <code>resolved</code>. Decisions: <code>proposed</code>, <code>accepted</code>, <code>superseded</code>. Then "what's blocked?" has a real answer.</p>
+      <p>Link notes with <code>[[double brackets]]</code>. Obsidian turns them into clickable links and a graph, and the AI can follow them.</p>
+    </div>
+  </section>
+
+  <section class="step" id="decisions">
+    <div class="step-h"><span>05</span><span>Memory</span><span>ongoing</span></div>
+    <h2>The decision log</h2>
+    <div class="prose">
+      <p>The single most useful folder. Every real choice gets a numbered note: the context, what you decided, what you didn't pick and why, and what it means going forward. The point is that you and the AI <b>stop relitigating settled questions</b>. When something comes up again, the answer and the reasoning are already there.</p>
+      <ul>
+        <li>Name files <code>012-short-name.md</code>, numbered in order, and add a row to <code>_decision-log.md</code>.</li>
+        <li>When a decision changes, don't edit history. Write a new one and mark the old one <code>superseded</code>, with a link.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>I kept a "next free number" note at the top of the log, and it kept going stale, so two decisions ended up with the same number. Now the rule is: list the Decisions folder right before writing a new one and use the highest number plus one. Check the files, not a note about the files.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="rules">
+    <div class="step-h"><span>06</span><span>Behavior</span><span>ongoing</span></div>
+    <h2>Rules and lessons</h2>
+    <div class="prose">
+      <p><code>Constraints/rules.md</code> is where standing instructions live: how you like answers, what the AI should never do, what to check before acting. Mine includes things like "be concise," "check the Stack notes instead of asking me what tools I have," and "evidence before assertions."</p>
+      <p>I also keep a <b>playbook</b> of lessons from real mistakes, one line each, in a format the AI can match against the task in front of it:</p>
+<pre><code>- [2026-08-03] Trigger: about to plan changes to an app based on
+  a note describing it. Rule: open the actual file first, then fix
+  the note. Why: the note was two sessions stale and hid a conflict.</code></pre>
+      <p>Before any real task, the AI scans for lessons whose trigger matches. It's how one mistake stops being a repeat mistake.</p>
+    </div>
+  </section>
+
+  <section class="step" id="connect">
+    <div class="step-h"><span>07</span><span>Wiring</span><span>~15 min</span></div>
+    <h2>Point the AI at it</h2>
+    <div class="prose">
+      <p>The AI has to be told the vault exists, where it is, and how to use it. With Claude Code, put a <code>CLAUDE.md</code> file in the folder you work from. It's read automatically at the start of every session. The starter vault includes one:</p>
+<pre><code># How to use my vault
+Vault: /path/to/your/vault
+1. Read _session-briefing.md first, then _vault-map.md.
+2. Open other notes only when the task needs them.
+3. After work that changes a project, update its note and
+   the index line. New decisions get the next number.
+4. Unsure about a fact? Write it with &lt;!-- verify --&gt;
+   instead of guessing or stopping to ask.
+5. Never store passwords, keys or account numbers.</code></pre>
+      <p>You can also package these instructions as a Claude <b>skill</b>, so the same rules load in any session where you call it.</p>
+      <div class="lesson"><div class="k">What broke for me</div><p>Typing the command to load my vault instructions was not the same as the AI actually loading them. More than once it said it had, and hadn't. Now I check: ask "what does my briefing say my top project is?" If it can't answer from the file, it didn't read it.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="true">
+    <div class="step-h"><span>08</span><span>Upkeep</span><span>5 min a session</span></div>
+    <h2>Keep it true</h2>
+    <div class="prose">
+      <p>A stale vault is worse than no vault, because the AI trusts it.</p>
+      <ul>
+        <li><b>End every work session with a write-back:</b> update the project note, the index line, and any new decision. Ask the AI to do it; it's good at this.</li>
+        <li><b>Mark guesses.</b> Anything the AI isn't sure of gets a <code>&lt;!-- verify --&gt;</code> marker for you to check, instead of being written as fact.</li>
+        <li><b>Don't file the AI's suggestions as your decisions.</b> Only what you actually chose goes in Decisions.</li>
+        <li><b>Do a weekly sweep:</b> stale statuses, unanswered verify markers, threads that resolved without being marked.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>A thread note described one of my apps as a simple list with search. The real app had six screens, including a paywall that contradicted a decision I'd already made. Planning from the note would have built on a version that didn't exist. When a note describes something real (code, a document, a page), open the real thing first, then fix the note.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="sync">
+    <div class="step-h"><span>09</span><span>Safety</span><span>~10 min</span></div>
+    <h2>One vault, one path</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Exactly one copy is the real vault.</b> Write its full path into your <code>CLAUDE.md</code> and the briefing.</li>
+        <li><b>Pick one sync method</b> (Obsidian Sync, iCloud, Dropbox, git) and don't layer two on the same folder.</li>
+        <li><b>Back it up</b> like anything else you'd hate to lose.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>I ended up with duplicate vault folders nested inside each other and a pile of conflict copies after a sync merge. Worse, two AI sessions running at the same time wrote decisions into two different folders, numbered in opposite directions, and I had to reconcile them by hand. Now there's one canonical path, and the AI checks it before every write.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="never">
+    <div class="step-h"><span>10</span><span>Privacy</span><span>read this</span></div>
+    <h2>What never goes in</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Passwords, API keys, recovery codes, account numbers.</b> Note <i>where</i> a key lives ("in 1Password, entry X"), never the key. A vault is not a password manager.</li>
+        <li><b>Other people's private details:</b> health, finances, anything they told you in confidence.</li>
+        <li><b>Anything you'd hate to see if the folder leaked.</b> It's plain text, it syncs, and AI tools read it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel" id="playbook">
+    <div class="eyebrow">Free downloads · Works with Claude or ChatGPT</div>
+    <h2>Starter vault and playbook</h2>
+    <p class="lead">The <b>starter vault</b> is the empty structure from this guide: the folders, index files, templates, a rules file and a <code>CLAUDE.md</code>, ready to open in Obsidian. The <b>AI playbook</b> is a text file you paste into Claude or ChatGPT. It interviews you about your work, fills in your profile, briefing and first few projects with you, and sets up the rules for how it should read and write the vault from then on.</p>
+    <div class="btns" style="margin:0">
+      <a class="btn solid" href="/guides/second-brain-starter-vault.zip" download data-ev="starter_vault_download">Starter vault (.zip) ↓</a>
+      <a class="btn" href="/guides/second-brain-for-ai-playbook.txt" download data-ev="playbook_download">Playbook (.txt) ↓</a>
+      <button class="btn" type="button" id="copyPb" data-ev="playbook_copy">Copy playbook</button>
+      <span class="copied" id="copyMsg" hidden>Copied</span>
+    </div>
+  </section>
+
+  <section class="step" id="tools">
+    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
+    <h2>Tools I use</h2>
+    <p class="lead">Obsidian is free and the vault is just files. These keep it safe. Links open on Amazon.</p>
+    <div id="gear"></div>
+  </section>
+
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Obsidian and Claude are named because I use them, not because they pay me.</p>
+
+  <footer>
+    <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
+  </footer>
+</div>
+
+<script>
+// Tools list. Same format as camera-gear.html.
+// url = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag).
+// Items with an empty url are skipped; the whole Tools section hides if nothing has a link yet.
+const GEAR = [
+ {
+  "group": "Keep it safe",
+  "items": [
+   {
+    "slug": "sb-portable-ssd",
+    "url": "",
+    "title": "Portable SSD",
+    "desc": "A second copy of the vault (and everything else) that doesn't depend on any sync service."
+   },
+   {
+    "slug": "sb-nas",
+    "url": "",
+    "title": "2-bay NAS",
+    "desc": "Nightly backup of the vault at home, with an offsite copy on top."
+   }
+  ]
+ },
+ {
+  "group": "Work with it",
+  "items": [
+   {
+    "slug": "sb-monitor",
+    "url": "",
+    "title": "Second monitor",
+    "desc": "Vault on one screen, AI on the other. Sounds small, changes how you work."
+   }
+  ]
+ }
+];
+
+(function(){
+  var root = document.getElementById('gear'), n = 0, html = '';
+  GEAR.forEach(function(g){
+    var items = g.items.filter(function(it){ return it.url; });
+    if (!items.length) return;
+    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
+    items.forEach(function(it){
+      n++;
+      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
+        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
+        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
+        + '<span class="cta">View on Amazon ↗</span></a>';
+    });
+    html += '</section>';
+  });
+  if (!html) { var s = document.getElementById('tools'); if (s) s.hidden = true; var t = document.querySelector('.toc a[href="#tools"]'); if (t) t.hidden = true; return; }
+  root.innerHTML = html;
+  root.addEventListener('click', function(e){
+    var a = e.target.closest('a.item'); if(!a) return;
+    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide-second-brain-for-ai'}); }catch(x){}
+    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide-second-brain-for-ai'}); }catch(x){}
+  });
+})();
+
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-ev]'); if(!el) return;
+  var ev = el.getAttribute('data-ev');
+  try{ gtag('event', ev, {guide:'second-brain-for-ai'}); }catch(x){}
+  try{ window.__ssSend && window.__ssSend(ev, null, {guide:'second-brain-for-ai'}); }catch(x){}
+});
+
+(function(){
+  var btn = document.getElementById('copyPb'); if (!btn) return;
+  btn.addEventListener('click', async function(){
+    var msg = document.getElementById('copyMsg');
+    try {
+      var r = await fetch('/guides/second-brain-for-ai-playbook.txt'); var t = await r.text();
+      await navigator.clipboard.writeText(t);
+      msg.textContent = 'Copied. Paste it into your AI assistant.';
+    } catch(x) { msg.textContent = 'Copy failed. Use the download button.'; msg.style.color = '#c44'; }
+    msg.hidden = false;
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7P9FGW6PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y7P9FGW6PT');
+</script>
+<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  window.__ssSend=function(e,id,m){var o=Object.assign({e:e},base);if(id)o.id=id;if(m)o.m=m;var b=JSON.stringify(o);try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}};
+  window.__ssSend('page_view');
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<title>Free Photography Guides | Stuart Singleton</title>
+<meta name="description" content="Free, in-depth guides from Stuart Singleton: build a photo website, sell prints without inventory, back up your photos, run a home server with Tailscale, give your AI a second brain, connect Claude to Instagram, build a merch store, register a song. Each guide comes with an AI playbook for Claude or ChatGPT.">
+<link rel="canonical" href="https://stuartsingleton.com/guides">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Photography Guides | Stuart Singleton">
+<meta property="og:description" content="In-depth guides for photographers, each with an AI playbook you can paste into Claude or ChatGPT.">
+<meta property="og:image" content="https://stuartsingleton.com/og-gallery.jpg">
+<meta property="og:url" content="https://stuartsingleton.com/guides">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif; --pad:clamp(24px,6vw,64px); }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:#050505; color:#fff; min-height:100%; }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:1040px; margin:0 auto; padding:calc(var(--pad) * .9) var(--pad) 80px; }
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#666; margin-bottom:56px; }
+  .nav a { text-decoration:none; color:#888; transition:color .2s; }
+  .nav a:hover { color:#fff; }
+  .nav .links { display:flex; gap:22px; }
+  .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:#666; text-transform:uppercase; margin-bottom:12px; }
+  .hero { font-family:var(--display); font-size:clamp(56px,10vw,112px); line-height:.86; letter-spacing:.02em; margin:0 0 10px; }
+  .sub { font-size:11px; font-weight:400; color:#777; letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; }
+  .lead { max-width:600px; font-size:14px; font-weight:300; line-height:1.7; color:#9a9a9a; margin:0 0 48px; }
+  .group-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:6px; }
+  .group-h span:last-child { color:#333; }
+  .item { display:grid; grid-template-columns:28px 1fr auto; gap:0 18px; align-items:center; padding:24px 0; border-bottom:1px solid #111; text-decoration:none; color:inherit; }
+  a.item:hover .t { color:#fff; }
+  a.item:hover .cta { border-color:#fff; color:#fff; }
+  .item.soon { opacity:.45; }
+  .num { font-family:var(--mono); font-size:10px; color:#3a3a3a; letter-spacing:.1em; }
+  .t { font-family:var(--display); font-size:clamp(26px,3.6vw,38px); letter-spacing:.03em; line-height:1; color:#d8d8d8; transition:color .2s; }
+  .d { font-size:13px; font-weight:300; color:#7c7c7c; line-height:1.6; margin-top:8px; max-width:600px; }
+  .meta { font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#4a4a4a; margin-top:10px; }
+  .cta { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; padding:8px 14px; border:1px solid #2a2a2a; color:#777; white-space:nowrap; transition:all .2s; }
+  .note { margin-top:40px; font-family:var(--mono); font-size:10px; letter-spacing:.08em; line-height:1.8; color:#555; max-width:620px; }
+  .note a { color:#888; text-decoration:none; border-bottom:1px solid #333; }
+  footer { margin-top:56px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#3a3a3a; display:flex; gap:22px; flex-wrap:wrap; }
+  footer a { text-decoration:none; color:#555; }
+  footer a:hover { color:#fff; }
+  @media (max-width:600px) {
+    .nav { margin-bottom:40px; }
+    .item { grid-template-columns:1fr; gap:10px 0; padding:20px 0; }
+    .num { display:none; }
+    .cta { justify-self:start; padding:9px 14px; min-height:34px; display:inline-flex; align-items:center; }
+  }
+  @media (hover:none) { a.item:hover .t { color:#d8d8d8; } a.item:hover .cta { border-color:#2a2a2a; color:#777; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a href="/">Stuart Singleton</a>
+    <div class="links"><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a></div>
+  </nav>
+
+  <div class="eyebrow">Free · Photos, music, AI</div>
+  <h1 class="hero">GUIDES</h1>
+  <p class="sub">What I've learned, written down</p>
+  <p class="lead">In-depth, free guides from what I actually do: photos, prints, music, servers and AI. Each one comes with an AI playbook, a text file you can paste into Claude or ChatGPT to walk you through it step by step.</p>
+
+  <div class="group-h"><span>All guides</span><span id="count"></span></div>
+  <div id="list"></div>
+
+  <p class="note">Want something covered? <a href="/contact">Send me a message.</a></p>
+
+  <footer>
+    <a href="/">Home</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
+  </footer>
+</div>
+
+<script>
+// Guides list. Add a guide: one object, newest first.
+// slug -> /guides/<slug>  (file: guides/<slug>.html)
+// soon:true shows a greyed card with no link.
+const GUIDES = [
+  { slug:'build-your-photo-site', title:'Build your own photo website', desc:'Tagged gallery, private admin, print-on-demand shop, client galleries, Instagram and Pinterest shopping feeds, and SEO. The whole stack behind this site, including what broke.', meta:'14 steps · AI playbook included' },
+  { slug:'sell-prints-without-inventory', title:'Sell prints without inventory', desc:'Print on demand the way my shop runs: picking a lab, sizes that match your photos, the 200 DPI rule, pricing for 40 to 50% margin, free shipping, bulk tiers, policies and where to sell.', meta:'12 steps · AI playbook included' },
+  { slug:'backup-your-photos', title:'Back up your photos (3-2-1)', desc:'Card to SSD to NAS to encrypted cloud, plus an offline drive. The setup I run, locking down a Synology, Hyper Backup to Backblaze B2, and proving a restore works.', meta:'10 steps · AI playbook included' },
+  { slug:'home-server-tailscale', title:'Turn an old computer into a home server', desc:'An always-on Linux server you can reach from your phone anywhere, with no open ports. Tailscale, SSH, Docker services, a NAS, backups, and every place I got stuck.', meta:'12 steps · AI playbook included' },
+  { slug:'second-brain-for-ai', title:'Build a second brain your AI can read', desc:'An Obsidian vault that gives Claude long-term memory: folders, index files, templates, a numbered decision log, rules, and how to keep it true.', meta:'11 steps · Free starter vault + AI playbook' },
+  { slug:'connect-claude-to-instagram', title:'Connect Claude to Instagram', desc:'Have Claude build, post and measure Trial Reels through the official API using your own music, plus every caveat: no music library, no drafts, app-only graduation.', meta:'12 steps · AI playbook included' },
+  { slug:'print-on-demand-merch-store', title:'Build a print-on-demand merch store', desc:'Print files, mockups that show your real design, pricing, a storefront you own, Stripe checkout, automatic fulfillment, returns policy and Instagram Shop.', meta:'11 steps · AI playbook included' },
+  { slug:'where-to-register-a-song', title:'Where to register a song', desc:'Every place an independent artist needs to register a song, in order: split sheet, distributor, PRO, The MLC, SoundExchange, Copyright Office, Content ID, lyrics.', meta:'12 steps · AI playbook included' },
+];
+
+(function(){
+  var html = '', n = 0;
+  GUIDES.forEach(function(g){
+    n++;
+    var inner = '<span class="num">' + String(n).padStart(2,'0') + '</span>'
+      + '<span><span class="t">' + g.title + '</span><div class="d">' + g.desc + '</div><div class="meta">' + g.meta + '</div></span>'
+      + '<span class="cta">' + (g.soon ? 'Coming soon' : 'Read guide →') + '</span>';
+    html += g.soon ? '<div class="item soon">' + inner + '</div>'
+                   : '<a class="item" href="/guides/' + g.slug + '" data-slug="' + g.slug + '">' + inner + '</a>';
+  });
+  document.getElementById('list').innerHTML = html;
+  document.getElementById('count').textContent = GUIDES.filter(function(g){ return !g.soon; }).length;
+  document.getElementById('list').addEventListener('click', function(e){
+    var a = e.target.closest('a.item'); if(!a) return;
+    try{ gtag('event','guide_open',{guide:a.dataset.slug}); }catch(x){}
+    try{ window.__ssSend && window.__ssSend('guide_open', null, {guide:a.dataset.slug}); }catch(x){}
+  });
+})();
+</script>
+</body>
+</html>

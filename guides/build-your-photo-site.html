@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7P9FGW6PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y7P9FGW6PT');
+</script>
+<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  window.__ssSend=function(e,id,m){var o=Object.assign({e:e},base);if(id)o.id=id;if(m)o.m=m;var b=JSON.stringify(o);try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}};
+  window.__ssSend('page_view');
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<title>How to Build Your Own Photography Website (Gallery, Print Shop, Client Galleries) | Stuart Singleton</title>
+<meta name="description" content="A free, in-depth guide to building a photography website you own: tagged gallery, private admin, print-on-demand shop, client galleries, Instagram and Pinterest shopping feeds, and SEO. Includes an AI playbook you can paste into Claude or ChatGPT.">
+<link rel="canonical" href="https://stuartsingleton.com/guides/build-your-photo-site">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Build Your Own Photography Website | Free Guide">
+<meta property="og:description" content="Gallery, admin, print shop, client galleries, shopping feeds and SEO. The whole stack behind stuartsingleton.com, plus an AI playbook that walks you through it.">
+<meta property="og:image" content="https://stuartsingleton.com/og-gallery.jpg">
+<meta property="og:url" content="https://stuartsingleton.com/guides/build-your-photo-site">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to build your own photography website with a gallery, print shop and client galleries","description":"Build a photography website you own: static site on Vercel, Supabase database and storage, Stripe checkout, print-on-demand fulfillment, client galleries, shopping feeds and SEO.","author":{"@type":"Person","name":"Stuart Singleton","url":"https://stuartsingleton.com"},"tool":[{"@type":"HowToTool","name":"Vercel"},{"@type":"HowToTool","name":"Supabase"},{"@type":"HowToTool","name":"Stripe"},{"@type":"HowToTool","name":"Prodigi"},{"@type":"HowToTool","name":"An AI coding assistant such as Claude Code"}],"step":[{"@type":"HowToStep","name":"Set up accounts and domain"},{"@type":"HowToStep","name":"Build the gallery"},{"@type":"HowToStep","name":"Set up the image pipeline"},{"@type":"HowToStep","name":"Build a private admin"},{"@type":"HowToStep","name":"Add titles, tags and metadata"},{"@type":"HowToStep","name":"Add a print shop"},{"@type":"HowToStep","name":"Add client galleries"},{"@type":"HowToStep","name":"Publish policy pages"},{"@type":"HowToStep","name":"Push your catalog to Instagram, Pinterest and TikTok"},{"@type":"HowToStep","name":"Set up SEO and AI search"},{"@type":"HowToStep","name":"Add analytics"},{"@type":"HowToStep","name":"Launch and maintain"}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif; --pad:clamp(24px,6vw,64px); }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:#050505; color:#fff; min-height:100%; }
+  html { scroll-behavior:smooth; }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:1040px; margin:0 auto; padding:calc(var(--pad) * .9) var(--pad) 80px; }
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#666; margin-bottom:56px; }
+  .nav a { text-decoration:none; color:#888; transition:color .2s; }
+  .nav a:hover { color:#fff; }
+  .nav .links { display:flex; gap:22px; }
+  .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:#666; text-transform:uppercase; margin-bottom:12px; }
+  .hero { font-family:var(--display); font-size:clamp(56px,10vw,112px); line-height:.86; letter-spacing:.02em; margin:0 0 10px; }
+  .sub { font-size:11px; font-weight:400; color:#777; letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; }
+  .lead { max-width:620px; font-size:14px; font-weight:300; line-height:1.7; color:#9a9a9a; margin:0 0 28px; }
+  .lead a, .prose a { color:#ccc; text-decoration:none; border-bottom:1px solid #333; }
+  .lead a:hover, .prose a:hover { color:#fff; border-color:#fff; }
+
+  .btns { display:flex; gap:12px; flex-wrap:wrap; margin:0 0 56px; }
+  .btn { font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:12px 18px; border:1px solid #2a2a2a; color:#999; text-decoration:none; background:none; cursor:pointer; transition:all .2s; }
+  .btn:hover { border-color:#fff; color:#fff; }
+  .btn.solid { background:#f2efe4; color:#050505; border-color:#f2efe4; }
+  .btn.solid:hover { background:#fff; border-color:#fff; }
+
+  .toc { border-top:1px solid #161616; border-bottom:1px solid #161616; padding:18px 0 14px; margin:0 0 64px; columns:2; column-gap:40px; }
+  .toc a { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:#666; text-decoration:none; padding:5px 0; break-inside:avoid; }
+  .toc a span { color:#333; margin-right:10px; }
+  .toc a:hover { color:#fff; }
+
+  section.step { margin:0 0 64px; scroll-margin-top:24px; }
+  .step-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:18px; }
+  .step-h span:last-child { color:#333; margin-left:auto; }
+  h2 { font-family:var(--display); font-size:clamp(34px,5vw,52px); letter-spacing:.03em; line-height:.95; color:#e6e6e6; margin:0 0 18px; font-weight:normal; }
+  h3 { font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#aaa; font-weight:normal; margin:26px 0 10px; }
+  .prose { max-width:680px; }
+  .prose p, .prose li { font-size:14px; font-weight:300; line-height:1.75; color:#a4a4a4; }
+  .prose p { margin:0 0 14px; }
+  .prose ul, .prose ol { margin:0 0 16px; padding-left:20px; }
+  .prose li { margin:0 0 6px; }
+  .prose b, .prose strong { color:#ddd; font-weight:400; }
+  code { font-family:var(--mono); font-size:12px; color:#d8d0b8; background:#111; padding:1px 5px; border-radius:2px; }
+  pre { font-family:var(--mono); font-size:11.5px; line-height:1.6; color:#cfc8b0; background:#0c0c0c; border:1px solid #1a1a1a; padding:14px 16px; overflow-x:auto; margin:0 0 16px; max-width:680px; }
+  pre code { background:none; padding:0; }
+  .lesson { max-width:680px; border-left:2px solid #f2efe4; background:#0b0b0b; padding:12px 16px; margin:4px 0 18px; }
+  .lesson .k { font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:#f2efe4; margin-bottom:6px; }
+  .lesson p { font-size:13px; font-weight:300; line-height:1.65; color:#9a9a9a; margin:0; }
+  .hire { display:inline-block; margin-top:6px; font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#555; text-decoration:none; border-bottom:1px solid #222; }
+  .hire:hover { color:#fff; border-color:#fff; }
+
+  .panel { border:1px solid #1c1c1c; background:#090909; padding:clamp(22px,4vw,36px); margin:0 0 64px; scroll-margin-top:24px; }
+  .panel h2 { margin-bottom:10px; }
+  .panel .lead { margin-bottom:20px; }
+  .copied { font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:#4a8; text-transform:uppercase; align-self:center; }
+
+  .group { margin-bottom:36px; }
+  .group-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:6px; }
+  .group-h span:last-child { color:#333; }
+  .item { display:grid; grid-template-columns:28px 1fr auto; gap:0 18px; align-items:center; padding:20px 0; border-bottom:1px solid #111; text-decoration:none; color:inherit; }
+  .item:hover .t { color:#fff; }
+  .item:hover .cta { border-color:#fff; color:#fff; }
+  .num { font-family:var(--mono); font-size:10px; color:#3a3a3a; letter-spacing:.1em; }
+  .t { font-family:var(--display); font-size:clamp(22px,3vw,30px); letter-spacing:.03em; line-height:1; color:#d8d8d8; transition:color .2s; }
+  .d { font-size:12.5px; font-weight:300; color:#7c7c7c; line-height:1.55; margin-top:6px; max-width:560px; }
+  .cta { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; padding:8px 14px; border:1px solid #2a2a2a; color:#777; white-space:nowrap; transition:all .2s; }
+
+  .f { display:grid; gap:14px; max-width:560px; }
+  .f label { display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:#666; margin-bottom:6px; }
+  .f input, .f textarea, .f select { width:100%; background:#050505; border:1px solid #2a2a2a; color:#eee; font-family:var(--sans); font-size:14px; padding:11px 12px; border-radius:0; }
+  .f textarea { min-height:120px; resize:vertical; }
+  .f input:focus, .f textarea:focus, .f select:focus { outline:none; border-color:#888; }
+  .hp { position:absolute; left:-9999px; }
+  #qst { font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; min-height:16px; }
+
+  .disclosure { margin-top:40px; padding-top:18px; border-top:1px solid #161616; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; line-height:1.8; color:#555; max-width:640px; }
+  .disclosure b { color:#777; font-weight:normal; }
+  footer { margin-top:56px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#3a3a3a; display:flex; gap:22px; flex-wrap:wrap; }
+  footer a { text-decoration:none; color:#555; }
+  footer a:hover { color:#fff; }
+  @media (max-width:600px) {
+    .nav { margin-bottom:40px; }
+    .toc { columns:1; }
+    .item { grid-template-columns:1fr; gap:10px 0; padding:18px 0; }
+    .num { display:none; }
+    .cta { justify-self:start; padding:9px 14px; min-height:34px; display:inline-flex; align-items:center; }
+    .t { font-size:26px; }
+  }
+  @media (hover:none) { .item:hover .t { color:#d8d8d8; } .item:hover .cta { border-color:#2a2a2a; color:#777; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a href="/">Stuart Singleton</a>
+    <div class="links"><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a></div>
+  </nav>
+
+  <div class="eyebrow"><a href="/guides" style="color:inherit;text-decoration:none">Guides</a> · Free · Photographers</div>
+  <h1 class="hero">BUILD YOUR<br>PHOTO SITE</h1>
+  <p class="sub">The whole stack behind this site, step by step</p>
+  <p class="lead">This site has a tagged gallery, a private admin, a print shop that sends orders straight to a print lab, private client galleries, product feeds for Instagram, Pinterest and TikTok shopping, and pages built for Google and AI search. No monthly website platform, no commission on sales, and I own every line of the code. This guide is everything I learned building it, including what broke. Read it, or grab the AI playbook and have Claude or ChatGPT walk you through it.</p>
+  <div class="btns">
+    <a class="btn solid" href="/guides/photo-site-playbook.txt" download data-ev="playbook_download">Download the AI playbook ↓</a>
+    <a class="btn" href="#quote" data-ev="quote_jump">Or have me build it →</a>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <a href="#what"><span>00</span>What you're building</a>
+    <a href="#stack"><span>01</span>The stack</a>
+    <a href="#accounts"><span>02</span>Accounts and domain</a>
+    <a href="#gallery"><span>03</span>The gallery</a>
+    <a href="#images"><span>04</span>Image pipeline</a>
+    <a href="#admin"><span>05</span>Private admin</a>
+    <a href="#metadata"><span>06</span>Titles, tags, metadata</a>
+    <a href="#shop"><span>07</span>Print shop</a>
+    <a href="#clients"><span>08</span>Client galleries</a>
+    <a href="#policies"><span>09</span>Policy pages</a>
+    <a href="#feeds"><span>10</span>Instagram, Pinterest, TikTok</a>
+    <a href="#seo"><span>11</span>SEO and AI search</a>
+    <a href="#analytics"><span>12</span>Analytics</a>
+    <a href="#launch"><span>13</span>Launch and upkeep</a>
+    <a href="#playbook"><span>→</span>AI playbook</a>
+    <a href="#tools"><span>→</span>Tools I use</a>
+    <a href="#quote"><span>→</span>Get a quote</a>
+  </nav>
+
+  <!-- 00 -->
+  <section class="step" id="what">
+    <div class="step-h"><span>00</span><span>Overview</span><span>Read first</span></div>
+    <h2>What you're building</h2>
+    <div class="prose">
+      <p>You can stop at any step and still have a working site. Most people want the first three. The shop and the feeds are what turn it into something that sells.</p>
+      <ul>
+        <li><b>Portfolio:</b> a fast gallery with tag filters (city, subject, black and white, night) that loads well on phones.</li>
+        <li><b>Admin:</b> a private page where you upload, title, tag, reorder and hide photos without touching code.</li>
+        <li><b>Print shop:</b> buyers pick a size, pay with Stripe, and the order goes to a print lab that prints and ships it. You never handle a print.</li>
+        <li><b>Client galleries:</b> a private link per shoot where clients see their photos, unlock downloads and order prints.</li>
+        <li><b>Shopping feeds:</b> your catalog shows up as tagged products on Instagram, Pinterest and TikTok.</li>
+        <li><b>Search:</b> one real page per photo, structured data, a sitemap and an <code>llms.txt</code>, so Google and AI assistants can find and cite your work.</li>
+      </ul>
+      <h3>What it costs</h3>
+      <p>Hosting, database and payments all have free tiers that cover a new site. Plan on a domain (a yearly fee), a paid database tier once you go live (free tiers pause idle projects, more on that in step 13), and the standard card processing fee on each sale. Prints are paid for out of each order, so there's no inventory.</p>
+      <h3>How long it takes</h3>
+      <p>With an AI coding assistant doing the typing: a weekend for the portfolio and admin, another weekend or two for the shop, and a few evenings each for client galleries, feeds and SEO.</p>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section class="step" id="stack">
+    <div class="step-h"><span>01</span><span>Foundation</span><span>~1 hour</span></div>
+    <h2>The stack</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Plain HTML, CSS and JavaScript.</b> No framework needed. My whole front end started as one <code>index.html</code>. It loads fast and any AI assistant can edit it.</li>
+        <li><b>GitHub</b> to hold the code, and <b>Vercel</b> to host it. Every push to GitHub redeploys the site. Preview branches give you a private test URL before anything goes live.</li>
+        <li><b>Supabase</b> for the database (Postgres), file storage for photos, login for your admin, and small server functions.</li>
+        <li><b>Stripe</b> for checkout. Stripe Checkout gives you Apple Pay, Google Pay and cards without building a payment form.</li>
+        <li><b>A print-on-demand lab with an API.</b> I use <b>Prodigi</b>. It prints fine art paper, framed and canvas, and ships from labs in several countries.</li>
+        <li><b>An AI coding assistant.</b> I use <b>Claude Code</b>, which edits the files on your computer directly. A chat assistant works too; you'll copy and paste more.</li>
+      </ul>
+      <p>Why not Squarespace, Pixieset or SmugMug? They're fine and faster to start. You trade a monthly fee, someone else's templates and limits on what you can automate. Building your own lets you do things like push your whole catalog to Instagram Shopping automatically, which most platforms can't.</p>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="step" id="accounts">
+    <div class="step-h"><span>02</span><span>Setup</span><span>~2 hours</span></div>
+    <h2>Accounts and domain</h2>
+    <div class="prose">
+      <ol>
+        <li>Buy your domain. Your name is best.</li>
+        <li>Create a <b>GitHub</b> account and a new repository for the site.</li>
+        <li>Create a <b>Vercel</b> account, import the repository, and add your domain in the project's domain settings. Vercel shows you the DNS records to set at your registrar.</li>
+        <li>Create a <b>Supabase</b> project. Note the project URL and the public (anon) key.</li>
+        <li>Create a <b>Stripe</b> account. Stay in test mode until your first test order works end to end.</li>
+        <li>Create a <b>Prodigi</b> account (or your lab of choice) and get a sandbox API key.</li>
+      </ol>
+      <h3>Keys: the one rule that matters</h3>
+      <p>Public keys (Supabase anon key, Stripe publishable key) can live in your page. <b>Secret keys never go in the page.</b> That's the Supabase service role key, the Stripe secret key, the Stripe webhook secret and the lab API key. They go in environment variables in Vercel or Supabase, and only server functions read them. Don't paste secret keys into an AI chat either. Tell the assistant the variable name and add the value yourself.</p>
+    </div>
+    <a class="hire" href="#quote">Not your thing? I'll build it for you →</a>
+  </section>
+
+  <!-- 03 -->
+  <section class="step" id="gallery">
+    <div class="step-h"><span>03</span><span>Portfolio</span><span>~1 day</span></div>
+    <h2>The gallery</h2>
+    <div class="prose">
+      <p>One table holds every photo. Start with something like this and add columns as you need them:</p>
+<pre><code>photos
+  id          bigint primary key
+  src         text      -- public URL of the web-size file
+  master_path text      -- path to the full-res file in a private bucket
+  title       text      -- "Eiffel Tower at Night, Paris, France"
+  tags        text[]    -- {paris, france, night, architecture}
+  width       int
+  height      int       -- width/height gives you the aspect ratio
+  sort_order  int default 0
+  hidden      boolean default false
+  for_sale    boolean default false
+  created_at  timestamptz default now()</code></pre>
+      <p>Make two storage buckets: a <b>public</b> one for web-size images and a <b>private</b> one for full-resolution masters. The masters are what the print lab gets, through short-lived signed links, never a public URL.</p>
+      <h3>Layout</h3>
+      <ul>
+        <li>A masonry grid with CSS columns is simple and looks right with mixed portrait and landscape photos.</li>
+        <li>Load photos in pages (say 30 at a time) with <code>loading="lazy"</code>, so phones aren't pulling 200 images at once.</li>
+        <li>Three columns on phones reads better than one giant column. Most of your traffic will be mobile.</li>
+        <li>Tag filters: a row of chips built from the tags in the table. Tapping one filters the grid.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>When I filtered by tag, hidden photos were collapsed to zero height but still sat in the column layout, so the visible ones crammed to the left. Only render the matching photos, or hide the rest with <code>display:none</code>, never just <code>height:0</code>.</p></div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="step" id="images">
+    <div class="step-h"><span>04</span><span>Files</span><span>~half day</span></div>
+    <h2>Image pipeline</h2>
+    <div class="prose">
+      <p>Every photo needs two files:</p>
+      <ul>
+        <li><b>Web version:</b> around 2000 to 2400 pixels on the long edge, compressed to a few hundred KB. This is what the gallery shows.</li>
+        <li><b>Master:</b> the full-resolution export, kept private, used only for prints.</li>
+      </ul>
+      <p>Have your upload resize and compress the web version in the browser before it uploads, so you can drop in full-size exports and never think about it.</p>
+      <div class="lesson"><div class="k">What broke for me</div><p>Twice, new photos just never showed up in the gallery. The cause both times was oversized web files that failed silently. Build the resize into the upload so it can't happen, and have the uploader tell you when something fails.</p></div>
+      <div class="lesson"><div class="k">Privacy</div><p>Camera and phone files carry GPS coordinates. Strip location data from every public file. If you want to show where a photo was taken, put the city in the title and tags yourself.</p></div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="step" id="admin">
+    <div class="step-h"><span>05</span><span>Management</span><span>~1 day</span></div>
+    <h2>Private admin</h2>
+    <div class="prose">
+      <p>This is the page that makes the site something you'll actually keep updating. Mine does bulk upload with drag and drop, tag editing, reordering, hiding, marking photos for sale, and an analytics panel.</p>
+      <h3>Lock it down properly</h3>
+      <ul>
+        <li>Use <b>Supabase Auth</b> for your login (email link or password), not a password checked in JavaScript. Anything in the page can be read by anyone who opens developer tools.</li>
+        <li>Turn on <b>Row Level Security</b> for every table. Write policies so anyone can read visible photos, but only your logged-in user can insert, update or delete.</li>
+        <li>Give the admin its own route and mark it <code>noindex</code>. Don't link it from anywhere public.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>My first admin panel's upload form shipped to every visitor, just hidden with CSS. It was harmless because the database rules held, but it's the wrong pattern. Load admin code only after login.</p></div>
+    </div>
+    <a class="hire" href="#quote">Rather skip the setup? Get a quote →</a>
+  </section>
+
+  <!-- 06 -->
+  <section class="step" id="metadata">
+    <div class="step-h"><span>06</span><span>Findability</span><span>ongoing</span></div>
+    <h2>Titles, tags, metadata</h2>
+    <div class="prose">
+      <p>This is the boring step that does the most for search and sales. "IMG_4471" sells nothing. "Eiffel Tower at Night, Paris, France" gets found.</p>
+      <ul>
+        <li><b>Titles:</b> landmark or subject, then place. Same pattern every time.</li>
+        <li><b>Tags:</b> keep a fixed vocabulary. Places (city, country), subjects (architecture, concerts, ocean), style (black and white, long exposure), time (day, night).</li>
+        <li><b>Alt text:</b> one plain sentence describing the photo, for accessibility and image search.</li>
+        <li><b>Let AI do the first pass.</b> An AI model can look at each photo and draft a title, tags and alt text. Then you fix what it gets wrong. Much faster than starting from blank.</li>
+        <li><b>Sets:</b> group photos into named collections (a city, a trip, a series). They make browsing easier, and they double as product groups in your shopping feeds.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="step" id="shop">
+    <div class="step-h"><span>07</span><span>Selling</span><span>~1 to 2 weekends</span></div>
+    <h2>Print shop</h2>
+    <div class="prose">
+      <h3>How an order flows</h3>
+<pre><code>buyer picks photo + size + finish
+  → your server function creates a Stripe Checkout session
+  → buyer pays on Stripe
+  → Stripe calls your webhook
+  → webhook checks the payment is real, then places the
+    print order with the lab, using a signed link to the master
+  → lab prints and ships, sends tracking
+  → buyer lands on your thank-you page</code></pre>
+      <h3>Rules that keep prints looking right</h3>
+      <ul>
+        <li><b>Only offer sizes that match each photo's aspect ratio.</b> A 3:2 photo gets 4x6, 8x12, 16x24, 24x36. A 4:3 photo gets 6x8, 9x12, 12x16. Nobody gets a surprise crop.</li>
+        <li><b>Set a resolution floor.</b> I only offer a size if the master has at least 200 pixels per inch at that size. Smaller files get smaller sizes.</li>
+        <li><b>Store the width and height</b> of every master so the site can work out both of those on its own.</li>
+      </ul>
+      <h3>Pricing</h3>
+      <p>Pull print cost and shipping from the lab's quote API instead of typing them in. Prices change and shipping varies by country. Then price to the margin you want:</p>
+<pre><code>price = (print cost + shipping) / (1 - target margin)
+
+$30 cost, 45% margin → 30 / 0.55 = $54.55 → round to $55</code></pre>
+      <p>I build shipping into the price and show "free shipping." Add a bulk discount for multiple prints, and sell sets of three or more as a bundle.</p>
+      <h3>Test it for real</h3>
+      <p>Run a complete order in Stripe test mode against the lab's sandbox. Then place one real order to your own address before you tell anyone the shop is open. You'll want to see the print quality yourself anyway.</p>
+      <div class="lesson"><div class="k">What broke for me</div><p>People who tap your link inside Instagram land in Instagram's built-in browser, which has no Apple Pay. Detect it and show a small bar offering to open the page in Safari or Chrome.</p></div>
+    </div>
+    <a class="hire" href="#quote">Want a shop without the plumbing? I'll set it up →</a>
+  </section>
+
+  <!-- 08 -->
+  <section class="step" id="clients">
+    <div class="step-h"><span>08</span><span>Clients</span><span>~1 weekend</span></div>
+    <h2>Client galleries</h2>
+    <div class="prose">
+      <p>If you shoot for clients, deliver through your own site instead of a separate gallery service. It looks more professional and it's one more reason people end up on your domain.</p>
+      <ul>
+        <li>Each shoot gets a private link with an access code, like <code>/g/smith-family?code=7K2Q</code>. The server checks the code before sending any photos.</li>
+        <li>The client unlocks their included photos for download, can buy extra unlocks, and can order prints of anything unlocked through the same shop.</li>
+        <li>Mark these pages <code>noindex</code> and keep them out of your sitemap, product feeds and search pages. Serve photos through signed links that expire.</li>
+        <li>Add a way for clients to request edits on a specific photo. It saves a lot of back and forth.</li>
+      </ul>
+      <div class="lesson"><div class="k">My rule</div><p>Client photos are never for sale to the public. They're the client's. With permission, I only use them to show my work.</p></div>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="step" id="policies">
+    <div class="step-h"><span>09</span><span>Trust</span><span>~2 hours</span></div>
+    <h2>Policy pages</h2>
+    <div class="prose">
+      <p>Put these up before you connect any shopping platform. Pinterest rejected my merchant application until I had them.</p>
+      <ul>
+        <li><b>Shipping and returns:</b> where you ship, how long it takes, what happens with damaged or wrong prints.</li>
+        <li><b>Contact:</b> a form, not your personal email. Published emails get spammed.</li>
+        <li><b>Privacy:</b> what you collect (contact form, analytics, orders) and who processes it (Stripe, the print lab).</li>
+      </ul>
+      <p><b>Sales tax:</b> prints are physical goods, and most US states tax them once your sales pass a threshold. Look up your state's rules, and talk to an accountant if you're unsure. This guide isn't tax advice.</p>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="step" id="feeds">
+    <div class="step-h"><span>10</span><span>Reach</span><span>~1 to 2 days</span></div>
+    <h2>Instagram, Pinterest, TikTok</h2>
+    <div class="prose">
+      <p>Every shopping platform takes a product catalog, which is just a spreadsheet or feed of your products: ID, title, description, price, image URL, product page link, availability. Since every photo already lives in your database, a small script can generate those feeds automatically.</p>
+      <ul>
+        <li><b>Meta Commerce Manager</b> for Instagram and Facebook Shops. Lets you tag prints in posts and reels.</li>
+        <li><b>Pinterest catalogs</b> turn every print into a shoppable pin.</li>
+        <li><b>TikTok Shop / catalog</b> works the same way.</li>
+        <li><b>Google Merchant Center</b> gets your prints into Google Shopping results.</li>
+      </ul>
+      <p>Use your sets as product groups so related photos stay together. Regenerate the feeds whenever you add photos, or have the platform fetch them from a URL on a schedule.</p>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="step" id="seo">
+    <div class="step-h"><span>11</span><span>Search</span><span>~1 day</span></div>
+    <h2>SEO and AI search</h2>
+    <div class="prose">
+      <p>A gallery built with JavaScript can look like an empty page to a search engine. Give every photo a real page.</p>
+      <ul>
+        <li><b>One static page per photo</b> (<code>/print/eiffel-tower-night-paris</code>), generated by a script at deploy time, with the title, description, sizes and prices in plain HTML.</li>
+        <li><b>Structured data</b> on each page: schema.org <code>VisualArtwork</code> and <code>Product</code> with offers and prices. This is how Google shows prices and images in results.</li>
+        <li><b><code>sitemap.xml</code></b> listing every public page, generated from the database. Submit it in Google Search Console.</li>
+        <li><b><code>llms.txt</code></b> at the root: a plain-language summary of who you are, what you sell and how pricing works. AI assistants read it.</li>
+        <li><b>A JSON catalog</b> (<code>/catalog.json</code>) so agents and tools can read your whole catalog in one request.</li>
+        <li><b>Link previews:</b> Open Graph tags and a preview image on every page, so shared links look good in texts and DMs.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>A redesign quietly dropped my page titles and descriptions, and I didn't notice for weeks. After any big change, check a few pages with a link preview tool and Google's Rich Results Test.</p></div>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="step" id="analytics">
+    <div class="step-h"><span>12</span><span>Measure</span><span>~half day</span></div>
+    <h2>Analytics</h2>
+    <div class="prose">
+      <p>Vercel's built-in analytics covers the basics. I also log my own events (page views, photo opens, size picks, checkout starts) to a Supabase table and chart them in my admin, so I can see exactly where buyers drop off.</p>
+      <ul>
+        <li><b>Exclude yourself.</b> Set a flag in your browser when you log into the admin and skip tracking when it's there. Otherwise your own testing becomes your biggest "customer."</li>
+        <li><b>Filter out bots and crawlers,</b> or your numbers will look much better than they are.</li>
+        <li>Watch the funnel, not just visits: views → product opens → size picked → checkout → paid.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 13 -->
+  <section class="step" id="launch">
+    <div class="step-h"><span>13</span><span>Ship</span><span>checklist</span></div>
+    <h2>Launch and upkeep</h2>
+    <div class="prose">
+      <h3>Before launch</h3>
+      <ul>
+        <li>Domain loads over HTTPS, with and without <code>www</code>.</li>
+        <li>Gallery, filters and photo pages look right on a phone.</li>
+        <li>Admin requires login. Logged out, you can't write anything to the database.</li>
+        <li>Full test order in test mode, then one real order to yourself.</li>
+        <li>Policy pages are live and linked in the footer.</li>
+        <li>Sitemap submitted, link previews checked, analytics excluding you.</li>
+      </ul>
+      <h3>Keeping it running</h3>
+      <ul>
+        <li><b>Move the database to a paid tier once you're live.</b> Free projects pause when idle, and a quiet portfolio site will hit that. Your gallery just goes blank.</li>
+        <li>Add a free uptime monitor that checks your gallery actually loads photos, not just that the page returns.</li>
+        <li>Back up the database and your masters somewhere you control.</li>
+        <li>Make changes on a preview branch, check them on your phone, then merge to live.</li>
+        <li>Re-check lab prices and shipping every few months so your margins hold.</li>
+      </ul>
+      <div class="lesson"><div class="k">What broke for me</div><p>My gallery went down because the database hung, not because anything in the site changed. That's exactly what an uptime check would have caught before a visitor did.</p></div>
+    </div>
+  </section>
+
+  <!-- Playbook -->
+  <section class="panel" id="playbook">
+    <div class="eyebrow">Free download · Works with Claude or ChatGPT</div>
+    <h2>The AI playbook</h2>
+    <p class="lead">A text file that turns an AI assistant into a build partner for this exact site. Paste it into Claude, ChatGPT or another assistant (or drop it into a Claude Code project). It interviews you about what you shoot and what you want, then walks you through every step above one at a time, checks your work, and keeps you away from the security mistakes. If your assistant can edit files, it can do most of the typing.</p>
+    <div class="btns" style="margin:0">
+      <a class="btn solid" href="/guides/photo-site-playbook.txt" download data-ev="playbook_download">Download playbook (.txt) ↓</a>
+      <button class="btn" type="button" id="copyPb" data-ev="playbook_copy">Copy to clipboard</button>
+      <span class="copied" id="copyMsg" hidden>Copied</span>
+    </div>
+  </section>
+
+  <!-- Tools -->
+  <section class="step" id="tools">
+    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
+    <h2>Tools I use</h2>
+    <p class="lead">You don't need any of this to build the site. It's what I shoot with and use to get photos from camera to print. Links open on Amazon.</p>
+    <div id="gear"></div>
+  </section>
+
+  <!-- Quote -->
+  <section class="panel" id="quote">
+    <div class="eyebrow">Done for you</div>
+    <h2>Rather not build it yourself?</h2>
+    <p class="lead">I build these for photographers: your photos, your brand, your domain, and accounts in your name, so you own everything. Pick what you want and I'll send you a quote.</p>
+    <form class="f" id="qf">
+      <div><label for="qn">Name</label><input id="qn" name="name" required autocomplete="name"></div>
+      <div><label for="qe">Email</label><input id="qe" type="email" name="email" required autocomplete="email"></div>
+      <div><label for="qs">What do you need?</label>
+        <select id="qs" name="scope">
+          <option>Portfolio + admin</option>
+          <option>Portfolio + print shop</option>
+          <option>Portfolio + print shop + client galleries</option>
+          <option>Not sure yet</option>
+        </select></div>
+      <div><label for="qu">Current website or Instagram (optional)</label><input id="qu" name="site"></div>
+      <div><label for="qm">Anything else</label><textarea id="qm" name="message" placeholder="What you shoot, rough number of photos, timeline"></textarea></div>
+      <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn solid" type="submit" id="qb">Request a quote →</button>
+      <div id="qst"></div>
+    </form>
+  </section>
+
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Other services named in this guide (Vercel, Supabase, Stripe, Prodigi, Claude) are mentioned because I use them, not because they pay me.</p>
+
+  <footer>
+    <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
+  </footer>
+</div>
+
+<script>
+// Tools list. Same format as camera-gear.html.
+// url  = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag)
+// Items with an empty url are skipped, so paste a link in to make one appear.
+const GEAR = [
+  { group:'Shoot', items:[
+    { slug:'xt5-16-80', url:'https://amzn.to/46oFm4o', title:'Fujifilm X-T5 + XF 16-80mm f/4', desc:'The body behind almost every photo on this site. Plenty of resolution for 24x36 prints.' },
+    { slug:'xf35-f14', url:'https://amzn.to/3TxeA6S', title:'Fujifilm XF 35mm f/1.4 R', desc:'The lens that stays on the camera. Street, portraits, low light.' },
+  ]},
+  { group:'Edit and print', items:[
+    { slug:'guide-calibrator', url:'', title:'Monitor color calibrator', desc:'If your screen is too bright or too blue, your prints come back dark and off-color. Calibrate before you sell prints.' },
+    { slug:'guide-card-reader', url:'', title:'Fast SD card reader', desc:'Gets a day of shooting off the card in minutes instead of half an hour.' },
+  ]},
+  { group:'Store and back up', items:[
+    { slug:'guide-portable-ssd', url:'', title:'Portable SSD', desc:'Where the full-resolution masters live while you edit. Fast enough to work straight off it.' },
+    { slug:'guide-nas', url:'', title:'Home NAS', desc:'A second copy of every master, at home, that you control. Cloud storage is the third copy.' },
+  ]},
+];
+
+(function(){
+  var root = document.getElementById('gear'), n = 0, html = '';
+  GEAR.forEach(function(g){
+    var items = g.items.filter(function(it){ return it.url; });
+    if (!items.length) return;
+    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
+    items.forEach(function(it){
+      n++;
+      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
+        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
+        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
+        + '<span class="cta">View on Amazon ↗</span></a>';
+    });
+    html += '</section>';
+  });
+  root.innerHTML = html;
+  root.addEventListener('click', function(e){
+    var a = e.target.closest('a.item'); if(!a) return;
+    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide'}); }catch(x){}
+    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide'}); }catch(x){}
+  });
+})();
+
+// Download / copy / quote-jump events
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-ev]'); if(!el) return;
+  var ev = el.getAttribute('data-ev');
+  try{ gtag('event', ev); }catch(x){}
+  try{ window.__ssSend && window.__ssSend(ev); }catch(x){}
+});
+
+document.getElementById('copyPb').addEventListener('click', async function(){
+  var msg = document.getElementById('copyMsg');
+  try {
+    var r = await fetch('/guides/photo-site-playbook.txt'); var t = await r.text();
+    await navigator.clipboard.writeText(t);
+    msg.textContent = 'Copied. Paste it into your AI assistant.';
+  } catch(x) { msg.textContent = 'Copy failed. Use the download button.'; msg.style.color = '#c44'; }
+  msg.hidden = false;
+});
+
+document.getElementById('qf').addEventListener('submit', async function(e){
+  e.preventDefault();
+  var f = e.target, b = document.getElementById('qb'), s = document.getElementById('qst');
+  b.textContent = 'Sending...';
+  try {
+    var r = await fetch('https://formspree.io/f/mwvwevop', { method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'},
+      body: JSON.stringify({ name:f.name.value, email:f.email.value, scope:f.scope.value, site:f.site.value, message:f.message.value, _gotcha:f._gotcha.value, _subject:'Photo site build quote request' }) });
+    if (!r.ok) throw 0;
+    try{ gtag('event','quote_request'); }catch(x){}
+    try{ window.__ssSend && window.__ssSend('quote_request', null, {scope:f.scope.value}); }catch(x){}
+    s.style.color = '#4a8'; s.textContent = '✓ Got it. I\'ll email you a quote.'; f.reset();
+  } catch(x) { s.style.color = '#c44'; s.textContent = 'Something went wrong. Please try again.'; }
+  b.textContent = 'Request a quote →';
+});
+</script>
+</body>
+</html>
