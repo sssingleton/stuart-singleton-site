@@ -45,6 +45,8 @@
     { "source": "/g/:slug", "destination": "/g.html" }
   ],
   "headers": [
+    { "source": "/conversations", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
+    { "source": "/conversations/:path*", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
     { "source": "/g/:slug*", "headers": [
       { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, noimageindex" },
       { "key": "Referrer-Policy", "value": "no-referrer" },
