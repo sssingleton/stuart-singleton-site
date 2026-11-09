@@ -3,7 +3,8 @@
     { "source": "/S137devhub", "destination": "/S137devhub/", "permanent": false },
     { "source": "/gear", "destination": "/camera-gear", "permanent": false },
     { "source": "/solar", "destination": "/heliograph", "permanent": true },
-    { "source": "/labs/solar/:path*", "destination": "/labs/heliograph/:path*", "permanent": true }
+    { "source": "/labs/solar/:path*", "destination": "/labs/heliograph/:path*", "permanent": true },
+    { "source": "/lut", "destination": "/lut-converter", "permanent": false }
   ],
   "rewrites": [
     { "source": "/S137devhub/", "destination": "https://s137-dev-hub.vercel.app/" },
@@ -14,6 +15,7 @@
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/camera-gear", "destination": "/camera-gear.html" },
     { "source": "/heliograph", "destination": "/labs/heliograph/index.html" },
+    { "source": "/lut-converter", "destination": "/labs/lut-converter/index.html" },
     { "source": "/bradenbachelortripcalculator", "destination": "/bradenbachelortripcalculator.html" },
     { "source": "/print-success", "destination": "/index.html" },
     { "source": "/checkout", "destination": "/checkout.html" },

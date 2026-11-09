@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7P9FGW6PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y7P9FGW6PT');
+</script>
+<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  function send(e,id){var o=Object.assign({e:e},base);if(id)o.id=id;var b=JSON.stringify(o);
+    try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}
+    try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}}
+  window.__ssSend=function(e,id,m){var o=Object.assign({e:e},base);if(id)o.id=id;if(m)o.m=m;var b=JSON.stringify(o);try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}};
+  send('page_view');
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<title>LUT ⇄ Lightroom converter · .cube to profile and back | Stuart Singleton Labs</title>
+<meta name="description" content="Free in-browser converter: turn .cube LUTs into Lightroom profiles and presets, or pull a .cube back out of a Lightroom profile. Batch, private, nothing uploaded.">
+<link rel="canonical" href="https://stuartsingleton.com/lut-converter">
+<link rel="icon" href="/labs/lut-converter/favicon.ico" sizes="any">
+<link rel="icon" href="/labs/lut-converter/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/labs/lut-converter/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LUT ⇄ Lightroom · .cube to profile and back">
+<meta property="og:description" content="Turn .cube LUTs into Lightroom profiles and presets, or pull a .cube out of any LUT profile. Batch, in your browser, nothing uploaded.">
+<meta property="og:image" content="https://stuartsingleton.com/labs/lut-converter/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://stuartsingleton.com/lut-converter">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://stuartsingleton.com/labs/lut-converter/og.jpg">
+<meta name="theme-color" content="#050506">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Michroma&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#050506; --void2:#0a0a0c;
+  --cream:#f3e6c4; --cream-d:rgba(243,230,196,.62); --cream-dd:rgba(243,230,196,.36);
+  --line:rgba(243,230,196,.11); --line2:rgba(243,230,196,.2);
+  --orange:#ff7a1a; --red:#ff3b2f; --teal:#3fd6c4;
+  --glass:rgba(16,15,14,.42);
+  --wide:"Michroma",ui-sans-serif,sans-serif;
+  --serif:"Instrument Serif",ui-serif,Georgia,serif;
+  --sans:"Geist",ui-sans-serif,-apple-system,sans-serif;
+  --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--void);color:var(--cream);font-family:var(--sans);-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{overflow-x:hidden;min-height:100vh}
+::selection{background:var(--orange);color:#000}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ===== atmosphere ===== */
+.atmo{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(42vmax 32vmax at 64% 46%, rgba(243,230,196,.075), transparent 60%),
+    radial-gradient(30vmax 26vmax at 100% 0%, rgba(63,214,196,.13), transparent 65%),
+    radial-gradient(26vmax 30vmax at 104% 34%, rgba(255,59,47,.10), transparent 65%),
+    radial-gradient(36vmax 22vmax at 0% 100%, rgba(255,122,26,.07), transparent 70%)}
+.grain{position:fixed;inset:-50%;pointer-events:none;z-index:90;opacity:.085;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain .9s steps(5) infinite}
+@keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-4%,2%)}40%{transform:translate(3%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(4%,3%)}}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:89;opacity:.05;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(243,230,196,.6) 2px 3px)}
+
+/* ===== top bar ===== */
+.top{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px clamp(18px,3vw,40px);font:500 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--cream-d);
+  background:linear-gradient(var(--void),rgba(5,5,6,0));}
+.top a{text-decoration:none}.top a:hover{color:var(--cream)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand b{font:400 11px/1 var(--wide);letter-spacing:.12em;color:var(--cream)}
+.live{display:flex;align-items:center;gap:8px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.top .sep{opacity:.3}
+
+/* ===== hero stage ===== */
+.stage{position:relative;height:100svh;min-height:640px;z-index:1;overflow:hidden}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
+#gl:active{cursor:grabbing}
+.stage.drag::after{content:'';position:absolute;inset:12px;border:1px solid var(--orange);border-radius:18px;box-shadow:0 0 0 1px rgba(255,122,26,.25),inset 0 0 80px rgba(255,122,26,.12);pointer-events:none;animation:in .3s var(--ease)}
+
+.hero-copy{position:absolute;left:clamp(18px,4vw,56px);bottom:clamp(110px,15vh,170px);z-index:5;max-width:min(560px,90vw);pointer-events:none}
+.eyebrow{font:500 10.5px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--orange);display:flex;gap:10px;align-items:center}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--orange)}
+h1{filter:none;font:400 clamp(28px,4.1vw,60px)/1 var(--wide);letter-spacing:-.01em;margin:18px 0 6px;text-transform:uppercase;
+  background:linear-gradient(180deg,#fff7e2 0%,var(--cream) 55%,#b9a77e 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 .arr{width:1.05em;height:.7em;color:var(--orange);vertical-align:.02em;margin-left:.15em;filter:drop-shadow(0 0 14px rgba(255,122,26,.6))}
+.sub{font:italic 400 clamp(22px,2.4vw,34px)/1.1 var(--serif);color:var(--cream-d)}
+.lede{margin-top:18px;max-width:440px;font:300 15px/1.6 var(--sans);color:var(--cream-d)}
+
+/* reticle + drop prompt */
+.reticle{position:absolute;z-index:4;pointer-events:none;width:min(46vmin,520px);aspect-ratio:1;left:var(--cx,64%);top:46%;translate:-50% -50%}
+.reticle i{position:absolute;width:26px;height:26px;border-color:var(--cream-dd);border-style:solid;transition:all .6s var(--ease)}
+.reticle i:nth-child(1){left:0;top:0;border-width:1px 0 0 1px}.reticle i:nth-child(2){right:0;top:0;border-width:1px 1px 0 0}
+.reticle i:nth-child(3){left:0;bottom:0;border-width:0 0 1px 1px}.reticle i:nth-child(4){right:0;bottom:0;border-width:0 1px 1px 0}
+.stage.drag .reticle i{border-color:var(--orange);width:40px;height:40px}
+.reticle .tag{position:absolute;left:0;top:-26px;font:500 10px var(--mono);letter-spacing:.18em;color:var(--cream-dd);text-transform:uppercase;white-space:nowrap}
+.reticle .tag.r{left:auto;right:0;top:auto;bottom:-26px}
+
+.dropcall{position:absolute;z-index:6;left:var(--cx,64%);top:calc(46% + min(23vmin,260px) + 40px);translate:-50% 0;display:flex;flex-direction:column;align-items:center;gap:12px}
+.pill{position:relative;display:inline-flex;align-items:center;gap:12px;padding:14px 22px 14px 18px;border-radius:999px;
+  font:500 11px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#120d06;
+  background:linear-gradient(180deg,#fff4da,var(--cream));box-shadow:0 0 0 1px rgba(255,255,255,.5) inset,0 0 40px rgba(243,230,196,.35),0 12px 40px -10px rgba(255,122,26,.5);
+  transition:transform .35s var(--ease),box-shadow .35s}
+.pill:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 0 1px #fff inset,0 0 60px rgba(243,230,196,.5),0 16px 50px -10px rgba(255,122,26,.7)}
+.pill .plus{width:18px;height:18px;border-radius:50%;background:#120d06;color:var(--cream);display:grid;place-items:center;font-size:13px;letter-spacing:0}
+.dropcall small{font:400 11px var(--mono);letter-spacing:.12em;color:var(--cream-dd);text-transform:uppercase}
+
+/* HUD readout */
+.hud{position:absolute;z-index:6;right:clamp(16px,2vw,28px);top:78px;width:min(252px,80vw);
+  font:400 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cream-dd)}
+.panel{position:relative;background:var(--glass);border:1px solid var(--line);border-radius:14px;backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2)}
+.panel::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%), rgba(243,230,196,.09), transparent 60%)}
+.hud .panel{padding:16px 16px 14px}
+.hud .row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.hud .row:last-of-type{border:0}
+.hud .row b{color:var(--cream);font-weight:500;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hud .status{margin-top:10px;padding-top:12px;border-top:1px solid var(--line);color:var(--orange);min-height:1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud .status::after{content:'▍';animation:pulse 1s steps(1) infinite;margin-left:2px}
+
+/* mix scrubber */
+.mix{position:absolute;z-index:6;left:50%;bottom:clamp(28px,5vh,52px);translate:-50% 0;width:min(560px,86vw);display:flex;align-items:center;gap:14px;
+  font:500 10px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--cream-dd)}
+.mix input{flex:1;-webkit-appearance:none;appearance:none;height:28px;background:transparent;cursor:pointer}
+.mix input::-webkit-slider-runnable-track{height:1px;background:linear-gradient(90deg,var(--cream-dd),var(--orange))}
+.mix input::-moz-range-track{height:1px;background:linear-gradient(90deg,var(--cream-dd),var(--orange))}
+.mix input::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--cream);box-shadow:0 0 0 4px rgba(243,230,196,.12),0 0 18px var(--cream)}
+.mix input::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:50%;background:var(--cream);box-shadow:0 0 0 4px rgba(243,230,196,.12),0 0 18px var(--cream)}
+.mix output{min-width:38px;text-align:right;color:var(--cream)}
+.scrollcue{position:absolute;z-index:6;left:clamp(18px,4vw,56px);bottom:clamp(30px,5vh,54px);font:500 10px var(--mono);letter-spacing:.18em;color:var(--cream-dd);text-transform:uppercase;text-decoration:none}
+
+/* ===== sections ===== */
+section.blk{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:clamp(64px,10vh,110px) clamp(18px,4vw,56px) 0}
+.sh{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.sh h2{font:400 clamp(20px,2.2vw,28px)/1 var(--wide);text-transform:uppercase;letter-spacing:.02em}
+.sh h2 em{font:italic 400 1.25em var(--serif);text-transform:none;color:var(--orange);letter-spacing:0;margin-left:.15em}
+.idx{font:500 10.5px var(--mono);letter-spacing:.2em;color:var(--cream-dd);text-transform:uppercase}
+
+/* controls */
+.ctrl{display:grid;grid-template-columns:1.3fr 1fr 1.2fr auto;gap:10px;align-items:stretch}
+.ctrl .panel{padding:14px 16px;display:flex;flex-direction:column;justify-content:center;gap:9px}
+.lbl{font:500 9.5px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--cream-dd)}
+.ctrl input[type=text]{background:transparent;border:0;border-bottom:1px solid var(--line2);color:var(--cream);font:400 16px var(--sans);padding:2px 0 6px;outline:none;width:100%}
+.ctrl input[type=text]:focus{border-color:var(--orange)}
+.seg{display:flex;gap:4px;padding:3px;border:1px solid var(--line);border-radius:999px;width:max-content;max-width:100%}
+.seg button,.seg label{font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:7px 11px;border-radius:999px;color:var(--cream-d);cursor:pointer;transition:.25s var(--ease);white-space:nowrap}
+.seg input{display:none}
+.seg .on,.seg input:checked+span{color:#120d06;background:var(--cream)}
+.seg label span{display:block;margin:-7px -11px;padding:7px 11px;border-radius:999px}
+.dl{position:relative;border-radius:14px;padding:0 26px;min-height:86px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;
+  background:var(--orange);color:#120d06;font:400 13px var(--wide);text-transform:uppercase;letter-spacing:.06em;
+  box-shadow:0 0 50px -6px rgba(255,122,26,.65),inset 0 1px 0 rgba(255,255,255,.45);transition:.35s var(--ease);overflow:hidden}
+.dl small{font:500 10px var(--mono);letter-spacing:.14em;opacity:.7}
+.dl::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);transition:transform .9s var(--ease)}
+.dl:not(:disabled):hover::after{transform:translateX(120%)}
+.dl:not(:disabled):hover{transform:translateY(-2px)}
+.dl:disabled{background:rgba(243,230,196,.06);color:var(--cream-dd);box-shadow:inset 0 0 0 1px var(--line);cursor:default}
+
+/* manifest */
+.manifest{margin-top:14px;border-top:1px solid var(--line)}
+.mrow{display:grid;grid-template-columns:44px 170px 1fr auto auto;gap:22px;align-items:center;padding:16px 4px;border-bottom:1px solid var(--line);cursor:pointer;position:relative;
+  animation:rowin .6s var(--ease) both;transition:background .3s}
+.mrow:hover{background:rgba(243,230,196,.025)}
+.mrow.sel::before{content:'';position:absolute;left:-14px;top:50%;width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 12px var(--orange);transform:translateY(-50%)}
+.mrow.bad{cursor:default;opacity:.75}
+@keyframes rowin{from{opacity:0;transform:translateY(10px);filter:blur(4px)}}
+.n{font:500 11px var(--mono);color:var(--cream-dd);letter-spacing:.1em}
+.strip{width:170px;height:34px;border-radius:6px;display:block;box-shadow:0 0 0 1px var(--line)}
+.mname{font:500 16px/1.25 var(--sans);color:var(--cream);word-break:break-word}
+.mmeta{font:400 11px var(--mono);letter-spacing:.06em;color:var(--cream-dd);margin-top:5px}
+.mw{font:400 12px var(--sans);color:var(--orange);margin-top:5px}
+.me{font:400 12px var(--sans);color:var(--red);margin-top:5px}
+.chip{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--cream-d);white-space:nowrap}
+.chip.a{border-color:rgba(255,122,26,.45);color:var(--orange)}.chip.b{border-color:rgba(63,214,196,.45);color:var(--teal)}.chip.x{border-color:rgba(255,59,47,.45);color:var(--red)}
+.warp{font:500 11px var(--mono);color:var(--cream-d);min-width:72px;text-align:right}
+.empty{padding:34px 4px;font:400 12px var(--mono);letter-spacing:.12em;color:var(--cream-dd);text-transform:uppercase;display:flex;gap:12px;align-items:center}
+.empty::before{content:'';width:8px;height:8px;border:1px solid var(--cream-dd);border-radius:50%}
+
+/* proof */
+.pv{position:relative;border-radius:18px;overflow:hidden;background:#000;user-select:none;touch-action:pan-y;box-shadow:0 0 0 1px var(--line),0 40px 120px -40px rgba(243,230,196,.18)}
+.pv canvas{display:block;width:100%;height:auto}
+.pv .after{position:absolute;inset:0;clip-path:inset(0 0 0 50%)}
+.pv .handle{position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--cream);box-shadow:0 0 16px var(--cream)}
+.pv .knob{position:absolute;top:50%;left:50%;width:46px;height:46px;border-radius:50%;transform:translate(-50%,-50%);
+  background:rgba(5,5,6,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--cream-dd);display:grid;place-items:center;font:500 11px var(--mono);letter-spacing:.1em}
+.pv .t{position:absolute;top:16px;font:500 10px var(--mono);letter-spacing:.2em;padding:7px 10px;border-radius:999px;background:rgba(5,5,6,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line)}
+.pv .t.l{left:16px}.pv .t.r{right:16px;color:var(--orange)}
+.pvbar{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:14px;font:400 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dd)}
+.pvbar button{text-decoration:underline;text-underline-offset:4px;color:var(--cream);letter-spacing:.1em;text-transform:uppercase;font:500 11px var(--mono)}
+
+/* info + cta */
+.info{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.info .panel{padding:20px 18px 22px}
+.info h3{font:400 11px var(--wide);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;color:var(--cream)}
+.info p{font:300 13.5px/1.6 var(--sans);color:var(--cream-d)}
+.info b{font-weight:500;color:var(--cream)}
+.cta{position:relative;margin-top:10px;border-radius:18px;padding:clamp(28px,4vw,48px);overflow:hidden;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+  background:#0c0a09;box-shadow:0 0 0 1px var(--line)}
+.cta::before{content:'';position:absolute;inset:-40%;background:conic-gradient(from 210deg at 70% 60%, transparent, rgba(255,59,47,.35), rgba(255,122,26,.3), rgba(243,230,196,.22), transparent 60%);filter:blur(60px);animation:spin 18s linear infinite}
+@keyframes spin{to{transform:rotate(1turn)}}
+.cta>*{position:relative}
+.cta h4{font:italic 400 clamp(30px,3.8vw,52px)/1 var(--serif);max-width:560px}
+.cta h4 b{font:400 .62em var(--wide);font-style:normal;text-transform:uppercase;letter-spacing:.02em;display:block;margin-bottom:10px;color:var(--orange)}
+.cta p{font:300 14px/1.5 var(--sans);color:var(--cream-d);margin-top:12px;max-width:440px}
+.ghost{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:999px;border:1px solid var(--cream-dd);font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:.3s var(--ease)}
+.ghost:hover{background:var(--cream);color:#120d06}
+footer{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:60px clamp(18px,4vw,56px) 48px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  font:400 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cream-dd)}
+footer a{text-decoration:none}footer a:hover{color:var(--cream)}
+
+.toast{position:fixed;left:50%;top:70px;transform:translate(-50%,-14px);opacity:0;z-index:100;padding:11px 16px;border-radius:999px;
+  font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#120d06;background:var(--cream);box-shadow:0 0 40px rgba(243,230,196,.4);transition:.35s var(--ease);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+input[type=file]{display:none}
+
+/* load choreography */
+.rv{opacity:0;transform:translateY(14px);filter:blur(8px);animation:in 1.1s var(--ease) forwards}
+@keyframes in{to{opacity:1;transform:none;filter:none}}
+.d1{animation-delay:.25s}.d2{animation-delay:.4s}.d3{animation-delay:.55s}.d4{animation-delay:.75s}.d5{animation-delay:.95s}.d6{animation-delay:1.15s}
+.fade{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.fade.vis{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .ctrl{grid-template-columns:1fr 1fr}.dl{grid-column:span 2;min-height:64px}
+  .info{grid-template-columns:1fr 1fr}
+  .mrow{grid-template-columns:30px 120px 1fr;gap:14px}.strip{width:120px}.mrow .chip,.mrow .warp{grid-column:3;justify-self:start}
+  .mrow .warp{text-align:left;margin-top:-8px}
+}
+@media (max-width:720px){
+  .top .hide-m,.hide-m{display:none}
+  .stage{height:auto;min-height:0;display:flex;flex-direction:column;align-items:stretch;padding:calc(58svh + 6px) 18px 34px;overflow:visible}
+  #gl{inset:auto;top:0;left:0;height:60svh}
+  .reticle{top:30svh;left:50%;width:76vw}
+  .reticle .tag{display:none}
+  .dropcall{position:relative;left:auto;top:auto;translate:none;order:1}
+  .hero-copy{position:relative;left:auto;bottom:auto;max-width:none;order:2;margin-top:34px}
+  h1{font-size:clamp(26px,8.6vw,40px)}
+  .lede{font-size:14px}
+  .hud{display:none}
+  .mix{position:relative;left:auto;bottom:auto;translate:none;width:100%;order:3;margin-top:26px}
+  .stage-spacer{display:none}
+  .ctrl,.info{grid-template-columns:1fr}.dl{grid-column:auto}
+  .mrow{grid-template-columns:1fr;gap:10px;padding:18px 4px}.mrow .n{display:none}.strip{width:100%;height:30px}.mrow .chip,.mrow .warp{grid-column:1}
+  .mrow.sel::before{left:-10px;top:30px}
+  .cta{align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){.grain,.cta::before,.dot{animation:none}.rv{animation-duration:.01s}}
+</style>
+</head>
+<body>
+<div class="atmo"></div><div class="scan"></div><div class="grain"></div>
+
+<header class="top">
+  <a class="brand rv" href="https://stuartsingleton.com/"><b>SS</b><span class="sep">/</span><span>Labs</span><span class="sep hide-m">/</span><span class="hide-m">LAB_006</span></a>
+  <div class="live rv d1"><span class="dot"></span><span>Local</span><span class="sep">·</span><span id="bytes">0 bytes uploaded</span></div>
+</header>
+
+<section class="stage" id="stage">
+  <canvas id="gl" aria-label="3D view of the RGB color cube. Drag to rotate."></canvas>
+  <div class="stage-spacer"></div>
+  <div class="reticle rv d2" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="tag" id="tagL">RGB lattice · 21³</span><span class="tag r" id="tagR">Drag to orbit</span></div>
+  <div class="dropcall rv d4">
+    <button class="pill" id="pick"><span class="plus">+</span>Drop .cube or .xmp</button>
+    <small>Anywhere on the page · batch ok</small>
+  </div>
+
+  <div class="hero-copy">
+    <div class="eyebrow rv d1">Color-space translator</div>
+    <h1 class="rv d2">LUT <svg class="arr" viewBox="0 0 48 32" aria-label="to and from"><path d="M4 10h36m-8-7 8 7-8 7M44 22H8m8-7-8 7 8 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg><br>Lightroom</h1>
+    <div class="sub rv d3">every look, both directions.</div>
+    <p class="lede rv d4">.cube files become Lightroom profiles and one-click presets. Profiles and presets become .cube files for Resolve, Premiere, Final Cut and CapCut. Computed on your machine; nothing is sent anywhere.</p>
+  </div>
+
+  <aside class="hud rv d5">
+    <div class="panel">
+      <div class="row"><span>Source</span><b id="hSrc">Demo warp</b></div>
+      <div class="row"><span>Direction</span><b id="hDir">—</b></div>
+      <div class="row"><span>Table</span><b id="hTab">—</b></div>
+      <div class="row"><span>Warp</span><b id="hWarp">—</b></div>
+      <div class="row"><span>Hash</span><b id="hHash">—</b></div>
+      <div class="status" id="status">Awaiting input</div>
+    </div>
+  </aside>
+
+  <div class="mix rv d6"><span>Identity</span><input type="range" id="mix" min="0" max="100" value="100" aria-label="Look strength"><span>Look</span><output id="mixo">100%</output></div>
+  <a class="scrollcue rv d6 hide-m" href="#out">↓ Output</a>
+  <input type="file" id="file" multiple accept=".cube,.xmp,.CUBE,.XMP">
+</section>
+
+<section class="blk fade" id="out">
+  <div class="sh"><h2>Output<em>manifest</em></h2><span class="idx" id="count">01 · Nothing loaded</span></div>
+  <div class="ctrl">
+    <div class="panel"><span class="lbl">Lightroom group</span><input type="text" id="group" value="My LUTs" maxlength="60" aria-label="Lightroom group name"></div>
+    <div class="panel"><span class="lbl">.cube → Lightroom</span>
+      <div class="seg"><label><input type="checkbox" id="oProf" checked><span>Profiles</span></label><label><input type="checkbox" id="oPre" checked><span>Presets</span></label></div></div>
+    <div class="panel"><span class="lbl">Lightroom → .cube size</span>
+      <div class="seg" id="sizeSeg"><button data-v="0">Native</button><button data-v="33" class="on">33</button><button data-v="65">65</button></div></div>
+    <button class="dl" id="dl" disabled>Download<small id="dlsub">Waiting for files</small></button>
+  </div>
+  <div class="manifest" id="frames"><div class="empty">Drop files on the cube above</div></div>
+</section>
+
+<section class="blk fade" id="proof">
+  <div class="sh"><h2>Proof<em>render</em></h2><span class="idx" id="pvTitle">02 · Demo warp</span></div>
+  <div class="pv" id="pv">
+    <canvas id="cBefore"></canvas><canvas id="cAfter" class="after"></canvas>
+    <div class="handle" id="handle"><div class="knob">⇄</div></div>
+    <span class="t l">Before</span><span class="t r">After</span>
+  </div>
+  <div class="pvbar"><span>Drag to compare · strength follows the slider up top</span><button id="ownPhoto">Use your own photo</button><input type="file" id="photo" accept="image/*"></div>
+</section>
+
+<section class="blk fade">
+  <div class="sh"><h2>Field<em>notes</em></h2><span class="idx">03 · Read me</span></div>
+  <div class="info">
+    <div class="panel"><h3>Install</h3><p>Lightroom or Classic: <b>File → Import Profiles &amp; Presets</b>, choose the zip. Presets appear under your group name; profiles under Profiles → Browse.</p></div>
+    <div class="panel"><h3>Presets carry the look</h3><p>Each preset has its profile built in, so it works on any device without installing the profile first. That's how mobile picks it up after sync.</p></div>
+    <div class="panel"><h3>What converts</h3><p>3D .cube LUTs in the normal 0–1 range. Lightroom profiles and presets that hold an RGB table. Slider-only presets and Adobe's camera profiles have no table to extract.</p></div>
+    <div class="panel"><h3>Log LUTs</h3><p>LUTs for S-Log, F-Log or Apple Log footage expect flat video and will look crushed on a photo. Use LUTs made for Rec.709 or sRGB. Only convert files you own or license.</p></div>
+  </div>
+  <div class="cta">
+    <div><h4><b>Halation</b>Looks built for stills, not borrowed from video.</h4><p>Film profiles made from scratch for photos, each in four versions: clean, textured, developed, and both.</p></div>
+    <a class="ghost" href="https://halation.stuartsingleton.com/" target="_blank" rel="noopener" onclick="try{__ssSend('lut_halation_click')}catch(e){}">Open Halation ↗</a>
+  </div>
+</section>
+
+<footer>
+  <span>Stuart Singleton · Labs · LAB_006</span>
+  <span><a href="https://stuartsingleton.com/contact">Report a bug</a> &nbsp;·&nbsp; <a href="https://stuartsingleton.com/">stuartsingleton.com</a></span>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script id="core">
+/* ===== core: no DOM, testable in Node ===== */
+const B85 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?`'|()[]{}@%$#";
+const B85I = new Int16Array(128).fill(-1); for (let i = 0; i < 85; i++) B85I[B85.charCodeAt(i)] = i;
+const MAX_LR = 32;
+
+function b85enc(u8) {
+  const n = u8.length, p = new Uint8Array(n + 3); p.set(u8);
+  const out = []; let remaining = n;
+  for (let i = 0; i < n; i += 4) {
+    let x = (p[i] | p[i+1] << 8 | p[i+2] << 16 | p[i+3] << 24) >>> 0;
+    for (let j = 0; j < 5; j++) { out.push(B85[x % 85]); x = Math.floor(x / 85); if (j > 0 && --remaining === 0) break; }
+  }
+  return out.join('');
+}
+function b85dec(str) {
+  const out = new Uint8Array(Math.ceil(str.length / 5) * 4); let o = 0;
+  for (let i = 0; i < str.length; i += 5) {
+    const end = Math.min(i + 5, str.length); let x = 0;
+    for (let j = end - 1; j >= i; j--) { const v = B85I[str.charCodeAt(j)]; if (v < 0) throw new Error('bad table data'); x = x * 85 + v; }
+    for (let k = 0; k < end - i - 1; k++) { out[o++] = x % 256; x = Math.floor(x / 256); }
+  }
+  return out.subarray(0, o);
+}
+async function pipe(u8, stream) {
+  return new Uint8Array(await new Response(new Blob([u8]).stream().pipeThrough(stream)).arrayBuffer());
+}
+const zlibDeflate = u8 => pipe(u8, new CompressionStream('deflate'));
+const zlibInflate = u8 => pipe(u8, new DecompressionStream('deflate'));
+const rawDeflate = u8 => pipe(u8, new CompressionStream('deflate-raw'));
+
+/* MD5 (RFC 1321) -> hex upper */
+function md5(bytes) {
+  const K = new Uint32Array(64), S = [7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,4,11,16,23,4,11,16,23,4,11,16,23,4,11,16,23,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21];
+  for (let i = 0; i < 64; i++) K[i] = Math.floor(Math.abs(Math.sin(i + 1)) * 4294967296);
+  const len = bytes.length, nb = ((len + 8) >> 6) + 1, buf = new Uint8Array(nb * 64);
+  buf.set(bytes); buf[len] = 0x80;
+  const dv = new DataView(buf.buffer); dv.setUint32(nb * 64 - 8, (len * 8) >>> 0, true); dv.setUint32(nb * 64 - 4, Math.floor(len / 536870912), true);
+  let a0 = 0x67452301, b0 = 0xefcdab89, c0 = 0x98badcfe, d0 = 0x10325476; const M = new Uint32Array(16);
+  for (let blk = 0; blk < nb; blk++) {
+    for (let i = 0; i < 16; i++) M[i] = dv.getUint32(blk * 64 + i * 4, true);
+    let A = a0, B = b0, C = c0, D = d0;
+    for (let i = 0; i < 64; i++) {
+      let F, g;
+      if (i < 16) { F = (B & C) | (~B & D); g = i; }
+      else if (i < 32) { F = (D & B) | (~D & C); g = (5 * i + 1) & 15; }
+      else if (i < 48) { F = B ^ C ^ D; g = (3 * i + 5) & 15; }
+      else { F = C ^ (B | ~D); g = (7 * i) & 15; }
+      F = (F + A + K[i] + M[g]) >>> 0; A = D; D = C; C = B;
+      B = (B + ((F << S[i]) | (F >>> (32 - S[i])))) >>> 0;
+    }
+    a0 = (a0 + A) >>> 0; b0 = (b0 + B) >>> 0; c0 = (c0 + C) >>> 0; d0 = (d0 + D) >>> 0;
+  }
+  return [a0, b0, c0, d0].map(w => [0,8,16,24].map(s => ((w >>> s) & 255).toString(16).padStart(2, '0')).join('')).join('');
+}
+const enc = new TextEncoder();
+const md5s = s => md5(enc.encode(s)).toUpperCase();
+
+/* .cube parse: returns {size, title, lut(Float64 cube order R fastest), warnings[]} */
+function parseCube(text) {
+  let size = 0, title = null, dmin = [0,0,0], dmax = [1,1,1], is1D = false; const v = [];
+  for (const raw of text.split(/\r?\n/)) {
+    const t = raw.trim(); if (!t || t[0] === '#') continue;
+    if (/^TITLE/i.test(t)) { title = t.replace(/^TITLE\s*/i, '').replace(/^"|"$/g, '').trim(); continue; }
+    if (/^LUT_3D_SIZE/i.test(t)) { size = +t.split(/\s+/)[1]; continue; }
+    if (/^LUT_1D_SIZE/i.test(t)) { is1D = true; continue; }
+    if (/^DOMAIN_MIN/i.test(t)) { dmin = t.split(/\s+/).slice(1).map(Number); continue; }
+    if (/^DOMAIN_MAX/i.test(t)) { dmax = t.split(/\s+/).slice(1).map(Number); continue; }
+    if (/^LUT_3D_INPUT_RANGE/i.test(t)) { const r = t.split(/\s+/).slice(1).map(Number); dmin = [r[0],r[0],r[0]]; dmax = [r[1],r[1],r[1]]; continue; }
+    if (/^[A-Za-z_]/.test(t)) continue;
+    const p = t.split(/\s+/);
+    if (p.length >= 3) { const a = +p[0], b = +p[1], c = +p[2]; if (Number.isFinite(a) && Number.isFinite(b) && Number.isFinite(c)) v.push(a, b, c); }
+  }
+  if (is1D && !size) throw new Error('1D LUT: only 3D LUTs can become profiles');
+  if (!size) throw new Error('no LUT_3D_SIZE found');
+  if (v.length !== size ** 3 * 3) throw new Error(`expected ${size ** 3} entries, found ${v.length / 3}`);
+  if (dmin.some(x => x !== 0) || dmax.some(x => x !== 1)) throw new Error('log/HDR input range: not a 0–1 LUT');
+  const warnings = []; let clipped = 0;
+  const lut = Float64Array.from(v, x => { if (x < 0 || x > 1) clipped++; return Math.min(1, Math.max(0, x)); });
+  if (clipped > v.length * 0.01) warnings.push('values outside 0–1 were clipped (HDR/log style LUT?)');
+  return { size, title, lut, warnings };
+}
+
+function sampleInto(lut, s, r, g, b, out) {
+  const pr = r * (s - 1), pg = g * (s - 1), pb = b * (s - 1);
+  const ri = Math.min(s - 2, Math.floor(pr)), gi = Math.min(s - 2, Math.floor(pg)), bi = Math.min(s - 2, Math.floor(pb));
+  const rf = pr - ri, gf = pg - gi, bf = pb - bi; out[0] = out[1] = out[2] = 0;
+  for (let db = 0; db < 2; db++) for (let dg = 0; dg < 2; dg++) for (let dr = 0; dr < 2; dr++) {
+    const w = (dr ? rf : 1 - rf) * (dg ? gf : 1 - gf) * (db ? bf : 1 - bf); if (!w) continue;
+    const idx = ((ri + dr) + (gi + dg) * s + (bi + db) * s * s) * 3;
+    out[0] += w * lut[idx]; out[1] += w * lut[idx + 1]; out[2] += w * lut[idx + 2];
+  }
+  return out;
+}
+function resample(lut, s, n) {
+  if (s === n) return lut;
+  const o = new Float64Array(n ** 3 * 3), t = [0,0,0];
+  for (let b = 0; b < n; b++) for (let g = 0; g < n; g++) for (let r = 0; r < n; r++) {
+    sampleInto(lut, s, r / (n - 1), g / (n - 1), b / (n - 1), t); o.set(t, (r + g * n + b * n * n) * 3);
+  }
+  return o;
+}
+const nopRamp = s => Array.from({ length: s }, (_, i) => Math.floor((i * 0xFFFF + (s >> 1)) / (s - 1)));
+
+/* Adobe RGBTable block: header(16) + deltas(size^3*6, R slowest) + trailer(28) */
+async function encodeTable(size, lut) {
+  const nop = nopRamp(size), len = 16 + size ** 3 * 6 + 28, block = new Uint8Array(len), dv = new DataView(block.buffer);
+  dv.setUint32(0, 1, true); dv.setUint32(4, 1, true); dv.setUint32(8, 3, true); dv.setUint32(12, size, true);
+  for (let b = 0; b < size; b++) for (let g = 0; g < size; g++) for (let r = 0; r < size; r++) {
+    const ci = (r + g * size + b * size * size) * 3, oi = 16 + (r * size * size + g * size + b) * 6;
+    dv.setUint16(oi,     (Math.round(lut[ci] * 65535) - nop[r]) & 0xFFFF, true);
+    dv.setUint16(oi + 2, (Math.round(lut[ci + 1] * 65535) - nop[g]) & 0xFFFF, true);
+    dv.setUint16(oi + 4, (Math.round(lut[ci + 2] * 65535) - nop[b]) & 0xFFFF, true);
+  }
+  const o = 16 + size ** 3 * 6;
+  dv.setUint32(o, 0, true); dv.setUint32(o + 4, 1, true); dv.setUint32(o + 8, 0, true);
+  dv.setFloat64(o + 12, 0, true); dv.setFloat64(o + 20, 2, true);
+  const hash = md5(block), z = await zlibDeflate(block), payload = new Uint8Array(4 + z.length);
+  new DataView(payload.buffer).setUint32(0, len, true); payload.set(z, 4);
+  return { md5: hash, encoded: b85enc(payload) };
+}
+async function decodeTable(encoded) {
+  const p = b85dec(encoded.replace(/\s+/g, ''));
+  const want = new DataView(p.buffer, p.byteOffset).getUint32(0, true);
+  const block = await zlibInflate(p.subarray(4));
+  if (block.length !== want) throw new Error('table data is damaged');
+  const dv = new DataView(block.buffer, block.byteOffset, block.byteLength);
+  const dims = dv.getUint32(8, true), size = dv.getUint32(12, true);
+  if (dims !== 3) throw new Error(`${dims}D table: only 3D tables convert to .cube`);
+  if (size < 2 || size > 64) throw new Error('unexpected table size ' + size);
+  const nop = nopRamp(size), lut = new Float64Array(size ** 3 * 3);
+  for (let b = 0; b < size; b++) for (let g = 0; g < size; g++) for (let r = 0; r < size; r++) {
+    const ci = (r + g * size + b * size * size) * 3, oi = 16 + (r * size * size + g * size + b) * 6;
+    lut[ci]     = ((dv.getUint16(oi, true) + nop[r]) & 0xFFFF) / 65535;
+    lut[ci + 1] = ((dv.getUint16(oi + 2, true) + nop[g]) & 0xFFFF) / 65535;
+    lut[ci + 2] = ((dv.getUint16(oi + 4, true) + nop[b]) & 0xFFFF) / 65535;
+  }
+  const t = 16 + size ** 3 * 6, info = { primaries: 0, gamma: 1 };
+  if (block.length >= t + 12) { info.primaries = dv.getUint32(t, true); info.gamma = dv.getUint32(t + 4, true); }
+  return { size, lut, ...info };
+}
+
+const GENERIC = /^(generated|untitled|lut|lutcreator|resolve|davinci|adobe|export|output|3dlut|cube)\b|lutcreatorjs|generated by|_\d{2}$/i;
+function cleanName(title, filename) {
+  const base = filename.replace(/\.[^.]+$/, '').replace(/[_]+/g, ' ').trim();
+  return (title && !GENERIC.test(title) && title.length <= 60) ? title : base;
+}
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const alt = v => `<rdf:Alt><rdf:li xml:lang="x-default">${esc(v)}</rdf:li></rdf:Alt>`;
+const HEAD = `<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 7.0-c000 1.000000, 0000/00/00-00:00:00        ">\n <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">\n  <rdf:Description rdf:about=""\n    xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/"\n`;
+const TAIL = `  </rdf:Description>\n </rdf:RDF>\n</x:xmpmeta>\n`;
+
+function profileXmp(name, group, hash, encoded) {
+  const uuid = md5s(hash + name);
+  return HEAD +
+`   crs:PresetType="Look" crs:Cluster="" crs:UUID="${uuid}"
+   crs:SupportsAmount="True" crs:SupportsColor="True" crs:SupportsMonochrome="True"
+   crs:SupportsHighDynamicRange="True" crs:SupportsNormalDynamicRange="True"
+   crs:SupportsSceneReferred="True" crs:SupportsOutputReferred="True"
+   crs:RequiresRGBTables="False" crs:CameraModelRestriction="" crs:Copyright="" crs:ContactInfo=""
+   crs:Version="14.3" crs:ProcessVersion="11.0" crs:ConvertToGrayscale="False"
+   crs:RGBTable="${hash}"
+   crs:Table_${hash}="${encoded}"
+   crs:HasSettings="True">
+   <crs:Name>${alt(name)}</crs:Name>
+   <crs:Group>${alt(group)}</crs:Group>
+` + TAIL;
+}
+function presetXmp(name, group, hash, encoded) {
+  const pu = md5s(hash + name), nu = md5s('preset:' + pu);
+  return HEAD +
+`   crs:PresetType="Normal" crs:Cluster="" crs:UUID="${nu}"
+   crs:SupportsAmount2="True" crs:SupportsAmount="True" crs:SupportsColor="True" crs:SupportsMonochrome="True"
+   crs:SupportsHighDynamicRange="True" crs:SupportsNormalDynamicRange="True"
+   crs:SupportsSceneReferred="True" crs:SupportsOutputReferred="True"
+   crs:RequiresRGBTables="False" crs:ShowInPresets="True" crs:ShowInQuickActions="False"
+   crs:CameraModelRestriction="" crs:Copyright="" crs:ContactInfo=""
+   crs:Version="14.3" crs:ProcessVersion="11.0" crs:HasSettings="True">
+   <crs:Name>${alt(name)}</crs:Name>
+   <crs:Group>${alt(group)}</crs:Group>
+   <crs:Look>
+    <rdf:Description crs:Name="${esc(name)}" crs:Amount="1" crs:UUID="${pu}"
+     crs:SupportsAmount="true" crs:SupportsMonochrome="true" crs:SupportsOutputReferred="true" crs:Copyright="">
+    <crs:Group>${alt(group)}</crs:Group>
+    <crs:Parameters>
+     <rdf:Description crs:Version="14.3" crs:ProcessVersion="11.0" crs:ConvertToGrayscale="False"
+      crs:RGBTable="${hash}" crs:Table_${hash}="${encoded}"/>
+    </crs:Parameters>
+    </rdf:Description>
+   </crs:Look>
+` + TAIL;
+}
+
+/* .xmp profile/preset -> {name, table, warnings} */
+function parseXmp(text, filename) {
+  const unx = s => s.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
+  const m = text.match(/crs:RGBTable\s*=\s*"([0-9A-Fa-f]{32})"/) || text.match(/<crs:RGBTable>\s*([0-9A-Fa-f]{32})\s*</);
+  if (!m) {
+    if (/crs:LookTable/.test(text)) throw new Error('uses an HSV look table, not an RGB table, so there is no LUT inside');
+    if (/PresetType="Look"/.test(text)) throw new Error('profile has no RGB table (built from sliders or a camera profile)');
+    throw new Error('no RGB table found (slider-only presets can’t become LUTs)');
+  }
+  const hash = m[1];
+  const tm = text.match(new RegExp('crs:Table_' + hash + '\\s*=\\s*"([^"]+)"', 'i')) || text.match(new RegExp('<crs:Table_' + hash + '>([^<]+)<', 'i'));
+  if (!tm) throw new Error('RGB table reference found but its data is missing');
+  const nm = text.match(/<crs:Name>[\s\S]*?x-default">([^<]*)</) || text.match(/crs:Name="([^"]*)"/);
+  const name = nm && nm[1].trim() ? unx(nm[1].trim()) : filename.replace(/\.[^.]+$/, '');
+  const warnings = [];
+  const tables = new Set((text.match(/crs:RGBTable\w*\s*=\s*"[0-9A-Fa-f]{32}"/g) || []).map(s => s.slice(-33, -1)));
+  if (tables.size > 1) warnings.push('has more than one RGB table; using the first');
+  if (/crs:LookTable/.test(text)) warnings.push('also has an HSV look table, which a .cube can’t hold');
+  if (/PresetType="Normal"/.test(text) && /crs:(Exposure2012|Contrast2012|Temperature|ToneCurvePV2012|HueAdjustment|SplitToning|ColorGrade)/.test(text))
+    warnings.push('preset also moves sliders; only the profile part is in the .cube');
+  return { name, encoded: tm[1], warnings };
+}
+
+function cubeText(name, size, lut) {
+  const L = [`# Converted with stuartsingleton.com/lut-converter`, `TITLE "${name.replace(/"/g, "'")}"`, `LUT_3D_SIZE ${size}`, `DOMAIN_MIN 0 0 0`, `DOMAIN_MAX 1 1 1`];
+  for (let i = 0; i < lut.length; i += 3) L.push(`${lut[i].toFixed(6)} ${lut[i+1].toFixed(6)} ${lut[i+2].toFixed(6)}`);
+  return L.join('\n') + '\n';
+}
+const safeFile = s => s.replace(/[\\/:*?"<>|\u0000-\u001f]+/g, '-').replace(/\s+/g, ' ').trim().slice(0, 90) || 'untitled';
+
+/* zip writer (deflate-raw, falls back to store) */
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = u8 => { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = CRC[(c ^ u8[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+async function makeZip(files) {
+  const parts = [], central = []; let off = 0;
+  for (const f of files) {
+    const nameB = enc.encode(f.name), data = f.data, crc = crc32(data);
+    let comp = data, method = 0;
+    try { const d = await rawDeflate(data); if (d.length < data.length) { comp = d; method = 8; } } catch (e) {}
+    const lh = new Uint8Array(30 + nameB.length), lv = new DataView(lh.buffer);
+    lv.setUint32(0, 0x04034b50, true); lv.setUint16(4, 20, true); lv.setUint16(6, 0x0800, true); lv.setUint16(8, method, true);
+    lv.setUint16(10, 0, true); lv.setUint16(12, 0x21, true); lv.setUint32(14, crc, true);
+    lv.setUint32(18, comp.length, true); lv.setUint32(22, data.length, true); lv.setUint16(26, nameB.length, true); lh.set(nameB, 30);
+    const ch = new Uint8Array(46 + nameB.length), cv = new DataView(ch.buffer);
+    cv.setUint32(0, 0x02014b50, true); cv.setUint16(4, 20, true); cv.setUint16(6, 20, true); cv.setUint16(8, 0x0800, true); cv.setUint16(10, method, true);
+    cv.setUint16(12, 0, true); cv.setUint16(14, 0x21, true); cv.setUint32(16, crc, true); cv.setUint32(20, comp.length, true); cv.setUint32(24, data.length, true);
+    cv.setUint16(28, nameB.length, true); cv.setUint32(42, off, true); ch.set(nameB, 46);
+    parts.push(lh, comp); central.push(ch); off += lh.length + comp.length;
+  }
+  const cdSize = central.reduce((a, c) => a + c.length, 0), end = new Uint8Array(22), ev = new DataView(end.buffer);
+  ev.setUint32(0, 0x06054b50, true); ev.setUint16(8, files.length, true); ev.setUint16(10, files.length, true);
+  ev.setUint32(12, cdSize, true); ev.setUint32(16, off, true);
+  return new Blob([...parts, ...central, end], { type: 'application/zip' });
+}
+
+/* one file in -> result */
+async function convertFile(name, text, opts) {
+  const ext = name.split('.').pop().toLowerCase();
+  if (ext === 'cube') {
+    let { size, title, lut, warnings } = parseCube(text);
+    if (/(^|[^a-z])(s-?log|f-?log|v-?log|c-?log|n-?log|d-?log|log-?c|apple ?log|logc|slog|flog|vlog)/i.test(name + ' ' + (title || '')))
+      warnings.push('looks like a log-footage LUT; expect a crushed, oversaturated photo');
+    const src = { size, lut };
+    if (size > MAX_LR) { warnings.push(`resampled ${size}→${MAX_LR} points (Lightroom’s limit)`); lut = resample(lut, size, MAX_LR); size = MAX_LR; }
+    const nm = cleanName(title, name), { md5: hash, encoded } = await encodeTable(size, lut);
+    const check = await decodeTable(encoded); let err = 0;
+    for (let i = 0; i < lut.length; i++) err = Math.max(err, Math.abs(check.lut[i] - lut[i]));
+    if (err > 1 / 65535 + 1e-9) throw new Error('round-trip check failed');
+    const out = [];
+    if (opts.profiles) out.push({ name: `Profiles/${safeFile(nm)}.xmp`, data: enc.encode(profileXmp(nm, opts.group, hash, encoded)) });
+    if (opts.presets) out.push({ name: `Presets/${safeFile(nm)}.xmp`, data: enc.encode(presetXmp(nm, opts.group, hash, encoded)) });
+    return { dir: 'cube→lr', title: nm, meta: `${src.size}-pt LUT → ${size}-pt profile${opts.presets ? ' + preset' : ''}`, warnings, out, preview: src };
+  }
+  if (ext === 'xmp') {
+    const { name: nm, encoded, warnings } = parseXmp(text, name);
+    const t = await decodeTable(encoded);
+    if (t.primaries !== 0 || t.gamma !== 1) warnings.push('table isn’t in sRGB; the .cube may shift colors slightly');
+    const n = opts.cubeSize && opts.cubeSize !== t.size ? opts.cubeSize : t.size;
+    const lut = resample(t.lut, t.size, n);
+    return { dir: 'lr→cube', title: nm, meta: `${t.size}-pt profile → ${n}-pt .cube`, warnings,
+      out: [{ name: `LUTs/${safeFile(nm)}.cube`, data: enc.encode(cubeText(nm, n, lut)) }], preview: { size: t.size, lut: t.lut } };
+  }
+  throw new Error('not a .cube or .xmp file');
+}
+if (typeof module !== 'undefined') module.exports = { b85enc, b85dec, md5, parseCube, encodeTable, decodeTable, parseXmp, profileXmp, presetXmp, cubeText, convertFile, makeZip, resample, nopRamp };
+</script>
+
+<script>
+/* ===== UI ===== */
+const $ = id => document.getElementById(id);
+const results = []; let selected = -1, sample = null, cubeSize = 33;
+let current = null; // {size, lut, name}
+const N = 21; // lattice resolution
+
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2600)}
+function status(m){const el=$('status');clearInterval(status.t);let i=0;el.textContent='';status.t=setInterval(()=>{el.textContent=m.slice(0,++i);if(i>=m.length)clearInterval(status.t)},14)}
+
+/* demo LUT: teal shadows, amber highlights, soft shoulder */
+function demoLut(s=17){const o=new Float64Array(s**3*3);
+  for(let b=0;b<s;b++)for(let g=0;g<s;g++)for(let r=0;r<s;r++){
+    let R=r/(s-1),G=g/(s-1),B=b/(s-1); const L=.3*R+.59*G+.11*B;
+    const sh=Math.pow(1-L,2), hi=Math.pow(L,1.6);
+    R=R+.10*hi-.05*sh; G=G+.03*hi+.02*sh; B=B-.10*hi+.09*sh;
+    const c=x=>{x=Math.min(1,Math.max(0,x));return .04+.92*(x*x*(3-2*x)*.55+x*.45)};
+    const i=(r+g*s+b*s*s)*3; o[i]=c(R);o[i+1]=c(G);o[i+2]=c(B);}
+  return {size:s,lut:o};}
+function warpOf(p){let d=0;const t=[0,0,0],n=9;for(let b=0;b<n;b++)for(let g=0;g<n;g++)for(let r=0;r<n;r++){const R=r/(n-1),G=g/(n-1),B=b/(n-1);sampleInto(p.lut,p.size,R,G,B,t);d+=Math.hypot(t[0]-R,t[1]-G,t[2]-B)}return d/n**3/Math.sqrt(3)}
+
+/* ===== WebGL color cube ===== */
+const GL=(()=>{
+  const cv=$('gl'),gl=cv.getContext('webgl',{antialias:true,premultipliedAlpha:false,alpha:true});
+  if(!gl){cv.style.display='none';return {set(){},setMix(){}}}
+  const sh=(t,s)=>{const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o};
+  const prog=(v,f)=>{const p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,v));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,f));gl.linkProgram(p);return p};
+  const VS=`attribute vec3 a_src;attribute vec3 a_dst;attribute float a_seed;
+  uniform float u_mix,u_t,u_aspect,u_scale,u_px,u_off,u_offy,u_intro;uniform mat3 u_rot;
+  varying vec3 v_col;varying float v_fog;
+  void main(){vec3 c=mix(a_src,a_dst,u_mix);
+    float k=clamp(u_intro*1.6-a_seed*.6,0.,1.);k=1.-pow(1.-k,3.);
+    vec3 p=(c-.5)*u_scale*k; p+=vec3(sin(u_t*.7+a_seed*40.),cos(u_t*.6+a_seed*31.),sin(u_t*.5+a_seed*17.))*.004;
+    p=u_rot*p; float z=p.z+3.0; vec2 s=p.xy/z*2.6;
+    gl_Position=vec4(s.x/u_aspect+u_off,s.y+u_offy,0.,1.);
+    gl_PointSize=u_px*(3.0/z)*(.6+.4*k); v_col=c; v_fog=smoothstep(4.2,2.2,z)*k;}`;
+  const FS=`precision mediump float;varying vec3 v_col;varying float v_fog;
+  void main(){vec2 d=gl_PointCoord-.5;float r=length(d);float core=smoothstep(.5,.08,r);float halo=smoothstep(.5,.0,r)*.35;
+    vec3 c=v_col*.9+.06; gl_FragColor=vec4(c*(core+halo)*(.35+.75*v_fog),1.);}`;
+  const LVS=`attribute vec3 a_p;uniform mat3 u_rot;uniform float u_aspect,u_scale,u_off,u_offy,u_intro;
+  void main(){vec3 p=u_rot*((a_p-.5)*u_scale*u_intro);float z=p.z+3.0;vec2 s=p.xy/z*2.6;gl_Position=vec4(s.x/u_aspect+u_off,s.y+u_offy,0.,1.);}`;
+  const LFS=`precision mediump float;uniform float u_a;void main(){gl_FragColor=vec4(vec3(.95,.9,.77)*u_a,1.);}`;
+  const P=prog(VS,FS),L=prog(LVS,LFS);
+  const cnt=N**3,src=new Float32Array(cnt*3),seed=new Float32Array(cnt);
+  for(let b=0,i=0;b<N;b++)for(let g=0;g<N;g++)for(let r=0;r<N;r++,i++){src.set([r/(N-1),g/(N-1),b/(N-1)],i*3);seed[i]=Math.random()}
+  const buf=(d)=>{const B=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,B);gl.bufferData(gl.ARRAY_BUFFER,d,gl.DYNAMIC_DRAW);return B};
+  const bSrc=buf(src),bDst=buf(src.slice()),bSeed=buf(seed);
+  const E=[0,0,0,1,0,0, 0,1,0,1,1,0, 0,0,1,1,0,1, 0,1,1,1,1,1, 0,0,0,0,1,0, 1,0,0,1,1,0, 0,0,1,0,1,1, 1,0,1,1,1,1, 0,0,0,0,0,1, 1,0,0,1,0,1, 0,1,0,0,1,1, 1,1,0,1,1,1];
+  const bE=buf(new Float32Array(E));
+  const U=(p,n)=>gl.getUniformLocation(p,n);
+  let yaw=-.72,pitch=.42,vy=0,vp=0,drag=false,lx=0,ly=0,mix=1,mixT=1,dpr=1,intro=0,t0=performance.now(),last=t0;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function resize(){dpr=Math.min(2,devicePixelRatio||1);const w=cv.clientWidth,h=cv.clientHeight;cv.width=w*dpr;cv.height=h*dpr;gl.viewport(0,0,cv.width,cv.height)}
+  addEventListener('resize',resize);resize();
+  cv.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId)});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;vy=(e.clientX-lx)*.006;vp=(e.clientY-ly)*.006;yaw+=vy;pitch=Math.max(-1.3,Math.min(1.3,pitch+vp));lx=e.clientX;ly=e.clientY});
+  cv.addEventListener('pointerup',()=>drag=false);cv.addEventListener('pointercancel',()=>drag=false);
+  let demoT=0, demo=true;
+  function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
+    intro=Math.min(1,intro+dt*.55);
+    if(!drag){yaw+=(reduce?0:.12*dt)+vy;vy*=.92;pitch+=vp;vp*=.9;pitch=Math.max(-1.3,Math.min(1.3,pitch))}
+    if(demo&&!reduce){demoT+=dt;mixT=.5+.5*Math.sin(demoT*.6-1.2)} // breathe between identity and look
+    mix+=(mixT-mix)*Math.min(1,dt*4);
+    const cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+    const rot=new Float32Array([cy,sy*sp,-sy*cp, 0,cp,sp, sy,-cy*sp,cy*cp]);
+    const w=cv.width,h=cv.height,aspect=w/h,mobile=cv.clientWidth<720;
+    const off=mobile?0:.28, scale=mobile?.92:.82;
+    const offY=mobile?.0:.08;
+    gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);
+    // lines
+    gl.useProgram(L);gl.bindBuffer(gl.ARRAY_BUFFER,bE);const la=gl.getAttribLocation(L,'a_p');gl.enableVertexAttribArray(la);gl.vertexAttribPointer(la,3,gl.FLOAT,false,0,0);
+    gl.uniformMatrix3fv(U(L,'u_rot'),false,rot);gl.uniform1f(U(L,'u_aspect'),aspect);gl.uniform1f(U(L,'u_scale'),scale);gl.uniform1f(U(L,'u_off'),off);gl.uniform1f(U(L,'u_offy'),offY);gl.uniform1f(U(L,'u_intro'),1-Math.pow(1-intro,3));gl.uniform1f(U(L,'u_a'),.16);
+    gl.drawArrays(gl.LINES,0,24);gl.disableVertexAttribArray(la);
+    // points
+    gl.useProgram(P);
+    [['a_src',bSrc,3],['a_dst',bDst,3],['a_seed',bSeed,1]].forEach(([n,b,s])=>{const a=gl.getAttribLocation(P,n);gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,s,gl.FLOAT,false,0,0)});
+    gl.uniformMatrix3fv(U(P,'u_rot'),false,rot);gl.uniform1f(U(P,'u_mix'),mix);gl.uniform1f(U(P,'u_t'),t);gl.uniform1f(U(P,'u_aspect'),aspect);
+    gl.uniform1f(U(P,'u_scale'),scale);gl.uniform1f(U(P,'u_px'),(mobile?5.2:6.2)*dpr*Math.min(1.4,cv.clientHeight/820));gl.uniform1f(U(P,'u_off'),off);gl.uniform1f(U(P,'u_offy'),offY);gl.uniform1f(U(P,'u_intro'),intro);
+    gl.drawArrays(gl.POINTS,0,cnt);
+    requestAnimationFrame(frame)}
+  requestAnimationFrame(frame);
+  return {
+    set(p){const d=new Float32Array(cnt*3),tt=[0,0,0];for(let i=0;i<cnt;i++){sampleInto(p.lut,p.size,src[i*3],src[i*3+1],src[i*3+2],tt);d.set(tt,i*3)}
+      gl.bindBuffer(gl.ARRAY_BUFFER,bDst);gl.bufferData(gl.ARRAY_BUFFER,d,gl.DYNAMIC_DRAW);mix=0;},
+    setMix(v,stopDemo=true){mixT=v;if(stopDemo)demo=false},
+    stopDemo(){demo=false}
+  };
+})();
+
+/* ===== preview image ===== */
+function makeSample(w=1400,h=860){
+  const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+  let g=x.createLinearGradient(0,0,0,h*.64);g.addColorStop(0,'#24456e');g.addColorStop(.5,'#c9845d');g.addColorStop(1,'#f4d3a0');x.fillStyle=g;x.fillRect(0,0,w,h*.64);
+  const s=x.createRadialGradient(w*.7,h*.52,0,w*.7,h*.52,h*.38);s.addColorStop(0,'rgba(255,246,220,1)');s.addColorStop(.22,'rgba(255,212,150,.75)');s.addColorStop(1,'rgba(255,170,90,0)');x.fillStyle=s;x.fillRect(0,0,w,h*.64);
+  g=x.createLinearGradient(0,h*.62,0,h);g.addColorStop(0,'#3d5a2c');g.addColorStop(1,'#121a0c');x.fillStyle=g;x.fillRect(0,h*.62,w,h*.38);
+  x.fillStyle='#1f2f17';for(let i=0;i<30;i++){const tx=i*w/29,th=h*(.13+.1*Math.sin(i*1.7)+.05*Math.cos(i*3.1));x.beginPath();x.moveTo(tx-44,h*.64);x.lineTo(tx,h*.64-th);x.lineTo(tx+44,h*.64);x.fill()}
+  ['#f3d2b8','#e5b593','#c98e66','#a0673f','#6e4128','#3f2416'].forEach((col,i)=>{x.fillStyle=col;x.beginPath();x.arc(w*.08+i*78,h*.77,31,0,7);x.fill()});
+  for(let i=0;i<12;i++){x.fillStyle=`hsl(${i*30},70%,52%)`;x.fillRect(w*.5+i*52,h*.72,46,46)}
+  for(let i=0;i<24;i++){const v=Math.round(i/23*255);x.fillStyle=`rgb(${v},${v},${v})`;x.fillRect(i*w/24,h*.9,w/24+1,h*.1)}
+  return x.getImageData(0,0,w,h)}
+function applyLut(img,p,amt=1){const o=new ImageData(img.width,img.height),d=img.data,od=o.data,t=[0,0,0];
+  for(let i=0;i<d.length;i+=4){const r=d[i]/255,g=d[i+1]/255,b=d[i+2]/255;sampleInto(p.lut,p.size,r,g,b,t);
+    od[i]=(r+(t[0]-r)*amt)*255+.5;od[i+1]=(g+(t[1]-g)*amt)*255+.5;od[i+2]=(b+(t[2]-b)*amt)*255+.5;od[i+3]=255}return o}
+let pvTimer;
+function drawPreview(){clearTimeout(pvTimer);pvTimer=setTimeout(()=>{if(!current||!sample)return;const b=$('cBefore'),a=$('cAfter');
+  b.width=a.width=sample.width;b.height=a.height=sample.height;b.getContext('2d').putImageData(sample,0,0);
+  a.getContext('2d').putImageData(applyLut(sample,current,+$('mix').value/100),0,0)},40)}
+function stripFor(p){const c=document.createElement('canvas');c.className='strip';c.width=340;c.height=68;const x=c.getContext('2d'),im=x.createImageData(340,68),t=[0,0,0];
+  for(let X=0;X<340;X++){const u=X/339;const h=u*6,k=h-Math.floor(h),q=[[1,k,0],[1-k,1,0],[0,1,k],[0,1-k,1],[k,0,1],[1,0,1-k]][Math.floor(h)%6];
+    const hue=q.map(v=>.12+.76*v);sampleInto(p.lut,p.size,hue[0],hue[1],hue[2],t);const top=t.slice();sampleInto(p.lut,p.size,u,u,u,t);
+    for(let Y=0;Y<68;Y++){const s=Y<40?top:t,i=(Y*340+X)*4;im.data[i]=s[0]*255;im.data[i+1]=s[1]*255;im.data[i+2]=s[2]*255;im.data[i+3]=255}}
+  x.putImageData(im,0,0);return c}
+
+/* ===== state ===== */
+function focusResult(i){const r=results[i];if(!r||r.error)return;selected=i;current={...r.preview,name:r.title};
+  GL.set(current);GL.setMix(+$('mix').value/100);
+  $('hSrc').textContent=r.title;$('hDir').textContent=r.dir==='cube→lr'?'.cube → Lightroom':'Lightroom → .cube';
+  $('hTab').textContent=r.meta.split(' → ')[0].replace(/ (LUT|profile)/,'');$('hWarp').textContent=(r.warp*100).toFixed(1)+'%';$('hHash').textContent=r.hash||'—';
+  $('pvTitle').textContent='02 · '+r.title;$('tagL').textContent=r.title.toUpperCase().slice(0,32);render();drawPreview()}
+function render(){
+  const ok=results.filter(r=>!r.error),fr=$('frames'),files=ok.reduce((a,r)=>a+r.out.length,0);
+  $('count').textContent=results.length?`${String(ok.length).padStart(2,'0')} converted${results.length>ok.length?` · ${results.length-ok.length} skipped`:''}`:'01 · Nothing loaded';
+  $('dl').disabled=!files;$('dlsub').textContent=files?`${files} file${files>1?'s':''} · ${files>1?'zip':'single'}`:'Waiting for files';
+  if(!results.length){fr.innerHTML='<div class="empty">Drop files on the cube above</div>';return}
+  fr.innerHTML='';
+  results.forEach((r,i)=>{const el=document.createElement('div');el.className='mrow'+(i===selected?' sel':'')+(r.error?' bad':'');el.style.animationDelay=(i%12)*40+'ms';
+    const n=document.createElement('span');n.className='n';n.textContent=String(i+1).padStart(2,'0');el.appendChild(n);
+    if(r.error){const s=document.createElement('div');s.className='strip';s.style.background='repeating-linear-gradient(135deg,transparent 0 6px,rgba(255,59,47,.18) 6px 7px)';el.appendChild(s)}
+    else el.appendChild(r.strip??=stripFor(r.preview));
+    const info=document.createElement('div');
+    info.innerHTML=`<div class="mname">${esc(r.error?r.file:r.title)}</div>`+(r.error?`<div class="me">${esc(r.error)}</div>`:`<div class="mmeta">${esc(r.meta)}</div>`+r.warnings.map(w=>`<div class="mw">${esc(w)}</div>`).join(''));
+    el.appendChild(info);
+    const c=document.createElement('span');c.className='chip '+(r.error?'x':r.dir==='cube→lr'?'a':'b');c.textContent=r.error?'Skipped':r.dir==='cube→lr'?'.cube → LR':'LR → .cube';el.appendChild(c);
+    const w=document.createElement('span');w.className='warp';w.textContent=r.error?'':'Δ '+(r.warp*100).toFixed(1)+'%';el.appendChild(w);
+    if(!r.error)el.onclick=()=>{focusResult(i);scrollTo({top:0,behavior:'smooth'})};
+    fr.appendChild(el)})}
+
+async function handle(list){
+  const files=[...list].filter(f=>/\.(cube|xmp)$/i.test(f.name));
+  if(!files.length){toast('Drop .cube or .xmp files');return}
+  const opts={group:$('group').value.trim()||'My LUTs',profiles:$('oProf').checked,presets:$('oPre').checked,cubeSize};
+  if(!opts.profiles&&!opts.presets){opts.profiles=true;$('oProf').checked=true}
+  GL.stopDemo();let first=-1;
+  for(const f of files){status('Parsing '+f.name);await new Promise(requestAnimationFrame);
+    try{const r=await convertFile(f.name,await f.text(),opts);r.file=f.name;r.warp=warpOf(r.preview);
+      const m=new TextDecoder().decode(r.out[0].data).match(/crs:RGBTable="(\w{32})"/);r.hash=m?m[1].slice(0,12)+'…':'.cube';
+      results.push(r);if(first<0)first=results.length-1;status((r.dir==='cube→lr'?'Encoded ':'Decoded ')+r.title+' · verified')}
+    catch(e){results.push({file:f.name,error:e.message,out:[],warnings:[]});status('Skipped '+f.name)}
+    render()}
+  if(first>=0)focusResult(first);
+  try{const ok=results.slice(-files.length).filter(r=>!r.error);window.__ssSend&&window.__ssSend('lut_convert',null,{n:files.length,ok:ok.length,cube:ok.filter(r=>r.dir==='cube→lr').length,xmp:ok.filter(r=>r.dir==='lr→cube').length})}catch(e){}
+  const ok=results.filter(r=>!r.error).length;toast(ok?`${ok} ready`:'Nothing could be converted');
+  setTimeout(()=>status(ok?`${ok} in manifest · ready to download`:'Awaiting input'),1400)}
+
+/* ===== wiring ===== */
+const stage=$('stage'),file=$('file');
+$('pick').onclick=()=>file.click();file.onchange=()=>{handle(file.files);file.value=''};
+let dc=0;
+addEventListener('dragenter',e=>{e.preventDefault();dc++;stage.classList.add('drag');if(scrollY>200)scrollTo({top:0,behavior:'smooth'})});
+addEventListener('dragover',e=>e.preventDefault());
+addEventListener('dragleave',e=>{if(--dc<=0){dc=0;stage.classList.remove('drag')}});
+addEventListener('drop',e=>{e.preventDefault();dc=0;stage.classList.remove('drag');if(e.dataTransfer?.files?.length)handle(e.dataTransfer.files)});
+$('mix').oninput=e=>{const v=+e.target.value;$('mixo').textContent=v+'%';GL.setMix(v/100);drawPreview()};
+$('sizeSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;cubeSize=+b.dataset.v;[...$('sizeSeg').children].forEach(x=>x.classList.toggle('on',x===b))};
+$('dl').onclick=async()=>{const files=[],seen=new Map();
+  for(const r of results)for(const f of r.out){let n=f.name;if(seen.has(n)){const k=seen.get(n)+1;seen.set(n,k);n=n.replace(/(\.[^.]+)$/,` ${k}$1`)}else seen.set(n,1);files.push({name:n,data:f.data})}
+  const single=files.length===1,blob=single?new Blob([files[0].data]):await makeZip(files);
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=single?files[0].name.split('/').pop():`${safeFile($('group').value||'Converted')} - LUT Converter.zip`;
+  a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);status('Downloaded '+a.download);try{window.__ssSend&&window.__ssSend('lut_download',null,{files:files.length})}catch(e){}};
+(()=>{const pv=$('pv');let on=false;const set=e=>{const r=pv.getBoundingClientRect(),x=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));
+  $('cAfter').style.clipPath=`inset(0 0 0 ${x*100}%)`;$('handle').style.left=x*100+'%'};
+  pv.addEventListener('pointerdown',e=>{on=true;pv.setPointerCapture(e.pointerId);set(e)});pv.addEventListener('pointermove',e=>on&&set(e));pv.addEventListener('pointerup',()=>on=false)})();
+$('ownPhoto').onclick=()=>$('photo').click();
+$('photo').onchange=async()=>{const f=$('photo').files[0];if(!f)return;const bmp=await createImageBitmap(f);
+  const w=Math.min(1600,bmp.width),h=Math.round(bmp.height*w/bmp.width),c=document.createElement('canvas');c.width=w;c.height=h;
+  c.getContext('2d').drawImage(bmp,0,0,w,h);sample=c.getContext('2d').getImageData(0,0,w,h);drawPreview();toast('Your photo stays on this device')};
+document.querySelectorAll('.panel').forEach(p=>p.addEventListener('pointermove',e=>{const r=p.getBoundingClientRect();p.style.setProperty('--mx',e.clientX-r.left+'px');p.style.setProperty('--my',e.clientY-r.top+'px')}));
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('vis')),{threshold:.12});document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+sample=makeSample();current={...demoLut(),name:'Demo warp'};GL.set(current);GL.setMix(1,false);drawPreview();$('hWarp').textContent=(warpOf(current)*100).toFixed(1)+'%';
+if(!('CompressionStream' in window))toast('Browser too old for the converter · use current Chrome, Safari or Firefox');
+</script>
+</body>
+</html>
