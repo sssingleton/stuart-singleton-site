@@ -2166,7 +2166,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="pm-btn" id="pm-book" onclick="setPhotoMode('book')">Book a Shoot</button>
         <!-- Presets is a fourth "mode" that lives on its own app (stuarts-presets.*, same paper
              look, own checkout — Decision 286). A link styled as the toggle, not a JS mode. -->
-        <a class="pm-btn pm-btn-link" id="pm-presets" href="https://stuarts-presets.stuartsingleton.com/" onclick="try{ssTrack('presets_click',{m:{from:photoMode}})}catch(e){}" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Presets ↗</a>
+        <a class="pm-btn pm-btn-link" id="pm-presets" href="/shop/profiles" onclick="event.preventDefault();try{ssTrack('presets_click',{m:{from:photoMode}})}catch(e){}setShopTab('profiles')" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Presets</a>
         <!-- Camera gear = Amazon affiliate list, static page at /camera-gear (audio-gear later). -->
         <a class="pm-btn pm-btn-link" id="pm-gear" href="/camera-gear" onclick="try{ssTrack('gear_click',{m:{from:photoMode,list:'nav'}})}catch(e){}" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Gear</a>
       </div>
@@ -8810,7 +8810,7 @@ function loadCodeDownloads(code, fresh) {
         + d.packs.map(function (p) {
           return '<div class="dl-pack"><img src="' + dEsc(p.cover_image_url || '') + '" alt=""><div class="dl-pinfo"><div class="dl-pname">' + dEsc(p.name) + '</div>'
             + (p.pack_files || []).map(function (f) {
-              return '<button type="button" class="dl-file" onclick="dlFile(this,\'' + p.id + '\',\'' + f.id + '\',\'' + dEsc(code) + '\')">↓ ' + dEsc(f.file_name) + (f.file_size ? ' <span>' + Math.round(f.file_size / 1048576 * 10) / 10 + ' MB</span>' : '') + '</button>';
+              return '<button type="button" class="dl-file" onclick="dlFile(this,\'' + p.id + '\',\'' + f.id + '\',\'' + dEsc(code) + '\')">↓ ' + dEsc(f.file_name) + (f.file_size ? ' <span>' + (f.file_size >= 1048576 ? (Math.round(f.file_size / 1048576 * 10) / 10) + ' MB' : Math.max(1, Math.round(f.file_size / 1024)) + ' KB') + '</span>' : '') + '</button>';
             }).join('') + '</div></div>';
         }).join('')
         + (hasPro ? '<div class="dl-how"><strong>Install profiles:</strong> unzip, then Lightroom desktop → File → Import Develop Profiles and Presets → pick the files in <em>Profiles</em>. They appear in the Profile Browser under Halation. On your phone, import the <em>Presets</em> folder instead. Shot something with it? Tag <a href="https://instagram.com/halation.camera" target="_blank" rel="noopener">@halation.camera</a> and #shotonhalation.</div>' : '')
@@ -8845,6 +8845,7 @@ function dlFile(btn, packId, fileId, code) {
     + '.dg-tag{position:absolute;left:8px;bottom:8px;font-family:var(--mono);font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;background:rgba(246,245,242,.9);color:#4a4640;padding:4px 6px}'
     + '@media (hover:none){.dg-tag{display:none}}'
     + '.dg-desc{font-family:var(--sans);font-size:12px;color:#6a655c;line-height:1.45}.dg-meta{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#b0aaa0;font-weight:400}'
+    + '.dg-card .shop-card-meta{align-items:center;gap:10px}.dg-card .shop-card-price{white-space:nowrap}.dg-add{flex:0 0 auto;width:auto!important;padding-left:18px!important;padding-right:18px!important}'
     + '.dg-card.in{border-color:#1a1a1a}.dg-card.in .dg-add{background:#fff;color:#1a1a1a}'
     + '.dg-loading{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:#908b82;padding:30px 0;text-align:center}'
     + '.cart-dhead{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#4a4640;padding:14px 0 6px;border-top:1px solid #ebe8e1;margin-top:6px}'
