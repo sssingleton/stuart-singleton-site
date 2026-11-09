@@ -25,19 +25,19 @@
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
-<title>Turn an Old Computer into a Home Server with Tailscale | Stuart Singleton</title>
-<meta name="description" content="A free, step-by-step guide to turning an old computer into an always-on home server you can reach from anywhere with Tailscale: Linux install, SSH, Docker services, a NAS, access rules, backups and outage planning. Includes an AI playbook for Claude or ChatGPT.">
-<link rel="canonical" href="https://stuartsingleton.com/guides/home-server-tailscale">
+<title>Access All Your Files From Anywhere: Connect Every Computer You Own | Stuart Singleton</title>
+<meta name="description" content="A free step-by-step guide to connecting every computer, phone and NAS you own into one private network with Tailscale, so you can open any file or screen from anywhere with no open ports and no cloud storage bill. Plus how to add an always-on home server. Includes an AI playbook for Claude or ChatGPT.">
+<link rel="canonical" href="https://stuartsingleton.com/guides/access-your-files-anywhere">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Turn an Old Computer into a Home Server | Free Guide">
-<meta property="og:description" content="Always-on Linux server, reachable from your phone anywhere, no open ports. Every step and every place I got stuck, plus an AI playbook.">
+<meta property="og:title" content="Your Files, Anywhere | Free Guide">
+<meta property="og:description" content="Connect every computer you own into one private network and reach any file or screen from anywhere. No open ports, no cloud bill. Plus an AI playbook.">
 <meta property="og:image" content="https://stuartsingleton.com/og-gallery.jpg">
-<meta property="og:url" content="https://stuartsingleton.com/guides/home-server-tailscale">
+<meta property="og:url" content="https://stuartsingleton.com/guides/access-your-files-anywhere">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "HowTo", "name": "How to turn an old computer into a home server with Tailscale", "description": "A free, step-by-step guide to turning an old computer into an always-on home server you can reach from anywhere with Tailscale: Linux install, SSH, Docker services, a NAS, access rules, backups and outage planning. Includes an AI playbook for Claude or ChatGPT.", "author": {"@type": "Person", "name": "Stuart Singleton", "url": "https://stuartsingleton.com"}, "tool": [{"@type": "HowToTool", "name": "Ubuntu LTS"}, {"@type": "HowToTool", "name": "Tailscale"}, {"@type": "HowToTool", "name": "Docker"}, {"@type": "HowToTool", "name": "balenaEtcher"}, {"@type": "HowToTool", "name": "An AI assistant such as Claude"}], "step": [{"@type": "HowToStep", "name": "Pick the machine"}, {"@type": "HowToStep", "name": "Install Linux"}, {"@type": "HowToStep", "name": "Keep it awake"}, {"@type": "HowToStep", "name": "Install Tailscale on every device"}, {"@type": "HowToStep", "name": "Set up names and SSH"}, {"@type": "HowToStep", "name": "Run services with Docker"}, {"@type": "HowToStep", "name": "Add a NAS"}, {"@type": "HowToStep", "name": "Set access rules"}, {"@type": "HowToStep", "name": "Set up power and updates"}, {"@type": "HowToStep", "name": "Back up"}, {"@type": "HowToStep", "name": "Plan for internet outages"}]}
+{"@context": "https://schema.org", "@type": "HowTo", "name": "How to access all your files from anywhere by connecting every computer you own with Tailscale", "description": "A free step-by-step guide to connecting every computer, phone and NAS you own into one private network with Tailscale, so you can open any file or screen from anywhere with no open ports and no cloud storage bill. Plus how to add an always-on home server. Includes an AI playbook for Claude or ChatGPT.", "author": {"@type": "Person", "name": "Stuart Singleton", "url": "https://stuartsingleton.com"}, "tool": [{"@type": "HowToTool", "name": "Ubuntu LTS"}, {"@type": "HowToTool", "name": "Tailscale"}, {"@type": "HowToTool", "name": "Docker"}, {"@type": "HowToTool", "name": "balenaEtcher"}, {"@type": "HowToTool", "name": "An AI assistant such as Claude"}], "step": [{"@type": "HowToStep", "name": "Connect every device to one Tailscale network"}, {"@type": "HowToStep", "name": "Turn on MagicDNS and name your machines"}, {"@type": "HowToStep", "name": "Reach your files with file sharing or a NAS"}, {"@type": "HowToStep", "name": "Use any computer remotely"}, {"@type": "HowToStep", "name": "Set access rules"}, {"@type": "HowToStep", "name": "Add an always-on computer"}, {"@type": "HowToStep", "name": "Install Linux if needed"}, {"@type": "HowToStep", "name": "Keep it awake"}, {"@type": "HowToStep", "name": "Run services with SSH and Docker"}, {"@type": "HowToStep", "name": "Set up power backup and updates"}, {"@type": "HowToStep", "name": "Back up"}, {"@type": "HowToStep", "name": "Plan for internet outages"}]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
@@ -138,28 +138,29 @@
     <div class="links"><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a></div>
   </nav>
 
-  <div class="eyebrow"><a href="/guides" style="color:inherit;text-decoration:none">Guides</a> · Free · Anyone with an old computer</div>
-  <h1 class="hero">HOME<br>SERVER</h1>
-  <p class="sub">An always-on machine you can reach from anywhere</p>
-  <p class="lead">I turned a 2014 Mac mini that couldn't run a current macOS into an always-on Linux server. It runs my automation, an offline library with a small local AI, and it's reachable from my phone anywhere in the world. I never opened a port on my router. The trick is Tailscale, a private network that connects your devices directly. This guide is the whole setup, including every place I got stuck. Read it, or grab the AI playbook and have Claude or ChatGPT walk you through it.</p>
+  <div class="eyebrow"><a href="/guides" style="color:inherit;text-decoration:none">Guides</a> · Free · Anyone with more than one device</div>
+  <h1 class="hero">YOUR FILES,<br>ANYWHERE</h1>
+  <p class="sub">Connect every computer you own into one private network</p>
+  <p class="lead">My computers, phone, iPad and a little Linux server at home all sit on one private network. From anywhere, on cell data or hotel Wi-Fi, I can reach files on them, pull up a screen, or get to the server that runs my automation. I never opened a port on my router, and none of it has to pass through a cloud storage service. The tool is Tailscale, and the basic version takes about 20 minutes. This guide covers that, then how to add an always-on computer as a home server, including every place I got stuck. Read it, or grab the AI playbook and have Claude or ChatGPT walk you through it.</p>
   <div class="btns">
-    <a class="btn solid" href="/guides/home-server-tailscale-playbook.txt" download data-ev="playbook_download">Download the AI playbook ↓</a>
+    <a class="btn solid" href="/guides/access-your-files-anywhere-playbook.txt" download data-ev="playbook_download">Download the AI playbook ↓</a>
     <a class="btn" href="/contact" data-ev="help_click">Want help setting this up? →</a>
   </div>
 
   <nav class="toc" aria-label="Contents">
     <a href="#what"><span>00</span>What you're building</a>
-    <a href="#machine"><span>01</span>Pick the machine</a>
-    <a href="#install"><span>02</span>Install Linux</a>
-    <a href="#awake"><span>03</span>Keep it awake</a>
-    <a href="#tailscale"><span>04</span>Tailscale everywhere</a>
-    <a href="#names"><span>05</span>Names and SSH</a>
-    <a href="#services"><span>06</span>Run services</a>
-    <a href="#nas"><span>07</span>Add a NAS</a>
-    <a href="#access"><span>08</span>Who can reach what</a>
-    <a href="#power"><span>09</span>Power and updates</a>
-    <a href="#backup"><span>10</span>Backups</a>
-    <a href="#offline"><span>11</span>When the internet is down</a>
+    <a href="#tailscale"><span>01</span>Connect every device</a>
+    <a href="#names"><span>02</span>Call them by name</a>
+    <a href="#files"><span>03</span>Reach your files</a>
+    <a href="#remote"><span>04</span>Use any computer remotely</a>
+    <a href="#access"><span>05</span>Who can reach what</a>
+    <a href="#machine"><span>06</span>Add an always-on computer</a>
+    <a href="#install"><span>07</span>Linux, if you want it</a>
+    <a href="#awake"><span>08</span>Keep it awake</a>
+    <a href="#services"><span>09</span>Run services</a>
+    <a href="#power"><span>10</span>Power and updates</a>
+    <a href="#backup"><span>11</span>Backups</a>
+    <a href="#offline"><span>12</span>When the internet is down</a>
     <a href="#playbook"><span>→</span>AI playbook</a>
     <a href="#tools"><span>→</span>Tools I use</a>
   </nav>
@@ -168,128 +169,81 @@
     <div class="step-h"><span>00</span><span>Overview</span><span>Read first</span></div>
     <h2>What you're building</h2>
     <div class="prose">
-      <p>A computer that never sleeps, sits at home on a wired connection, and does the jobs your laptop shouldn't. You reach it from your phone, laptop or anywhere else through Tailscale, without exposing anything to the open internet.</p>
+      <p>Two parts. Most people only need the first.</p>
+      <h3>Part 1: connect everything (steps 1 to 5)</h3>
       <ul>
-        <li><b>File sharing</b> you can reach from anywhere.</li>
-        <li><b>Automation</b> like n8n workflows that run while your laptop is closed.</li>
-        <li><b>An offline library:</b> Wikipedia, medical references and repair guides served on your home network, plus a small local AI that answers from them.</li>
-        <li><b>Anything else always-on:</b> home automation, a camera recorder, a print farm controller.</li>
+        <li><b>One private network</b> for your computers, phone, tablet and NAS, wherever each one is.</li>
+        <li><b>Your files from anywhere:</b> open the folder on your home computer or NAS from your laptop at a coffee shop, like it's sitting next to you.</li>
+        <li><b>Any computer's screen from anywhere:</b> check on a long export or grab a file you forgot.</li>
+        <li><b>Nothing exposed to the internet.</b> No port forwarding, no "remote access" accounts, no files sitting on someone else's cloud.</li>
+      </ul>
+      <h3>Part 2: an always-on computer (steps 6 to 12)</h3>
+      <ul>
+        <li>A computer that never sleeps and runs the jobs your laptop shouldn't: automations like n8n, an offline library, a small local AI, home automation, a camera recorder.</li>
+        <li>A spare laptop, an old Mac mini or a cheap mini PC is plenty.</li>
       </ul>
       <h3>What it costs</h3>
-      <p>An old computer you already own, a little electricity, and nothing for Tailscale for personal use. Its free Personal plan covers up to 6 users with unlimited personal devices, for non-commercial use. A battery backup and a better drive are the only purchases worth making early.</p>
+      <p>Nothing for Tailscale for personal use. Its free Personal plan covers up to 6 users with unlimited personal devices, for non-commercial use. Part 2 adds a little electricity, and a battery backup is the one purchase worth making early.</p>
       <h3>How long it takes</h3>
-      <p>An afternoon for the base server. Each service after that is an evening.</p>
-    </div>
-  </section>
-
-  <section class="step" id="machine">
-    <div class="step-h"><span>01</span><span>Hardware</span><span>~30 min</span></div>
-    <h2>Pick the machine</h2>
-    <div class="prose">
-      <p>Almost anything works: an old Mac mini, a laptop with a dead screen, a cheap mini PC. What matters is that it's quiet, sips power, and has a wired Ethernet port.</p>
-      <ul>
-        <li><b>Check the exact model before buying parts.</b> On older Mac minis the drive and sometimes the RAM can be upgraded. On newer ones both are soldered, so external storage is the only option. The model decides whether a drive purchase is even possible.</li>
-        <li><b>Swap a spinning hard drive for an SSD</b> if you can. It's the single biggest speed and reliability upgrade for an old machine.</li>
-        <li><b>Plug it into the router with Ethernet.</b> Wi-Fi is the most common reason a home server "randomly" drops off.</li>
-        <li><b>Keep its job list short.</b> An old machine with fixed RAM can do a few things well, not everything.</li>
-      </ul>
-      <div class="lesson"><div class="k">What broke for me</div><p>My plan was to keep the Mac mini on macOS. Three weeks in, I realized it couldn't run Tailscale at all: the app needs a newer macOS than a 2014 mini can install. Check that your OS can run the current Tailscale client before you plan anything else. If it can't, install Linux. That's what saved the machine.</p></div>
-    </div>
-  </section>
-
-  <section class="step" id="install">
-    <div class="step-h"><span>02</span><span>OS</span><span>~1 hour</span></div>
-    <h2>Install Linux</h2>
-    <div class="prose">
-      <p>Ubuntu's current long-term support (LTS) release is the easy default. It gets security updates for years and every tutorial covers it.</p>
-      <ol>
-        <li>Back up anything on the machine first. The install erases it.</li>
-        <li>Download the Ubuntu ISO and write it to a USB stick with balenaEtcher.</li>
-        <li>On a Mac: power off, plug the stick into a port on the back, press power and immediately hold <code>Option</code>. Pick <b>EFI Boot</b>. On a PC, use the boot menu key (often F12).</li>
-        <li>Install, set a strong password, and pick a hostname you'll remember, like <code>server</code>.</li>
-      </ol>
-      <div class="lesson"><div class="k">What broke for me</div><p>After picking EFI Boot, the screen stayed black for a minute or two. That's normal on old Macs. I almost restarted in the middle of it. And if no EFI Boot option shows up at all, the stick didn't write as bootable: rewrite it rather than troubleshooting the computer.</p></div>
-      <div class="lesson"><div class="k">Also caught me</div><p>The installer gave my login account a different name than the computer's hostname. SSH needs the account name, not the computer name, so <code>ssh server@server</code> failed and looked exactly like a network problem. Write down both the username and the hostname the moment the install finishes.</p></div>
-      <p><b>On disk encryption:</b> full disk encryption makes the machine stop at a passphrase prompt after every power cut, with nobody home to type it. If the server stores nothing sensitive itself (your files live on a NAS or are backed up elsewhere), skipping it can be the right trade. Decide on purpose.</p>
-    </div>
-    <a class="hire" href="/contact">Rather have someone set it up? Get in touch →</a>
-  </section>
-
-  <section class="step" id="awake">
-    <div class="step-h"><span>03</span><span>Always on</span><span>~10 min</span></div>
-    <h2>Keep it awake</h2>
-    <div class="prose">
-      <p>Desktop Linux goes to sleep like a laptop. A server that sleeps is a server you can't reach. Turn sleep off at the system level, not just in settings:</p>
-<pre><code>sudo systemctl mask sleep.target suspend.target \
-  hibernate.target hybrid-sleep.target</code></pre>
-      <p>Then in Settings → Power, set Screen Blank to Never and Automatic Suspend to Off. If the machine has a lid, set it to do nothing when closed.</p>
+      <p>About 20 minutes for Part 1. An afternoon for a home server. Each service after that is an evening.</p>
     </div>
   </section>
 
   <section class="step" id="tailscale">
-    <div class="step-h"><span>04</span><span>Network</span><span>~20 min</span></div>
-    <h2>Tailscale everywhere</h2>
+    <div class="step-h"><span>01</span><span>Network</span><span>~20 min</span></div>
+    <h2>Connect every device</h2>
     <div class="prose">
-      <p>Tailscale gives each of your devices a private address on your own network (a "tailnet"). They find each other wherever they are, at home, on cell data, in a hotel. Nothing is exposed to the internet.</p>
+      <p>Tailscale gives each of your devices a private address on your own network (a "tailnet"). They find each other wherever they are, at home, on cell data, in a hotel. Traffic goes device to device, encrypted, and nothing is opened to the internet.</p>
       <ol>
-        <li>Make a Tailscale account. Pick the login you want to own this long-term (more on why in step 8).</li>
-        <li>On the server:
+        <li>Make a Tailscale account. Pick the login you want to own this long-term (more on why in step 5).</li>
+        <li>Install the Tailscale app on each device and sign in with that same account: Mac, Windows, iPhone, Android, iPad. Each one shows up in the admin console.</li>
+        <li>On Linux:
 <pre><code>sudo apt install -y curl
 curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up</code></pre>
           Open the link it prints and approve the machine.</li>
-        <li>Install the Tailscale app on your phone and laptop and sign in with the same account.</li>
-        <li>In the admin console, find the server and <b>disable key expiry</b> for it. New tailnets expire each device's login after 180 days by default. That's good for laptops and bad for a server nobody is sitting at. Tagged devices (step 8) have expiry turned off automatically.</li>
+        <li>For any computer that stays on at home (a desktop, the NAS, a server), find it in the admin console and <b>disable key expiry</b>. New tailnets expire each device's login after 180 days by default. That's fine for a laptop you use every day and bad for a machine nobody is sitting at.</li>
       </ol>
-      <div class="lesson"><div class="k">What broke for me</div><p>Minimal Ubuntu doesn't include <code>curl</code>. The install line failed with "curl not found" and then "tailscale: command not found", which reads like two problems but is one. Install curl from apt first. Not from snap, which sandboxes it.</p></div>
+      <div class="lesson"><div class="k">What broke for me</div><p>I planned to put Tailscale on a 2014 Mac mini and found out weeks later it couldn't run it: the app needs a newer macOS than that machine can install. Check that each device's OS can run the current Tailscale app before you plan around it. For an old computer that can't, Linux fixes it (step 7).</p></div>
       <div class="lesson"><div class="k">On a Mac</div><p>Typing <code>tailscale status</code> in the Mac Terminal says "command not found" even when Tailscale is working fine, because the Mac app keeps its command-line tool inside the app. It looks broken and isn't. Use the menu bar app, or add an alias to the full path.</p></div>
     </div>
   </section>
 
   <section class="step" id="names">
-    <div class="step-h"><span>05</span><span>Access</span><span>~30 min</span></div>
-    <h2>Names and SSH</h2>
+    <div class="step-h"><span>02</span><span>Names</span><span>~10 min</span></div>
+    <h2>Call them by name</h2>
     <div class="prose">
-      <p>Turn on <b>MagicDNS</b> in the Tailscale admin console (DNS tab). Then you reach machines by name, like <code>server</code>, instead of memorizing addresses.</p>
+      <p>Turn on <b>MagicDNS</b> in the Tailscale admin console (DNS tab). Then you reach machines by name, like <code>studio</code> or <code>nas</code>, instead of memorizing addresses.</p>
       <ul>
-        <li><b>Name it in two places.</b> The name in the Tailscale console and the computer's own hostname are separate settings. Set them to match, or names will disagree in confusing ways later.</li>
-        <li><b>Keep the Tailscale address as a fallback.</b> If <code>ssh you@server</code> fails but <code>ssh you@100.x.y.z</code> works, it's a naming problem, not a network problem. That one test saves an hour.</li>
-        <li><b>Machines shared with other people</b> only resolve by their full name (<code>server.your-tailnet.ts.net</code>), not the short one.</li>
+        <li><b>Name each machine in two places.</b> The name in the Tailscale console and the computer's own name are separate settings. Set them to match, or names will disagree in confusing ways later.</li>
+        <li><b>Keep the Tailscale address as a fallback.</b> If connecting by name fails but the <code>100.x.y.z</code> address works, it's a naming problem, not a network problem. That one test saves an hour.</li>
+        <li><b>Machines shared with other people</b> only resolve by their full name (<code>nas.your-tailnet.ts.net</code>), not the short one.</li>
       </ul>
-      <h3>SSH, so you never sit at it again</h3>
-<pre><code>sudo apt install -y openssh-server
-sudo systemctl enable --now ssh
-sudo ufw allow ssh
-sudo ufw enable</code></pre>
-      <p>From your laptop: <code>ssh yourusername@server</code>. For a desktop view instead, Ubuntu has Remote Desktop under Settings → System.</p>
-      <div class="lesson"><div class="k">What broke for me</div><p>I pasted a whole block of commands into an SSH login at once. The extra lines got eaten as password attempts, the server hung up, and the rest of the commands ran on my own Mac instead. Paste one line at a time and wait for the server's prompt.</p></div>
     </div>
   </section>
 
-  <section class="step" id="services">
-    <div class="step-h"><span>06</span><span>Jobs</span><span>an evening each</span></div>
-    <h2>Run services</h2>
+  <section class="step" id="files">
+    <div class="step-h"><span>03</span><span>Files</span><span>~30 min</span></div>
+    <h2>Reach your files</h2>
     <div class="prose">
-      <p>Use <b>Docker</b>, with one <code>docker-compose.yml</code> per service in a single folder (I use <code>/opt/stack/</code>) that's tracked in git. Then the whole server is a set of files, and rebuilding it from scratch is: install Docker, clone the folder, start everything. An afternoon instead of a weekend of remembering what you installed.</p>
-<pre><code>curl -fsSL https://get.docker.com | sh
-sudo usermod -aG docker $USER   # then log out and back in</code></pre>
-      <p>Install Docker from the official script or apt, not snap. Snap's sandbox fights the folder mounts Docker depends on.</p>
-      <h3>Good first services</h3>
+      <p>Once every device is on the tailnet, the normal file sharing built into your computers works from anywhere, as if you were at home.</p>
+      <h3>From a Mac</h3>
       <ul>
-        <li><b>n8n</b> for automations that run on a schedule.</li>
-        <li><b>Kiwix</b> to serve offline copies of Wikipedia, medical wikis and repair guides to any browser on your network.</li>
-        <li><b>Ollama</b> for a small local AI. On my 2014 mini with no graphics card, a 3 billion parameter model produces about 7 tokens (roughly five words) a second. Slow, but fast enough to read along.</li>
-        <li><b>Watchtower or diun</b> to update containers automatically or tell you when updates exist.</li>
+        <li>On the Mac that has the files: System Settings → General → Sharing → turn on <b>File Sharing</b> and add the folders you want.</li>
+        <li>From another Mac anywhere: Finder → Go → Connect to Server → <code>smb://studio</code> (use the machine's name).</li>
       </ul>
-      <div class="lesson"><div class="k">Worth knowing</div><p>Home Assistant in Docker is the "Container" version, which has no add-on store. Every tutorial that says "just install the add-on" stops applying, and you wire each piece up yourself. Docker makes it easier to start, not easier to run.</p></div>
-    </div>
-  </section>
-
-  <section class="step" id="nas">
-    <div class="step-h"><span>07</span><span>Storage</span><span>~1 hour</span></div>
-    <h2>Add a NAS</h2>
-    <div class="prose">
-      <p>If you have a Synology, put it on the same tailnet and your files follow you everywhere.</p>
+      <h3>From Windows</h3>
+      <ul>
+        <li>Share the folder (right-click → Properties → Sharing).</li>
+        <li>From another PC anywhere: type <code>\\studio</code> in File Explorer's address bar.</li>
+      </ul>
+      <h3>From a phone</h3>
+      <ul>
+        <li>iPhone and iPad: Files app → ••• → Connect to Server → <code>smb://studio</code>.</li>
+        <li>Android: any file manager with SMB support, pointed at the same name.</li>
+      </ul>
+      <h3>A NAS makes this better</h3>
+      <p>A NAS is always on, so your files are there even when your computer is asleep. If you have a Synology:</p>
       <ul>
         <li>Install the official <b>Tailscale</b> package from Synology's Package Center. Use it instead of a subnet router.</li>
         <li><b>Turn off QuickConnect.</b> It's a door into your NAS from the internet. With Tailscale you don't need it, and leaving both on makes the secure path optional.</li>
@@ -297,12 +251,28 @@ sudo usermod -aG docker $USER   # then log out and back in</code></pre>
         <li>Turn on the firewall: allow your home network and Tailscale, deny the rest.</li>
         <li>Never run a big operating system upgrade on the NAS over Tailscale. You'll lose the connection halfway through.</li>
       </ul>
-      <div class="lesson"><div class="k">What I learned</div><p>A Synology can't act as a plug-in drive for one computer. Its USB ports are for drives going into it. For near-local speed, run a second Ethernet cable straight from your computer to the NAS on its own little network. And edit on a fast local SSD, archive to the NAS. Editing 4K video straight off a network share feels broken, and it isn't the NAS's fault.</p></div>
+      <p><b>Just moving one file?</b> Tailscale's Taildrop sends files straight between your own devices, like AirDrop that works across platforms and distances.</p>
+      <div class="lesson"><div class="k">What I learned</div><p>Reaching files over the internet is great for grabbing and saving. It is not a replacement for a local drive when you're editing. Editing 4K video straight off a network share feels broken, and it isn't the NAS's fault. Edit on a fast local SSD, archive to the NAS. And a Synology can't act as a plug-in drive for one computer: its USB ports are for drives going into it. For near-local speed at home, run a second Ethernet cable straight from your computer to the NAS.</p></div>
+    </div>
+    <a class="hire" href="/contact">Rather have someone set it up? Get in touch →</a>
+  </section>
+
+  <section class="step" id="remote">
+    <div class="step-h"><span>04</span><span>Screens</span><span>~15 min</span></div>
+    <h2>Use any computer remotely</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Mac:</b> System Settings → General → Sharing → turn on <b>Screen Sharing</b>. From another Mac: Finder → Go → Connect to Server → <code>vnc://studio</code>.</li>
+        <li><b>Windows:</b> turn on Remote Desktop in Settings → System → Remote Desktop (needs a Pro edition of Windows), then connect with the Remote Desktop app by machine name.</li>
+        <li><b>Linux:</b> SSH, covered in step 9's setup, or Ubuntu's Remote Desktop under Settings → System.</li>
+        <li><b>From a phone or iPad:</b> any VNC or Remote Desktop app, using the same machine names.</li>
+      </ul>
+      <p>Because it all runs over your tailnet, none of these are reachable by anyone outside it.</p>
     </div>
   </section>
 
   <section class="step" id="access">
-    <div class="step-h"><span>08</span><span>Security</span><span>~1 hour</span></div>
+    <div class="step-h"><span>05</span><span>Security</span><span>~1 hour</span></div>
     <h2>Who can reach what</h2>
     <div class="prose">
       <ul>
@@ -313,17 +283,96 @@ sudo usermod -aG docker $USER   # then log out and back in</code></pre>
         <li><b>Sharing a machine is not giving a login.</b> When you share your NAS with a collaborator through Tailscale, they still need an account on the NAS itself. Two layers, on purpose.</li>
         <li><b>Decide early which login owns the tailnet.</b> Moving a tailnet from a personal account to a business account later is not clean.</li>
       </ul>
+      <p>That's Part 1. Everything you own is connected. Keep going if you want a computer that's always on doing work for you.</p>
+    </div>
+  </section>
+
+  <section class="step" id="machine">
+    <div class="step-h"><span>06</span><span>Part 2 · Hardware</span><span>~30 min</span></div>
+    <h2>Add an always-on computer</h2>
+    <div class="prose">
+      <p>Any computer you can leave on works: a desktop that's already always on, a spare laptop (a dead screen doesn't matter), an old Mac mini, or a cheap mini PC. What matters is that it's quiet, sips power, and has a wired Ethernet port.</p>
+      <ul>
+        <li><b>If it can run the current Tailscale app on its own OS, keep that OS.</b> Only switch to Linux if it can't, or if you want a dedicated server (step 7).</li>
+        <li><b>Check the exact model before buying parts.</b> On older Mac minis the drive and sometimes the RAM can be upgraded. On newer ones both are soldered, so external storage is the only option.</li>
+        <li><b>Swap a spinning hard drive for an SSD</b> if you can. It's the biggest speed and reliability upgrade for an older machine.</li>
+        <li><b>Plug it into the router with Ethernet.</b> Wi-Fi is the most common reason a home server "randomly" drops off.</li>
+        <li><b>Keep its job list short.</b> A machine with limited RAM can do a few things well, not everything.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="step" id="install">
+    <div class="step-h"><span>07</span><span>Part 2 · OS</span><span>~1 hour</span></div>
+    <h2>Linux, if you want it</h2>
+    <div class="prose">
+      <p>For a dedicated server, or an old computer whose OS can't run Tailscale anymore, Ubuntu's current long-term support (LTS) release is the easy default. It gets security updates for years and every tutorial covers it.</p>
+      <ol>
+        <li>Back up anything on the machine first. The install erases it.</li>
+        <li>Download the Ubuntu ISO and write it to a USB stick with balenaEtcher.</li>
+        <li>On a Mac: power off, plug the stick into a port on the back, press power and immediately hold <code>Option</code>. Pick <b>EFI Boot</b>. On a PC, use the boot menu key (often F12).</li>
+        <li>Install, set a strong password, and pick a hostname you'll remember, like <code>server</code>.</li>
+        <li>Install Tailscale on it (step 1) and disable key expiry.</li>
+      </ol>
+      <div class="lesson"><div class="k">What broke for me</div><p>After picking EFI Boot, the screen stayed black for a minute or two. That's normal on old Macs. I almost restarted in the middle of it. And if no EFI Boot option shows up at all, the stick didn't write as bootable: rewrite it rather than troubleshooting the computer.</p></div>
+      <div class="lesson"><div class="k">Also caught me</div><p>The installer gave my login account a different name than the computer's hostname. SSH needs the account name, not the computer name, so <code>ssh server@server</code> failed and looked exactly like a network problem. Write down both the username and the hostname the moment the install finishes.</p></div>
+      <div class="lesson"><div class="k">Also caught me</div><p>Minimal Ubuntu doesn't include <code>curl</code>. The Tailscale install line failed with "curl not found" and then "tailscale: command not found", which reads like two problems but is one. Install curl from apt first. Not from snap, which sandboxes it.</p></div>
+      <p><b>On disk encryption:</b> full disk encryption makes the machine stop at a passphrase prompt after every power cut, with nobody home to type it. If the server stores nothing sensitive itself (your files live on a NAS or are backed up elsewhere), skipping it can be the right trade. Decide on purpose.</p>
+    </div>
+  </section>
+
+  <section class="step" id="awake">
+    <div class="step-h"><span>08</span><span>Part 2 · Always on</span><span>~10 min</span></div>
+    <h2>Keep it awake</h2>
+    <div class="prose">
+      <p>A computer that sleeps is a computer you can't reach.</p>
+      <ul>
+        <li><b>Mac:</b> System Settings → Energy (or Battery → Options on a laptop): turn on "Prevent automatic sleeping" and "Start up automatically after a power failure."</li>
+        <li><b>Windows:</b> Settings → System → Power: set sleep to Never when plugged in.</li>
+        <li><b>Linux:</b> desktop Linux sleeps like a laptop. Turn it off at the system level, not just in settings:
+<pre><code>sudo systemctl mask sleep.target suspend.target \
+  hibernate.target hybrid-sleep.target</code></pre>
+          Then in Settings → Power, set Screen Blank to Never and Automatic Suspend to Off. If it has a lid, set closing it to do nothing.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="step" id="services">
+    <div class="step-h"><span>09</span><span>Part 2 · Jobs</span><span>an evening each</span></div>
+    <h2>Run services</h2>
+    <div class="prose">
+      <h3>SSH first, so you never sit at it again</h3>
+      <p>On a Linux server:</p>
+<pre><code>sudo apt install -y openssh-server
+sudo systemctl enable --now ssh
+sudo ufw allow ssh
+sudo ufw enable</code></pre>
+      <p>From your laptop: <code>ssh yourusername@server</code>. On a Mac server, turn on Remote Login in Sharing settings instead.</p>
+      <div class="lesson"><div class="k">What broke for me</div><p>I pasted a whole block of commands into an SSH login at once. The extra lines got eaten as password attempts, the server hung up, and the rest of the commands ran on my own Mac instead. Paste one line at a time and wait for the server's prompt.</p></div>
+      <h3>Then Docker</h3>
+      <p>Use <b>Docker</b>, with one <code>docker-compose.yml</code> per service in a single folder (I use <code>/opt/stack/</code>) that's tracked in git. Then the whole server is a set of files, and rebuilding it from scratch is: install Docker, clone the folder, start everything. An afternoon instead of a weekend of remembering what you installed.</p>
+<pre><code>curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER   # then log out and back in</code></pre>
+      <p>Install Docker from the official script or apt, not snap. Snap's sandbox fights the folder mounts Docker depends on.</p>
+      <h3>Good first services</h3>
+      <ul>
+        <li><b>n8n</b> for automations that run on a schedule.</li>
+        <li><b>Kiwix</b> to serve offline copies of Wikipedia, medical wikis and repair guides to any browser on your network.</li>
+        <li><b>Ollama</b> for a small local AI. On my 2014 Mac mini with no graphics card, a 3 billion parameter model produces about 7 tokens (roughly five words) a second. Slow, but fast enough to read along.</li>
+        <li><b>Watchtower or diun</b> to update containers automatically or tell you when updates exist.</li>
+      </ul>
+      <div class="lesson"><div class="k">Worth knowing</div><p>Home Assistant in Docker is the "Container" version, which has no add-on store. Every tutorial that says "just install the add-on" stops applying, and you wire each piece up yourself. Docker makes it easier to start, not easier to run.</p></div>
     </div>
   </section>
 
   <section class="step" id="power">
-    <div class="step-h"><span>09</span><span>Unattended</span><span>~20 min</span></div>
+    <div class="step-h"><span>10</span><span>Part 2 · Unattended</span><span>~20 min</span></div>
     <h2>Power and updates</h2>
     <div class="prose">
       <ul>
         <li><b>Battery backup (UPS)</b> for the server, the router and the NAS. Short outages stop mattering, and drives don't get cut off mid-write.</li>
-        <li><b>Power back on automatically</b> after an outage, if your machine's firmware has the setting.</li>
-        <li><b>Automatic security updates:</b>
+        <li><b>Power back on automatically</b> after an outage, if your machine's firmware or settings have the option.</li>
+        <li><b>Automatic security updates</b> on Linux:
 <pre><code>sudo apt install -y unattended-upgrades
 cat /etc/apt/apt.conf.d/20auto-upgrades</code></pre>
           Both lines should end in <code>"1"</code>.</li>
@@ -333,27 +382,28 @@ cat /etc/apt/apt.conf.d/20auto-upgrades</code></pre>
   </section>
 
   <section class="step" id="backup">
-    <div class="step-h"><span>10</span><span>Safety</span><span>~1 hour</span></div>
+    <div class="step-h"><span>11</span><span>Part 2 · Safety</span><span>~1 hour</span></div>
     <h2>Backups</h2>
     <div class="prose">
       <ul>
-        <li><b>RAID is not backup.</b> Two mirrored drives protect you from one drive dying, not from fire, theft, ransomware or you deleting the wrong folder.</li>
-        <li>Keep an <b>offsite copy</b>. I use Synology Hyper Backup to Backblaze B2.</li>
+        <li><b>Being able to reach your files from anywhere is not a backup.</b> If a file is deleted on your home computer, it's deleted everywhere.</li>
+        <li><b>RAID is not backup either.</b> Two mirrored drives protect you from one drive dying, not from fire, theft, ransomware or you deleting the wrong folder.</li>
+        <li>Keep an <b>offsite copy</b>. I use Synology Hyper Backup to Backblaze B2. More in the <a href="/guides/backup-your-photos">backup guide</a>.</li>
         <li><b>Back up before you load data in.</b> An unbacked NAS that becomes the only copy of everything is the worst position to be in.</li>
-        <li>Your server's setup lives in git (step 6), so the machine is replaceable. Its data is what needs backing up.</li>
+        <li>Your server's setup lives in git (step 9), so the machine is replaceable. Its data is what needs backing up.</li>
         <li><b>Do one restore test.</b> Pull a single file back from the backup to a different place and open it. An untested backup is a belief, not a backup.</li>
       </ul>
     </div>
   </section>
 
   <section class="step" id="offline">
-    <div class="step-h"><span>11</span><span>Outages</span><span>~15 min</span></div>
+    <div class="step-h"><span>12</span><span>Outages</span><span>~15 min</span></div>
     <h2>When the internet is down</h2>
     <div class="prose">
-      <p>Tailscale needs the internet to set up new connections. If your internet goes out, your devices at home can still reach the server, but only by its <b>local</b> address.</p>
+      <p>Tailscale needs the internet to set up new connections. If your internet goes out, your devices at home can still reach each other, but only by their <b>local</b> addresses.</p>
       <ul>
-        <li>Give the server a fixed local address with a <b>DHCP reservation</b> in your router.</li>
-        <li><b>Write that address on paper</b> and keep it with your router. Save it as a bookmark on your phone too.</li>
+        <li>Give your always-on machines fixed local addresses with a <b>DHCP reservation</b> in your router.</li>
+        <li><b>Write those addresses on paper</b> and keep them with your router. Save them as bookmarks on your phone too.</li>
         <li>A battery-powered tablet with Kiwix and copies of the library files works even with no router and no server. That's my last fallback.</li>
       </ul>
     </div>
@@ -362,9 +412,9 @@ cat /etc/apt/apt.conf.d/20auto-upgrades</code></pre>
   <section class="panel" id="playbook">
     <div class="eyebrow">Free download · Works with Claude or ChatGPT</div>
     <h2>The AI playbook</h2>
-    <p class="lead">A text file that turns an AI assistant into a patient sysadmin for this exact setup. Paste it into Claude, ChatGPT or another assistant. It asks what hardware you have, then walks you through each step one command at a time, explains what each command does, and checks the output with you before moving on.</p>
+    <p class="lead">A text file that turns an AI assistant into a patient tech helper for this exact setup. Paste it into Claude, ChatGPT or another assistant. It asks what devices you have and what you want to reach, then walks you through each step one command at a time, explains what each command does, and checks the output with you before moving on.</p>
     <div class="btns" style="margin:0">
-      <a class="btn solid" href="/guides/home-server-tailscale-playbook.txt" download data-ev="playbook_download">Download playbook (.txt) ↓</a>
+      <a class="btn solid" href="/guides/access-your-files-anywhere-playbook.txt" download data-ev="playbook_download">Download playbook (.txt) ↓</a>
       <button class="btn" type="button" id="copyPb" data-ev="playbook_copy">Copy to clipboard</button>
       <span class="copied" id="copyMsg" hidden>Copied</span>
     </div>
@@ -396,13 +446,13 @@ const GEAR = [
     "slug": "hs-mini-pc",
     "url": "",
     "title": "Mini PC",
-    "desc": "If you don't have an old computer to reuse. Small, quiet, low power, wired Ethernet. Plenty for a handful of services."
+    "desc": "A dedicated always-on box if you'd rather not leave your main computer running. Small, quiet, low power, wired Ethernet."
    },
    {
     "slug": "hs-sata-ssd",
     "url": "",
     "title": "2.5 inch SATA SSD",
-    "desc": "The best upgrade for an old machine with a spinning hard drive. Check your model takes one first."
+    "desc": "The best upgrade for an older computer with a spinning hard drive. Check your model takes one first."
    },
    {
     "slug": "hs-usb-stick",
@@ -473,16 +523,16 @@ const GEAR = [
   root.innerHTML = html;
   root.addEventListener('click', function(e){
     var a = e.target.closest('a.item'); if(!a) return;
-    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide-home-server-tailscale'}); }catch(x){}
-    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide-home-server-tailscale'}); }catch(x){}
+    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide-access-your-files-anywhere'}); }catch(x){}
+    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide-access-your-files-anywhere'}); }catch(x){}
   });
 })();
 
 document.addEventListener('click', function(e){
   var el = e.target.closest('[data-ev]'); if(!el) return;
   var ev = el.getAttribute('data-ev');
-  try{ gtag('event', ev, {guide:'home-server-tailscale'}); }catch(x){}
-  try{ window.__ssSend && window.__ssSend(ev, null, {guide:'home-server-tailscale'}); }catch(x){}
+  try{ gtag('event', ev, {guide:'access-your-files-anywhere'}); }catch(x){}
+  try{ window.__ssSend && window.__ssSend(ev, null, {guide:'access-your-files-anywhere'}); }catch(x){}
 });
 
 (function(){
@@ -490,7 +540,7 @@ document.addEventListener('click', function(e){
   btn.addEventListener('click', async function(){
     var msg = document.getElementById('copyMsg');
     try {
-      var r = await fetch('/guides/home-server-tailscale-playbook.txt'); var t = await r.text();
+      var r = await fetch('/guides/access-your-files-anywhere-playbook.txt'); var t = await r.text();
       await navigator.clipboard.writeText(t);
       msg.textContent = 'Copied. Paste it into your AI assistant.';
     } catch(x) { msg.textContent = 'Copy failed. Use the download button.'; msg.style.color = '#c44'; }

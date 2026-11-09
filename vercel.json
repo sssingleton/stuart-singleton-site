@@ -2,6 +2,8 @@
   "redirects": [
     { "source": "/S137devhub", "destination": "/S137devhub/", "permanent": false },
     { "source": "/gear", "destination": "/camera-gear", "permanent": false },
+    { "source": "/guides/home-server-tailscale", "destination": "/guides/access-your-files-anywhere", "permanent": true },
+    { "source": "/guides/home-server-tailscale-playbook.txt", "destination": "/guides/access-your-files-anywhere-playbook.txt", "permanent": true },
     { "source": "/solar", "destination": "/heliograph", "permanent": true },
     { "source": "/labs/solar/:path*", "destination": "/labs/heliograph/:path*", "permanent": true },
     { "source": "/lut", "destination": "/lut-converter", "permanent": false }
