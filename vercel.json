@@ -30,6 +30,8 @@
 
     { "source": "/shop", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/shop.html" },
     { "source": "/shop", "destination": "/index.html" },
+    { "source": "/shop/:tab(profiles|presets|downloads)", "destination": "/index.html" },
+    { "source": "/shop/:tab(profiles|presets)/:slug", "destination": "/index.html" },
 
     { "source": "/photos", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/photos.html" },
     { "source": "/photos", "destination": "/index.html" },
