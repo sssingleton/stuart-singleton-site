@@ -29,6 +29,21 @@ Each photo also has its own product page at https://stuartsingleton.com/p?id=ID 
 - [Saint-Jean-Cap-Ferrat, France](https://stuartsingleton.com/print/saint-jean-cap-ferrat-france-338)
 - [San Juan, Puerto Rico](https://stuartsingleton.com/print/puerto-rico-plants-san-juan-141)
 
+## Guides
+
+Free, in-depth guides by Stuart, each with a text playbook you can paste into Claude or ChatGPT to be walked through it. Gear sections compare budget, pick and upgrade options with pros and cons; items marked "I use this" are gear Stuart owns.
+
+- [All guides](https://stuartsingleton.com/guides)
+- [Home emergency kit: power, water and comms for a 3-day to 3-week outage](https://stuartsingleton.com/guides/home-emergency-kit)
+- [Build your own photo website](https://stuartsingleton.com/guides/build-your-photo-site)
+- [Sell prints without inventory](https://stuartsingleton.com/guides/sell-prints-without-inventory)
+- [Back up your photos (3-2-1)](https://stuartsingleton.com/guides/backup-your-photos)
+- [Access all your files from anywhere](https://stuartsingleton.com/guides/access-your-files-anywhere)
+- [Build a second brain your AI can read](https://stuartsingleton.com/guides/second-brain-for-ai)
+- [Connect Claude to Instagram](https://stuartsingleton.com/guides/connect-claude-to-instagram)
+- [Build a print-on-demand merch store](https://stuartsingleton.com/guides/print-on-demand-merch-store)
+- [Where to register a song](https://stuartsingleton.com/guides/where-to-register-a-song)
+
 ## Contact
 
 For commissions, licensing, or print questions, reach Stuart through the contact form at https://stuartsingleton.com.
