@@ -161,7 +161,7 @@
     <a href="#admin"><span>10</span>Admin company or DIY</a>
     <a href="#order"><span>11</span>Release-day order</a>
     <a href="#playbook"><span>→</span>AI playbook</a>
-    <a href="#tools" id="toc-tools"><span>→</span>Tools I use</a>
+    <a href="#tools" id="toc-tools"><span>→</span>Gear options</a>
   </nav>
 
   <section class="step" id="start">
@@ -350,13 +350,13 @@ IPI    each writer and publisher       from your PRO when you join</code></pre>
 
   <!-- Tools -->
   <section class="step" id="tools">
-    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
-    <h2>Tools I use</h2>
-    <p class="lead">You don't need any of this to register a song. It's what I keep on hand for writing, recording and keeping the business side straight. Links open on Amazon.</p>
+    <div class="step-h"><span>→</span><span>Tools</span><span>Options</span></div>
+    <h2>Gear: what I use and the alternatives</h2>
+    <p class="lead">You don't need any of this to register a song. It's what I keep on hand for writing, recording and keeping the business side straight. Each slot has a budget, a pick and an upgrade, with what each is best for. "I use this" marks gear I own. Links open on Amazon.</p>
     <div id="gear"></div>
   </section>
 
-  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Services named in this guide (PROs, The MLC, SoundExchange, distributors, admin companies) are mentioned because they're how the system works, not because they pay me. This guide is general information for US independent artists, not legal advice. Your contracts decide who registers what.</p>
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. Items marked "I use this" are gear I own; the rest are options I researched. The price you pay is the same. Services named in this guide (PROs, The MLC, SoundExchange, distributors, admin companies) are mentioned because they're how the system works, not because they pay me. This guide is general information for US independent artists, not legal advice. Your contracts decide who registers what.</p>
 
   <footer>
     <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
@@ -364,84 +364,70 @@ IPI    each writer and publisher       from your PRO when you join</code></pre>
 </div>
 
 <script>
-// Tools list. Same format as camera-gear.html.
-// url  = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag)
-// Items with an empty url are skipped. If no item has a url, the Tools section hides itself.
-const GEAR = [
-  {
-    "group": "Read",
-    "items": [
-      {
-        "slug": "song-passman-book",
-        "url": "",
-        "title": "All You Need to Know About the Music Business",
-        "desc": "Donald Passman's book. The standard reference for publishing, royalties and deals. Read it before you sign anything."
-      }
+// Gear options: products live in /guides/gear.js (one catalog for every guide).
+window.GEAR_SLOTS = [
+ {
+  "group": "Read",
+  "slots": [
+   {
+    "label": "The book",
+    "ids": [
+     "book-passman"
     ]
-  },
-  {
-    "group": "Write and record",
-    "items": [
-      {
-        "slug": "song-interface",
-        "url": "",
-        "title": "Two-channel USB audio interface",
-        "desc": "Enough to record a vocal and a guitar at home for a work tape or a finished demo."
-      },
-      {
-        "slug": "song-mic",
-        "url": "",
-        "title": "Large-diaphragm condenser mic",
-        "desc": "One good mic covers vocals, acoustic guitar and most writing-session demos."
-      },
-      {
-        "slug": "song-headphones",
-        "url": "",
-        "title": "Closed-back studio headphones",
-        "desc": "For tracking without bleed into the mic."
-      }
+   }
+  ]
+ },
+ {
+  "group": "Write and record",
+  "slots": [
+   {
+    "label": "Audio interface",
+    "ids": [
+     "iface-budget",
+     "iface-pick",
+     "iface-upgrade"
     ]
-  },
-  {
-    "group": "Keep it safe",
-    "items": [
-      {
-        "slug": "song-ssd",
-        "url": "",
-        "title": "Portable SSD",
-        "desc": "Masters, stems, session files and signed split sheets in one place, backed up. You'll need the stems and the paperwork years later."
-      }
+   },
+   {
+    "label": "Vocal mic",
+    "ids": [
+     "vmic-budget",
+     "vmic-pick",
+     "vmic-upgrade"
     ]
-  }
+   },
+   {
+    "label": "Headphones",
+    "ids": [
+     "hp-budget",
+     "hp-pick",
+     "hp-upgrade"
+    ]
+   },
+   {
+    "label": "Studio monitors",
+    "ids": [
+     "mon-budget",
+     "mon-pick",
+     "mon-upgrade"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "Keep it safe",
+  "slots": [
+   {
+    "label": "Portable SSD",
+    "ids": [
+     "ssd-budget",
+     "ssd-pick",
+     "ssd-upgrade"
+    ]
+   }
+  ]
+ }
 ];
-
-(function(){
-  var root = document.getElementById('gear'), n = 0, html = '';
-  GEAR.forEach(function(g){
-    var items = g.items.filter(function(it){ return it.url; });
-    if (!items.length) return;
-    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
-    items.forEach(function(it){
-      n++;
-      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
-        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
-        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
-        + '<span class="cta">View on Amazon ↗</span></a>';
-    });
-    html += '</section>';
-  });
-  if (!n) {
-    var sec = document.getElementById('tools'); if (sec) sec.hidden = true;
-    var t = document.getElementById('toc-tools'); if (t) t.hidden = true;
-    return;
-  }
-  root.innerHTML = html;
-  root.addEventListener('click', function(e){
-    var a = e.target.closest('a.item'); if(!a) return;
-    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide-where-to-register-a-song'}); }catch(x){}
-    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide-where-to-register-a-song'}); }catch(x){}
-  });
-})();
 
 document.addEventListener('click', function(e){
   var el = e.target.closest('[data-ev]'); if(!el) return;
@@ -460,5 +446,6 @@ document.getElementById('copyPb').addEventListener('click', async function(){
   msg.hidden = false;
 });
 </script>
+<script src="/guides/gear.js"></script>
 </body>
 </html>

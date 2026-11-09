@@ -159,7 +159,7 @@
     <a href="#keys"><span>08</span>Protect your keys</a>
     <a href="#upkeep"><span>09</span>Upkeep</a>
     <a href="#playbook"><span>→</span>AI playbook</a>
-    <a href="#tools"><span>→</span>Tools I use</a>
+    <a href="#tools"><span>→</span>Gear options</a>
   </nav>
 
 
@@ -333,9 +333,9 @@
 
   <!-- Tools -->
   <section class="step" id="tools">
-    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
-    <h2>Tools I use</h2>
-    <p class="lead">What a full setup uses. You can start with just a portable SSD and an external drive, and add the NAS and cloud later. Links open on Amazon.</p>
+    <div class="step-h"><span>→</span><span>Tools</span><span>Options</span></div>
+    <h2>Gear: what I use and the alternatives</h2>
+    <p class="lead">What a full setup uses. You can start with just a portable SSD and an external drive, and add the NAS and cloud later. Each slot has a budget, a pick and an upgrade, with what each is best for. "I use this" marks gear I own. Links open on Amazon.</p>
     <div id="gear"></div>
   </section>
 
@@ -349,54 +349,81 @@
     </div>
   </section>
 
-  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Services named here (Synology, Backblaze, Tailscale) are mentioned because I use them, not because they pay me.</p>
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. Items marked "I use this" are gear I own; the rest are options I researched. The price you pay is the same. Services named here (Synology, Backblaze, Tailscale) are mentioned because I use them, not because they pay me.</p>
 
   <footer>
     <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
   </footer>
 </div>
 <script>
-// Tools list. Same format as camera-gear.html.
-// url  = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag)
-// Items with an empty url are skipped, so paste a link in to make one appear.
-const GEAR = [
-  { group:'Ingest and edit', items:[
-    { slug:'backup-card-reader', url:'', title:'Fast SD card reader', desc:'Gets a full card onto your drive in minutes. A slow reader is why people put off copying cards.' },
-    { slug:'backup-portable-ssd', url:'', title:'Portable SSD', desc:'Your working drive. Fast enough to edit straight off, small enough to travel with.' },
-  ]},
-  { group:'Home NAS', items:[
-    { slug:'backup-synology-nas', url:'', title:'Synology NAS (2 bay or more)', desc:'The always-on home copy. Two bays is the minimum for one drive to protect the other.' },
-    { slug:'backup-nas-drives', url:'', title:'NAS-rated hard drives', desc:'Built to run around the clock. Buy one extra and keep it as a spare.' },
-    { slug:'backup-ups', url:'', title:'Small UPS battery backup', desc:'Keeps the NAS running through a flicker and lets it shut down cleanly in a real outage.' },
-  ]},
-  { group:'Offline copy', items:[
-    { slug:'backup-external-hdd', url:'', title:'External hard drive', desc:'The unplugged monthly copy. Cheap per terabyte, kept away from your house if you can.' },
-  ]},
+// Gear options: products live in /guides/gear.js (one catalog for every guide).
+window.GEAR_SLOTS = [
+ {
+  "group": "Ingest and edit",
+  "slots": [
+   {
+    "label": "SD card reader",
+    "ids": [
+     "reader-budget",
+     "reader-pick",
+     "reader-upgrade"
+    ]
+   },
+   {
+    "label": "Portable SSD",
+    "ids": [
+     "ssd-budget",
+     "ssd-pick",
+     "ssd-upgrade"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "Home NAS",
+  "slots": [
+   {
+    "label": "NAS",
+    "ids": [
+     "nas-budget",
+     "nas-pick",
+     "nas-upgrade"
+    ]
+   },
+   {
+    "label": "NAS hard drives",
+    "ids": [
+     "drives-budget",
+     "drives-pick",
+     "drives-upgrade"
+    ],
+    "note": "Buy one extra and keep it as a spare."
+   },
+   {
+    "label": "UPS battery backup",
+    "ids": [
+     "ups-budget",
+     "ups-pick",
+     "ups-upgrade"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "Offline copy",
+  "slots": [
+   {
+    "label": "External hard drive",
+    "ids": [
+     "hdd-budget",
+     "hdd-pick",
+     "hdd-upgrade"
+    ],
+    "note": "The unplugged copy. Keep it somewhere other than your house if you can."
+   }
+  ]
+ }
 ];
-
-(function(){
-  var root = document.getElementById('gear'), n = 0, html = '';
-  GEAR.forEach(function(g){
-    var items = g.items.filter(function(it){ return it.url; });
-    if (!items.length) return;
-    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
-    items.forEach(function(it){
-      n++;
-      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
-        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
-        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
-        + '<span class="cta">View on Amazon ↗</span></a>';
-    });
-    html += '</section>';
-  });
-  root.innerHTML = html;
-  if (!n) { var ts = document.getElementById('tools'); if (ts) ts.hidden = true; var tl = document.querySelector('.toc a[href="#tools"]'); if (tl) tl.hidden = true; }
-  root.addEventListener('click', function(e){
-    var a = e.target.closest('a.item'); if(!a) return;
-    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide'}); }catch(x){}
-    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide'}); }catch(x){}
-  });
-})();
 
 // Download / copy / quote-jump events
 document.addEventListener('click', function(e){
@@ -417,5 +444,6 @@ document.getElementById('copyPb').addEventListener('click', async function(){
 });
 
 </script>
+<script src="/guides/gear.js"></script>
 </body>
 </html>

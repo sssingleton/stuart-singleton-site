@@ -160,7 +160,7 @@
     <a href="#instagram"><span>09</span>Instagram Shop</a>
     <a href="#launch"><span>10</span>Taxes and launch</a>
     <a href="#playbook"><span>→</span>AI playbook</a>
-    <a href="#tools" id="toc-tools"><span>→</span>Tools I use</a>
+    <a href="#tools" id="toc-tools"><span>→</span>Gear options</a>
     <a href="#quote"><span>→</span>Get a quote</a>
   </nav>
 
@@ -351,9 +351,9 @@ example: $20 item, shipping passed to buyer, 40% margin
 
   <!-- Tools -->
   <section class="step" id="tools">
-    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
-    <h2>Tools I use</h2>
-    <p class="lead">You don't need any of this to run a print-on-demand store. It's for shooting your own product photos and for shipping anything you fulfill yourself, like limited runs. Links open on Amazon.</p>
+    <div class="step-h"><span>→</span><span>Tools</span><span>Options</span></div>
+    <h2>Gear: what I use and the alternatives</h2>
+    <p class="lead">You don't need any of this to run a print-on-demand store. It's for shooting your own product photos and for shipping anything you fulfill yourself, like limited runs. Each slot has a budget, a pick and an upgrade, with what each is best for. "I use this" marks gear I own. Links open on Amazon.</p>
     <div id="gear"></div>
   </section>
 
@@ -374,7 +374,7 @@ example: $20 item, shipping passed to buyer, 40% margin
     </form>
   </section>
 
-  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Print providers and services named in this guide are mentioned because I use them, not because they pay me. Nothing here is tax or legal advice.</p>
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. Items marked "I use this" are gear I own; the rest are options I researched. The price you pay is the same. Print providers and services named in this guide are mentioned because I use them, not because they pay me. Nothing here is tax or legal advice.</p>
 
   <footer>
     <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
@@ -382,79 +382,54 @@ example: $20 item, shipping passed to buyer, 40% margin
 </div>
 
 <script>
-// Tools list. Same format as camera-gear.html.
-// url  = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag)
-// Items with an empty url are skipped. If no item has a url, the Tools section hides itself.
-const GEAR = [
-  {
-    "group": "Product photos",
-    "items": [
-      {
-        "slug": "merch-light-tent",
-        "url": "",
-        "title": "Foldable light box / photo tent",
-        "desc": "Clean, even product shots of samples on a plain background, without a studio."
-      },
-      {
-        "slug": "merch-backdrop",
-        "url": "",
-        "title": "Seamless backdrop paper",
-        "desc": "For flat-lay and on-model shots that match your store's look."
-      }
+// Gear options: products live in /guides/gear.js (one catalog for every guide).
+window.GEAR_SLOTS = [
+ {
+  "group": "Product photos",
+  "slots": [
+   {
+    "label": "Light box",
+    "ids": [
+     "tent-budget",
+     "tent-pick"
     ]
-  },
-  {
-    "group": "Ship it yourself",
-    "items": [
-      {
-        "slug": "merch-label-printer",
-        "url": "",
-        "title": "Thermal shipping label printer",
-        "desc": "If you hand-ship limited runs or pre-orders. No ink, ever."
-      },
-      {
-        "slug": "merch-mailers",
-        "url": "",
-        "title": "Padded mailers",
-        "desc": "Cheap, light, and enough protection for most small goods."
-      },
-      {
-        "slug": "merch-scale",
-        "url": "",
-        "title": "Shipping scale",
-        "desc": "Weigh packages so you buy the right postage the first time."
-      }
+   },
+   {
+    "label": "Backdrop",
+    "ids": [
+     "backdrop-budget",
+     "backdrop-pick"
     ]
-  }
+   }
+  ]
+ },
+ {
+  "group": "Ship it yourself",
+  "slots": [
+   {
+    "label": "Label printer",
+    "ids": [
+     "label-budget",
+     "label-pick",
+     "label-upgrade"
+    ]
+   },
+   {
+    "label": "Shipping scale",
+    "ids": [
+     "scale-budget",
+     "scale-pick"
+    ]
+   },
+   {
+    "label": "Mailers",
+    "ids": [
+     "mailers"
+    ]
+   }
+  ]
+ }
 ];
-
-(function(){
-  var root = document.getElementById('gear'), n = 0, html = '';
-  GEAR.forEach(function(g){
-    var items = g.items.filter(function(it){ return it.url; });
-    if (!items.length) return;
-    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
-    items.forEach(function(it){
-      n++;
-      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
-        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
-        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
-        + '<span class="cta">View on Amazon ↗</span></a>';
-    });
-    html += '</section>';
-  });
-  if (!n) {
-    var sec = document.getElementById('tools'); if (sec) sec.hidden = true;
-    var t = document.getElementById('toc-tools'); if (t) t.hidden = true;
-    return;
-  }
-  root.innerHTML = html;
-  root.addEventListener('click', function(e){
-    var a = e.target.closest('a.item'); if(!a) return;
-    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide-print-on-demand-merch-store'}); }catch(x){}
-    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide-print-on-demand-merch-store'}); }catch(x){}
-  });
-})();
 
 document.addEventListener('click', function(e){
   var el = e.target.closest('[data-ev]'); if(!el) return;
@@ -488,5 +463,6 @@ document.getElementById('qf').addEventListener('submit', async function(e){
   b.textContent = 'Request a quote →';
 });
 </script>
+<script src="/guides/gear.js"></script>
 </body>
 </html>

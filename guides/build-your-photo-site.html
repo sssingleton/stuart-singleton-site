@@ -163,7 +163,7 @@
     <a href="#analytics"><span>12</span>Analytics</a>
     <a href="#launch"><span>13</span>Launch and upkeep</a>
     <a href="#playbook"><span>→</span>AI playbook</a>
-    <a href="#tools"><span>→</span>Tools I use</a>
+    <a href="#tools"><span>→</span>Gear options</a>
     <a href="#quote"><span>→</span>Get a quote</a>
   </nav>
 
@@ -455,9 +455,9 @@ $30 cost, 45% margin → 30 / 0.55 = $54.55 → round to $55</code></pre>
 
   <!-- Tools -->
   <section class="step" id="tools">
-    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
-    <h2>Tools I use</h2>
-    <p class="lead">You don't need any of this to build the site. It's what I shoot with and use to get photos from camera to print. Links open on Amazon.</p>
+    <div class="step-h"><span>→</span><span>Tools</span><span>Options</span></div>
+    <h2>Gear: what I use and the alternatives</h2>
+    <p class="lead">You don't need any of this to build the site. It's what I shoot with and use to get photos from camera to print. Each slot has a budget, a pick and an upgrade, with what each is best for. "I use this" marks gear I own. Links open on Amazon.</p>
     <div id="gear"></div>
   </section>
 
@@ -484,7 +484,7 @@ $30 cost, 45% margin → 30 / 0.55 = $54.55 → round to $55</code></pre>
     </form>
   </section>
 
-  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Other services named in this guide (Vercel, Supabase, Stripe, Prodigi, Claude) are mentioned because I use them, not because they pay me.</p>
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. Items marked "I use this" are gear I own; the rest are options I researched. The price you pay is the same. Other services named in this guide (Vercel, Supabase, Stripe, Prodigi, Claude) are mentioned because I use them, not because they pay me.</p>
 
   <footer>
     <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
@@ -492,46 +492,68 @@ $30 cost, 45% margin → 30 / 0.55 = $54.55 → round to $55</code></pre>
 </div>
 
 <script>
-// Tools list. Same format as camera-gear.html.
-// url  = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag)
-// Items with an empty url are skipped, so paste a link in to make one appear.
-const GEAR = [
-  { group:'Shoot', items:[
-    { slug:'xt5-16-80', url:'https://amzn.to/46oFm4o', title:'Fujifilm X-T5 + XF 16-80mm f/4', desc:'The body behind almost every photo on this site. Plenty of resolution for 24x36 prints.' },
-    { slug:'xf35-f14', url:'https://amzn.to/3TxeA6S', title:'Fujifilm XF 35mm f/1.4 R', desc:'The lens that stays on the camera. Street, portraits, low light.' },
-  ]},
-  { group:'Edit and print', items:[
-    { slug:'guide-calibrator', url:'', title:'Monitor color calibrator', desc:'If your screen is too bright or too blue, your prints come back dark and off-color. Calibrate before you sell prints.' },
-    { slug:'guide-card-reader', url:'', title:'Fast SD card reader', desc:'Gets a day of shooting off the card in minutes instead of half an hour.' },
-  ]},
-  { group:'Store and back up', items:[
-    { slug:'guide-portable-ssd', url:'', title:'Portable SSD', desc:'Where the full-resolution masters live while you edit. Fast enough to work straight off it.' },
-    { slug:'guide-nas', url:'', title:'Home NAS', desc:'A second copy of every master, at home, that you control. Cloud storage is the third copy.' },
-  ]},
+// Gear options: products live in /guides/gear.js (one catalog for every guide).
+window.GEAR_SLOTS = [
+ {
+  "group": "Shoot",
+  "slots": [
+   {
+    "label": "Camera",
+    "ids": [
+     "xt5-16-80"
+    ]
+   },
+   {
+    "label": "Lens",
+    "ids": [
+     "xf35-f14"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "Edit and print",
+  "slots": [
+   {
+    "label": "Monitor calibrator",
+    "ids": [
+     "cal-budget",
+     "cal-pick",
+     "cal-upgrade"
+    ]
+   },
+   {
+    "label": "SD card reader",
+    "ids": [
+     "reader-budget",
+     "reader-pick",
+     "reader-upgrade"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "Store and back up",
+  "slots": [
+   {
+    "label": "Portable SSD",
+    "ids": [
+     "ssd-budget",
+     "ssd-pick",
+     "ssd-upgrade"
+    ]
+   },
+   {
+    "label": "NAS",
+    "ids": [
+     "nas-budget",
+     "nas-pick",
+     "nas-upgrade"
+    ]
+   }
+  ]
+ }
 ];
-
-(function(){
-  var root = document.getElementById('gear'), n = 0, html = '';
-  GEAR.forEach(function(g){
-    var items = g.items.filter(function(it){ return it.url; });
-    if (!items.length) return;
-    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
-    items.forEach(function(it){
-      n++;
-      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
-        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
-        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
-        + '<span class="cta">View on Amazon ↗</span></a>';
-    });
-    html += '</section>';
-  });
-  root.innerHTML = html;
-  root.addEventListener('click', function(e){
-    var a = e.target.closest('a.item'); if(!a) return;
-    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide'}); }catch(x){}
-    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide'}); }catch(x){}
-  });
-})();
 
 // Download / copy / quote-jump events
 document.addEventListener('click', function(e){
@@ -566,5 +588,6 @@ document.getElementById('qf').addEventListener('submit', async function(e){
   b.textContent = 'Request a quote →';
 });
 </script>
+<script src="/guides/gear.js"></script>
 </body>
 </html>
