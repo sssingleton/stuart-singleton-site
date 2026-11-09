@@ -8508,6 +8508,25 @@ var DPACKS = null;          // all packs from Supabase, loaded once
 var DPACKS_LOADING = null;
 var shopTab = 'prints';
 var DPREVIEW = false;       // ?preview=halation shows hidden profiles (display only)
+// Preview scenes: every profile rendered on the same 5 photos (preset-covers/halation/scenes/<scene>/<slug>.jpg).
+var SCENE_BASE = 'https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/object/public/preset-covers/halation/scenes/';
+var PREVIEW_SCENES = [['door', 'Doorway'], ['coast', 'Coast'], ['mountains', 'Mountains'], ['neon', 'Neon night'], ['city', 'City']];
+var previewScene = 'door';
+try { var _ps = localStorage.getItem('ss_scene'); if (PREVIEW_SCENES.some(function (x) { return x[0] === _ps; })) previewScene = _ps; } catch (e) {}
+function packCover(p) { return p.kind === 'profile' ? SCENE_BASE + previewScene + '/' + p.slug + '.jpg' : (p.cover_image_url || ''); }
+function packBefore(p) { return p.kind === 'profile' ? SCENE_BASE + previewScene + '/before.jpg' : (p.before_image_url || ''); }
+function setPreviewScene(k) {
+  previewScene = k; try { localStorage.setItem('ss_scene', k); } catch (e) {}
+  try { ssTrack('preview_scene', { m: { scene: k } }); } catch (e) {}
+  renderDigital();
+  var m = document.getElementById('dg-modal'); if (m && m.classList.contains('open') && m.dataset.pack) openPackDetail(m.dataset.pack);
+}
+function scenePickerHTML() {
+  return '<div class="dg-scenes"><span>Preview on</span>' + PREVIEW_SCENES.map(function (x) {
+    return '<button type="button" class="dg-scene' + (x[0] === previewScene ? ' active' : '') + '" onclick="setPreviewScene(\'' + x[0] + '\')"><img src="' + SCENE_BASE + x[0] + '/before.jpg" alt="" loading="lazy">' + x[1] + '</button>';
+  }).join('') + '</div>';
+}
+function hasLiveProfiles() { return (DPACKS || []).some(function (p) { return p.kind === 'profile'; }); }
 
 try { DCART = JSON.parse(localStorage.getItem(DCART_KEY) || '[]') || []; if (!Array.isArray(DCART)) DCART = []; } catch (e) { DCART = []; }
 try {
@@ -8550,7 +8569,7 @@ function profileNudge(n) {
 
 function dcartAdd(pack) {
   if (!pack || dcartHas(pack.id)) return;
-  DCART.push({ id: pack.id, slug: pack.slug, name: pack.name, kind: pack.kind, cover: pack.cover_image_url || '' });
+  DCART.push({ id: pack.id, slug: pack.slug, name: pack.name, kind: pack.kind, cover: packCover(pack) });
   dcartSave(); updateCartFab(); dBump();
   try { ssTrack('add_to_cart', { m: { digital: pack.kind, slug: pack.slug } }); } catch (e) {}
 }
@@ -8561,7 +8580,7 @@ function dcartToggle(id) {
   renderDigital(); try { if (document.getElementById('cart-modal').classList.contains('open')) renderCart(); } catch (e) {}
 }
 function dcartAddAllProfiles() {
-  (DPACKS || []).filter(function (p) { return p.kind === 'profile' && (p.is_active || DPREVIEW); }).forEach(function (p) { if (!dcartHas(p.id)) DCART.push({ id: p.id, slug: p.slug, name: p.name, kind: p.kind, cover: p.cover_image_url || '' }); });
+  (DPACKS || []).filter(function (p) { return p.kind === 'profile' && (p.is_active || DPREVIEW); }).forEach(function (p) { if (!dcartHas(p.id)) DCART.push({ id: p.id, slug: p.slug, name: p.name, kind: p.kind, cover: packCover(p) }); });
   dcartSave(); updateCartFab(); dBump(); renderDigital();
   try { ssTrack('add_to_cart', { m: { digital: 'profile', all: 1 } }); } catch (e) {}
 }
@@ -8669,6 +8688,12 @@ function syncShopTabs(isShop) {
   }
   if (tabs) tabs.style.display = isShop ? 'flex' : 'none';
   if (!isShop) { if (wrap) wrap.style.display = 'none'; return; }
+  var proTab = document.querySelector('#shop-tabs .shop-tab[data-tab="profiles"]');
+  if (!DPACKS) { if (proTab) proTab.style.display = 'none'; loadDigitalPacks().then(function () { syncShopTabs(shopMode); }); }
+  else {
+    if (proTab) proTab.style.display = hasLiveProfiles() ? '' : 'none';
+    if (shopTab === 'profiles' && !hasLiveProfiles()) shopTab = 'presets';
+  }
   document.querySelectorAll('#shop-tabs .shop-tab').forEach(function (b) { b.classList.toggle('active', b.dataset.tab === shopTab); });
   var digital = shopTab !== 'prints';
   ['shop-head', 'shop-filters', 'shop-grid'].forEach(function (id) {
@@ -8701,7 +8726,8 @@ function renderDigital() {
       + '<div class="dg-tiers"><span class="dg-launch">Launch pricing</span><span>$5 each</span><span>any 5 · $20</span><span>any 10 · $35</span><span>all 15 · $45</span></div>'
       + '<div class="dg-bar"><span>' + (n ? n + ' picked · ' + cartMoney(pp.cents) + (pp.all ? ' · all 15' : '') : 'Pick the stocks you want') + '</span><span class="dg-nudge">' + dEsc(n ? profileNudge(n) : '') + '</span>'
       + (pp.all ? '<button type="button" class="dg-allbtn" onclick="openCart()">View cart →</button>' : '<button type="button" class="dg-allbtn" onclick="dcartAddAllProfiles()">Add all 15 · $45</button>') + '</div>'
-      + (DPREVIEW ? '<div class="dg-preview">Preview mode: profiles are hidden from the public shop until they go live.</div>' : '');
+      + (DPREVIEW ? '<div class="dg-preview">Preview mode: profiles are hidden from the public shop until they go live.</div>' : '')
+      + scenePickerHTML();
   } else {
     head = '<div class="shop-head-row"><span class="shop-head-title">Lightroom Presets</span><span class="shop-head-count">' + packs.length + ' packs</span></div>'
       + '<div class="shop-head-sub">Each pack is the edit behind one of my photos. $5 a pack, instant download. Looking for film looks? See <button type="button" class="shop-ship-link" onclick="setShopTab(\'profiles\')">Halation Profiles</button>.</div>';
@@ -8709,10 +8735,10 @@ function renderDigital() {
   var cards = packs.map(function (p) {
     var inCart = dcartHas(p.id);
     var hrefSlug = '/shop/' + (p.kind === 'profile' ? 'profiles' : 'presets') + '/' + p.slug;
-    var before = p.before_image_url ? '<img class="dg-before" src="' + dEsc(p.before_image_url) + '" alt="" loading="lazy">' : '';
+    var before = packBefore(p) ? '<img class="dg-before" src="' + dEsc(packBefore(p)) + '" alt="" loading="lazy">' : '';
     var meta = p.kind === 'profile' ? '4 looks' : ((p.pack_files || []).length ? (p.pack_files.length + ' file' + (p.pack_files.length === 1 ? '' : 's')) : 'preset pack');
     return '<div class="shop-card dg-card' + (inCart ? ' in' : '') + '">'
-      + '<a class="shop-card-imglink" href="' + hrefSlug + '" onclick="event.preventDefault();openPackDetail(\'' + p.id + '\')"><div class="shop-card-imgwrap dg-imgwrap"><img src="' + dEsc(p.cover_image_url || '') + '" alt="' + dEsc(p.name) + '" loading="lazy">' + before + (before ? '<span class="dg-tag">after · hover for before</span>' : '') + '</div></a>'
+      + '<a class="shop-card-imglink" href="' + hrefSlug + '" onclick="event.preventDefault();openPackDetail(\'' + p.id + '\')"><div class="shop-card-imgwrap dg-imgwrap"><img src="' + dEsc(packCover(p)) + '" alt="' + dEsc(p.name) + '" loading="lazy">' + before + (before ? '<span class="dg-tag">after · hover for before</span>' : '') + '</div></a>'
       + '<div class="shop-card-body"><div class="shop-card-title"><a class="shop-card-titlelink" href="' + hrefSlug + '" onclick="event.preventDefault();openPackDetail(\'' + p.id + '\')">' + dEsc(p.name) + '</a></div>'
       + '<div class="dg-desc">' + dEsc(p.short_description || '') + '</div>'
       + '<div class="shop-card-meta"><span class="shop-card-price">$5 <span class="dg-meta">· ' + meta + '</span></span>'
@@ -8728,12 +8754,15 @@ function openPackDetail(id) {
   var m = document.getElementById('dg-modal');
   if (!m) { m = document.createElement('div'); m.id = 'dg-modal'; m.addEventListener('click', function (e) { if (e.target === m) closePackDetail(); }); document.body.appendChild(m); }
   var isPro = p.kind === 'profile', inCart = dcartHas(p.id);
+  m.dataset.pack = p.id;
+  var cov = packCover(p), bef = packBefore(p);
   var path = '/shop/' + (isPro ? 'profiles' : 'presets') + '/' + p.slug;
   var printLink = p.linked_print_photo_id ? '<a class="dg-printlink" href="/shop?buy=' + p.linked_print_photo_id + '">Buy this photo as a print →</a>' : '';
   m.innerHTML = '<div class="dg-inner">'
     + '<div class="cart-head"><span>// ' + (isPro ? 'halation profile' : 'preset pack') + '</span><div style="display:flex;gap:8px"><button type="button" onclick="dCopyLink(this,\'' + path + '\')">⧉ copy link</button><button type="button" onclick="closePackDetail()">✕ close</button></div></div>'
-    + '<div class="dg-body"><div class="dg-media"><img id="dg-img" src="' + dEsc(p.cover_image_url || '') + '" alt="' + dEsc(p.name) + '">'
-    + (p.before_image_url ? '<div class="dg-ab"><button type="button" class="pm-btn active" onclick="dSwap(this,\'' + dEsc(p.cover_image_url || '') + '\')">After</button><button type="button" class="pm-btn" onclick="dSwap(this,\'' + dEsc(p.before_image_url) + '\')">Before</button></div>' : '') + '</div>'
+    + '<div class="dg-body"><div class="dg-media"><img id="dg-img" src="' + dEsc(cov) + '" alt="' + dEsc(p.name) + '">'
+    + (bef ? '<div class="dg-ab"><button type="button" class="pm-btn active" onclick="dSwap(this,\'' + dEsc(cov) + '\')">After</button><button type="button" class="pm-btn" onclick="dSwap(this,\'' + dEsc(bef) + '\')">Before</button></div>' : '')
+    + (isPro ? scenePickerHTML() : '') + '</div>'
     + '<div class="dg-panel"><div class="dg-name">' + dEsc(p.name) + '</div><div class="dg-sub">' + dEsc(p.short_description || '') + '</div>'
     + (p.long_description ? '<p class="dg-long">' + dEsc(p.long_description) + '</p>' : '')
     + (p.includes ? '<div class="dg-kv"><span>Includes</span>' + dEsc(p.includes) + '</div>' : '')
@@ -8847,6 +8876,10 @@ function dlFile(btn, packId, fileId, code) {
     + '@media (hover:none){.dg-tag{display:none}}'
     + '.dg-desc{font-family:var(--sans);font-size:12px;color:#6a655c;line-height:1.45}.dg-meta{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#b0aaa0;font-weight:400}'
     + '.dg-card .shop-card-meta{align-items:center;gap:10px}.dg-card .shop-card-price{white-space:nowrap}.dg-add{flex:0 0 auto;width:auto!important;padding-left:18px!important;padding-right:18px!important}'
+    + '.dg-scenes{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#908b82}'
+    + '.dg-scenes>span{margin-right:4px}.dg-scene{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid #d8d5cd;color:#6a655c;font:inherit;letter-spacing:.12em;padding:4px 10px 4px 4px;cursor:none}'
+    + '.dg-scene img{width:22px;height:28px;object-fit:cover;display:block}.dg-scene:hover{border-color:#b3aea3;color:#1a1a1a}.dg-scene.active{border-color:#1a1a1a;color:#1a1a1a}'
+    + '.dg-media .dg-scenes{margin-top:10px}'
     + '.dg-card.in{border-color:#1a1a1a}.dg-card.in .dg-add{background:#fff;color:#1a1a1a}'
     + '.dg-loading{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:#908b82;padding:30px 0;text-align:center}'
     + '.cart-dhead{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#4a4640;padding:14px 0 6px;border-top:1px solid #ebe8e1;margin-top:6px}'
