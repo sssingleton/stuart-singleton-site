@@ -2166,7 +2166,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="pm-btn" id="pm-book" onclick="setPhotoMode('book')">Book a Shoot</button>
         <!-- Presets is a fourth "mode" that lives on its own app (stuarts-presets.*, same paper
              look, own checkout — Decision 286). A link styled as the toggle, not a JS mode. -->
-        <a class="pm-btn pm-btn-link" id="pm-presets" href="https://stuarts-presets.stuartsingleton.com/" onclick="try{ssTrack('presets_click',{m:{from:photoMode}})}catch(e){}" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Presets ↗</a>
+        <a class="pm-btn pm-btn-link" id="pm-presets" href="/shop/profiles" onclick="event.preventDefault();try{ssTrack('presets_click',{m:{from:photoMode}})}catch(e){}setShopTab('profiles')" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Presets</a>
         <!-- Camera gear = Amazon affiliate list, static page at /camera-gear (audio-gear later). -->
         <a class="pm-btn pm-btn-link" id="pm-gear" href="/camera-gear" onclick="try{ssTrack('gear_click',{m:{from:photoMode,list:'nav'}})}catch(e){}" onmouseenter="cursor.classList.add('hover')" onmouseleave="cursor.classList.remove('hover')">Gear</a>
       </div>
@@ -2190,6 +2190,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="photo-masonry" id="photo-masonry"></div>
       <div class="gallery-more" id="gallery-more"><button type="button" onclick="appendGalleryPage()">Load more</button><span class="gm-count" id="gm-count"></span></div>
 
+      <!-- SHOP TABS (shop view): Prints / Profiles / Presets -->
+      <div class="shop-tabs" id="shop-tabs" style="display:none;">
+        <button type="button" class="shop-tab" data-tab="prints" onclick="setShopTab('prints')">Prints</button>
+        <button type="button" class="shop-tab" data-tab="profiles" onclick="setShopTab('profiles')">Halation Profiles</button>
+        <button type="button" class="shop-tab" data-tab="presets" onclick="setShopTab('presets')">Presets</button>
+      </div>
+
       <!-- SHOP HEADER (shop view) -->
       <div class="shop-head" id="shop-head" style="display:none;"></div>
 
@@ -2198,6 +2205,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- PRODUCT GRID (shop view) -->
       <div class="shop-grid" id="shop-grid" style="display:none;"></div>
+
+      <!-- DIGITAL (shop view, Profiles / Presets tabs) -->
+      <div id="digital-wrap" style="display:none;"></div>
 
       <!-- BOOKING (book view) — picking a card opens the request form below -->
       <div id="booking-wrap" style="display:none;">
@@ -4412,6 +4422,7 @@ function setPhotoMode(mode) {
     history.replaceState({ page: isShop ? 'shop' : isBook ? 'book' : 'photos' }, '', targetPath);
   }
   if (typeof setRouteMeta === 'function') setRouteMeta(targetPath);
+  try { syncShopTabs(isShop); } catch (e) {}
 }
 
 // Back-compat wrapper. Everything that predates booking still calls this.
@@ -7194,6 +7205,16 @@ function applyProductSeo(photo) {
   }
 })();
 
+// ══ SHOP SUB-ROUTES (2026-11-09) ══ /shop/profiles[/slug], /shop/presets[/slug], /shop/downloads.
+// Remember the intent, then present the path as /shop so the proven /shop router below reveals
+// the page; syncShopTabs() restores the real path once the tab is showing.
+(function () {
+  var m = window.location.pathname.match(/^\/shop\/(profiles|presets|downloads)(?:\/([a-z0-9-]+))?\/?$/);
+  if (!m) return;
+  window.__SHOP_DEEP = { tab: m[1], slug: m[2] || null, search: window.location.search };
+  try { history.replaceState(history.state, '', '/shop' + window.location.search); } catch (e) {}
+})();
+
 // ══ URL ROUTING — direct /shop access ══
 (function() {
   if (window.location.pathname === '/shop') {
@@ -7699,10 +7720,10 @@ function shipCartTotals() {
   var amt = document.getElementById('cart-subtotal-amt'), lbl = document.getElementById('cart-subtotal-label');
   if (!amt) return;
   if (q.fee && !q.blocked) {
-    amt.textContent = cartMoney(cartTotalCents() + q.fee);
+    amt.textContent = cartMoney(cartTotalCents() + q.fee + dcartTotalCents());
     if (lbl) lbl.innerHTML = 'Total · incl. ' + cartMoney(q.fee) + ' express shipping';
   } else {
-    amt.textContent = cartMoney(cartTotalCents());
+    amt.textContent = cartMoney(cartTotalCents() + dcartTotalCents());
     if (lbl) lbl.innerHTML = q.blocked ? 'Subtotal' : 'Subtotal · <span style="color:#3a7a3a">free shipping</span>';
   }
 }
@@ -8245,7 +8266,7 @@ function cartLoad() {
   if (!Array.isArray(CART)) CART = [];
 }
 function cartSave() { try { localStorage.setItem(CART_KEY, JSON.stringify(CART)); } catch (e) {} }
-function cartCount() { return CART.reduce(function (n, it) { return n + (it.copies || 1); }, 0); }
+function cartCount() { return CART.reduce(function (n, it) { return n + (it.copies || 1); }, 0) + dcartCount(); }
 function cartSubtotalCents() { return CART.reduce(function (s, it) { return s + (it.priceCents || 0) * (it.copies || 1); }, 0); }
 // Bulk tiers: [minimum paper copies, percent off each paper print]. Paper only.
 // 🔴 MIRRORS create-checkout-session v31 (BULK_TIERS). The edge fn sets the real price;
@@ -8336,7 +8357,7 @@ function renderCart() {
   var lines = document.getElementById('cart-lines');
   var foot = document.getElementById('cart-foot');
   if (!lines) return;
-  if (!CART.length) {
+  if (!CART.length && !dcartCount()) {
     lines.innerHTML = '<div class="cart-empty">Your cart is empty.<br>Open any photo in the shop and hit <strong style="color:#1a1a1a;font-weight:400;">Add to Cart</strong><br>to order several prints in one go.</div>';
     if (foot) foot.style.display = 'none';
     return;
@@ -8352,9 +8373,11 @@ function renderCart() {
       + '<div class="cart-qty"><button onclick="changeCartQty(' + i + ',-1)">−</button><span>' + it.copies + '</span><button onclick="changeCartQty(' + i + ',1)">+</button></div>'
       + '<button class="cart-remove" onclick="removeCartItem(' + i + ')">remove</button></div>'
       + '</div>';
-  }).join('');
-  document.getElementById('cart-subtotal-amt').textContent = cartMoney(cartTotalCents());
+  }).join('') + dcartLinesHTML();
+  document.getElementById('cart-subtotal-amt').textContent = cartMoney(cartTotalCents() + dcartTotalCents());
   renderCartBulk();
+  if (!CART.length) { dcartDigitalOnlyFoot(); if (foot) foot.style.display = 'flex'; try { addHover('.cart-remove, #cart-checkout-btn'); } catch (e) {} return; }
+  dcartPrintFoot();
   if (SHIP_V2) shipCartTotals();
   // Framed lines restrict the WHOLE order to US/GB (create-checkout-session filters
   // allowed_countries on anyFramed), so say so before the Stripe address step.
@@ -8395,6 +8418,7 @@ function openCart() { try { ssTrack('cart_open'); } catch (e) {} renderCart(); v
 function closeCart() { document.getElementById('cart-modal').classList.remove('open'); }
 
 async function checkoutCart() {
+  if (dcartCount()) return checkoutShopCart(); // profiles / presets in the cart: one Shop checkout
   if (!CART.length) return;
   try { ssTrack('checkout_start', { id: CART[0].photoId, m: { items: CART.length, photos: CART.map(function (it) { return it.photoId; }) } }); } catch (e) {}
   var btn = document.getElementById('cart-checkout-btn');
@@ -8465,6 +8489,423 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // ══ ADMIN FOR_SALE TOGGLE ══
 // Patched into loadAdminPhotos via event delegation — handled in admin photo list click handler
+
+// ══════════════════════════════════════════════════════════════════════════
+// ══ SHOP: HALATION PROFILES + PRESETS (2026-11-09) ══
+// Digital goods live in the same Shop and the same cart drawer as prints, in their
+// own list (DCART, localStorage sss_dcart_v1) so the print cart math is untouched.
+// Checkout with any digital item goes to create-digital-checkout, which prices the
+// tiers server-side and folds prints in through create-checkout-session's quote.
+// Never in the Meta catalog: Meta bans downloadable goods from shop tags.
+// 🔴 DIGITAL_TIERS mirrors _digital.ts (PROFILE_TIERS). The server sets the real price.
+// ══════════════════════════════════════════════════════════════════════════
+var DIGITAL_TIERS = [[1, 500], [5, 2000], [10, 3500], [15, 4500]];
+var PRESET_CENTS = 500;
+var PROFILE_COUNT = 15;
+var DCART = [];
+var DCART_KEY = 'sss_dcart_v1';
+var DPACKS = null;          // all packs from Supabase, loaded once
+var DPACKS_LOADING = null;
+var shopTab = 'prints';
+var DPREVIEW = false;       // ?preview=halation shows hidden profiles (display only)
+// Preview scenes: every profile rendered on the same 5 photos (preset-covers/halation/scenes/<scene>/<slug>.jpg).
+var SCENE_BASE = 'https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/object/public/preset-covers/halation/scenes/';
+var PREVIEW_SCENES = [['door', 'Doorway'], ['coast', 'Coast'], ['mountains', 'Mountains'], ['neon', 'Neon night'], ['city', 'City']];
+var previewScene = 'door';
+try { var _ps = localStorage.getItem('ss_scene'); if (PREVIEW_SCENES.some(function (x) { return x[0] === _ps; })) previewScene = _ps; } catch (e) {}
+function packCover(p) { return p.kind === 'profile' ? SCENE_BASE + previewScene + '/' + p.slug + '.jpg' : (p.cover_image_url || ''); }
+function packBefore(p) { return p.kind === 'profile' ? SCENE_BASE + previewScene + '/before.jpg' : (p.before_image_url || ''); }
+function setPreviewScene(k) {
+  previewScene = k; try { localStorage.setItem('ss_scene', k); } catch (e) {}
+  try { ssTrack('preview_scene', { m: { scene: k } }); } catch (e) {}
+  renderDigital();
+  var m = document.getElementById('dg-modal'); if (m && m.classList.contains('open') && m.dataset.pack) openPackDetail(m.dataset.pack);
+}
+function scenePickerHTML() {
+  return '<div class="dg-scenes"><span>Preview on</span>' + PREVIEW_SCENES.map(function (x) {
+    return '<button type="button" class="dg-scene' + (x[0] === previewScene ? ' active' : '') + '" onclick="setPreviewScene(\'' + x[0] + '\')"><img src="' + SCENE_BASE + x[0] + '/before.jpg" alt="" loading="lazy">' + x[1] + '</button>';
+  }).join('') + '</div>';
+}
+function hasLiveProfiles() { return (DPACKS || []).some(function (p) { return p.kind === 'profile'; }); }
+
+try { DCART = JSON.parse(localStorage.getItem(DCART_KEY) || '[]') || []; if (!Array.isArray(DCART)) DCART = []; } catch (e) { DCART = []; }
+try {
+  var _sp = new URLSearchParams(window.location.search);
+  if (_sp.get('preview') === 'halation') DPREVIEW = true;
+  var _src = (_sp.get('src') || '').replace(/[^a-z0-9_.-]/gi, '').slice(0, 40);
+  if (_src) sessionStorage.setItem('ss_src', _src);
+} catch (e) {}
+
+function dcartSave() { try { localStorage.setItem(DCART_KEY, JSON.stringify(DCART)); } catch (e) {} }
+function dcartCount() { return DCART.length; }
+function dcartHas(id) { return DCART.some(function (d) { return d.id === id; }); }
+function dExactCost(m) {
+  var dp = [0];
+  for (var i = 1; i <= m; i++) { dp[i] = Infinity; for (var t = 0; t < DIGITAL_TIERS.length; t++) if (DIGITAL_TIERS[t][0] <= i) dp[i] = Math.min(dp[i], dp[i - DIGITAL_TIERS[t][0]] + DIGITAL_TIERS[t][1]); }
+  return dp[m];
+}
+function profilePrice(n) {
+  if (n <= 0) return { cents: 0, slots: 0, all: false };
+  var best = { cents: Infinity, slots: n };
+  for (var m = n; m <= PROFILE_COUNT; m++) { var c = dExactCost(m); if (c <= best.cents) best = { cents: c, slots: m }; }
+  best.all = best.slots >= PROFILE_COUNT; return best;
+}
+function dcartProfiles() { return DCART.filter(function (d) { return d.kind === 'profile'; }); }
+function dcartPresets() { return DCART.filter(function (d) { return d.kind !== 'profile'; }); }
+function dcartTotalCents() { return profilePrice(dcartProfiles().length).cents + dcartPresets().length * PRESET_CENTS; }
+// What the next pick does to the price: "add 2 more for the any-5 price".
+function profileNudge(n) {
+  if (n <= 0) return 'Launch pricing: $5 each · any 5 for $20 · any 10 for $35 · all 15 for $45';
+  var p = profilePrice(n);
+  if (p.all) return 'All 15 stocks for ' + cartMoney(p.cents) + ' · the best price there is';
+  if (p.slots > n) return 'You can add ' + (p.slots - n) + ' more for the same ' + cartMoney(p.cents);
+  var steps = [5, 10, 15];
+  for (var i = 0; i < steps.length; i++) if (n < steps[i]) {
+    var k = steps[i] - n, at = profilePrice(steps[i]);
+    return 'Add ' + k + ' more and pay ' + cartMoney(at.cents) + (steps[i] === 15 ? ' for all 15' : ' for ' + steps[i]);
+  }
+  return '';
+}
+
+function dcartAdd(pack) {
+  if (!pack || dcartHas(pack.id)) return;
+  DCART.push({ id: pack.id, slug: pack.slug, name: pack.name, kind: pack.kind, cover: packCover(pack) });
+  dcartSave(); updateCartFab(); dBump();
+  try { ssTrack('add_to_cart', { m: { digital: pack.kind, slug: pack.slug } }); } catch (e) {}
+}
+function dcartRemove(id) { DCART = DCART.filter(function (d) { return d.id !== id; }); dcartSave(); updateCartFab(); }
+function dcartToggle(id) {
+  var p = dPackById(id); if (!p) return;
+  if (dcartHas(id)) dcartRemove(id); else dcartAdd(p);
+  renderDigital(); try { if (document.getElementById('cart-modal').classList.contains('open')) renderCart(); } catch (e) {}
+}
+function dcartAddAllProfiles() {
+  (DPACKS || []).filter(function (p) { return p.kind === 'profile' && (p.is_active || DPREVIEW); }).forEach(function (p) { if (!dcartHas(p.id)) DCART.push({ id: p.id, slug: p.slug, name: p.name, kind: p.kind, cover: packCover(p) }); });
+  dcartSave(); updateCartFab(); dBump(); renderDigital();
+  try { ssTrack('add_to_cart', { m: { digital: 'profile', all: 1 } }); } catch (e) {}
+}
+function dBump() { var fab = document.getElementById('cart-fab'); if (fab) { fab.classList.remove('bump'); void fab.offsetWidth; fab.classList.add('bump'); } }
+function dEsc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+// ── cart drawer lines (called from renderCart) ──
+function dcartLinesHTML() {
+  if (!DCART.length) return '';
+  var pro = dcartProfiles(), pre = dcartPresets(), html = '';
+  if (pro.length) {
+    var pp = profilePrice(pro.length);
+    html += '<div class="cart-dhead">Halation profiles · ' + (pp.all ? 'all 15' : pro.length + ' picked') + '<span>' + cartMoney(pp.cents) + '</span></div>';
+    html += pro.map(function (d) {
+      return '<div class="cart-line cart-dline"><img src="' + dEsc(d.cover) + '" alt="">'
+        + '<div class="cart-line-info"><div class="cart-line-title">' + dEsc(d.name) + '</div><div class="cart-line-meta">profile · 4 looks · download</div></div>'
+        + '<div class="cart-line-right"><button class="cart-remove" onclick="dcartRemove(\'' + d.id + '\');renderCart();try{renderDigital()}catch(e){}">remove</button></div></div>';
+    }).join('');
+    var nudge = profileNudge(pro.length);
+    if (nudge && !pp.all) html += '<div class="cart-dnudge">' + dEsc(nudge) + ' · <button type="button" onclick="closeCart();setShopTab(\'profiles\')">pick more</button></div>';
+  }
+  html += pre.map(function (d) {
+    return '<div class="cart-line cart-dline"><img src="' + dEsc(d.cover) + '" alt="">'
+      + '<div class="cart-line-info"><div class="cart-line-title">' + dEsc(d.name) + '</div><div class="cart-line-meta">preset pack · download</div></div>'
+      + '<div class="cart-line-right"><div class="cart-line-price">' + cartMoney(PRESET_CENTS) + '</div><button class="cart-remove" onclick="dcartRemove(\'' + d.id + '\');renderCart();try{renderDigital()}catch(e){}">remove</button></div></div>';
+  }).join('');
+  return html;
+}
+// Footer when the cart is downloads only: no shipping picker, no framed note.
+function dcartDigitalOnlyFoot() {
+  var lbl = document.getElementById('cart-subtotal-label'); if (lbl) lbl.innerHTML = 'Total · <span style="color:#3a7a3a">instant download</span>';
+  ['cart-ship-note', 'cart-ship-status'].forEach(function (id) { var el = document.getElementById(id); if (el) { el.style.display = 'none'; if (id === 'cart-ship-status') el.innerHTML = ''; } });
+  var note = document.querySelector('#cart-foot .print-note'); if (note) note.innerHTML = 'Instant download after checkout · Secure checkout via Stripe';
+}
+function dcartPrintFoot() {
+  var st = document.getElementById('cart-ship-status'); if (st) st.style.display = '';
+  var note = document.querySelector('#cart-foot .print-note');
+  if (note) note.innerHTML = 'Printed on demand via Prodigi · Free shipping to <button type="button" onclick="openShipModal()">35 countries</button> · Secure checkout via Stripe' + (DCART.length ? ' · downloads arrive right after' : '');
+}
+
+async function checkoutShopCart() {
+  var btn = document.getElementById('cart-checkout-btn');
+  var errEl = document.getElementById('cart-error');
+  errEl.textContent = '';
+  btn.disabled = true; btn.textContent = 'Redirecting…';
+  try { ssTrack('checkout_start', { m: { digital: DCART.length, prints: CART.length } }); } catch (e) {}
+  var src = null; try { src = sessionStorage.getItem('ss_src'); } catch (e) {}
+  try {
+    var body = {
+      packIds: DCART.map(function (d) { return d.id; }),
+      src: src,
+      successUrl: window.location.origin + '/shop/downloads',
+      cancelUrl: window.location.origin + '/shop/' + (shopTab === 'prints' ? 'profiles' : shopTab)
+    };
+    if (CART.length) {
+      body.items = CART.map(function (it) { return { photoId: it.photoId, sku: it.sku, frameColor: it.frameColor, variant: it.variant, copies: it.copies }; });
+      try { body.destination = shipDestForCheckout(shipCartItems()); } catch (e) {}
+    }
+    var res = await fetch(SUPA_EDGE + '/create-digital-checkout', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY }, body: JSON.stringify(body)
+    });
+    var data = await res.json();
+    if (!res.ok || !data.url) throw new Error(data.error || 'Could not start checkout');
+    window.location.href = data.url;
+  } catch (err) {
+    errEl.textContent = err.message || 'Something went wrong. Please try again.';
+    btn.disabled = false; btn.textContent = 'Proceed to Checkout →';
+  }
+}
+
+// ── data ──
+function loadDigitalPacks() {
+  if (DPACKS) return Promise.resolve(DPACKS);
+  if (DPACKS_LOADING) return DPACKS_LOADING;
+  var q = sb.from('packs').select('id,slug,name,kind,short_description,long_description,includes,compatibility,cover_image_url,before_image_url,linked_print_photo_id,sort_order,is_active,created_at,pack_files(id)');
+  if (!DPREVIEW) q = q.eq('is_active', true);
+  DPACKS_LOADING = q.then(function (r) {
+    DPACKS = (r.data || []).filter(function (p) { return p.is_active || (DPREVIEW && p.kind === 'profile'); });
+    DPACKS.sort(function (a, b) { return (a.sort_order - b.sort_order) || String(b.created_at).localeCompare(String(a.created_at)); });
+    // Drop stale cart lines (pack deactivated since it was added).
+    var ids = {}; DPACKS.forEach(function (p) { ids[p.id] = 1; });
+    var before = DCART.length; DCART = DCART.filter(function (d) { return ids[d.id]; });
+    if (DCART.length !== before) { dcartSave(); updateCartFab(); }
+    return DPACKS;
+  }, function () { DPACKS_LOADING = null; return []; });
+  return DPACKS_LOADING;
+}
+function dPackById(id) { return (DPACKS || []).find(function (p) { return p.id === id; }); }
+function dPackBySlug(kind, slug) { return (DPACKS || []).find(function (p) { return p.slug === slug && (kind === 'profiles' ? p.kind === 'profile' : p.kind !== 'profile'); }); }
+
+// ── tabs ──
+function setShopTab(tab) {
+  shopTab = (tab === 'profiles' || tab === 'presets') ? tab : 'prints';
+  if (!shopMode) { try { setPhotoMode('shop'); } catch (e) {} return; }
+  syncShopTabs(true);
+  try { ssTrack('shop_tab', { m: { tab: shopTab } }); } catch (e) {}
+  var w = document.getElementById('digital-wrap'); if (w && shopTab !== 'prints') { try { w.scrollIntoView({ block: 'nearest' }); } catch (e) {} }
+}
+function syncShopTabs(isShop) {
+  var tabs = document.getElementById('shop-tabs'), wrap = document.getElementById('digital-wrap');
+  if (window.__SHOP_DEEP && isShop) {
+    var d = window.__SHOP_DEEP; window.__SHOP_DEEP = null;
+    if (d.tab === 'downloads') { shopTab = 'prints'; setTimeout(function () { openDownloads(d.search); }, 60); }
+    else { shopTab = d.tab; if (d.slug) setTimeout(function () { loadDigitalPacks().then(function () { var p = dPackBySlug(d.tab, d.slug); if (p) openPackDetail(p.id); }); }, 60); }
+  }
+  if (tabs) tabs.style.display = isShop ? 'flex' : 'none';
+  if (!isShop) { if (wrap) wrap.style.display = 'none'; return; }
+  var proTab = document.querySelector('#shop-tabs .shop-tab[data-tab="profiles"]');
+  if (!DPACKS) { if (proTab) proTab.style.display = 'none'; loadDigitalPacks().then(function () { syncShopTabs(shopMode); }); }
+  else {
+    if (proTab) proTab.style.display = hasLiveProfiles() ? '' : 'none';
+    if (shopTab === 'profiles' && !hasLiveProfiles()) shopTab = 'presets';
+  }
+  document.querySelectorAll('#shop-tabs .shop-tab').forEach(function (b) { b.classList.toggle('active', b.dataset.tab === shopTab); });
+  var digital = shopTab !== 'prints';
+  ['shop-head', 'shop-filters', 'shop-grid'].forEach(function (id) {
+    var el = document.getElementById(id); if (!el) return;
+    el.style.display = digital ? 'none' : (id === 'shop-grid' ? 'grid' : id === 'shop-filters' ? 'flex' : 'block');
+  });
+  var empty = document.getElementById('shop-empty'); if (empty && digital) empty.style.display = 'none';
+  if (wrap) wrap.style.display = digital ? 'block' : 'none';
+  var sub = document.getElementById('photos-locations');
+  if (sub) sub.textContent = shopTab === 'profiles' ? 'halation film profiles · lightroom + mobile + luts' : shopTab === 'presets' ? 'lightroom presets · instant download' : 'fine-art prints · ships to 35 countries';
+  if (digital) renderDigital();
+  var path = shopTab === 'prints' ? '/shop' : '/shop/' + shopTab;
+  if (window.location.pathname !== path && !/^\/shop\/(profiles|presets)\/[a-z0-9-]+$/.test(window.location.pathname)) {
+    try { history.replaceState({ page: 'shop' }, '', path + window.location.search); } catch (e) {}
+  }
+  try { addHover('#shop-tabs .shop-tab'); } catch (e) {}
+}
+
+// ── grid ──
+function renderDigital() {
+  var wrap = document.getElementById('digital-wrap'); if (!wrap) return;
+  if (!DPACKS) { wrap.innerHTML = '<div class="dg-loading">loading…</div>'; loadDigitalPacks().then(function () { renderDigital(); }); return; }
+  var isPro = shopTab === 'profiles';
+  var packs = DPACKS.filter(function (p) { return isPro ? p.kind === 'profile' : p.kind !== 'profile'; });
+  var head;
+  if (isPro) {
+    var n = dcartProfiles().length, pp = profilePrice(n);
+    head = '<div class="shop-head-row"><span class="shop-head-title">Halation Profiles</span><span class="shop-head-count">' + packs.length + ' film stocks</span></div>'
+      + '<div class="shop-head-sub">Film looks for Lightroom, built from a chemical film model. Every stock comes in 4 looks: Regular, Texture, Dev and Dev + Texture. Profiles for desktop, presets for mobile, .cube LUTs for video.</div>'
+      + '<div class="dg-tiers"><span class="dg-launch">Launch pricing</span><span>$5 each</span><span>any 5 · $20</span><span>any 10 · $35</span><span>all 15 · $45</span></div>'
+      + '<div class="dg-bar"><span>' + (n ? n + ' picked · ' + cartMoney(pp.cents) + (pp.all ? ' · all 15' : '') : 'Pick the stocks you want') + '</span><span class="dg-nudge">' + dEsc(n ? profileNudge(n) : '') + '</span>'
+      + (pp.all ? '<button type="button" class="dg-allbtn" onclick="openCart()">View cart →</button>' : '<button type="button" class="dg-allbtn" onclick="dcartAddAllProfiles()">Add all 15 · $45</button>') + '</div>'
+      + (DPREVIEW ? '<div class="dg-preview">Preview mode: profiles are hidden from the public shop until they go live.</div>' : '')
+      + scenePickerHTML();
+  } else {
+    head = '<div class="shop-head-row"><span class="shop-head-title">Lightroom Presets</span><span class="shop-head-count">' + packs.length + ' packs</span></div>'
+      + '<div class="shop-head-sub">Each pack is the edit behind one of my photos. $5 a pack, instant download. Looking for film looks? See <button type="button" class="shop-ship-link" onclick="setShopTab(\'profiles\')">Halation Profiles</button>.</div>';
+  }
+  var cards = packs.map(function (p) {
+    var inCart = dcartHas(p.id);
+    var hrefSlug = '/shop/' + (p.kind === 'profile' ? 'profiles' : 'presets') + '/' + p.slug;
+    var before = packBefore(p) ? '<img class="dg-before" src="' + dEsc(packBefore(p)) + '" alt="" loading="lazy">' : '';
+    var meta = p.kind === 'profile' ? '4 looks' : ((p.pack_files || []).length ? (p.pack_files.length + ' file' + (p.pack_files.length === 1 ? '' : 's')) : 'preset pack');
+    return '<div class="shop-card dg-card' + (inCart ? ' in' : '') + '">'
+      + '<a class="shop-card-imglink" href="' + hrefSlug + '" onclick="event.preventDefault();openPackDetail(\'' + p.id + '\')"><div class="shop-card-imgwrap dg-imgwrap"><img src="' + dEsc(packCover(p)) + '" alt="' + dEsc(p.name) + '" loading="lazy">' + before + (before ? '<span class="dg-tag">after · hover for before</span>' : '') + '</div></a>'
+      + '<div class="shop-card-body"><div class="shop-card-title"><a class="shop-card-titlelink" href="' + hrefSlug + '" onclick="event.preventDefault();openPackDetail(\'' + p.id + '\')">' + dEsc(p.name) + '</a></div>'
+      + '<div class="dg-desc">' + dEsc(p.short_description || '') + '</div>'
+      + '<div class="shop-card-meta"><span class="shop-card-price">$5 <span class="dg-meta">· ' + meta + '</span></span>'
+      + '<button type="button" class="shop-card-buy dg-add" onclick="event.stopPropagation();dcartToggle(\'' + p.id + '\')">' + (inCart ? '✓ Added' : 'Add') + '</button></div></div></div>';
+  }).join('');
+  wrap.innerHTML = '<div class="shop-head dg-head">' + head + '</div>' + (cards ? '<div class="shop-grid dg-grid">' + cards + '</div>' : '<div class="dg-loading">Nothing here yet. Check back soon.</div>');
+  try { addHover('#digital-wrap button, #digital-wrap a'); } catch (e) {}
+}
+
+// ── detail view (deep-linkable: /shop/profiles/<slug>) ──
+function openPackDetail(id) {
+  var p = dPackById(id); if (!p) return;
+  var m = document.getElementById('dg-modal');
+  if (!m) { m = document.createElement('div'); m.id = 'dg-modal'; m.addEventListener('click', function (e) { if (e.target === m) closePackDetail(); }); document.body.appendChild(m); }
+  var isPro = p.kind === 'profile', inCart = dcartHas(p.id);
+  m.dataset.pack = p.id;
+  var cov = packCover(p), bef = packBefore(p);
+  var path = '/shop/' + (isPro ? 'profiles' : 'presets') + '/' + p.slug;
+  var printLink = p.linked_print_photo_id ? '<a class="dg-printlink" href="/shop?buy=' + p.linked_print_photo_id + '">Buy this photo as a print →</a>' : '';
+  m.innerHTML = '<div class="dg-inner">'
+    + '<div class="cart-head"><span>// ' + (isPro ? 'halation profile' : 'preset pack') + '</span><div style="display:flex;gap:8px"><button type="button" onclick="dCopyLink(this,\'' + path + '\')">⧉ copy link</button><button type="button" onclick="closePackDetail()">✕ close</button></div></div>'
+    + '<div class="dg-body"><div class="dg-media"><img id="dg-img" src="' + dEsc(cov) + '" alt="' + dEsc(p.name) + '">'
+    + (bef ? '<div class="dg-ab"><button type="button" class="pm-btn active" onclick="dSwap(this,\'' + dEsc(cov) + '\')">After</button><button type="button" class="pm-btn" onclick="dSwap(this,\'' + dEsc(bef) + '\')">Before</button></div>' : '')
+    + (isPro ? scenePickerHTML() : '') + '</div>'
+    + '<div class="dg-panel"><div class="dg-name">' + dEsc(p.name) + '</div><div class="dg-sub">' + dEsc(p.short_description || '') + '</div>'
+    + (p.long_description ? '<p class="dg-long">' + dEsc(p.long_description) + '</p>' : '')
+    + (p.includes ? '<div class="dg-kv"><span>Includes</span>' + dEsc(p.includes) + '</div>' : '')
+    + (p.compatibility ? '<div class="dg-kv"><span>Works with</span>' + dEsc(p.compatibility) + '</div>' : '')
+    + '<div class="dg-price">$5' + (isPro ? '<span> · any 5 $20 · any 10 $35 · all 15 $45</span>' : '') + '</div>'
+    + '<button type="button" class="print-checkout-btn" id="dg-addbtn" onclick="dDetailAdd(\'' + p.id + '\')">' + (inCart ? '✓ In your cart · view cart' : 'Add to cart') + '</button>'
+    + (isPro ? '<p class="print-note" style="margin:0">Instant download · Lightroom Classic, Lightroom desktop + mobile, Camera Raw · tag @halation.camera #shotonhalation</p>' : '<p class="print-note" style="margin:0">Instant download · Lightroom desktop + mobile</p>')
+    + printLink + '</div></div></div>';
+  m.classList.add('open');
+  try { history.replaceState({ page: 'shop' }, '', path + window.location.search); } catch (e) {}
+  try { ssTrack('pack_view', { m: { slug: p.slug, kind: p.kind } }); } catch (e) {}
+  try { addHover('#dg-modal button, #dg-modal a'); } catch (e) {}
+}
+function closePackDetail() {
+  var m = document.getElementById('dg-modal'); if (m) m.classList.remove('open');
+  try { history.replaceState({ page: 'shop' }, '', '/shop/' + (shopTab === 'prints' ? 'profiles' : shopTab) + window.location.search); } catch (e) {}
+}
+function dSwap(btn, src) { var img = document.getElementById('dg-img'); if (img) img.src = src; btn.parentNode.querySelectorAll('button').forEach(function (b) { b.classList.toggle('active', b === btn); }); }
+function dDetailAdd(id) {
+  if (dcartHas(id)) { closePackDetail(); openCart(); return; }
+  var p = dPackById(id); dcartAdd(p); renderDigital();
+  var b = document.getElementById('dg-addbtn'); if (b) b.textContent = '✓ In your cart · view cart';
+}
+function dCopyLink(btn, path) {
+  var url = window.location.origin + path;
+  try { navigator.clipboard.writeText(url); btn.textContent = '✓ copied'; setTimeout(function () { btn.textContent = '⧉ copy link'; }, 1400); } catch (e) { prompt('Copy this link', url); }
+}
+
+// ── downloads page (/shop/downloads?session_id=… or ?code=…) ──
+function openDownloads(search) {
+  var params = new URLSearchParams(search || '');
+  var sid = params.get('session_id'), code = (params.get('code') || '').trim();
+  var m = document.getElementById('dl-modal');
+  if (!m) { m = document.createElement('div'); m.id = 'dl-modal'; document.body.appendChild(m); }
+  m.innerHTML = '<div class="dg-inner dl-inner"><div class="cart-head"><span>// your downloads</span><button type="button" onclick="closeDownloads()">✕ close</button></div><div class="dl-body" id="dl-body"></div></div>';
+  m.classList.add('open');
+  try { history.replaceState({ page: 'shop' }, '', '/shop/downloads' + (code ? '?code=' + encodeURIComponent(code) : '')); } catch (e) {}
+  var body = document.getElementById('dl-body');
+  if (sid) {
+    // Paid: empty both carts (prints in the same order were paid too).
+    DCART = []; dcartSave();
+    try { localStorage.removeItem('sss_cart_v1'); CART = []; } catch (e) {}
+    try { updateCartFab(); } catch (e) {}
+    body.innerHTML = '<div class="dl-msg">Payment received. Getting your files ready…</div>';
+    var tries = 0;
+    (function poll() {
+      fetch(SUPA_EDGE + '/preset-order-status', { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY }, body: JSON.stringify({ session_id: sid }) })
+        .then(function (r) { return r.json(); }).then(function (d) {
+          if (d && d.status === 'ready' && d.code) { loadCodeDownloads(d.code, true); return; }
+          if (++tries < 20) setTimeout(poll, 1500);
+          else body.innerHTML = '<div class="dl-msg">Your order went through. The download link is on its way to your email (check spam too). Or enter the code from that email below.</div>' + dlCodeForm('');
+        }).catch(function () { if (++tries < 20) setTimeout(poll, 2000); });
+    })();
+    return;
+  }
+  if (code) { loadCodeDownloads(code, false); return; }
+  body.innerHTML = '<div class="dl-msg">Enter the code from your order email to get your files.</div>' + dlCodeForm('');
+}
+function closeDownloads() { var m = document.getElementById('dl-modal'); if (m) m.classList.remove('open'); try { history.replaceState({ page: 'shop' }, '', '/shop'); } catch (e) {} }
+function dlCodeForm(v) {
+  return '<form class="dl-form" onsubmit="event.preventDefault();loadCodeDownloads(this.code.value,false)"><input name="code" placeholder="SP-XXXXXX" value="' + dEsc(v) + '" autocomplete="off" spellcheck="false"><button type="submit">Unlock</button></form>';
+}
+function loadCodeDownloads(code, fresh) {
+  var body = document.getElementById('dl-body'); if (!body) return;
+  code = String(code || '').trim().toUpperCase();
+  body.innerHTML = '<div class="dl-msg">Loading…</div>';
+  fetch(SUPA_EDGE + '/code-packs', { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY }, body: JSON.stringify({ code: code }) })
+    .then(function (r) { return r.json(); }).then(function (d) {
+      if (!d || !d.packs) { body.innerHTML = '<div class="dl-msg dl-err">' + dEsc((d && d.error) || 'That code isn\'t valid.') + '</div>' + dlCodeForm(code); return; }
+      try { history.replaceState({ page: 'shop' }, '', '/shop/downloads?code=' + encodeURIComponent(code)); } catch (e) {}
+      var hasPro = d.packs.some(function (p) { return p.kind === 'profile'; });
+      body.innerHTML = (fresh ? '<div class="dl-thanks">Thank you. Your files are below, and a copy of this link is in your email.</div>' : '')
+        + '<div class="dl-code">Code <strong>' + dEsc(code) + '</strong> · keep it to download again later</div>'
+        + d.packs.map(function (p) {
+          return '<div class="dl-pack"><img src="' + dEsc(p.cover_image_url || '') + '" alt=""><div class="dl-pinfo"><div class="dl-pname">' + dEsc(p.name) + '</div>'
+            + (p.pack_files || []).map(function (f) {
+              return '<button type="button" class="dl-file" onclick="dlFile(this,\'' + p.id + '\',\'' + f.id + '\',\'' + dEsc(code) + '\')">↓ ' + dEsc(f.file_name) + (f.file_size ? ' <span>' + (f.file_size >= 1048576 ? (Math.round(f.file_size / 1048576 * 10) / 10) + ' MB' : Math.max(1, Math.round(f.file_size / 1024)) + ' KB') + '</span>' : '') + '</button>';
+            }).join('') + '</div></div>';
+        }).join('')
+        + (hasPro ? '<div class="dl-how"><strong>Install profiles:</strong> unzip, then Lightroom desktop → File → Import Develop Profiles and Presets → pick the files in <em>Profiles</em>. They appear in the Profile Browser under Halation. On your phone, import the <em>Presets</em> folder instead. Shot something with it? Tag <a href="https://instagram.com/halation.camera" target="_blank" rel="noopener">@halation.camera</a> and #shotonhalation.</div>' : '')
+        + '<div class="dl-how"><strong>Install presets:</strong> Lightroom desktop → File → Import Develop Profiles and Presets. Lightroom mobile → Presets → ⋯ → Import Presets.</div>';
+      try { addHover('#dl-modal button, #dl-modal a'); } catch (e) {}
+    }).catch(function () { body.innerHTML = '<div class="dl-msg dl-err">Couldn\'t load your downloads. Try again in a moment.</div>' + dlCodeForm(code); });
+}
+function dlFile(btn, packId, fileId, code) {
+  var label = btn.innerHTML; btn.disabled = true; btn.textContent = 'preparing…';
+  fetch(SUPA_EDGE + '/download-preset', { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY }, body: JSON.stringify({ pack_id: packId, file_id: fileId, code: code }) })
+    .then(function (r) { return r.json(); }).then(function (d) {
+      btn.disabled = false; btn.innerHTML = label;
+      if (d && d.url) { window.location.href = d.url; try { ssTrack('download', { m: { pack: packId } }); } catch (e) {} }
+      else alert((d && d.error) || 'Download failed. Try again.');
+    }).catch(function () { btn.disabled = false; btn.innerHTML = label; alert('Download failed. Try again.'); });
+}
+
+// ── styles (paper shop world) ──
+(function () {
+  var css = ''
+    + '.shop-tabs{display:flex;gap:6px;margin:-8px 0 26px;flex-wrap:wrap}'
+    + '.shop-tab{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:8px 16px;background:transparent;border:1px solid #d8d5cd;color:#908b82;cursor:none;transition:all .2s}'
+    + '.shop-tab:hover{border-color:#b3aea3;color:#4a4640}.shop-tab.active{border-color:#1a1a1a;color:#1a1a1a;background:#fff}'
+    + '@media (max-width:600px){.shop-tabs{gap:4px}.shop-tab{padding:8px 9px;letter-spacing:.12em}}'
+    + '#digital-wrap{width:100%}.dg-head{display:block;margin-bottom:26px}'
+    + '.dg-tiers{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#4a4640}'
+    + '.dg-tiers span{border:1px solid #d8d5cd;padding:6px 10px;background:#fff}.dg-tiers .dg-launch{background:#1a1a1a;color:#f6f5f2;border-color:#1a1a1a}'
+    + '.dg-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border:1px solid #e2dfd7;background:#fbfaf7;font-family:var(--sans);font-size:13px;color:#1a1a1a}'
+    + '.dg-nudge{color:#8a857c;font-size:12px;flex:1}.dg-allbtn{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;background:#1a1a1a;color:#fff;border:1px solid #1a1a1a;padding:9px 14px;cursor:none}.dg-allbtn:hover{background:#fff;color:#1a1a1a}'
+    + '.dg-preview{margin-top:10px;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#b0452a}'
+    + '.dg-imgwrap{position:relative;height:290px}.dg-imgwrap img{object-fit:cover}.dg-before{position:absolute;inset:0;opacity:0;transition:opacity .25s}'
+    + '@media (hover:hover){.dg-card:hover .dg-before{opacity:1}}'
+    + '.dg-tag{position:absolute;left:8px;bottom:8px;font-family:var(--mono);font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;background:rgba(246,245,242,.9);color:#4a4640;padding:4px 6px}'
+    + '@media (hover:none){.dg-tag{display:none}}'
+    + '.dg-desc{font-family:var(--sans);font-size:12px;color:#6a655c;line-height:1.45}.dg-meta{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#b0aaa0;font-weight:400}'
+    + '.dg-card .shop-card-meta{align-items:center;gap:10px}.dg-card .shop-card-price{white-space:nowrap}.dg-add{flex:0 0 auto;width:auto!important;padding-left:18px!important;padding-right:18px!important}'
+    + '.dg-scenes{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#908b82}'
+    + '.dg-scenes>span{margin-right:4px}.dg-scene{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid #d8d5cd;color:#6a655c;font:inherit;letter-spacing:.12em;padding:4px 10px 4px 4px;cursor:none}'
+    + '.dg-scene img{width:22px;height:28px;object-fit:cover;display:block}.dg-scene:hover{border-color:#b3aea3;color:#1a1a1a}.dg-scene.active{border-color:#1a1a1a;color:#1a1a1a}'
+    + '.dg-media .dg-scenes{margin-top:10px}'
+    + '.dg-card.in{border-color:#1a1a1a}.dg-card.in .dg-add{background:#fff;color:#1a1a1a}'
+    + '.dg-loading{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:#908b82;padding:30px 0;text-align:center}'
+    + '.cart-dhead{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#4a4640;padding:14px 0 6px;border-top:1px solid #ebe8e1;margin-top:6px}'
+    + '.cart-dhead span{font-family:var(--sans);font-size:13px;font-weight:600;color:#1a1a1a;letter-spacing:.02em;text-transform:none}'
+    + '.cart-dline img{object-fit:cover}.cart-dnudge{font-family:var(--sans);font-size:12px;color:#8a857c;padding:8px 0 4px}.cart-dnudge button{background:none;border:0;padding:0;color:#1a1a1a;text-decoration:underline;font:inherit;cursor:none}'
+    + '#dg-modal,#dl-modal{position:fixed;inset:0;z-index:955;background:rgba(20,20,20,.55);display:none;align-items:center;justify-content:center;padding:20px}#dg-modal.open,#dl-modal.open{display:flex}'
+    + '.dg-inner{background:#f6f5f2;color:#1a1a1a;width:min(980px,100%);max-height:92vh;overflow:auto;border:1px solid #d8d5cd}'
+    + '.dg-inner .cart-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #e2dfd7;font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#908b82}'
+    + '.dg-inner .cart-head button{background:none;border:1px solid #d8d5cd;color:#4a4640;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;cursor:none}'
+    + '.dg-body{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;padding:22px}.dg-media img{width:100%;display:block;border:1px solid #e2dfd7}'
+    + '.dg-ab{display:flex;gap:6px;margin-top:10px}.dg-ab .pm-btn{border-color:#d8d5cd;color:#908b82}.dg-ab .pm-btn.active{border-color:#1a1a1a;color:#1a1a1a}'
+    + '.dg-panel{display:flex;flex-direction:column;gap:12px}.dg-name{font-family:var(--display,inherit);font-size:clamp(30px,4vw,44px);letter-spacing:.02em;line-height:1}'
+    + '.dg-sub{font-family:var(--sans);font-size:14px;color:#4a4640}.dg-long{font-family:var(--sans);font-size:13px;color:#6a655c;line-height:1.6;margin:0}'
+    + '.dg-kv{font-family:var(--sans);font-size:12px;color:#4a4640;line-height:1.5}.dg-kv span{display:block;font-family:var(--mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#b0aaa0;margin-bottom:2px}'
+    + '.dg-price{font-family:var(--sans);font-size:22px;font-weight:600}.dg-price span{font-size:12px;font-weight:400;color:#8a857c}'
+    + '.dg-printlink{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#4a4640}'
+    + '@media (max-width:700px){.dg-body{grid-template-columns:1fr;padding:16px}.dg-imgwrap{height:230px}}'
+    + '.dl-inner{width:min(640px,100%)}.dl-body{padding:22px;display:flex;flex-direction:column;gap:14px;font-family:var(--sans);font-size:13px;color:#4a4640}'
+    + '.dl-thanks{font-size:15px;color:#1a1a1a}.dl-code{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#8a857c}.dl-code strong{color:#1a1a1a;letter-spacing:.12em}'
+    + '.dl-pack{display:flex;gap:14px;align-items:flex-start;border-top:1px solid #e2dfd7;padding-top:14px}.dl-pack img{width:72px;height:90px;object-fit:cover;border:1px solid #e2dfd7}'
+    + '.dl-pname{font-weight:600;color:#1a1a1a;margin-bottom:6px}.dl-file{display:block;background:#fff;border:1px solid #d8d5cd;color:#1a1a1a;font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:8px 10px;margin:0 0 6px;text-align:left;cursor:none}.dl-file span{color:#b0aaa0}'
+    + '.dl-how{font-size:12px;color:#6a655c;line-height:1.55}.dl-how a{color:#1a1a1a}.dl-err{color:#b0452a}'
+    + '.dl-form{display:flex;gap:8px}.dl-form input{flex:1;font-family:var(--mono);font-size:13px;letter-spacing:.1em;padding:10px;border:1px solid #d8d5cd;background:#fff;text-transform:uppercase}.dl-form button{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;background:#1a1a1a;color:#fff;border:0;padding:0 16px;cursor:none}';
+  var st = document.createElement('style'); st.id = 'shop-digital-css'; st.textContent = css; document.head.appendChild(st);
+})();
+
 </script>
 </body>
 </html>
