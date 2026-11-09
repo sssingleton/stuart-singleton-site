@@ -161,7 +161,7 @@
     <a href="#caveats"><span>10</span>Caveats</a>
     <a href="#safety"><span>11</span>Keep a human in the loop</a>
     <a href="#playbook"><span>→</span>AI playbook</a>
-    <a href="#tools" id="toc-tools"><span>→</span>Tools I use</a>
+    <a href="#tools" id="toc-tools"><span>→</span>Gear options</a>
   </nav>
 
   <section class="step" id="what">
@@ -365,13 +365,13 @@ POST /{IG_USER_ID}/media_publish
 
   <!-- Tools -->
   <section class="step" id="tools">
-    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
-    <h2>Tools I use</h2>
-    <p class="lead">You don't need any of this for the API side. It's what I use to shoot the hooks and selfie clips that the variants are built from. Links open on Amazon.</p>
+    <div class="step-h"><span>→</span><span>Tools</span><span>Options</span></div>
+    <h2>Gear: what I use and the alternatives</h2>
+    <p class="lead">You don't need any of this for the API side. It's what I use to shoot the hooks and selfie clips that the variants are built from. Each slot has a budget, a pick and an upgrade, with what each is best for. "I use this" marks gear I own. Links open on Amazon.</p>
     <div id="gear"></div>
   </section>
 
-  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Meta, Instagram, Claude and n8n are named because I use them, not because they pay me. Meta changes its API often; check the official docs before you build.</p>
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. Items marked "I use this" are gear I own; the rest are options I researched. The price you pay is the same. Meta, Instagram, Claude and n8n are named because I use them, not because they pay me. Meta changes its API often; check the official docs before you build.</p>
 
   <footer>
     <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
@@ -379,73 +379,51 @@ POST /{IG_USER_ID}/media_publish
 </div>
 
 <script>
-// Tools list. Same format as camera-gear.html.
-// url  = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag)
-// Items with an empty url are skipped. If no item has a url, the Tools section hides itself.
-const GEAR = [
-  {
-    "group": "Shoot hooks",
-    "items": [
-      {
-        "slug": "ig-phone-tripod",
-        "url": "",
-        "title": "Phone tripod with remote",
-        "desc": "For the four-to-six second on-camera opening that my best reels start with. Set it, hit the remote, talk."
-      },
-      {
-        "slug": "ig-clip-mic",
-        "url": "",
-        "title": "Wireless clip-on mic",
-        "desc": "Clean voice for talking hooks, even in a loud room."
-      },
-      {
-        "slug": "ig-led-light",
-        "url": "",
-        "title": "Small LED panel light",
-        "desc": "Even light on your face for hooks shot at night or indoors."
-      }
+// Gear options: products live in /guides/gear.js (one catalog for every guide).
+window.GEAR_SLOTS = [
+ {
+  "group": "Shoot hooks",
+  "slots": [
+   {
+    "label": "Phone tripod",
+    "ids": [
+     "tripod-budget",
+     "tripod-pick",
+     "tripod-upgrade"
     ]
-  },
-  {
-    "group": "Files",
-    "items": [
-      {
-        "slug": "ig-ssd",
-        "url": "",
-        "title": "Portable SSD",
-        "desc": "The clip library, music files and rendered variants add up fast. Keep them off your laptop drive."
-      }
+   },
+   {
+    "label": "Wireless mic",
+    "ids": [
+     "wmic-budget",
+     "wmic-pick",
+     "wmic-upgrade"
     ]
-  }
+   },
+   {
+    "label": "Light",
+    "ids": [
+     "led-budget",
+     "led-pick",
+     "led-upgrade"
+    ]
+   }
+  ]
+ },
+ {
+  "group": "Files",
+  "slots": [
+   {
+    "label": "Portable SSD",
+    "ids": [
+     "ssd-budget",
+     "ssd-pick",
+     "ssd-upgrade"
+    ]
+   }
+  ]
+ }
 ];
-
-(function(){
-  var root = document.getElementById('gear'), n = 0, html = '';
-  GEAR.forEach(function(g){
-    var items = g.items.filter(function(it){ return it.url; });
-    if (!items.length) return;
-    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
-    items.forEach(function(it){
-      n++;
-      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
-        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
-        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
-        + '<span class="cta">View on Amazon ↗</span></a>';
-    });
-    html += '</section>';
-  });
-  if (!n) {
-    var sec = document.getElementById('tools'); if (sec) sec.hidden = true;
-    var t = document.getElementById('toc-tools'); if (t) t.hidden = true;
-    return;
-  }
-  root.innerHTML = html;
-  root.addEventListener('click', function(e){
-    var a = e.target.closest('a.item'); if(!a) return;
-    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide-connect-claude-to-instagram'}); }catch(x){}
-    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide-connect-claude-to-instagram'}); }catch(x){}
-  });
-})();
 
 document.addEventListener('click', function(e){
   var el = e.target.closest('[data-ev]'); if(!el) return;
@@ -464,5 +442,6 @@ document.getElementById('copyPb').addEventListener('click', async function(){
   msg.hidden = false;
 });
 </script>
+<script src="/guides/gear.js"></script>
 </body>
 </html>

@@ -162,7 +162,7 @@
     <a href="#backup"><span>11</span>Backups</a>
     <a href="#offline"><span>12</span>When the internet is down</a>
     <a href="#playbook"><span>→</span>AI playbook</a>
-    <a href="#tools"><span>→</span>Tools I use</a>
+    <a href="#tools"><span>→</span>Gear options</a>
   </nav>
 
   <section class="step" id="what">
@@ -421,13 +421,13 @@ cat /etc/apt/apt.conf.d/20auto-upgrades</code></pre>
   </section>
 
   <section class="step" id="tools">
-    <div class="step-h"><span>→</span><span>Tools</span><span>What I use</span></div>
-    <h2>Tools I use</h2>
-    <p class="lead">You can build all of this with a computer you already own. These are the pieces that made mine reliable. Links open on Amazon.</p>
+    <div class="step-h"><span>→</span><span>Tools</span><span>Options</span></div>
+    <h2>Gear: what I use and the alternatives</h2>
+    <p class="lead">You can build all of this with a computer you already own. These are the pieces that made mine reliable. Each slot has a budget, a pick and an upgrade, with what each is best for. "I use this" marks gear I own. Links open on Amazon.</p>
     <div id="gear"></div>
   </section>
 
-  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. The price you pay is the same. Tailscale, Ubuntu, Docker, Synology and Backblaze are named because I use them, not because they pay me.</p>
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. Items marked "I use this" are gear I own; the rest are options I researched. The price you pay is the same. Tailscale, Ubuntu, Docker, Synology and Backblaze are named because I use them, not because they pay me.</p>
 
   <footer>
     <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
@@ -435,98 +435,86 @@ cat /etc/apt/apt.conf.d/20auto-upgrades</code></pre>
 </div>
 
 <script>
-// Tools list. Same format as camera-gear.html.
-// url = your amzn.to short link from Amazon SiteStripe (carries the affiliate tag).
-// Items with an empty url are skipped; the whole Tools section hides if nothing has a link yet.
-const GEAR = [
+// Gear options: products live in /guides/gear.js (one catalog for every guide).
+window.GEAR_SLOTS = [
  {
   "group": "The machine",
-  "items": [
+  "slots": [
    {
-    "slug": "hs-mini-pc",
-    "url": "",
-    "title": "Mini PC",
-    "desc": "A dedicated always-on box if you'd rather not leave your main computer running. Small, quiet, low power, wired Ethernet."
+    "label": "Always-on computer",
+    "ids": [
+     "server-budget",
+     "server-pick",
+     "server-upgrade"
+    ],
+    "note": "Optional. Any spare computer works to start."
    },
    {
-    "slug": "hs-sata-ssd",
-    "url": "",
-    "title": "2.5 inch SATA SSD",
-    "desc": "The best upgrade for an older computer with a spinning hard drive. Check your model takes one first."
+    "label": "SATA SSD",
+    "ids": [
+     "satassd-budget",
+     "satassd-pick"
+    ],
+    "note": "For an older machine with a spinning hard drive."
    },
    {
-    "slug": "hs-usb-stick",
-    "url": "",
-    "title": "USB flash drive, 16GB+",
-    "desc": "For the Linux installer. Get one you can leave in a drawer as a rescue stick."
+    "label": "USB drive for the installer",
+    "ids": [
+     "usb-budget",
+     "usb-pick"
+    ]
    }
   ]
  },
  {
   "group": "Power and network",
-  "items": [
+  "slots": [
    {
-    "slug": "hs-ups",
-    "url": "",
-    "title": "UPS battery backup",
-    "desc": "Keeps the server, router and NAS up through short outages and lets them shut down cleanly on long ones."
+    "label": "UPS battery backup",
+    "ids": [
+     "ups-budget",
+     "ups-pick",
+     "ups-upgrade"
+    ]
    },
    {
-    "slug": "hs-ethernet",
-    "url": "",
-    "title": "Cat 6 Ethernet cables",
-    "desc": "Wire the server to the router. Wi-Fi is the usual reason a home server drops off."
+    "label": "Ethernet",
+    "ids": [
+     "cat6"
+    ]
    },
    {
-    "slug": "hs-travel-router",
-    "url": "",
-    "title": "Travel router with Tailscale built in",
-    "desc": "Puts old devices that can't run Tailscale on your tailnet, and gets you home from any hotel Wi-Fi."
+    "label": "Travel router",
+    "ids": [
+     "router-budget",
+     "router-pick",
+     "router-upgrade"
+    ]
    }
   ]
  },
  {
   "group": "Storage",
-  "items": [
+  "slots": [
    {
-    "slug": "hs-nas",
-    "url": "",
-    "title": "2-bay NAS",
-    "desc": "Network storage that joins your tailnet with an official Tailscale package. Files everywhere, backups built in."
+    "label": "NAS",
+    "ids": [
+     "nas-budget",
+     "nas-pick",
+     "nas-upgrade"
+    ]
    },
    {
-    "slug": "hs-nas-drives",
-    "url": "",
-    "title": "NAS hard drives",
-    "desc": "Drives rated for running 24/7. Mirror two of them, then back up offsite anyway."
+    "label": "NAS hard drives",
+    "ids": [
+     "drives-budget",
+     "drives-pick",
+     "drives-upgrade"
+    ]
    }
   ]
  }
 ];
-
-(function(){
-  var root = document.getElementById('gear'), n = 0, html = '';
-  GEAR.forEach(function(g){
-    var items = g.items.filter(function(it){ return it.url; });
-    if (!items.length) return;
-    html += '<section class="group"><div class="group-h"><span>' + g.group + '</span><span>' + items.length + '</span></div>';
-    items.forEach(function(it){
-      n++;
-      html += '<a class="item" href="' + it.url + '" target="_blank" rel="noopener sponsored" data-slug="' + it.slug + '">'
-        + '<span class="num">' + String(n).padStart(2,'0') + '</span>'
-        + '<span><span class="t">' + it.title + '</span><div class="d">' + it.desc + '</div></span>'
-        + '<span class="cta">View on Amazon ↗</span></a>';
-    });
-    html += '</section>';
-  });
-  if (!html) { var s = document.getElementById('tools'); if (s) s.hidden = true; var t = document.querySelector('.toc a[href="#tools"]'); if (t) t.hidden = true; return; }
-  root.innerHTML = html;
-  root.addEventListener('click', function(e){
-    var a = e.target.closest('a.item'); if(!a) return;
-    try{ gtag('event','gear_click',{item:a.dataset.slug,list:'guide-access-your-files-anywhere'}); }catch(x){}
-    try{ window.__ssSend && window.__ssSend('gear_click', null, {item:a.dataset.slug,list:'guide-access-your-files-anywhere'}); }catch(x){}
-  });
-})();
 
 document.addEventListener('click', function(e){
   var el = e.target.closest('[data-ev]'); if(!el) return;
@@ -548,5 +536,6 @@ document.addEventListener('click', function(e){
   });
 })();
 </script>
+<script src="/guides/gear.js"></script>
 </body>
 </html>
