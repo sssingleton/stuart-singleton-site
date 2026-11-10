@@ -30,6 +30,10 @@
 
     { "source": "/shop", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/shop.html" },
     { "source": "/shop", "destination": "/index.html" },
+    { "source": "/shop/profiles", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/profiles.html" },
+    { "source": "/shop/profiles/:slug", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/profiles/:slug.html" },
+    { "source": "/shop/presets", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/presets.html" },
+    { "source": "/shop/presets/:slug", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/presets.html" },
     { "source": "/shop/:tab(profiles|presets|downloads)", "destination": "/index.html" },
     { "source": "/shop/:tab(profiles|presets)/:slug", "destination": "/index.html" },
 
