@@ -153,14 +153,20 @@ footer{padding-block:28px 48px;border-top:1px solid var(--ink);display:flex;flex
     </article>
     <article class="card" data-t="music">
       <div class="top"><span class="pill">Music business</span><span>No. 03</span></div>
-      <h3><a data-abtitle href="/conversations/where-to-register-a-song">Every place you need to register a song</a></h3>
-      <p>The registration checklist for independent artists, in order.</p>
+      <h3><a href="/conversations/where-to-register-a-song">How to collect every penny from your music</a></h3>
+      <p>Where every song needs to be registered, and who handles each one.</p>
       <div class="meta"><b>9 min</b><span>Nov 17, 2026</span></div>
     </article>
     <article class="card" data-t="music">
       <div class="top"><span class="pill">Music business</span><span>No. 04</span></div>
       <h3><a href="/conversations/where-your-spotify-money-goes">Where does your Spotify money actually go?</a></h3>
       <p>The royalty pool, streamshare, and the 1,000-stream rule.</p>
+      <div class="meta"><b>7 min</b><span>Nov 17, 2026</span></div>
+    </article>
+    <article class="card" data-t="music">
+      <div class="top"><span class="pill">Music business</span><span>No. 10</span></div>
+      <h3><a href="/conversations/cover-songs">Why did artists stop releasing cover songs?</a></h3>
+      <p>Who gets paid on a cover, and why they faded from the charts.</p>
       <div class="meta"><b>7 min</b><span>Nov 17, 2026</span></div>
     </article>
     <article class="card" data-t="music">
@@ -172,19 +178,19 @@ footer{padding-block:28px 48px;border-top:1px solid var(--ink);display:flex;flex
     <article class="card" data-t="make">
       <div class="top"><span class="pill">Making things</span><span>No. 05</span></div>
       <h3><a href="/conversations/analog-vs-digital-recording">Is analog recording actually better than digital?</a></h3>
-      <p>Sampling theory, the blind tests, and what analog gear actually adds.</p>
+      <p>Sampling theory, the blind tests, and why most records use both.</p>
       <div class="meta"><b>7 min</b><span>Nov 17, 2026</span></div>
     </article>
     <article class="card" data-t="photo">
       <div class="top"><span class="pill">Photography</span><span>No. 06</span></div>
-      <h3><a href="/conversations/why-film-looks-different">Digital audio got this good. Why does film still look different?</a></h3>
+      <h3><a href="/conversations/why-film-looks-different">Why is light harder to capture than sound?</a></h3>
       <p>Why light is so much harder to digitize than sound.</p>
       <div class="meta"><b>7 min</b><span>Nov 17, 2026</span></div>
     </article>
     <article class="card" data-t="photo">
       <div class="top"><span class="pill">Photography</span><span>No. 07</span></div>
       <h3><a href="/conversations/film-vs-digital">What makes film look different from digital?</a></h3>
-      <p>Depth, not color: three crossings of light in a film print.</p>
+      <p>Three crossings of light in a film print.</p>
       <div class="meta"><b>8 min</b><span>Nov 17, 2026</span></div>
     </article>
     <article class="card" data-t="photo">
@@ -199,7 +205,7 @@ footer{padding-block:28px 48px;border-top:1px solid var(--ink);display:flex;flex
 <section class="topics" aria-label="Topics">
   <h2 id="topics">Topics</h2>
   <ul>
-    <li id="music-business"><em>Music business</em><span>Fans, rights, royalties, releases, and how labels work in 2026.</span><small>5 posts</small></li>
+    <li id="music-business"><em>Music business</em><span>Fans, rights, royalties, releases, and how labels work in 2026.</span><small>6 posts</small></li>
     <li id="photography"><em>Photography</em><span>Film, digital, light, and the science behind how photos look.</span><small>3 posts</small></li>
     <li id="making-things"><em>Making things</em><span>Tools, workflow, and building creative work with AI without letting it make the art.</span><small>1 post</small></li>
   </ul>
@@ -212,7 +218,7 @@ footer{padding-block:28px 48px;border-top:1px solid var(--ink);display:flex;flex
 
 <footer>
   <span>Conversations by Stuart Singleton</span>
-  <span>Nashville, Tennessee</span>
+  <span><a href="/conversations/glossary">Glossary</a> · Nashville, Tennessee</span>
 </footer>
 </div>
 
@@ -234,17 +240,6 @@ footer{padding-block:28px 48px;border-top:1px solid var(--ink);display:flex;flex
     btns.forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
     cards.forEach(function(c){c.hidden=!(f==='all'||c.dataset.t===f)});
   })});
-})();
-</script>
-<script>
-/* Title test for No. 03: each visitor sees one title; views and clicks go to GA4 as ab_title_view / ab_title_click */
-(function(){
-  var V={A:"Every place you need to register a song",B:"How to collect every penny from your music"},v;
-  try{v=localStorage.getItem("ab_t03")}catch(e){}
-  if(v!=="A"&&v!=="B"){v=Math.random()<.5?"A":"B";try{localStorage.setItem("ab_t03",v)}catch(e){}}
-  var els=document.querySelectorAll("[data-abtitle]");
-  els.forEach(function(a){a.textContent=V[v];a.addEventListener("click",function(){if(window.gtag)gtag("event","ab_title_click",{test:"t03",variant:v})})});
-  if(els.length&&window.gtag)gtag("event","ab_title_view",{test:"t03",variant:v});
 })();
 </script>
 </body></html>

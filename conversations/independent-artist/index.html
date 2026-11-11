@@ -9,11 +9,11 @@
 <meta property="og:title" content="If you need a team, are you really an independent artist?">
 <meta property="og:description" content="The independent-versus-label divide, and the deals in between. Conversations No. 09.">
 <meta property="og:url" content="https://stuartsingleton.com/conversations/independent-artist">
-<meta property="og:image" content="https://stuartsingleton.com/conversations/img/og-independent-artist.png?v=2">
+<meta property="og:image" content="https://stuartsingleton.com/conversations/img/og-independent-artist.png?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="If you need a team, are you really an independent artist?">
-<meta name="twitter:image" content="https://stuartsingleton.com/conversations/img/og-independent-artist.png?v=2">
+<meta name="twitter:image" content="https://stuartsingleton.com/conversations/img/og-independent-artist.png?v=3">
 <meta name="twitter:title" content="If you need a team, are you really an independent artist?">
 <meta name="twitter:description" content="The independent-versus-label divide, and the deals in between. Conversations No. 09.">
 <meta property="article:published_time" content="2026-11-17">
@@ -86,6 +86,7 @@ table.rows tr:first-child td,table.rows thead+tbody tr:first-child td{border-top
 table.rows tbody tr:last-child td{border-bottom:1px solid var(--ink)}
 table.rows td:last-child{text-align:right;font-weight:600;padding-left:16px;white-space:nowrap}
 .note{font-size:13px;color:var(--muted)}
+article.body h3{font-size:19px;line-height:1.2;letter-spacing:-.02em;font-weight:700;margin:1.8em 0 .4em}
 table.check td:last-child{text-align:left;font-weight:400;white-space:normal;padding-left:20px}
 table.check td:first-child{width:42%;vertical-align:top}
 table.check td{vertical-align:top}
@@ -216,7 +217,7 @@ footer{padding-block:28px 48px;border-top:1px solid var(--ink);display:flex;flex
   <div class="upnext"><span>Keep the conversation going</span>
     <ol>
       <li><small>Next</small><a href="https://stuartsingleton.com/conversations/masters-vs-publishing">Who owns a song: masters or publishing?</a></li>
-      <li><small>Then</small><a data-abtitle href="https://stuartsingleton.com/conversations/where-to-register-a-song">Every place you need to register a song</a></li>
+      <li><small>Then</small><a href="https://stuartsingleton.com/conversations/where-to-register-a-song">How to collect every penny from your music</a></li>
     </ol>
   </div>
 
@@ -254,15 +255,15 @@ footer{padding-block:28px 48px;border-top:1px solid var(--ink);display:flex;flex
 <section class="more" aria-label="More conversations">
   <h2>More conversations</h2>
   <ul>
+    <li><span>Music business</span><a href="https://stuartsingleton.com/conversations/cover-songs">Why did artists stop releasing cover songs?</a></li>
     <li><span>Music business</span><a href="https://stuartsingleton.com/conversations/1000-true-fans">Does the 1,000 true fans theory actually work?</a></li>
     <li><span>Music business</span><a href="https://stuartsingleton.com/conversations/masters-vs-publishing">Who owns a song: masters or publishing?</a></li>
-    <li><span>Music business</span><a href="https://stuartsingleton.com/conversations/where-to-register-a-song">Every place you need to register a song</a></li>
   </ul>
 </section>
 
 <footer>
   <span>Conversations by Stuart Singleton</span>
-  <span><a href="https://stuartsingleton.com/conversations">All conversations</a></span>
+  <span><a href="https://stuartsingleton.com/conversations/glossary">Glossary</a> · <a href="https://stuartsingleton.com/conversations">All conversations</a></span>
 </footer>
 </div>
 
@@ -273,15 +274,5 @@ document.getElementById('copy-link').addEventListener('click',function(e){
   try{navigator.clipboard.writeText(u).then(done,function(){b.textContent=u})}catch(err){b.textContent=u}
 });
 </script>
-<script>
-/* Title test for No. 03: each visitor sees one title; views and clicks go to GA4 as ab_title_view / ab_title_click */
-(function(){
-  var V={A:"Every place you need to register a song",B:"How to collect every penny from your music"},v;
-  try{v=localStorage.getItem("ab_t03")}catch(e){}
-  if(v!=="A"&&v!=="B"){v=Math.random()<.5?"A":"B";try{localStorage.setItem("ab_t03",v)}catch(e){}}
-  var els=document.querySelectorAll("[data-abtitle]");
-  els.forEach(function(a){a.textContent=V[v];a.addEventListener("click",function(){if(window.gtag)gtag("event","ab_title_click",{test:"t03",variant:v})})});
-  if(els.length&&window.gtag)gtag("event","ab_title_view",{test:"t03",variant:v});
-})();
-</script>
+<script src="/conversations/terms.js" defer></script>
 </body></html>
