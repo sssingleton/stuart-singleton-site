@@ -8510,8 +8510,8 @@ var shopTab = 'prints';
 var DPREVIEW = false;       // ?preview=halation shows hidden profiles (display only)
 // Preview scenes: every profile rendered on the same 5 photos (preset-covers/halation/scenes/<scene>/<slug>.jpg).
 var SCENE_BASE = 'https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/object/public/preset-covers/halation/scenes/';
-var PREVIEW_SCENES = [['door', 'Doorway'], ['coast', 'Coast'], ['mountains', 'Mountains'], ['neon', 'Neon night'], ['city', 'City']];
-var previewScene = 'door';
+var PREVIEW_SCENES = [['coast', 'Coast'], ['mountains', 'Mountains'], ['city', 'City'], ['neon', 'Neon night'], ['door', 'Doorway']];
+var previewScene = 'coast';
 try { var _ps = localStorage.getItem('ss_scene'); if (PREVIEW_SCENES.some(function (x) { return x[0] === _ps; })) previewScene = _ps; } catch (e) {}
 function packCover(p) { return p.kind === 'profile' ? SCENE_BASE + previewScene + '/' + p.slug + '.jpg' : (p.cover_image_url || ''); }
 function packBefore(p) { return p.kind === 'profile' ? SCENE_BASE + previewScene + '/before.jpg' : (p.before_image_url || ''); }
