@@ -1413,15 +1413,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #admin-error { font-size: 9px; color: #c44; letter-spacing: .1em; margin-top: 10px; min-height: 14px; }
   .admin-section { margin-bottom: 28px; }
   .admin-section-title { font-size: 9px; letter-spacing: .2em; color: #444; text-transform: uppercase; margin-bottom: 14px; border-bottom: 1px solid #1a1a1a; padding-bottom: 8px; }
-  .admin-upload-area { border: 1px dashed #222; padding: 24px; text-align: center; transition: border-color .2s; cursor: none; }
-  .admin-upload-area.dragover { border-color: #555; }
-  .admin-upload-area p { font-size: 10px; color: #444; letter-spacing: .1em; margin-bottom: 12px; }
-  #photo-file-input { display: none; }
   .admin-btn { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; padding: 8px 16px; background: transparent; border: 1px solid #333; color: #666; cursor: none; transition: all .2s; }
   .admin-btn:hover { border-color: #fff; color: #fff; }
-  #upload-status { font-size: 9px; color: #555; letter-spacing: .1em; margin-top: 10px; min-height: 14px; }
-  /* ── BULK UPLOADER (Shop v2 Phase 1, shown only with ?v2) ── */
+  /* ── UPLOADER (one section for a single photo or a whole batch) ── */
   .bulk-modes { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .bulk-cams { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .bulk-cams .bulk-lbl { font-size: 9px; letter-spacing: .2em; color: #444; text-transform: uppercase; margin-right: 6px; }
+  .bulk-warn { color: #a80; }
   .bulk-drop { border: 1px dashed #2a2a2a; padding: 22px 16px; text-align: center; transition: border-color .2s, background .2s; }
   .bulk-drop.dragover { border-color: #777; background: #0f0f0f; }
   .bulk-drop p { font-size: 10px; color: #555; letter-spacing: .1em; margin-bottom: 12px; line-height: 1.6; }
@@ -2823,8 +2821,6 @@ const FALLBACK_PHOTOS = [];
 
 let PHOTOS = [];
 let activeTags = new Set();
-let selectedFile = null;
-let selectedSpan = '';
 
 // Resolves the first time loadPhotos() finishes (success or fallback). Deep-link
 // routing (e.g. /shop?buy=<id>) awaits this so it never opens a buy modal before
@@ -3002,14 +2998,14 @@ function photoCamera(p) { return p.camera || 'fujifilm-xt5'; }
 // Storage bucket per camera: fuji lives in "photos", others in "photos-<cam>"
 function bucketForCamera(cam) { return cam === 'fujifilm-xt5' ? 'photos' : 'photos-' + cam; }
 
-// Admin: which camera new uploads + the admin list belong to (independent of gallery view)
+// Admin: which camera's photos the Manage Photos list shows (independent of the
+// gallery view and of the uploader, which has its own camera picker: bulk.camera)
 let adminCamera = 'fujifilm-xt5';
 function setAdminCamera(cam) {
   adminCamera = cam;
   document.querySelectorAll('#admin-camera-picker .cam-btn').forEach(function(b){
     b.classList.toggle('active', b.dataset.cam === cam);
   });
-  bulkRender(); // bulk rows without an EXIF camera follow the picker
   loadAdminPhotos();
 }
 
@@ -4430,33 +4426,6 @@ function setShopMode(on) { setPhotoMode(on ? 'shop' : 'gallery'); }
 
 
 // == ADMIN PHOTO MANAGER ==
-function selectSpan(btn, span) {
-  selectedSpan = span;
-  document.querySelectorAll(".admin-span-btn").forEach(function(b) { b.classList.remove("admin-span-active"); });
-  btn.classList.add("admin-span-active");
-}
-function handleFileSelect(input) {
-  if (input.files[0]) {
-    selectedFile = input.files[0];
-    document.getElementById("selected-file-name").textContent = selectedFile.name;
-    document.getElementById("photo-meta").style.display = "flex";
-    detectAspectRatio(selectedFile);
-  }
-}
-function detectAspectRatio(file) {
-  var url = URL.createObjectURL(file);
-  var img = new Image();
-  img.onload = function() {
-    var w = img.naturalWidth, h = img.naturalHeight;
-    var spanBtn;
-    if (h > w) { spanBtn = document.querySelector("[data-span=tall]"); }
-    else if (w / h >= 2.0) { spanBtn = document.querySelector("[data-span=span-2]"); }
-    else { spanBtn = document.querySelector("[data-span=\"\"]"); }
-    if (spanBtn) selectSpan(spanBtn, spanBtn.dataset.span);
-    URL.revokeObjectURL(url);
-  };
-  img.src = url;
-}
 // ══ ADMIN: OPTIMIZE WEB PREVIEWS ══
 // Gallery/shop images are served through Supabase's on-the-fly resize, which is
 // slow on huge originals and outright fails (400/422) on files over ~25MB. This
@@ -4570,39 +4539,6 @@ async function downscaleImage(url, maxEdge, quality) {
   return await new Promise((resolve) => c.toBlob((b) => resolve(b), 'image/jpeg', quality));
 }
 
-async function uploadAndSave() {
-  if (!selectedFile) return;
-  var status = document.getElementById("upload-status");
-  var btn = document.getElementById("save-photo-btn");
-  var tags = document.getElementById("photo-tags").value.trim();
-  if (!tags) { status.style.color="#c44"; status.textContent="add at least one tag"; return; }
-  btn.textContent = "Uploading..."; status.textContent = "";
-  var ext = selectedFile.name.split(".").pop();
-  var filename = "photo_" + Date.now() + "." + ext;
-  var cam = adminCamera || 'fujifilm-xt5';
-  var bucket = bucketForCamera(cam);
-  try {
-    var storageResult = await sb.storage.from(bucket).upload(filename, selectedFile, { contentType: selectedFile.type });
-    if (storageResult.error) throw storageResult.error;
-    var urlData = sb.storage.from(bucket).getPublicUrl(filename);
-    var src = urlData.data.publicUrl;
-    var dbResult = await sb.from("photos").insert({ src: src, tags: tags, span: selectedSpan, camera: cam });
-    if (dbResult.error) throw dbResult.error;
-    status.style.color="#4a8"; status.textContent="photo saved to " + (CAMERA_LABELS[cam]||cam);
-    btn.textContent="Upload & Save ->";
-    selectedFile = null;
-    document.getElementById("photo-file-input").value = "";
-    document.getElementById("selected-file-name").textContent = "";
-    document.getElementById("photo-tags").value = "";
-    document.getElementById("photo-meta").style.display = "none";
-    selectSpan(document.querySelector("[data-span=\"\"]"), "");
-    await loadPhotos();
-    await loadAdminPhotos();
-  } catch(err) {
-    status.style.color="#c44"; status.textContent="error: " + err.message;
-    btn.textContent="Upload & Save ->";
-  }
-}
 var adminDragSrc = null;
 var adminPhotoFilter = 'all';
 async function loadAdminPhotos() {
@@ -5014,36 +4950,12 @@ async function deleteMockup(photoId, color) {
   }
 }
 
-function showTagSuggestions() {
-  var input = document.getElementById("photo-tags");
-  if (!input) return;
-  sb.from("photos").select("tags").then(function(res) {
-    if (!res.data) return;
-    var all = {};
-    res.data.forEach(function(p){(p.tags||"").split(",").forEach(function(t){t=t.trim();if(t)all[t]=1;});});
-    var container = document.getElementById("tag-suggestions");
-    if (!container) return;
-    var current = input.value.split(",").map(function(t){return t.trim();}).filter(Boolean);
-    container.innerHTML = Object.keys(all).sort().map(function(tag){
-      var sel = current.indexOf(tag)>-1 ? " selected" : "";
-      return "<button type=\"button\" class=\"admin-tag-pill"+sel+"\" data-tag=\""+tag.replace(/"/g,"&quot;")+"\">"+tag+"</button>";
-    }).join("");
-    container.onclick = function(e) {
-      var b = e.target.closest(".admin-tag-pill"); if(!b)return;
-      var tag = b.dataset.tag;
-      var tags = input.value.split(",").map(function(t){return t.trim();}).filter(Boolean);
-      var idx = tags.indexOf(tag);
-      if(idx>-1){tags.splice(idx,1);b.classList.remove("selected");}else{tags.push(tag);b.classList.add("selected");}
-      input.value = tags.join(", ");
-    };
-    addHover(".admin-tag-pill");
-  });
-}
-// ══ ADMIN: BULK UPLOADER (Shop v2 Phase 1) ══
-// Only renders when the admin URL has ?v2 (e.g. /mr.manager?v2), so the
-// existing single-photo uploader stays exactly as it was until Stuart signs off.
+// ══ ADMIN: UPLOADER ══
+// The one place photos come in, whether it's a single file or a whole folder
+// (it replaced the old single-photo "Add Photo" box, 2026-11-11).
 // Two modes:
-//   NEW     — drop many files/folders, type tags once. Per file: read EXIF camera,
+//   NEW     — drop one file, many files or a folder, pick the camera once (Fujifilm
+//             X-T5 / Nomo / CampSnap; any row can be changed), type tags once. Per file:
 //             make a 2048px web preview in the browser, upload the preview to the
 //             camera's public bucket + the untouched original to the private
 //             photos-masters bucket, insert photos + photo_assets rows. 3 at a time,
@@ -5053,7 +4965,6 @@ function showTagSuggestions() {
 //             uploaded as that photo's print-master. Nothing public changes.
 // Rows are created hidden and only unhidden once every step succeeded, so a
 // half-finished upload can never show up in the public gallery or shop.
-const BULK_V2 = /[?&]v2(?:[=&]|$)/.test(location.search);
 const BULK_CONCURRENCY = 3;
 // Files with a long edge above this are treated as full-res originals (kept as the print
 // master); at or below it they are web-size already and go up as the gallery image only.
@@ -5066,20 +4977,40 @@ function bulkToggleRole(key) {
   bulkRender();
 }
 const BULK_OK_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-let bulk = { mode: 'new', items: [], running: false, seq: 0, candidates: null };
+// camera = the batch camera from the picker; a row's own it.camera (set from its
+// dropdown) wins over it. Rows with it.camera null follow the picker.
+let bulk = { mode: 'new', items: [], running: false, seq: 0, candidates: null, camera: 'fujifilm-xt5' };
+const BULK_NEW_LABEL = 'Drop one photo, a batch, or a whole folder here.<br>Every file goes to the camera picked above; you can change any row before uploading.';
+const BULK_ATTACH_LABEL = 'Drop full-res originals of photos already on the site.<br>Each is matched to its photo; you confirm before anything uploads.';
+function bulkRowCam(it) { return it.camera || bulk.camera || 'fujifilm-xt5'; }
+// A row's camera and grid size are fixed once its web image is in storage
+// (the bucket depends on the camera), so retries can't land in two buckets.
+function bulkRowLocked(it) { return bulk.running || !!it.previewPath; }
+function bulkSetBatchCam(cam) {
+  if (bulk.running || CAMERA_ORDER.indexOf(cam) === -1) return;
+  bulk.camera = cam;
+  document.querySelectorAll('[data-bulkcam]').forEach(function (b) { b.classList.toggle('active', b.dataset.bulkcam === cam); });
+  // An explicit pick applies to every row that hasn't uploaded yet.
+  bulk.items.forEach(function (it) { if (!it.previewPath) it.camera = null; });
+  bulkRender();
+}
 
 function bulkEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
 function bulkSectionHTML() {
   return `
       <div class="admin-section" id="bulk-section">
-        <div class="admin-section-title">Bulk Upload</div>
+        <div class="admin-section-title">Upload Photos</div>
         <div class="bulk-modes">
-          <button class="cam-btn active" data-bulkmode="new" onclick="bulkSetMode('new')">New photos</button>
-          <button class="cam-btn" data-bulkmode="attach" onclick="bulkSetMode('attach')">Attach print masters</button>
+          <button class="cam-btn${bulk.mode === 'new' ? ' active' : ''}" data-bulkmode="new" onclick="bulkSetMode('new')">New photos</button>
+          <button class="cam-btn${bulk.mode === 'attach' ? ' active' : ''}" data-bulkmode="attach" onclick="bulkSetMode('attach')">Attach print masters</button>
+        </div>
+        <div class="bulk-cams" id="bulk-cams"${bulk.mode === 'new' ? '' : ' style="display:none"'}>
+          <span class="bulk-lbl">Camera</span>
+          ${CAMERA_ORDER.map(function (c) { return '<button class="cam-btn' + (c === bulk.camera ? ' active' : '') + '" data-bulkcam="' + c + '" onclick="bulkSetBatchCam(\'' + c + '\')">' + CAMERA_LABELS[c] + '</button>'; }).join('')}
         </div>
         <div class="bulk-drop" id="bulk-drop">
-          <p id="bulk-drop-label">Drop photos or a whole folder here.<br>Camera is read from each file; otherwise the Add Photo camera picker below is used.</p>
+          <p id="bulk-drop-label">${bulk.mode === 'new' ? BULK_NEW_LABEL : BULK_ATTACH_LABEL}</p>
           <div class="bulk-pick">
             <input type="file" id="bulk-files" accept="image/jpeg,image/png,image/webp" multiple style="display:none" onchange="bulkAddFiles(this.files);this.value=''">
             <input type="file" id="bulk-folder" webkitdirectory multiple style="display:none" onchange="bulkAddFiles(this.files);this.value=''">
@@ -5087,24 +5018,28 @@ function bulkSectionHTML() {
             <button class="admin-btn" onclick="document.getElementById('bulk-folder').click()">Select folder</button>
           </div>
         </div>
-        <div id="bulk-new-opts">
+        <div id="bulk-new-opts"${bulk.mode === 'new' ? '' : ' style="display:none"'}>
           <div class="bulk-field">
-            <label class="bulk-lbl">Tags for the whole batch <span style="color:#2a2a2a;">(comma separated)</span></label>
+            <label class="bulk-lbl">Tags <span style="color:#2a2a2a;">(comma separated · go on every photo in this upload)</span></label>
             <input type="text" id="bulk-tags" class="bulk-input" placeholder="nashville, night, color" onfocus="bulkShowTagPills()">
             <div id="bulk-tag-pills" class="admin-tag-suggestions"></div>
           </div>
           <div class="bulk-checks">
-            <label class="bulk-check"><input type="checkbox" id="bulk-forsale"><span>Mark all as for sale<small>print sizes still follow each photo's resolution</small></span></label>
-            <label class="bulk-check"><input type="checkbox" id="bulk-publish" checked><span>Publish as they finish<small>untick to save the batch as hidden drafts you can review first</small></span></label>
+            <label class="bulk-check"><input type="checkbox" id="bulk-forsale"><span>Mark as for sale<small>print sizes still follow each photo's resolution</small></span></label>
+            <label class="bulk-check"><input type="checkbox" id="bulk-publish" checked><span>Publish as they finish<small>untick to save them as hidden drafts you can review first</small></span></label>
           </div>
         </div>
         <div class="bulk-actions">
-          <button class="admin-btn" id="bulk-start" onclick="bulkStart()">Upload all →</button>
+          <button class="admin-btn" id="bulk-start" onclick="bulkStart()">Upload →</button>
           <button class="admin-btn" id="bulk-clear" onclick="bulkClear()">Clear list</button>
         </div>
         <div class="bulk-bar"><i id="bulk-bar"></i></div>
         <div class="bulk-summary" id="bulk-summary"></div>
         <div class="bulk-list" id="bulk-list"></div>
+        <div style="border-top:1px solid #161616;margin-top:14px;padding-top:12px;">
+          <button class="admin-btn" onclick="optimizeWebPreviews()" id="optimize-previews-btn" title="Shrink any oversized web images so the gallery loads fast (originals/print masters untouched)">⚡ Optimize web previews</button>
+          <div id="optimize-status" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:8px;min-height:14px;line-height:1.5;"></div>
+        </div>
       </div>`;
 }
 
@@ -5151,10 +5086,8 @@ function bulkSetMode(mode) {
   bulk.items = [];
   document.querySelectorAll('[data-bulkmode]').forEach(function (b) { b.classList.toggle('active', b.dataset.bulkmode === mode); });
   document.getElementById('bulk-new-opts').style.display = mode === 'new' ? '' : 'none';
-  document.getElementById('bulk-drop-label').innerHTML = mode === 'new'
-    ? 'Drop photos or a whole folder here.<br>Camera is read from each file; otherwise the Add Photo camera picker below is used.'
-    : 'Drop full-res originals of photos already on the site.<br>Each is matched to its photo; you confirm before anything uploads.';
-  document.getElementById('bulk-start').textContent = mode === 'new' ? 'Upload all →' : 'Attach ticked →';
+  document.getElementById('bulk-cams').style.display = mode === 'new' ? '' : 'none';
+  document.getElementById('bulk-drop-label').innerHTML = mode === 'new' ? BULK_NEW_LABEL : BULK_ATTACH_LABEL;
   bulkSummary('');
   bulkRender();
 }
@@ -5168,7 +5101,7 @@ function bulkAddFiles(fileList) {
     if (BULK_OK_TYPES.indexOf(type) === -1) { skipped++; return; }
     if (bulk.items.some(function (it) { return it.file.name === f.name && it.file.size === f.size; })) return;
     bulk.items.push({
-      key: ++bulk.seq, file: f, type: type, status: 'queued', msg: '', camera: null, exif: '',
+      key: ++bulk.seq, file: f, type: type, status: 'queued', msg: '', camera: null, exif: '', exifMake: '',
       span: '', w: 0, h: 0, sha: null, preview: null, thumb: null, phash: null,
       // resume markers (retry continues from the first missing step)
       previewPath: null, previewBucket: null, photoId: null, masterPath: null, assetsDone: false,
@@ -5213,12 +5146,16 @@ function bulkRowHTML(it) {
   const dims = it.w ? it.w + '×' + it.h : '';
   const thumb = '<img class="bulk-thumb" alt="" ' + (it.thumb ? 'src="' + it.thumb + '"' : '') + '>';
   if (bulk.mode === 'new') {
-    const camSel = '<select onchange="bulkSetCam(' + it.key + ',this.value)"' + (bulk.running ? ' disabled' : '') + '>' +
-      CAMERA_ORDER.map(function (c) { return '<option value="' + c + '"' + (c === (it.camera || adminCamera) ? ' selected' : '') + '>' + CAMERA_LABELS[c] + '</option>'; }).join('') + '</select>';
-    const span = it.span === 'tall' ? 'tall' : (it.span === 'span-2' ? 'wide' : 'normal');
+    const locked = bulkRowLocked(it) ? ' disabled' : '';
+    const cam = bulkRowCam(it);
+    const camSel = '<select title="Camera" onchange="bulkSetCam(' + it.key + ',this.value)"' + locked + '>' +
+      CAMERA_ORDER.map(function (c) { return '<option value="' + c + '"' + (c === cam ? ' selected' : '') + '>' + CAMERA_LABELS[c] + '</option>'; }).join('') + '</select>';
+    // grid size: auto-picked from the shape (tall if portrait, wide if 2:1 or wider)
+    const spanSel = it.w ? '<select title="Grid size" onchange="bulkSetSpan(' + it.key + ',this.value)"' + locked + '>' +
+      [['', 'Normal'], ['span-2', 'Wide'], ['tall', 'Tall']].map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === (it.span || '') ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>' : '';
     return '<div class="bulk-row">' + thumb +
       '<div style="min-width:0"><div class="bulk-name">' + bulkEsc(it.file.name) + '</div>' +
-      '<div class="bulk-meta">' + camSel + bulkRoleChip(it) + '<span>' + [dims, it.w ? span : '', mb, it.exif].filter(Boolean).map(bulkEsc).join(' · ') + '</span></div></div>' +
+      '<div class="bulk-meta">' + camSel + spanSel + bulkRoleChip(it) + bulkCamWarn(it) + '<span>' + [dims, mb, it.exif].filter(Boolean).map(bulkEsc).join(' · ') + '</span></div></div>' +
       stHTML + '</div>';
   }
   // attach mode
@@ -5237,6 +5174,16 @@ function bulkRowHTML(it) {
   return '<div class="bulk-row attach">' + box + thumb + other +
     '<div style="min-width:0"><div class="bulk-name">' + bulkEsc(it.file.name) + '</div>' +
     '<div class="bulk-meta">' + info + '<span>' + bulkEsc(mb) + '</span></div>' + stHTML + '</div></div>';
+}
+// Flag a row whose camera disagrees with the file's own EXIF make (Fuji files
+// say FUJIFILM; anything else with a make set is not from the X-T5).
+function bulkCamWarn(it) {
+  const make = it.exifMake || '';
+  if (!make || it.previewPath) return '';
+  const fuji = /fujifilm/i.test(make);
+  const cam = bulkRowCam(it);
+  if (fuji === (cam === 'fujifilm-xt5')) return '';
+  return '<span class="bulk-warn" title="The camera picked for this row does not match the camera written in the file. Change the row if that is wrong.">⚠ EXIF says ' + bulkEsc(fuji ? 'Fujifilm' : make) + '</span>';
 }
 function bulkRoleChip(it) {
   if (!it.role) return '';
@@ -5261,10 +5208,26 @@ function bulkRender() {
     const bar = document.getElementById('bulk-bar');
     if (bar) bar.style.width = (total ? Math.round(fin / total * 100) : 0) + '%';
     const start = document.getElementById('bulk-start');
-    if (start) start.disabled = bulk.running;
+    if (start) {
+      start.disabled = bulk.running;
+      if (bulk.mode === 'new') {
+        const n = bulk.items.filter(function (it) { return ['queued', 'prepping', 'ready'].indexOf(it.status) > -1; }).length;
+        start.textContent = n > 1 ? 'Upload ' + n + ' →' : 'Upload →';
+      } else start.textContent = 'Attach ticked →';
+    }
   });
 }
-function bulkSetCam(key, cam) { const it = bulk.items.find(function (i) { return i.key === key; }); if (it) it.camera = cam; }
+function bulkSetCam(key, cam) {
+  const it = bulk.items.find(function (i) { return i.key === key; });
+  if (!it || bulkRowLocked(it) || CAMERA_ORDER.indexOf(cam) === -1) return;
+  it.camera = cam === bulk.camera ? null : cam;
+  bulkRender();
+}
+function bulkSetSpan(key, span) {
+  const it = bulk.items.find(function (i) { return i.key === key; });
+  if (!it || bulkRowLocked(it) || ['', 'span-2', 'tall'].indexOf(span) === -1) return;
+  it.span = span;
+}
 function bulkPick(key, on) { const it = bulk.items.find(function (i) { return i.key === key; }); if (it) it.pick = on; }
 
 function bulkShowTagPills() {
@@ -5313,7 +5276,7 @@ async function bulkPrep(it) {
   const ex = bulkReadExif(buf);
   if (ex) {
     it.exif = (ex.make + ' ' + ex.model).replace(/\s+/g, ' ').trim();
-    if (/fujifilm/i.test(ex.make)) it.camera = 'fujifilm-xt5';
+    it.exifMake = ex.make; // shown as a warning if it disagrees with the row's camera
   }
   const digest = await crypto.subtle.digest('SHA-256', buf);
   it.sha = Array.from(new Uint8Array(digest)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
@@ -5453,7 +5416,7 @@ function bulkStamp() { return Date.now() + '_' + Math.random().toString(36).slic
 // ── NEW mode: one file end-to-end, resumable ──
 async function bulkUploadOne(it, opts) {
   it.status = 'uploading'; it.msg = 'uploading…'; bulkRender();
-  const cam = it.camera || adminCamera || 'fujifilm-xt5';
+  const cam = bulkRowCam(it);
   // 1. public web preview
   if (!it.previewPath) {
     const bucket = bucketForCamera(cam);
@@ -5915,51 +5878,19 @@ async function setsDelete(btn, id) {
 let adminAuthed = false;
 function getAdminPanelHTML(fullpage) {
   // In fullpage mode (route /mr.manager) the sections are split into two columns:
-  // left = Add Photo + Manage Photos (with res/badge intel + filters merged in),
+  // left = Upload Photos + Print Sets + Manage Photos (camera picker, res/badge intel + filters),
   // right = Print Requests + Quick Links. Modal mode = single stack.
   const colsOpen  = fullpage ? '<div class="admin-cols"><div class="admin-col-left">' : '';
   const colsSplit = fullpage ? '</div><div class="admin-col-right">' : '';
   const colsClose = fullpage ? '</div></div>' : '';
   return colsOpen + bulkSectionHTML() + setsSectionHTML() + `
       <div class="admin-section">
-        <div class="admin-section-title">Add Photo</div>
-        <div id="admin-camera-picker" style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
+        <div class="admin-section-title">Manage Photos <span id="photo-count" style="color:#2a2a2a;"></span></div>
+        <div id="admin-camera-picker" style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
           <button class="cam-btn active" data-cam="fujifilm-xt5" onclick="setAdminCamera('fujifilm-xt5')">Fujifilm X-T5</button>
           <button class="cam-btn" data-cam="nomo" onclick="setAdminCamera('nomo')">Nomo</button>
           <button class="cam-btn" data-cam="campsnap" onclick="setAdminCamera('campsnap')">CampSnap</button>
         </div>
-        <div class="admin-upload-area" id="upload-area">
-          <p id="upload-area-label">Drag & drop or click to select</p>
-          <input type="file" id="photo-file-input" accept="image/*" onchange="handleFileSelect(this)" style="display:none">
-          <button class="admin-btn" onclick="document.getElementById('photo-file-input').click()">Select File</button>
-        </div>
-        <div id="selected-file-name" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:8px;min-height:14px;"></div>
-        <div id="photo-meta" style="display:none;margin-top:16px;display:flex;flex-direction:column;gap:12px;">
-          <div>
-            <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Tags <span style="color:#2a2a2a;">(comma separated)</span></label>
-            <input type="text" id="photo-tags" placeholder="travel, night, europe, color"
-              style="width:100%;background:#111;border:1px solid #1c1c1c;color:#fff;font-family:var(--mono);font-size:11px;padding:10px 12px;outline:none;letter-spacing:.04em;"
-              onfocus="this.style.borderColor='#444';showTagSuggestions()" onblur="this.style.borderColor='#1c1c1c'">
-            <div id="tag-suggestions" class="admin-tag-suggestions"></div>
-          </div>
-          <div>
-            <label style="display:block;font-size:9px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:6px;">Grid Size</label>
-            <div style="display:flex;gap:8px;">
-              <button class="admin-span-btn admin-span-active" data-span="" onclick="selectSpan(this,'')">Normal</button>
-              <button class="admin-span-btn" data-span="span-2" onclick="selectSpan(this,'span-2')">Wide</button>
-              <button class="admin-span-btn" data-span="tall" onclick="selectSpan(this,'tall')">Tall</button>
-            </div>
-          </div>
-          <button class="admin-btn" onclick="uploadAndSave()" id="save-photo-btn" style="margin-top:4px;">Upload & Save →</button>
-        </div>
-        <div id="upload-status" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:10px;min-height:14px;"></div>
-        <div style="border-top:1px solid #161616;margin-top:14px;padding-top:12px;">
-          <button class="admin-btn" onclick="optimizeWebPreviews()" id="optimize-previews-btn" title="Shrink any oversized web images so the gallery loads fast (originals/print masters untouched)">⚡ Optimize web previews</button>
-          <div id="optimize-status" style="font-size:9px;color:#555;letter-spacing:.1em;margin-top:8px;min-height:14px;line-height:1.5;"></div>
-        </div>
-      </div>
-      <div class="admin-section">
-        <div class="admin-section-title">Manage Photos <span id="photo-count" style="color:#2a2a2a;"></span></div>
         <div class="dash-filters" id="admin-photo-filters">
           <button class="dash-filter-btn active" data-filter="all">All</button>
           <button class="dash-filter-btn" data-filter="forsale">For Sale</button>
@@ -6033,7 +5964,6 @@ function showAdminPanel() {
   panel.innerHTML = getAdminPanelHTML(fullpage);
   panel.style.display = 'block';
   document.getElementById('admin-login').style.display = 'none';
-  initUploadArea();
   initBulkUploader(); loadSets();
   adminCamera = 'fujifilm-xt5';
   addHover('#admin-camera-picker .cam-btn');
@@ -6387,13 +6317,6 @@ async function loadPrintRequests() {
   } catch (err) {
     list.innerHTML = '<div style="font-size:9px;color:#c44">requests error: ' + (err.message||err) + '</div>';
   }
-}
-function initUploadArea() {
-  const area = document.getElementById('upload-area');
-  if (!area) return;
-  area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('dragover'); });
-  area.addEventListener('dragleave', () => area.classList.remove('dragover'));
-  area.addEventListener('drop', e => { e.preventDefault(); area.classList.remove('dragover'); if(e.dataTransfer.files[0]){selectedFile=e.dataTransfer.files[0];document.getElementById('selected-file-name').textContent=selectedFile.name;document.getElementById('photo-meta').style.display='flex';} });
 }
 async function openAdmin(fullpage) {
   const overlay = document.getElementById('admin-overlay');
