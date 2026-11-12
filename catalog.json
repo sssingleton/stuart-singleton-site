@@ -11,9 +11,2360 @@
   "shop": "https://stuartsingleton.com/shop",
   "currency": "USD",
   "priceModel": "All-in pricing with free shipping to most countries. Unframed prints $29 to $115. Framed prints $119 to $245. Canvas $89 to $219, float framed canvas $139 to $319. Posters (170gsm satin) $35 to $45. A size is offered only when the photo has enough resolution to print it sharply without cropping (200 DPI for paper and framed, 150 DPI for canvas and posters).",
-  "generatedAt": "2026-11-09T06:46:46.756Z",
-  "count": 353,
+  "generatedAt": "2026-11-12T07:20:48.609Z",
+  "count": 369,
   "products": [
+    {
+      "id": 597,
+      "title": "Dried Seed Sprays in Glass Reflection, Nashville",
+      "description": "Dense clusters of dried seeds and long leaves layer with faint outdoor reflections across window glass in Nashville",
+      "url": "https://stuartsingleton.com/p?id=597",
+      "printPage": "https://stuartsingleton.com/print/dark-reflection-tennessee-597",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1794432308647_f3is.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "day",
+        "dark",
+        "reflection",
+        "tennessee",
+        "nashville"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 598,
+      "title": "Dried Foliage and Reflected Siding, Nashville",
+      "description": "Dried seed stems and textured foliage layer over pale reflections of siding and a small fence across window glass in Nashville",
+      "url": "https://stuartsingleton.com/p?id=598",
+      "printPage": "https://stuartsingleton.com/print/dark-reflection-tennessee-598",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1794432308608_hiul.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "day",
+        "dark",
+        "reflection",
+        "tennessee",
+        "nashville"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 599,
+      "title": "Reflected Columns of Light Over Dried Foliage, Nashville",
+      "description": "Vertical stripes of reflected daylight cross over dark, clustered seed sprays and hanging dried foliage in a Nashville window",
+      "url": "https://stuartsingleton.com/p?id=599",
+      "printPage": "https://stuartsingleton.com/print/dark-reflection-tennessee-599",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1794432308362_kke3.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "day",
+        "dark",
+        "reflection",
+        "tennessee",
+        "nashville"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 594,
+      "title": "Dried Botanical Wreath and Window Reflection, Nashville",
+      "description": "Textured seed sprays and dried foliage in a decorative wreath catch the light through a reflective glass window in Nashville",
+      "url": "https://stuartsingleton.com/p?id=594",
+      "printPage": "https://stuartsingleton.com/print/dark-reflection-tennessee-594",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1794432305562_m2u8.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "day",
+        "dark",
+        "reflection",
+        "tennessee",
+        "nashville"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 596,
+      "title": "Wreath Foliage and Reflected Window Light, Nashville",
+      "description": "Dense sprays of dried seed clusters and leaves mingle with soft outdoor reflections across a glass window in Nashville",
+      "url": "https://stuartsingleton.com/p?id=596",
+      "printPage": "https://stuartsingleton.com/print/dark-reflection-tennessee-596",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1794432305562_v77n.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "day",
+        "dark",
+        "reflection",
+        "tennessee",
+        "nashville"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 595,
+      "title": "Dried Botanicals and Window Reflections, Nashville",
+      "description": "Clusters of dried botanicals mingle with vertical bands of reflected window light across a dark pane of glass in Nashville",
+      "url": "https://stuartsingleton.com/p?id=595",
+      "printPage": "https://stuartsingleton.com/print/dark-reflection-tennessee-595",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1794432305562_vuzx.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "day",
+        "dark",
+        "reflection",
+        "tennessee",
+        "nashville"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 593,
+      "title": "Forested Ridge and Hillside Villas Through an Arch, Èze",
+      "description": "A dark stone archway frames sunlit villas and terraced homes scattered across the lush, forested mountain slopes of Èze",
+      "url": "https://stuartsingleton.com/p?id=593",
+      "printPage": "https://stuartsingleton.com/print/eze-france-593",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427951513_xn74.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "outdoor",
+        "day",
+        "color",
+        "eze",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 592,
+      "title": "Mountain Villas Seen Through a Stone Archway, Èze",
+      "description": "A silhouette arch frames terracotta roofs and modern villas scattered across a steep, densely wooded mountainside in Èze",
+      "url": "https://stuartsingleton.com/p?id=592",
+      "printPage": "https://stuartsingleton.com/print/eze-france-592",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427951496_7dsr.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "outdoor",
+        "day",
+        "color",
+        "eze",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "4860:7290",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4860,
+      "pixelHeight": 7290,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 591,
+      "title": "Rocky Mountain and Terraced Villas Framed in Stone, Èze",
+      "description": "A dark stone arch frames terraced homes and villas scattered across a steep, wooded mountainside rising toward rocky crags in Èze",
+      "url": "https://stuartsingleton.com/p?id=591",
+      "printPage": "https://stuartsingleton.com/print/eze-france-591",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427951499_9cpj.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "outdoor",
+        "day",
+        "color",
+        "eze",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5111:7666",
+      "aspectRatioDecimal": 1.4999,
+      "pixelWidth": 5111,
+      "pixelHeight": 7666,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 590,
+      "title": "Sunlit Villas Through a Dark Stone Arch, Èze",
+      "description": "A deep stone arch frames terracotta roofs and modern villas dotting the steep, forested mountain slope in Èze",
+      "url": "https://stuartsingleton.com/p?id=590",
+      "printPage": "https://stuartsingleton.com/print/eze-france-590",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427944316_i7in.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "outdoor",
+        "day",
+        "color",
+        "eze",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "4702:7053",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4702,
+      "pixelHeight": 7053,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 589,
+      "title": "Hillside Homes Framed by a Shadowed Arch, Èze",
+      "description": "A shadowed stone arch frames sunlit homes and modern villas nestled into the steep green mountainside in Èze",
+      "url": "https://stuartsingleton.com/p?id=589",
+      "printPage": "https://stuartsingleton.com/print/eze-france-589",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427944315_keoh.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "outdoor",
+        "day",
+        "color",
+        "eze",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 588,
+      "title": "Hillside Villas Framed by a Stone Arch, Èze",
+      "description": "A dark stone arch frames sunlit villas and lush Mediterranean hillsides ascending toward rocky crags in Èze under a pale blue sky",
+      "url": "https://stuartsingleton.com/p?id=588",
+      "printPage": "https://stuartsingleton.com/print/eze-france-588",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427944315_k4cc.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "travel",
+        "outdoor",
+        "day",
+        "color",
+        "eze",
+        "nature",
+        "france"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5013:7520",
+      "aspectRatioDecimal": 1.5001,
+      "pixelWidth": 5013,
+      "pixelHeight": 7520,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 587,
+      "title": "Tropical Palms Before Curved Resort Tower, San Juan",
+      "description": "Dark green palm trees rise against the curved white facade and tinted windows of a modern beachfront resort in San Juan",
+      "url": "https://stuartsingleton.com/p?id=587",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-trees-587",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427693954_t6qs.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "day",
+        "city",
+        "travel",
+        "outdoor",
+        "puerto rico",
+        "color",
+        "architecture",
+        "san juan",
+        "trees"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "7728:5152",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 7728,
+      "pixelHeight": 5152,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 584,
+      "title": "Palm Trees Against White Hotel Facade, San Juan",
+      "description": "Lush green palm trees frame the tiered white facade and blue windows of a modern high-rise in San Juan",
+      "url": "https://stuartsingleton.com/p?id=584",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-trees-584",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427684715_fx9s.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "day",
+        "city",
+        "travel",
+        "outdoor",
+        "puerto rico",
+        "color",
+        "architecture",
+        "san juan",
+        "trees"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5073:7609",
+      "aspectRatioDecimal": 1.4999,
+      "pixelWidth": 5073,
+      "pixelHeight": 7609,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 586,
+      "title": "Curved Hotel Windows Framed by Palms, San Juan",
+      "description": "Dark green palm fronds frame the curved glass windows and white balconies of a modern resort tower in San Juan",
+      "url": "https://stuartsingleton.com/p?id=586",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-trees-586",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427684714_5ms9.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "day",
+        "city",
+        "travel",
+        "outdoor",
+        "puerto rico",
+        "color",
+        "architecture",
+        "san juan",
+        "trees"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 585,
+      "title": "Palm Fronds Framing Modern Hotel Tower, San Juan",
+      "description": "Lush palm fronds frame the blue windows and white tiers of a modern resort hotel in San Juan against an overcast sky",
+      "url": "https://stuartsingleton.com/p?id=585",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-trees-585",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos/photo_1794427684715_zb0w.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "day",
+        "city",
+        "travel",
+        "outdoor",
+        "puerto rico",
+        "color",
+        "architecture",
+        "san juan",
+        "trees"
+      ],
+      "camera": "fujifilm-xt5",
+      "aspectRatio": "5152:7728",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 5152,
+      "pixelHeight": 7728,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 319
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-16X24",
+          "label": "16x24in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 79
+        },
+        {
+          "sku": "GLOBAL-FAP-24X36",
+          "label": "24x36in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 115
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-16X24",
+          "label": "16x24in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 245
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-CAN-20X30",
+          "label": "20x30in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-CAN-24X36",
+          "label": "24x36in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-24X36",
+          "label": "24x36in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 319
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
     {
       "id": 583,
       "title": "Cascade of Amber and Blue Light, Nashville",
@@ -38554,17 +40905,22 @@
       ]
     },
     {
-      "id": 192,
-      "title": "Abingdon at Night, Virginia",
-      "description": "A lit building facade at night in Abingdon, Virginia, in black and white. Small town night photography",
-      "url": "https://stuartsingleton.com/p?id=192",
-      "printPage": "https://stuartsingleton.com/print/abingdon-192",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836498790.JPG?width=1200&quality=80&resize=contain",
+      "id": 179,
+      "title": "Palm Reflections in Hotel Windows, San Juan",
+      "description": "Palm trees reflected in a grid of hotel windows in San Juan, in black and white. Architecture photography",
+      "url": "https://stuartsingleton.com/p?id=179",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-179",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835940660.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "abingdon",
+        "architecture",
         "black & white",
-        "indoor",
-        "travel"
+        "city",
+        "hotel",
+        "night",
+        "outdoor",
+        "travel",
+        "puerto rico",
+        "san juan"
       ],
       "camera": "nomo",
       "aspectRatio": "4032:2688",
@@ -38786,6 +41142,422 @@
           "framed": false,
           "material": "poster",
           "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 172,
+      "title": "Light and Shadow Window Abstract, Nashville",
+      "description": "A street light seen through a bright window in Nashville, in black and white. Minimal abstract photography",
+      "url": "https://stuartsingleton.com/p?id=172",
+      "printPage": "https://stuartsingleton.com/print/nashville-172",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
+        "day",
+        "black & white",
+        "nashville",
+        "outdoor"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 213,
+      "title": "Royal Riviera Hotel at Night, Beaulieu sur Mer",
+      "description": "The Royal Riviera hotel glowing at night in Beaulieu sur Mer, in black and white. French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=213",
+      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-france-213",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837882421.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "beaulieu sur mer",
+        "travel",
+        "black & white",
+        "outdoor",
+        "night",
+        "hotel",
+        "france",
+        "europe"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 208,
+      "title": "Palm Tree at Night, Beaulieu sur Mer",
+      "description": "A single palm glowing white against the night sky in Beaulieu sur Mer, in black and white. Minimal French Riviera photography",
+      "url": "https://stuartsingleton.com/p?id=208",
+      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-trees-208",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837549589.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "black & white",
+        "beaulieu sur mer",
+        "hotel",
+        "night",
+        "trees",
+        "europe",
+        "france",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 335,
+      "title": "Town Courtyard, Versailles",
+      "description": "A pale stone courtyard and mansard roofs in the town of Versailles. Classic French architecture photography",
+      "url": "https://stuartsingleton.com/p?id=335",
+      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-335",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774800482968.jpg?width=1200&quality=80&resize=contain",
+      "tags": [
+        "architecture",
+        "city",
+        "color",
+        "day",
+        "europe",
+        "france",
+        "versailles",
+        "travel",
+        "outdoor"
+      ],
+      "camera": "campsnap",
+      "aspectRatio": "2448:3264",
+      "aspectRatioDecimal": 1.3333,
+      "pixelWidth": 2448,
+      "pixelHeight": 3264,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 59
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-6X8",
+          "label": "6x8in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-9X12",
+          "label": "9x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-FAP-12X16",
+          "label": "12x16in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 59
         }
       ]
     },
@@ -40413,6 +43185,124 @@
       ]
     },
     {
+      "id": 192,
+      "title": "Abingdon at Night, Virginia",
+      "description": "A lit building facade at night in Abingdon, Virginia, in black and white. Small town night photography",
+      "url": "https://stuartsingleton.com/p?id=192",
+      "printPage": "https://stuartsingleton.com/print/abingdon-192",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836498790.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "abingdon",
+        "black & white",
+        "indoor",
+        "travel"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "4032:2688",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 4032,
+      "pixelHeight": 2688,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
       "id": 191,
       "title": "Church Steeple on Main Street, Franklin, Tennessee",
       "description": "A church steeple and storefronts on a Franklin, Tennessee street, in black and white. Small town street photography",
@@ -40531,748 +43421,18 @@
       ]
     },
     {
-      "id": 172,
-      "title": "Light and Shadow Window Abstract, Nashville",
-      "description": "A street light seen through a bright window in Nashville, in black and white. Minimal abstract photography",
-      "url": "https://stuartsingleton.com/p?id=172",
-      "printPage": "https://stuartsingleton.com/print/nashville-172",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803755860.JPG?width=1200&quality=80&resize=contain",
+      "id": 182,
+      "title": "Glowing Lamp Post in the Fog, Nashville",
+      "description": "A double lamp post glowing in the fog at night in Nashville, in black and white. Ethereal night photography",
+      "url": "https://stuartsingleton.com/p?id=182",
+      "printPage": "https://stuartsingleton.com/print/ethereal-nashville-182",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836142339.JPG?width=1200&quality=80&resize=contain",
       "tags": [
-        "city",
-        "day",
         "black & white",
+        "ethereal",
         "nashville",
+        "night",
         "outdoor"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 219
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "material": "framed",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-8X12",
-          "label": "8x12in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 89
-        },
-        {
-          "sku": "GLOBAL-CAN-12X18",
-          "label": "12x18in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-16X24",
-          "label": "16x24in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 149
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-8X12",
-          "label": "8x12in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 139
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-12X18",
-          "label": "12x18in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 179
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-16X24",
-          "label": "16x24in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 219
-        },
-        {
-          "sku": "GLOBAL-BLP-8X12",
-          "label": "8x12in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-BLP-12X18",
-          "label": "12x18in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 39
-        },
-        {
-          "sku": "GLOBAL-BLP-16X24",
-          "label": "16x24in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 45
-        }
-      ]
-    },
-    {
-      "id": 171,
-      "title": "Ryman Auditorium at Night, Nashville",
-      "description": "The Ryman Auditorium glowing at night in downtown Nashville, in black and white. Iconic Nashville architecture photography",
-      "url": "https://stuartsingleton.com/p?id=171",
-      "printPage": "https://stuartsingleton.com/print/nashville-171",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "city",
-        "nashville",
-        "black & white",
-        "outdoor",
-        "night"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 219
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "material": "framed",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-8X12",
-          "label": "8x12in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 89
-        },
-        {
-          "sku": "GLOBAL-CAN-12X18",
-          "label": "12x18in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-16X24",
-          "label": "16x24in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 149
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-8X12",
-          "label": "8x12in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 139
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-12X18",
-          "label": "12x18in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 179
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-16X24",
-          "label": "16x24in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 219
-        },
-        {
-          "sku": "GLOBAL-BLP-8X12",
-          "label": "8x12in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-BLP-12X18",
-          "label": "12x18in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 39
-        },
-        {
-          "sku": "GLOBAL-BLP-16X24",
-          "label": "16x24in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 45
-        }
-      ]
-    },
-    {
-      "id": 177,
-      "title": "High Rise and Palms, San Juan",
-      "description": "A white high rise above palm trees in San Juan, in black and white. Puerto Rico architecture photography",
-      "url": "https://stuartsingleton.com/p?id=177",
-      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
-      "tags": [
-        "black & white",
-        "city",
-        "day",
-        "outdoor",
-        "puerto rico",
-        "san juan",
-        "travel"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 219
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "material": "framed",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-8X12",
-          "label": "8x12in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 89
-        },
-        {
-          "sku": "GLOBAL-CAN-12X18",
-          "label": "12x18in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-16X24",
-          "label": "16x24in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 149
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-8X12",
-          "label": "8x12in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 139
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-12X18",
-          "label": "12x18in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 179
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-16X24",
-          "label": "16x24in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 219
-        },
-        {
-          "sku": "GLOBAL-BLP-8X12",
-          "label": "8x12in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-BLP-12X18",
-          "label": "12x18in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 39
-        },
-        {
-          "sku": "GLOBAL-BLP-16X24",
-          "label": "16x24in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 45
-        }
-      ]
-    },
-    {
-      "id": 178,
-      "title": "Window Grid and Palms, San Juan",
-      "description": "Palms reflected in tall hotel windows in San Juan, in black and white. Minimal architecture photography",
-      "url": "https://stuartsingleton.com/p?id=178",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-178",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835914027.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "city",
-        "hotel",
-        "night",
-        "outdoor",
-        "travel",
-        "puerto rico",
-        "san juan"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 219
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "material": "framed",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-8X12",
-          "label": "8x12in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 89
-        },
-        {
-          "sku": "GLOBAL-CAN-12X18",
-          "label": "12x18in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-16X24",
-          "label": "16x24in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 149
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-8X12",
-          "label": "8x12in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 139
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-12X18",
-          "label": "12x18in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 179
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-16X24",
-          "label": "16x24in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 219
-        },
-        {
-          "sku": "GLOBAL-BLP-8X12",
-          "label": "8x12in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-BLP-12X18",
-          "label": "12x18in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 39
-        },
-        {
-          "sku": "GLOBAL-BLP-16X24",
-          "label": "16x24in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 45
-        }
-      ]
-    },
-    {
-      "id": 179,
-      "title": "Palm Reflections in Hotel Windows, San Juan",
-      "description": "Palm trees reflected in a grid of hotel windows in San Juan, in black and white. Architecture photography",
-      "url": "https://stuartsingleton.com/p?id=179",
-      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-179",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835940660.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "architecture",
-        "black & white",
-        "city",
-        "hotel",
-        "night",
-        "outdoor",
-        "travel",
-        "puerto rico",
-        "san juan"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "4032:2688",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 4032,
-      "pixelHeight": 2688,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 219
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "material": "framed",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-8X12",
-          "label": "8x12in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 89
-        },
-        {
-          "sku": "GLOBAL-CAN-12X18",
-          "label": "12x18in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-16X24",
-          "label": "16x24in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 149
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-8X12",
-          "label": "8x12in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 139
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-12X18",
-          "label": "12x18in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 179
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-16X24",
-          "label": "16x24in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 219
-        },
-        {
-          "sku": "GLOBAL-BLP-8X12",
-          "label": "8x12in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-BLP-12X18",
-          "label": "12x18in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 39
-        },
-        {
-          "sku": "GLOBAL-BLP-16X24",
-          "label": "16x24in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 45
-        }
-      ]
-    },
-    {
-      "id": 213,
-      "title": "Royal Riviera Hotel at Night, Beaulieu sur Mer",
-      "description": "The Royal Riviera hotel glowing at night in Beaulieu sur Mer, in black and white. French Riviera photography",
-      "url": "https://stuartsingleton.com/p?id=213",
-      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-france-213",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837882421.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "beaulieu sur mer",
-        "travel",
-        "black & white",
-        "outdoor",
-        "night",
-        "hotel",
-        "france",
-        "europe"
-      ],
-      "camera": "nomo",
-      "aspectRatio": "2688:4032",
-      "aspectRatioDecimal": 1.5,
-      "pixelWidth": 2688,
-      "pixelHeight": 4032,
-      "availability": "InStock",
-      "printReady": true,
-      "priceRangeUSD": {
-        "min": 29,
-        "max": 219
-      },
-      "sizes": [
-        {
-          "sku": "GLOBAL-FAP-4X6",
-          "label": "4x6in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 29
-        },
-        {
-          "sku": "GLOBAL-FAP-6X9",
-          "label": "6x9in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-FAP-8X12",
-          "label": "8x12in",
-          "framed": false,
-          "material": "paper",
-          "priceUSD": 45
-        },
-        {
-          "sku": "GLOBAL-CFPM-MOTH-8X12",
-          "label": "8x12in Framed",
-          "framed": true,
-          "material": "framed",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-8X12",
-          "label": "8x12in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 89
-        },
-        {
-          "sku": "GLOBAL-CAN-12X18",
-          "label": "12x18in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 119
-        },
-        {
-          "sku": "GLOBAL-CAN-16X24",
-          "label": "16x24in Canvas",
-          "framed": false,
-          "material": "canvas",
-          "priceUSD": 149
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-8X12",
-          "label": "8x12in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 139
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-12X18",
-          "label": "12x18in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 179
-        },
-        {
-          "sku": "GLOBAL-FRA-CAN-16X24",
-          "label": "16x24in Float Canvas",
-          "framed": false,
-          "material": "float",
-          "priceUSD": 219
-        },
-        {
-          "sku": "GLOBAL-BLP-8X12",
-          "label": "8x12in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 35
-        },
-        {
-          "sku": "GLOBAL-BLP-12X18",
-          "label": "12x18in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 39
-        },
-        {
-          "sku": "GLOBAL-BLP-16X24",
-          "label": "16x24in Poster",
-          "framed": false,
-          "material": "poster",
-          "priceUSD": 45
-        }
-      ]
-    },
-    {
-      "id": 208,
-      "title": "Palm Tree at Night, Beaulieu sur Mer",
-      "description": "A single palm glowing white against the night sky in Beaulieu sur Mer, in black and white. Minimal French Riviera photography",
-      "url": "https://stuartsingleton.com/p?id=208",
-      "printPage": "https://stuartsingleton.com/print/beaulieu-sur-mer-hotel-trees-208",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774837549589.JPG?width=1200&quality=80&resize=contain",
-      "tags": [
-        "black & white",
-        "beaulieu sur mer",
-        "hotel",
-        "night",
-        "trees",
-        "europe",
-        "france",
-        "travel"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -41503,18 +43663,22 @@
       ]
     },
     {
-      "id": 182,
-      "title": "Glowing Lamp Post in the Fog, Nashville",
-      "description": "A double lamp post glowing in the fog at night in Nashville, in black and white. Ethereal night photography",
-      "url": "https://stuartsingleton.com/p?id=182",
-      "printPage": "https://stuartsingleton.com/print/ethereal-nashville-182",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774836142339.JPG?width=1200&quality=80&resize=contain",
+      "id": 178,
+      "title": "Window Grid and Palms, San Juan",
+      "description": "Palms reflected in tall hotel windows in San Juan, in black and white. Minimal architecture photography",
+      "url": "https://stuartsingleton.com/p?id=178",
+      "printPage": "https://stuartsingleton.com/print/hotel-puerto-rico-san-juan-178",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835914027.JPG?width=1200&quality=80&resize=contain",
       "tags": [
+        "architecture",
         "black & white",
-        "ethereal",
-        "nashville",
+        "city",
+        "hotel",
         "night",
-        "outdoor"
+        "outdoor",
+        "travel",
+        "puerto rico",
+        "san juan"
       ],
       "camera": "nomo",
       "aspectRatio": "2688:4032",
@@ -41622,55 +43786,242 @@
       ]
     },
     {
-      "id": 335,
-      "title": "Town Courtyard, Versailles",
-      "description": "A pale stone courtyard and mansard roofs in the town of Versailles. Classic French architecture photography",
-      "url": "https://stuartsingleton.com/p?id=335",
-      "printPage": "https://stuartsingleton.com/print/europe-france-versailles-335",
-      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-campsnap/photo_1774800482968.jpg?width=1200&quality=80&resize=contain",
+      "id": 177,
+      "title": "High Rise and Palms, San Juan",
+      "description": "A white high rise above palm trees in San Juan, in black and white. Puerto Rico architecture photography",
+      "url": "https://stuartsingleton.com/p?id=177",
+      "printPage": "https://stuartsingleton.com/print/puerto-rico-san-juan-177",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774835828763.jpg?width=1200&quality=80&resize=contain",
       "tags": [
-        "architecture",
+        "black & white",
         "city",
-        "color",
         "day",
-        "europe",
-        "france",
-        "versailles",
-        "travel",
-        "outdoor"
+        "outdoor",
+        "puerto rico",
+        "san juan",
+        "travel"
       ],
-      "camera": "campsnap",
-      "aspectRatio": "2448:3264",
-      "aspectRatioDecimal": 1.3333,
-      "pixelWidth": 2448,
-      "pixelHeight": 3264,
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
       "availability": "InStock",
       "printReady": true,
       "priceRangeUSD": {
         "min": 29,
-        "max": 59
+        "max": 219
       },
       "sizes": [
         {
-          "sku": "GLOBAL-FAP-6X8",
-          "label": "6x8in",
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
           "framed": false,
           "material": "paper",
           "priceUSD": 29
         },
         {
-          "sku": "GLOBAL-FAP-9X12",
-          "label": "9x12in",
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
           "framed": false,
           "material": "paper",
           "priceUSD": 45
         },
         {
-          "sku": "GLOBAL-FAP-12X16",
-          "label": "12x16in",
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
+        }
+      ]
+    },
+    {
+      "id": 171,
+      "title": "Ryman Auditorium at Night, Nashville",
+      "description": "The Ryman Auditorium glowing at night in downtown Nashville, in black and white. Iconic Nashville architecture photography",
+      "url": "https://stuartsingleton.com/p?id=171",
+      "printPage": "https://stuartsingleton.com/print/nashville-171",
+      "image": "https://zbcdeglxwrappriwpxwt.supabase.co/storage/v1/render/image/public/photos-nomo/photo_1774803728816.JPG?width=1200&quality=80&resize=contain",
+      "tags": [
+        "city",
+        "nashville",
+        "black & white",
+        "outdoor",
+        "night"
+      ],
+      "camera": "nomo",
+      "aspectRatio": "2688:4032",
+      "aspectRatioDecimal": 1.5,
+      "pixelWidth": 2688,
+      "pixelHeight": 4032,
+      "availability": "InStock",
+      "printReady": true,
+      "priceRangeUSD": {
+        "min": 29,
+        "max": 219
+      },
+      "sizes": [
+        {
+          "sku": "GLOBAL-FAP-4X6",
+          "label": "4x6in",
           "framed": false,
           "material": "paper",
-          "priceUSD": 59
+          "priceUSD": 29
+        },
+        {
+          "sku": "GLOBAL-FAP-6X9",
+          "label": "6x9in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-FAP-8X12",
+          "label": "8x12in",
+          "framed": false,
+          "material": "paper",
+          "priceUSD": 45
+        },
+        {
+          "sku": "GLOBAL-CFPM-MOTH-8X12",
+          "label": "8x12in Framed",
+          "framed": true,
+          "material": "framed",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-8X12",
+          "label": "8x12in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 89
+        },
+        {
+          "sku": "GLOBAL-CAN-12X18",
+          "label": "12x18in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 119
+        },
+        {
+          "sku": "GLOBAL-CAN-16X24",
+          "label": "16x24in Canvas",
+          "framed": false,
+          "material": "canvas",
+          "priceUSD": 149
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-8X12",
+          "label": "8x12in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 139
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-12X18",
+          "label": "12x18in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 179
+        },
+        {
+          "sku": "GLOBAL-FRA-CAN-16X24",
+          "label": "16x24in Float Canvas",
+          "framed": false,
+          "material": "float",
+          "priceUSD": 219
+        },
+        {
+          "sku": "GLOBAL-BLP-8X12",
+          "label": "8x12in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 35
+        },
+        {
+          "sku": "GLOBAL-BLP-12X18",
+          "label": "12x18in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 39
+        },
+        {
+          "sku": "GLOBAL-BLP-16X24",
+          "label": "16x24in Poster",
+          "framed": false,
+          "material": "poster",
+          "priceUSD": 45
         }
       ]
     },
