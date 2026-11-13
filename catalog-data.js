@@ -188,23 +188,52 @@ function renderURL(src, width, quality) {
     `?width=${width}&quality=${q}&resize=contain`;
 }
 
+// Supabase reads with a timeout and retries. One upstream blip (504, 503, 429,
+// a dropped socket) used to fail the whole CI rebuild; now each call gets
+// 4 tries, 30s each, with 5s / 15s / 45s waits in between. 4xx other than 429
+// are real errors and fail straight away.
+async function supaFetch(url, opts = {}, label = 'supabase') {
+  const waits = [5000, 15000, 45000];
+  let lastErr;
+  for (let attempt = 0; attempt <= waits.length; attempt++) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 30000);
+    let res;
+    try {
+      res = await fetch(url, { ...opts, signal: ctrl.signal });
+    } catch (e) {
+      lastErr = e.name === 'AbortError' ? new Error(`${label} fetch timed out after 30s`) : e;
+    } finally {
+      clearTimeout(t);
+    }
+    if (res) {
+      if (res.ok) return res;
+      lastErr = new Error(`${label} fetch ${res.status}: ${(await res.text()).slice(0, 200)}`);
+      if (res.status < 500 && res.status !== 429) throw lastErr; // real error, don't retry
+    }
+    if (attempt < waits.length) {
+      console.warn(`${lastErr.message} (try ${attempt + 1}/${waits.length + 1}), retrying in ${waits[attempt] / 1000}s`);
+      await new Promise(r => setTimeout(r, waits[attempt]));
+    }
+  }
+  throw lastErr;
+}
+
 // Pull for-sale photos + their largest-available dimensions. Master dims win;
 // otherwise the largest preview/bordered asset. This mirrors the buy modal's
 // "measure the master, fall back to the web file" behaviour.
 async function fetchCatalog() {
   const headers = { apikey: SUPA_KEY, authorization: `Bearer ${SUPA_KEY}` };
 
-  const photosRes = await fetch(
+  const photosRes = await supaFetch(
     `${SUPA_URL}/rest/v1/photos?select=id,tags,camera,src,span,mockup_url,for_sale,hidden,title,description,place,region,country,landmark` +
     `&for_sale=eq.true&hidden=eq.false&order=sort_order.asc,created_at.desc`,
-    { headers });
-  if (!photosRes.ok) throw new Error(`photos fetch ${photosRes.status}: ${await photosRes.text()}`);
+    { headers }, 'photos');
   const photos = await photosRes.json();
 
-  const assetsRes = await fetch(
+  const assetsRes = await supaFetch(
     `${SUPA_URL}/rest/v1/photo_assets?select=photo_id,variant,width,height,is_print_default`,
-    { headers });
-  if (!assetsRes.ok) throw new Error(`assets fetch ${assetsRes.status}: ${await assetsRes.text()}`);
+    { headers }, 'assets');
   const assets = await assetsRes.json();
 
   // Resolve best dims per photo. Prefer print-master; else largest of anything.
@@ -356,8 +385,7 @@ function numberBy(items, key, mark) {
 // feed never ships with set labels silently missing (CI keeps the last good feed instead).
 async function fetchActiveSets() {
   const headers = { apikey: SUPA_KEY, authorization: `Bearer ${SUPA_KEY}` };
-  const r = await fetch(`${SUPA_URL}/rest/v1/print_sets?select=name,slug,family,photo_ids&active=eq.true&order=created_at.asc`, { headers });
-  if (!r.ok) throw new Error(`print_sets fetch ${r.status}: ${await r.text()}`);
+  const r = await supaFetch(`${SUPA_URL}/rest/v1/print_sets?select=name,slug,family,photo_ids&active=eq.true&order=created_at.asc`, { headers }, 'print_sets');
   const byPhoto = {};
   for (const set of await r.json()) {
     for (const pid of set.photo_ids || []) (byPhoto[String(pid)] ||= []).push({ name: set.name, slug: set.slug, family: set.family });
