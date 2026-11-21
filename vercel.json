@@ -29,6 +29,7 @@
     { "source": "/sets", "destination": "/index.html" },
     { "source": "/sets/:slug", "destination": "/index.html" },
 
+    { "source": "/shop", "has": [{ "type": "query", "key": "buy", "value": "(?<id>\\d+)" }, { "type": "header", "key": "user-agent", "value": ".*Pinterest.*" }], "destination": "/api/pin?id=:id" },
     { "source": "/shop", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/shop.html" },
     { "source": "/shop", "destination": "/index.html" },
     { "source": "/shop/profiles", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/profiles.html" },
@@ -47,6 +48,7 @@
     { "source": "/whoami", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|Slackbot|Slack-ImgProxy|Discordbot|WhatsApp|LinkedInBot|Pinterest|TelegramBot|SkypeUriPreview|redditbot|Embedly|Iframely|vkShare).*" }], "destination": "/og/whoami.html" },
     { "source": "/whoami", "destination": "/index.html" },
 
+    { "source": "/p", "has": [{ "type": "query", "key": "id", "value": "(?<id>\\d+)" }, { "type": "header", "key": "user-agent", "value": ".*Pinterest.*" }], "destination": "/api/pin?id=:id" },
     { "source": "/p", "destination": "/index.html" },
     { "source": "/mr.manager/galleries", "destination": "/gallery-admin.html" },
     { "source": "/mr.manager", "destination": "/index.html" },

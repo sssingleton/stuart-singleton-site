@@ -114,6 +114,7 @@ async function main() {
         google_product_category: CAT,
         brand: 'Stuart Singleton',
         item_group_id: String(it.id),
+        custom_label_0: s.material,
         color: bw ? 'Black & White' : 'Color',
         size: s.label,
         product_type: productType(it),
@@ -127,7 +128,9 @@ async function main() {
   // id -> catalog title. checkout.html sends these so the Stripe line name matches the Meta
   // catalog title (Meta's checkout test flags a mismatch as "product name was incorrect").
   fs.writeFileSync('catalog-titles.json', JSON.stringify(Object.fromEntries(rows.map(r => [r.id, r.title]))));
-  write('pinterest-catalog.csv', ['id','title','description','link','image_link','price','availability','google_product_category','brand','item_group_id','condition','color'], rows);
+  // Pinterest: size + product_type + custom_label_0 (finish) so each of a print's sizes reads as its own
+  // variant, and product groups can be built by place (product_type) or finish (paper/framed/canvas...).
+  write('pinterest-catalog.csv', ['id','title','description','link','image_link','price','availability','google_product_category','brand','item_group_id','condition','color','size','product_type','custom_label_0'], rows);
   write('meta-catalog.csv', ['id','title','description','availability','condition','price','link','image_link','brand','google_product_category','product_type','item_group_id','color','size','internal_label'], rows);
   write('tiktok-catalog.csv', ['sku_id','title','description','availability','condition','price','currency','link','image_link','brand','google_product_category','item_group_id'],
     rows.map(r => ({ ...r, sku_id: r.id, price: r.priceNum, currency: 'USD' })));
