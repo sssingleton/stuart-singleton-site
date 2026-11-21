@@ -189,11 +189,13 @@ function renderURL(src, width, quality) {
 }
 
 // Supabase reads with a timeout and retries. One upstream blip (504, 503, 429,
-// a dropped socket) used to fail the whole CI rebuild; now each call gets
-// 4 tries, 30s each, with 5s / 15s / 45s waits in between. 4xx other than 429
+// a dropped socket) used to fail the whole CI rebuild. Since 2026-11-13 the database
+// has had slow spells lasting several minutes, which outlasted the old ~3 minute
+// window, so each call now gets 7 tries, 30s each, with waits of 5s up to 4 min
+// (about 10 minutes in all, inside the job's 20 minute limit). 4xx other than 429
 // are real errors and fail straight away.
 async function supaFetch(url, opts = {}, label = 'supabase') {
-  const waits = [5000, 15000, 45000];
+  const waits = [5000, 15000, 45000, 90000, 120000, 240000];
   let lastErr;
   for (let attempt = 0; attempt <= waits.length; attempt++) {
     const ctrl = new AbortController();
