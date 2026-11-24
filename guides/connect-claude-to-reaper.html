@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y7P9FGW6PT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y7P9FGW6PT');
+</script>
+<script>
+(function(){
+  try{ if(localStorage.getItem('ss_admin')==='1') return; }catch(e){}
+  var IDLE=1800000,sid;
+  try{var t=+localStorage.getItem('ss_sid_t')||0;sid=localStorage.getItem('ss_sid');
+    if(!sid||Date.now()-t>IDLE){var a=new Uint8Array(12);crypto.getRandomValues(a);sid=Array.from(a,function(b){return('0'+b.toString(16)).slice(-2)}).join('');localStorage.setItem('ss_sid',sid);}
+    localStorage.setItem('ss_sid_t',String(Date.now()));}catch(e){sid=sid||String(Date.now())+Math.random().toString(16).slice(2);}
+  var coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches,w=Math.min(innerWidth,innerHeight);
+  var base={s:sid,p:location.pathname,d:coarse?(w<600?'mobile':'tablet'):'desktop',r:document.referrer?document.referrer.slice(0,200):null};
+  window.__ssSend=function(e,id,m){var o=Object.assign({e:e},base);if(id)o.id=id;if(m)o.m=m;var b=JSON.stringify(o);try{if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'})))return;}catch(x){}try{fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(x){}};
+  window.__ssSend('page_view');
+})();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<title>How to Connect Claude to REAPER and Mix by Talking (2026) | Stuart Singleton</title>
+<meta name="description" content="A free guide to connecting Claude to REAPER with an open-source MCP server: install, config, the macOS temp-folder fix, settings that stop stalls, versioned changes, read-only testing and measuring mixes. Includes an AI playbook.">
+<link rel="canonical" href="https://stuartsingleton.com/guides/connect-claude-to-reaper">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Connect Claude to REAPER | Free Guide">
+<meta property="og:description" content="Give mix notes in plain words and have Claude read, propose and apply changes in REAPER with your own plugins. Setup, fixes and safe-workflow rules.">
+<meta property="og:image" content="https://stuartsingleton.com/guides/og/connect-claude-to-reaper.jpg">
+<meta property="og:url" content="https://stuartsingleton.com/guides/connect-claude-to-reaper">
+<meta property="og:site_name" content="Stuart Singleton">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Connect Claude to REAPER">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Connect Claude to REAPER | Free Guide">
+<meta name="twitter:description" content="Give mix notes in plain words and have Claude read, propose and apply changes in REAPER with your own plugins. Setup, fixes and safe-workflow rules.">
+<meta name="twitter:image" content="https://stuartsingleton.com/guides/og/connect-claude-to-reaper.jpg">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "HowTo", "name": "How to connect Claude to REAPER and mix by talking", "description": "A free guide to connecting Claude to REAPER with an open-source MCP server: install, config, the macOS temp-folder fix, settings that stop stalls, versioned changes, read-only testing and measuring mixes. Includes an AI playbook.", "author": {"@type": "Person", "name": "Stuart Singleton", "url": "https://stuartsingleton.com"}, "tool": [{"@type": "HowToTool", "name": "REAPER 7 or later"}, {"@type": "HowToTool", "name": "Claude desktop app or Claude Code"}, {"@type": "HowToTool", "name": "Reaper-MCP (open-source MCP server)"}, {"@type": "HowToTool", "name": "Python 3.10+"}, {"@type": "HowToTool", "name": "Your VST3/AU plugins"}], "step": [{"@type": "HowToStep", "name": "What this does"}, {"@type": "HowToStep", "name": "Why REAPER and not Logic"}, {"@type": "HowToStep", "name": "Pick a connector"}, {"@type": "HowToStep", "name": "Set up REAPER"}, {"@type": "HowToStep", "name": "Install the connector"}, {"@type": "HowToStep", "name": "Connect Claude"}, {"@type": "HowToStep", "name": "Fix \"server not running\""}, {"@type": "HowToStep", "name": "REAPER settings that stop stalls"}, {"@type": "HowToStep", "name": "Every change is a new version"}, {"@type": "HowToStep", "name": "First test: read only"}, {"@type": "HowToStep", "name": "Mixing with notes"}, {"@type": "HowToStep", "name": "Measure what it can't hear"}, {"@type": "HowToStep", "name": "Caveats"}, {"@type": "HowToStep", "name": "Keep a human in the loop"}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --sans:'DM Sans',sans-serif; --pad:clamp(24px,6vw,64px); }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:#050505; color:#fff; min-height:100%; }
+  html { scroll-behavior:smooth; }
+  body { font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:1040px; margin:0 auto; padding:calc(var(--pad) * .9) var(--pad) 80px; }
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#666; margin-bottom:56px; }
+  .nav a { text-decoration:none; color:#888; transition:color .2s; }
+  .nav a:hover { color:#fff; }
+  .nav .links { display:flex; gap:22px; }
+  .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:#666; text-transform:uppercase; margin-bottom:12px; }
+  .hero { font-family:var(--display); font-size:clamp(56px,10vw,112px); line-height:.86; letter-spacing:.02em; margin:0 0 10px; }
+  .sub { font-size:11px; font-weight:400; color:#777; letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; }
+  .lead { max-width:620px; font-size:14px; font-weight:300; line-height:1.7; color:#9a9a9a; margin:0 0 28px; }
+  .lead a, .prose a { color:#ccc; text-decoration:none; border-bottom:1px solid #333; }
+  .lead a:hover, .prose a:hover { color:#fff; border-color:#fff; }
+
+  .btns { display:flex; gap:12px; flex-wrap:wrap; margin:0 0 56px; }
+  .btn { font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:12px 18px; border:1px solid #2a2a2a; color:#999; text-decoration:none; background:none; cursor:pointer; transition:all .2s; }
+  .btn:hover { border-color:#fff; color:#fff; }
+  .btn.solid { background:#f2efe4; color:#050505; border-color:#f2efe4; }
+  .btn.solid:hover { background:#fff; border-color:#fff; }
+
+  .toc { border-top:1px solid #161616; border-bottom:1px solid #161616; padding:18px 0 14px; margin:0 0 64px; columns:2; column-gap:40px; }
+  .toc a { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:#666; text-decoration:none; padding:5px 0; break-inside:avoid; }
+  .toc a span { color:#333; margin-right:10px; }
+  .toc a:hover { color:#fff; }
+
+  section.step { margin:0 0 64px; scroll-margin-top:24px; }
+  .step-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:18px; }
+  .step-h span:last-child { color:#333; margin-left:auto; }
+  h2 { font-family:var(--display); font-size:clamp(34px,5vw,52px); letter-spacing:.03em; line-height:.95; color:#e6e6e6; margin:0 0 18px; font-weight:normal; }
+  h3 { font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#aaa; font-weight:normal; margin:26px 0 10px; }
+  .prose { max-width:680px; }
+  .prose p, .prose li { font-size:14px; font-weight:300; line-height:1.75; color:#a4a4a4; }
+  .prose p { margin:0 0 14px; }
+  .prose ul, .prose ol { margin:0 0 16px; padding-left:20px; }
+  .prose li { margin:0 0 6px; }
+  .prose b, .prose strong { color:#ddd; font-weight:400; }
+  code { font-family:var(--mono); font-size:12px; color:#d8d0b8; background:#111; padding:1px 5px; border-radius:2px; }
+  pre { font-family:var(--mono); font-size:11.5px; line-height:1.6; color:#cfc8b0; background:#0c0c0c; border:1px solid #1a1a1a; padding:14px 16px; overflow-x:auto; margin:0 0 16px; max-width:680px; }
+  pre code { background:none; padding:0; }
+  .lesson { max-width:680px; border-left:2px solid #f2efe4; background:#0b0b0b; padding:12px 16px; margin:4px 0 18px; }
+  .lesson .k { font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:#f2efe4; margin-bottom:6px; }
+  .lesson p { font-size:13px; font-weight:300; line-height:1.65; color:#9a9a9a; margin:0; }
+  .hire { display:inline-block; margin-top:6px; font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#555; text-decoration:none; border-bottom:1px solid #222; }
+  .hire:hover { color:#fff; border-color:#fff; }
+
+  .panel { border:1px solid #1c1c1c; background:#090909; padding:clamp(22px,4vw,36px); margin:0 0 64px; scroll-margin-top:24px; }
+  .panel h2 { margin-bottom:10px; }
+  .panel .lead { margin-bottom:20px; }
+  .copied { font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:#4a8; text-transform:uppercase; align-self:center; }
+
+  .group { margin-bottom:36px; }
+  .group-h { display:flex; align-items:baseline; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#555; border-bottom:1px solid #161616; padding-bottom:10px; margin-bottom:6px; }
+  .group-h span:last-child { color:#333; }
+  .item { display:grid; grid-template-columns:28px 1fr auto; gap:0 18px; align-items:center; padding:20px 0; border-bottom:1px solid #111; text-decoration:none; color:inherit; }
+  .item:hover .t { color:#fff; }
+  .item:hover .cta { border-color:#fff; color:#fff; }
+  .num { font-family:var(--mono); font-size:10px; color:#3a3a3a; letter-spacing:.1em; }
+  .t { font-family:var(--display); font-size:clamp(22px,3vw,30px); letter-spacing:.03em; line-height:1; color:#d8d8d8; transition:color .2s; }
+  .d { font-size:12.5px; font-weight:300; color:#7c7c7c; line-height:1.55; margin-top:6px; max-width:560px; }
+  .cta { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; padding:8px 14px; border:1px solid #2a2a2a; color:#777; white-space:nowrap; transition:all .2s; }
+
+  .f { display:grid; gap:14px; max-width:560px; }
+  .f label { display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:#666; margin-bottom:6px; }
+  .f input, .f textarea, .f select { width:100%; background:#050505; border:1px solid #2a2a2a; color:#eee; font-family:var(--sans); font-size:14px; padding:11px 12px; border-radius:0; }
+  .f textarea { min-height:120px; resize:vertical; }
+  .f input:focus, .f textarea:focus, .f select:focus { outline:none; border-color:#888; }
+  .hp { position:absolute; left:-9999px; }
+  #qst { font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; min-height:16px; }
+
+  .disclosure { margin-top:40px; padding-top:18px; border-top:1px solid #161616; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; line-height:1.8; color:#555; max-width:640px; }
+  .disclosure b { color:#777; font-weight:normal; }
+  footer { margin-top:56px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#3a3a3a; display:flex; gap:22px; flex-wrap:wrap; }
+  footer a { text-decoration:none; color:#555; }
+  footer a:hover { color:#fff; }
+  @media (max-width:600px) {
+    .nav { margin-bottom:40px; }
+    .toc { columns:1; }
+    .item { grid-template-columns:1fr; gap:10px 0; padding:18px 0; }
+    .num { display:none; }
+    .cta { justify-self:start; padding:9px 14px; min-height:34px; display:inline-flex; align-items:center; }
+    .t { font-size:26px; }
+  }
+  @media (max-width:600px) { pre { white-space:pre-wrap; overflow-wrap:anywhere; } }
+  @media (hover:none) { .item:hover .t { color:#d8d8d8; } .item:hover .cta { border-color:#2a2a2a; color:#777; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a href="/">Stuart Singleton</a>
+    <div class="links"><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a></div>
+  </nav>
+
+  <div class="eyebrow"><a href="/guides" style="color:inherit;text-decoration:none">Guides</a> · Free · Music</div>
+  <h1 class="hero">CLAUDE IN<br>REAPER</h1>
+  <p class="sub">Mix by talking, with your own plugins</p>
+  <p class="lead">I connected Claude to REAPER so I can give a mix note in plain words ("the electric guitar is too loud", "the low end is too heavy") and have it read the session, propose the exact change, and apply it once I say yes. It runs on my own computer, with my own plugins. Every change saves as a new version, so nothing it does is permanent. This guide is how it's wired, plus the setup problems that cost me the most time: the connector that can't find REAPER, renders that come out silent, and a dialog that freezes everything.</p>
+  <div class="btns">
+    <a class="btn solid" href="/guides/connect-claude-to-reaper-playbook.txt" download data-ev="playbook_download">Download the AI playbook ↓</a>
+    <a class="btn" href="#what">Start reading →</a>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <a href="#what"><span>00</span>What this does</a>
+    <a href="#why"><span>01</span>Why REAPER</a>
+    <a href="#connector"><span>02</span>Pick a connector</a>
+    <a href="#reaper"><span>03</span>Set up REAPER</a>
+    <a href="#install"><span>04</span>Install the connector</a>
+    <a href="#claude"><span>05</span>Connect Claude</a>
+    <a href="#notrunning"><span>06</span>Fix "not running"</a>
+    <a href="#settings"><span>07</span>Settings that stop stalls</a>
+    <a href="#versions"><span>08</span>Every change is a version</a>
+    <a href="#test"><span>09</span>First test: read only</a>
+    <a href="#notes"><span>10</span>Mixing with notes</a>
+    <a href="#measure"><span>11</span>Measure what it can't hear</a>
+    <a href="#caveats"><span>12</span>Caveats</a>
+    <a href="#safety"><span>13</span>Keep a human in the loop</a>
+    <a href="#playbook"><span>→</span>AI playbook</a>
+    <a href="#tools" id="toc-tools"><span>→</span>Gear options</a>
+  </nav>
+
+  <section class="step" id="what">
+    <div class="step-h"><span>00</span><span>Overview</span><span>Read first</span></div>
+    <h2>What this does</h2>
+    <div class="prose">
+      <p>The loop:</p>
+<pre><code>you: "guitar is too loud in the chorus"
+→ Claude reads tracks, sends, plugins
+→ proposes the exact change:
+  "EG bus: Pro-C 2, 4:1, 2 ms attack,
+   -24 dB threshold; fader -4 dB. OK?"
+→ you say yes, tweak, or no
+→ it saves a new version, then applies
+→ renders and measures the bounce
+→ you listen: keep, revert, or a new note</code></pre>
+      <p>Claude talks to REAPER through a small open-source program called an <b>MCP server</b> (MCP is the standard way AI apps connect to other software). It runs on your computer next to REAPER. Your audio never leaves the machine; only the text of the session (track names, plugin settings, measurements) goes to Claude.</p>
+      <p><b>What you need:</b> REAPER 7 or later, a computer that already runs your plugins, Python 3.10 or later, and the Claude desktop app (or Claude Code). About an hour for setup, most of it in steps 04 to 06.</p>
+    </div>
+  </section>
+
+  <section class="step" id="why">
+    <div class="step-h"><span>01</span><span>Choose</span><span>5 min</span></div>
+    <h2>Why REAPER and not Logic</h2>
+    <div class="prose">
+      <p>Logic has community MCP servers too, but they reach Logic through its interface (accessibility scripting and control-surface messages). That covers faders, pans and transport, and gets unreliable deep inside third-party plugins. REAPER's scripting API can read and set <b>every exposed parameter on any VST3 or AU plugin</b>, add and remove plugins, change routing and render, without touching the screen. That's the whole reason to switch.</p>
+      <ul>
+        <li><b>What you keep:</b> your third-party plugins. REAPER hosts VST3 and AU.</li>
+        <li><b>What you lose:</b> Logic's stock plugins and instruments, and Logic projects don't open in REAPER. You bring stems over.</li>
+        <li><b>Cost:</b> REAPER has a free, fully working 60-day evaluation. After that a license is $60 (personal use, or a business under $20,000 a year) or $225 (commercial), from <a href="https://www.reaper.fm/purchase.php" target="_blank" rel="noopener">reaper.fm</a>.</li>
+      </ul>
+      <p>I still write and track in Logic. Mixes move to REAPER as stems: one WAV per track, all starting at bar 1 so they line up.</p>
+    </div>
+  </section>
+
+  <section class="step" id="connector">
+    <div class="step-h"><span>02</span><span>Choose</span><span>15 min</span></div>
+    <h2>Pick a connector</h2>
+    <div class="prose">
+      <p>Three open-source options I looked at, all on GitHub. All three only talk to your local copy of REAPER:</p>
+      <ul>
+        <li><a href="https://github.com/xDarkzx/Reaper-MCP" target="_blank" rel="noopener"><b>xDarkzx/Reaper-MCP</b></a>: the one I use. About 180 tools covering tracks, FX parameters, sends, rendering and audio analysis. It talks to REAPER through files on disk, not a network port, and has an installer. Apache 2.0 license.</li>
+        <li><a href="https://github.com/bonfire-systems/reaper-mcp" target="_blank" rel="noopener"><b>bonfire-systems/reaper-mcp</b></a>: about 60 tools. Talks through python-reapy, which means turning on REAPER's "distant API" and running Python inside REAPER.</li>
+        <li><a href="https://github.com/wretcher207/reaper-daemon" target="_blank" rel="noopener"><b>wretcher207/reaper-daemon</b></a>: a file bridge plus an optional MCP server, with before-and-after measurement built in. Rendering and saving are off until you allow them, which is a nice safe default.</li>
+      </ul>
+      <p><b>Read the code before you install.</b> This program will be able to change your sessions. Ask Claude to read the repository first and tell you whether it makes any network calls, what it can write to, and what the install script changes. Then install one specific version (a tagged release or commit) rather than whatever is newest.</p>
+    </div>
+  </section>
+
+  <section class="step" id="reaper">
+    <div class="step-h"><span>03</span><span>Setup</span><span>20 min</span></div>
+    <h2>Set up REAPER</h2>
+    <div class="prose">
+      <ul>
+        <li>Install REAPER, <b>open it once and quit</b>. The connector's installer looks for the folders REAPER creates on first launch.</li>
+        <li>Preferences → Audio → Device: pick your audio interface and confirm the sample rate.</li>
+        <li>Preferences → Plug-ins: scan VST3 (and AU on a Mac). Insert each plugin you mix with on a test track to confirm it loads and its window opens.</li>
+        <li>Make a mix template: your usual buses (drums, guitars, vocals, reverb and delay returns) and your mix bus chain, saved as a project template. Every new mix starts from it.</li>
+      </ul>
+<div class="lesson"><div class="k">Check this early</div><p>Some plugins name their settings clearly (Pro-Q 4 says "Band 1 Frequency"); others list "Param 37". Before you rely on Claude to set a plugin, ask it to list that plugin's parameters. If the names mean nothing, it can't set them reliably.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="install">
+    <div class="step-h"><span>04</span><span>Setup</span><span>20 min</span></div>
+    <h2>Install the connector</h2>
+    <div class="prose">
+      <p>For xDarkzx/Reaper-MCP. Its installer (<code>install.sh</code> on Mac and Linux, <code>install.bat</code> on Windows) does all of this when it works. When it doesn't, the manual version is short:</p>
+<pre><code># 1. get the code, pinned to a version you've checked
+git clone https://github.com/xDarkzx/Reaper-MCP.git
+cd Reaper-MCP
+git checkout &lt;tag-or-commit&gt;
+
+# 2. give it its own Python environment
+python3 -m venv .venv
+.venv/bin/pip install -e .
+
+# 3. the command Claude will run:
+#    /full/path/to/Reaper-MCP/.venv/bin/reaper-mcp</code></pre>
+      <p>The other half is a Lua script that runs inside REAPER and answers the connector. REAPER automatically runs any script named <code>__startup.lua</code> in its <code>Scripts</code> folder (Options → Show REAPER resource path). Put this line in it (with your real path) so the connector's script starts every time REAPER opens:</p>
+<pre><code>dofile("/full/path/to/Reaper-MCP/reaper_scripts/reaper_mcp_server.lua")</code></pre>
+      <p>If <code>__startup.lua</code> already exists, add the line at the end; don't replace the file. To run the script once by hand instead: Actions → Show action list → Load ReaScript → Run.</p>
+<div class="lesson"><div class="k">What broke for me</div><p>On a Mac with Homebrew Python, a plain <code>pip install</code> is blocked ("externally-managed-environment"), and the installer refuses to run inside a virtual environment. I did steps 2 and 3 by hand and pointed Claude at the full path of the command inside <code>.venv</code>. Using the full path also stops it from breaking when the app's PATH differs from your terminal's.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="claude">
+    <div class="step-h"><span>05</span><span>Setup</span><span>5 min</span></div>
+    <h2>Connect Claude</h2>
+    <div class="prose">
+      <p><b>Claude desktop app:</b> Settings → Developer → Edit Config opens <code>claude_desktop_config.json</code>. Add the server:</p>
+<pre><code>{
+  "mcpServers": {
+    "reaper": {
+      "command": "/full/path/to/Reaper-MCP/.venv/bin/reaper-mcp"
+    }
+  }
+}</code></pre>
+      <p>Quit Claude completely and reopen it. With REAPER open, the REAPER tools show up in the chat's tools menu.</p>
+      <p><b>Claude Code:</b> <code>claude mcp add reaper -- /full/path/to/Reaper-MCP/.venv/bin/reaper-mcp</code></p>
+      <p>First check: ask Claude to "give me an overview of the open REAPER project". An empty project is fine. If you get track count and tempo back, you're connected. If you get "server not running", go to step 06.</p>
+    </div>
+  </section>
+
+  <section class="step" id="notrunning">
+    <div class="step-h"><span>06</span><span>Fix</span><span>10 min</span></div>
+    <h2>Fix "server not running"</h2>
+    <div class="prose">
+      <p>This one cost me the most time, and it's a Mac thing. The connector and the Lua script inside REAPER pass messages through a folder in your temp directory. On a Mac each user has a private temp folder (it looks like <code>/var/folders/xx/xxxx/T/</code>), and its location is passed to apps in a setting called <code>TMPDIR</code>. REAPER gets it. The Claude app can launch the connector <b>without</b> it, so the connector looks in plain <code>/tmp</code>, finds nothing, and reports that REAPER isn't running when it is.</p>
+      <p>The fix is to give the connector the same folder REAPER uses:</p>
+      <ol>
+        <li>In Terminal, run <code>echo $TMPDIR</code> and copy the result. Or open REAPER's script console: the Lua script prints the folder it uses when it starts.</li>
+        <li>Add it to the server's entry in the config:</li>
+      </ol>
+<pre><code>"reaper": {
+  "command": "/full/path/to/Reaper-MCP/.venv/bin/reaper-mcp",
+  "env": { "TMPDIR": "/var/folders/xx/xxxx/T/" }
+}</code></pre>
+      <p>Restart REAPER, then quit and reopen Claude. Anything else that launches the connector (a script, a scheduled job, another AI app) needs the same setting.</p>
+<div class="lesson"><div class="k">What broke for me</div><p>Back up the config file before you edit it, and edit it in a plain text editor. One stray comma and the app ignores every server in the file. If the script ends up running twice (once from startup and once by hand), restart REAPER to clear the extra copy.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="settings">
+    <div class="step-h"><span>07</span><span>Setup</span><span>10 min</span></div>
+    <h2>REAPER settings that stop stalls</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Preferences → Media: uncheck "Set media items offline when application is not active".</b> It's on by default. While you're chatting with Claude, REAPER isn't the front app, so your audio goes offline: meters read silence and renders come out empty.</li>
+        <li><b>Always render to a new file name.</b> If the file already exists, REAPER opens an overwrite warning, and the connector waits forever for someone to click it. Version numbers in every render name fix this.</li>
+        <li><b>Never leave REAPER asking a question.</b> Have Claude save before it switches or closes a project, so "save changes?" never appears, and set Preferences → General so REAPER opens straight to a project instead of a startup prompt. Any window that pops up stalls the connector until someone clicks it in REAPER.</li>
+        <li><b>One request at a time.</b> REAPER handles commands in order. Firing several at once leads to timeouts.</li>
+      </ul>
+<div class="lesson"><div class="k">What broke for me</div><p>My first renders were silent until I found the offline setting. Long renders can also report a lost connection even though the file is still written. Check the folder before you re-render, or you'll make duplicates.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="versions">
+    <div class="step-h"><span>08</span><span>Safety</span><span>5 min</span></div>
+    <h2>Every change is a new version</h2>
+    <div class="prose">
+      <p>This rule is what makes it safe to let an AI touch a mix.</p>
+      <ul>
+        <li>Before each round of changes, save a new version: File → "Save new version of project", or Save As with the next number (<code>Song_v007.rpp</code> → <code>Song_v008.rpp</code>). Tell Claude to always do this first.</li>
+        <li>Never edit the version you like. Changes go into the next number.</li>
+        <li>Preferences → Project → Backups: turn on auto-save and keep multiple backups as a second net.</li>
+        <li>Renders get the same number as the project that made them (<code>Song - Mix v008.wav</code>), so you always know which session made which file.</li>
+      </ul>
+      <p>REAPER's undo history also works on anything the connector changes, but versions survive a crash and a closed project. Undo doesn't.</p>
+    </div>
+  </section>
+
+  <section class="step" id="test">
+    <div class="step-h"><span>09</span><span>Test</span><span>30 min</span></div>
+    <h2>First test: read only</h2>
+    <div class="prose">
+      <p>Before Claude changes anything, prove it can <b>read</b> a real mix correctly.</p>
+      <ul>
+        <li>The connector can load a smaller, read-mostly set of tools. Add <code>"REAPER_MCP_PROFILE": "analysis"</code> to the <code>env</code> in your config for the first session. Switch back to the full set when you're ready for changes.</li>
+        <li>Open a finished mix. Ask Claude to list every track, its fader, pan, sends and every plugin with its key settings.</li>
+        <li>Spot-check five settings against the plugin windows. Ask for values as the plugin displays them (dB, Hz, ms), not the raw 0 to 1 numbers the API uses.</li>
+      </ul>
+<div class="lesson"><div class="k">What broke for me</div><p>Plugins store settings on a 0 to 1 scale, and the conversion isn't always obvious. A sidechain compressor setup came back listening to its own input, with a 43:1 ratio and a 3-second release, because the values were on the wrong scale. Now the rule is: after any change, read the setting back as the plugin displays it, and confirm it says what was asked.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="notes">
+    <div class="step-h"><span>10</span><span>Mix</span><span>Ongoing</span></div>
+    <h2>Mixing with notes</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Approve before apply.</b> Claude proposes the exact change (which plugin, which setting, how much) and nothing moves until you say yes. The desktop app asks before each tool call. You can allow read-only tools permanently and keep it asking for anything that changes the project.</li>
+        <li><b>Build a mix vocabulary.</b> Your words don't mean the textbook thing. Keep a running list in your project notes of what each note turned into and whether you kept it, so "thicker" ends up meaning what you mean.</li>
+        <li><b>Fix balance before tone.</b> Ask for fader and level changes before EQ.</li>
+      </ul>
+      <h3>Starting translations (correct them to your taste)</h3>
+      <ul>
+        <li><b>"Too heavy in the low end"</b> → cut 40 to 100 Hz on the source or bus before touching the fader.</li>
+        <li><b>"Thin"</b> → +1 to 2 dB at 150 to 300 Hz, or light saturation.</li>
+        <li><b>"Harsh"</b> → a dynamic cut at 2.5 to 5 kHz, not a static one.</li>
+        <li><b>"Too compressed"</b> → raise the threshold or lower the ratio on the last compressor, and report gain reduction before and after.</li>
+        <li><b>"Too loud" on a spiky part</b> → compare its peaks to its body first. A fast compressor may fix it better than the fader.</li>
+      </ul>
+<div class="lesson"><div class="k">What I learned</div><p>On my first beat, Claude's measurements said the mix was far too dark, and its instinct was more high end. The real problem was balance: bass, piano and kick were drowning a guitar that carried all the top. So levels come first, EQ after.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="measure">
+    <div class="step-h"><span>11</span><span>Measure</span><span>30 min</span></div>
+    <h2>Measure what it can't hear</h2>
+    <div class="prose">
+      <p>Claude doesn't listen to your mix. It can measure a render very precisely, which turns "kick feels heavy" into a number you can check.</p>
+      <ul>
+        <li><b>Loudness and peaks:</b> integrated LUFS and true peak for every render, before and after a change.</li>
+        <li><b>Tone:</b> level in frequency bands (sub, low-mid, presence, air) compared with the last version. "−1.8 dB at 40 to 80 Hz, everything else within 0.2 dB" tells you a change did only what it was meant to.</li>
+        <li><b>Reference tracks:</b> measure a handful of commercial songs in your genre and compare your mix's tone curve, loudness and stereo width to theirs. Have Claude write a small script for it once and reuse it.</li>
+        <li><b>Fair A/B:</b> match loudness before comparing versions. The louder one always sounds better.</li>
+      </ul>
+<div class="lesson"><div class="k">What broke for me</div><p>A tape plugin on my master bus had a low-pass filter on by default that took about 16 dB off the top end. I didn't notice by eye; the measurement against references caught it. Measure after every new plugin, not just at the end.</p></div>
+    </div>
+  </section>
+
+  <section class="step" id="caveats">
+    <div class="step-h"><span>12</span><span>Read this</span><span>Important</span></div>
+    <h2>Caveats</h2>
+    <div class="prose">
+      <ul>
+        <li><b>It can't hear.</b> Measurements catch a lot but not everything. Your ears make the final call on every version.</li>
+        <li><b>REAPER must be open</b> with the Lua script running. The connector can't launch REAPER for you.</li>
+        <li><b>Any pop-up stalls it:</b> overwrite warnings, missing-file prompts, plugin license windows. Someone has to click it in REAPER.</li>
+        <li><b>Plugins vary.</b> Some expose clear parameter names, some don't, and a few won't expose settings at all.</li>
+        <li><b>Stems, not sessions.</b> Moving from Logic or Pro Tools means exporting stems. Edits, comps and automation from the old session don't come with them.</li>
+        <li><b>Connectors are young.</b> They change often, and fixes for wrong parameter scales show up in their changelogs. Pin a version, read the changelog before updating, and re-run the read-only test after.</li>
+        <li><b>Big tool lists cost context.</b> The full set is about 180 tools. Smaller models may cut the list short; use a smaller profile.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="step" id="safety">
+    <div class="step-h"><span>13</span><span>Rules</span><span>—</span></div>
+    <h2>Keep a human in the loop</h2>
+    <div class="prose">
+      <ul>
+        <li>Nothing changes without your yes. Read-only tools can be pre-approved; changes can't.</li>
+        <li>New version before every change. Never edit the version you like.</li>
+        <li>Read back every change in the plugin's own units.</li>
+        <li>Work on copies. Never point it at a client session or a release master you haven't backed up.</li>
+        <li>Release decisions (the final master, the file that goes to your distributor) stay yours, by hand.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Playbook -->
+  <section class="panel" id="playbook">
+    <div class="eyebrow">Free download · Works with Claude or ChatGPT</div>
+    <h2>The AI playbook</h2>
+    <p class="lead">A text file that turns an AI assistant into your setup partner for this. Paste it into Claude, or drop it into a Claude Code project. It interviews you about your computer and plugins, has the assistant read the connector's code before installing, walks you through the install, config and temp-folder fix one step at a time, sets the REAPER preferences that prevent stalls, then runs a read-only test on a real mix before anything gets changed.</p>
+    <div class="btns" style="margin:0">
+      <a class="btn solid" href="/guides/connect-claude-to-reaper-playbook.txt" download data-ev="playbook_download">Download playbook (.txt) ↓</a>
+      <button class="btn" type="button" id="copyPb" data-ev="playbook_copy">Copy to clipboard</button>
+      <span class="copied" id="copyMsg" hidden>Copied</span>
+    </div>
+  </section>
+
+  <p class="lead" style="margin-top:-24px">Stuck on a step, or want a mix template set up for your plugins? <a href="/contact">Send me a message.</a></p>
+
+  <!-- Tools -->
+  <section class="step" id="tools">
+    <div class="step-h"><span>→</span><span>Tools</span><span>Options</span></div>
+    <h2>Gear: what I use and the alternatives</h2>
+    <p class="lead">None of this is needed for the connection itself. It's what you hear the results through, and what moves stems between computers. Each slot has a budget, a pick and an upgrade, with what each is best for. "I use this" marks gear I own. Links open on Amazon. REAPER is sold directly at reaper.fm.</p>
+    <div id="gear"></div>
+  </section>
+
+  <p class="disclosure"><b>Disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product links on this page are affiliate links. Items marked "I use this" are gear I own; the rest are options I researched. The price you pay is the same. REAPER, Claude, FabFilter and the connectors are named because I use or reviewed them, not because they pay me. Connectors and apps change often; check each project's own docs before you install.</p>
+
+  <footer>
+    <a href="/">Home</a><a href="/guides">Guides</a><a href="/photos">Photos</a><a href="/shop">Prints</a><a href="/camera-gear">Gear</a><a href="/contact">Contact</a>
+  </footer>
+</div>
+
+<script>
+// Gear options: products live in /guides/gear.js (one catalog for every guide).
+window.GEAR_SLOTS = [
+ { "group": "Hear the mix", "slots": [
+   { "label": "Studio monitors", "ids": ["mon-budget", "mon-pick", "mon-upgrade"] },
+   { "label": "Headphones", "ids": ["hp-budget", "hp-pick", "hp-upgrade"] },
+   { "label": "Audio interface", "ids": ["iface-budget", "iface-pick", "iface-upgrade"] }
+ ]},
+ { "group": "Files", "slots": [
+   { "label": "Portable SSD for stems", "ids": ["ssd-budget", "ssd-pick", "ssd-upgrade"] }
+ ]}
+];
+
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-ev]'); if(!el) return;
+  var ev = el.getAttribute('data-ev');
+  try{ gtag('event', ev, {guide:'connect-claude-to-reaper'}); }catch(x){}
+  try{ window.__ssSend && window.__ssSend(ev, null, {guide:'connect-claude-to-reaper'}); }catch(x){}
+});
+
+document.getElementById('copyPb').addEventListener('click', async function(){
+  var msg = document.getElementById('copyMsg');
+  try {
+    var r = await fetch('/guides/connect-claude-to-reaper-playbook.txt'); var t = await r.text();
+    await navigator.clipboard.writeText(t);
+    msg.textContent = 'Copied. Paste it into your AI assistant.';
+  } catch(x) { msg.textContent = 'Copy failed. Use the download button.'; msg.style.color = '#c44'; }
+  msg.hidden = false;
+});
+</script>
+<script src="/guides/gear.js"></script>
+</body>
+</html>
