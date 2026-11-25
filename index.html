@@ -6266,11 +6266,12 @@ async function loadPrintRequests() {
       var r = data[i];
       var when = new Date(r.created_at).toLocaleDateString('en-US', { month:'short', day:'numeric' });
       html += '<div class="admin-photo-row" data-req-row="' + r.id + '">';
-      html += '<img class="admin-photo-thumb" src="' + (r.photo_src||'') + '" onerror="this.style.background=\'#222\'">';
+      // Request rows are written by anonymous visitors: escape everything (security audit 2026-11-25).
+      html += '<img class="admin-photo-thumb" src="' + anEsc(r.photo_src||'') + '" onerror="this.style.background=\'#222\'">';
       html += '<div class="admin-photo-info">';
-      html += '<span style="color:#888">' + (r.email||'(no email)') + '</span>';
-      html += '<span>' + (r.message ? r.message.replace(/</g,'&lt;') : 'no note') + '</span>';
-      html += '<span style="color:#2a2a2a">photo #' + (r.photo_id==null?'?':r.photo_id) + ' · ' + when + '</span>';
+      html += '<span style="color:#888">' + anEsc(r.email||'(no email)') + '</span>';
+      html += '<span>' + (r.message ? anEsc(r.message) : 'no note') + '</span>';
+      html += '<span style="color:#2a2a2a">photo #' + anEsc(r.photo_id==null?'?':r.photo_id) + ' · ' + when + '</span>';
       html += '</div>';
       // Accept = list photo for sale + email requester. Disabled if no photo to list.
       var canAccept = r.photo_id != null;
@@ -6293,10 +6294,14 @@ async function loadPrintRequests() {
           sb.from('print_requests').update({ status: 'accepted' }).eq('id', id).then(function(){
             // Email the requester their photo is now buyable (best-effort; never blocks the accept).
             try {
-              fetch('https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1/notify-request-listed', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ requestId: id })
+              // notify-request-listed is admin-only since 2026-11-25: send the session token.
+              sb.auth.getSession().then(function(sess){
+                var tok = sess && sess.data && sess.data.session ? sess.data.session.access_token : '';
+                return fetch('https://zbcdeglxwrappriwpxwt.supabase.co/functions/v1/notify-request-listed', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + tok },
+                  body: JSON.stringify({ requestId: id })
+                });
               }).then(function(r){ return r.json(); }).then(function(d){
                 if (d && d.emailed) { console.log('Requester notified:', d.to); }
                 else { console.warn('Requester not emailed:', d && (d.reason || d.error)); }

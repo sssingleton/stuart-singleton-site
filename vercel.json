@@ -56,6 +56,14 @@
     { "source": "/g/:slug", "destination": "/g.html" }
   ],
   "headers": [
+    { "source": "/(.*)", "headers": [
+      { "key": "X-Content-Type-Options", "value": "nosniff" },
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+    ] },
+    { "source": "/mr.manager", "headers": [ { "key": "X-Frame-Options", "value": "DENY" }, { "key": "Content-Security-Policy", "value": "frame-ancestors 'none'" }, { "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" } ] },
+    { "source": "/mr.manager/:path*", "headers": [ { "key": "X-Frame-Options", "value": "DENY" }, { "key": "Content-Security-Policy", "value": "frame-ancestors 'none'" } ] },
+    { "source": "/gallery-admin.html", "headers": [ { "key": "X-Frame-Options", "value": "DENY" }, { "key": "Content-Security-Policy", "value": "frame-ancestors 'none'" } ] },
+    { "source": "/g/:slug*", "headers": [ { "key": "X-Frame-Options", "value": "DENY" }, { "key": "Content-Security-Policy", "value": "frame-ancestors 'none'" } ] },
     { "source": "/conversations", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
     { "source": "/conversations/:path*", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
     { "source": "/g/:slug*", "headers": [

@@ -1,0 +1,15 @@
+# Internal files that must not be served from stuartsingleton.com (security audit 2026-11-25).
+# They live in git for history; GitHub Actions still runs the generate-*.js scripts.
+.github
+_analytics_build
+_booking_build
+_cart_build
+_edge_fn_snapshots
+_og_build
+_sql
+_redirects
+/*.md
+generate-*.js
+site_check.js
+*.patch
+pkcs11.txt
